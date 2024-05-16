@@ -1,0 +1,237 @@
+
+
+<div class="buildings-four-plus-one-at-bottom" >
+<div class="four-columns-layout">
+
+  <div
+    id="buildings"
+    cdkDropList
+    cdkDropListSortingDisabled
+    [cdkDropListData]="this.buildings1"
+    cdkDropListConnectedTo="myBuildings"
+    class="example-list">
+
+    <div class="quarry-discount-display">
+      <div class="quarry-stick-together">
+        <div class="quarry-discount-single" *ngFor="let quarry of this.gameService.numSequence(1)">
+        </div>
+      </div>
+    </div>
+    
+    <div
+      class="building color{{this.gameService.getBuildingType(building)?.color}}"
+      *ngFor="let building of this.buildings1"
+      [cdkDragData]="building"
+      [cdkDragStartDelay]="this.buildingDragDelay"
+      [cdkDragDisabled]="this.gs.currentRole != 1 || building.quantity == 0"
+      cdkDrag>
+
+      <div class="building-card-frame">
+        <div class="top-building-card"> 
+          <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
+          <div class="building-victory-score {{(building?.quantity == 0)?'mute-vp':''}}">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
+        </div>  
+        <div class="bottom-building-card">
+          <div class="colonist-slot" *ngFor="let slot of building?.slots; let i=index">
+            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="building-count-badge" *ngIf="building?.quantity != 1 && building?.quantity != 0">
+        <div class="building-multiplier">X</div>
+        <div class="building-number">{{building?.quantity}}</div>
+        </div>
+
+    </div>
+  </div>
+
+
+  <div
+    id="buildings"
+    cdkDropList
+    cdkDropListSortingDisabled
+    [cdkDropListData]="this.buildings2"
+    cdkDropListConnectedTo="myBuildings"
+    class="example-list">
+
+    <div class="quarry-discount-display">
+      <div class="quarry-stick-together">
+        <div class="quarry-discount-single" *ngFor="let quarry of this.gameService.numSequence(2)">
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="building color{{this.gameService.getBuildingType(building)?.color}}"
+      *ngFor="let building of this.buildings2"
+      [cdkDragData]="building"
+      [cdkDragStartDelay]="this.buildingDragDelay"
+      [cdkDragDisabled]="this.gs.currentRole != 1 || building.quantity == 0"
+      cdkDrag>
+
+      <div class="building-card-frame">
+        <div class="top-building-card"> 
+          <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
+                   <div class="building-victory-score {{(building?.quantity == 0)?'mute-vp':''}}">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
+
+        </div>  
+        <div class="bottom-building-card">
+          <div class="colonist-slot" *ngFor="let slot of building?.slots; let i=index">
+            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="building-count-badge" *ngIf="building?.quantity != 1 && building?.quantity != 0">
+        <div class="building-multiplier">X</div>
+        <div class="building-number">{{building?.quantity}}</div>
+        </div>
+
+    </div>
+  </div>
+
+
+  <div
+    id="buildings"
+    cdkDropList
+    cdkDropListSortingDisabled
+    [cdkDropListData]="this.buildings3"
+    cdkDropListConnectedTo="myBuildings"
+    class="example-list">
+
+    <div class="quarry-discount-display">
+      <div class="quarry-stick-together">
+        <div class="quarry-discount-single" *ngFor="let quarry of this.gameService.numSequence(3)">
+        </div>
+      </div>
+    </div>
+
+    <div  
+      class="building color{{this.gameService.getBuildingType(building)?.color}}"
+      *ngFor="let building of this.buildings3"
+      [cdkDragData]="building"
+      [cdkDragStartDelay]="this.buildingDragDelay"
+      [cdkDragDisabled]="this.gs.currentRole != 1 || building.quantity == 0"
+      cdkDrag>
+
+      <div class="building-card-frame">
+        <div class="top-building-card"> 
+          <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
+                   <div class="building-victory-score {{(building?.quantity == 0)?'mute-vp':''}}">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
+
+        </div>  
+        <div class="bottom-building-card">
+          <div class="colonist-slot" *ngFor="let slot of building?.slots; let i=index">
+            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied" >{{this.gameService.getBuildingType(building)?.price}}</div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="building-count-badge" *ngIf="building?.quantity != 1 && building?.quantity != 0">
+        <div class="building-multiplier">X</div>
+        <div class="building-number">{{building?.quantity}}</div>
+        </div>
+
+    </div>
+  </div>
+
+
+  <div
+    id="buildings"
+    cdkDropList
+    cdkDropListSortingDisabled
+    [cdkDropListData]="this.buildings4"
+    cdkDropListConnectedTo="myBuildings"
+    class="example-list">
+  
+    <div class="quarry-discount-display">
+      <div class="quarry-stick-together">
+        <div class="quarry-discount-single" *ngFor="let quarry of this.gameService.numSequence(4)">
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="building large-building color{{this.gameService.getBuildingType(building)?.color}}"
+      *ngFor="let building of this.buildings4"
+      [cdkDragData]="building"
+      [cdkDragStartDelay]="this.buildingDragDelay"
+      [cdkDragDisabled]="this.gs.currentRole != 1 || building.quantity == 0"
+      cdkDrag>
+
+      <div class="building-card-frame">
+        <div class="top-building-card"> 
+          <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
+          <div class="building-victory-score {{(building?.quantity == 0)?'mute-vp':''}}">
+            {{this.gameService.getBuildingType(building)?.victoryScore}}
+          </div> 
+        </div>  
+        <div class="bottom-building-card">
+          <div class="colonist-slot" *ngFor="let slot of building?.slots; let i=index">
+            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="building-count-badge" *ngIf="building?.quantity != 1 && building?.quantity != 0">
+        <div class="building-multiplier">X</div>
+        <div class="building-number">{{building?.quantity}}</div>
+        </div>
+
+    </div>
+  </div>
+
+
+  
+</div>
+
+<div class="one-row-at-bottom">
+
+  <div class="game-bank"> bank of san juan </div>
+  
+  <div
+    id="buildings"
+    style="flex-direction: row;"
+    cdkDropList
+    cdkDropListSortingDisabled
+    [cdkDropListData]="this.buildings5"
+    cdkDropListConnectedTo="myBuildings"
+    class="example-list">
+    <div
+    class="building large-building color{{this.gameService.getBuildingType(building)?.color}}"
+      *ngFor="let building of this.buildings5"
+      [cdkDragData]="building"
+      [cdkDragStartDelay]="this.buildingDragDelay"
+      [cdkDragDisabled]="this.gs.currentRole != 1 || building.quantity == 0"
+      cdkDrag>
+
+      <div class="building-card-frame">
+        <div class="top-building-card"> 
+          <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
+          <div class="building-victory-score {{(building?.quantity == 0)?'mute-vp':''}}">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
+
+        </div>  
+        <div class="bottom-building-card" [ngClass]="building">
+          <div class="colonist-slot" *ngFor="let slot of building?.slots; let i=index">
+            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="building-count-badge" *ngIf="building?.quantity != 1 && building?.quantity != 0">
+        <div class="building-multiplier">X</div>
+        <div class="building-number">{{building?.quantity}}</div>
+        </div>
+
+    </div>
+  </div>
+
+</div>
+
+</div>

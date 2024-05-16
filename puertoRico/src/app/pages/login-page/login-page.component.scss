@@ -1,0 +1,77 @@
+#center-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'MyFont', sans-serif;
+  }
+
+ 
+  $base-unit: 78px;
+  $base-font: 15px;
+  $base-border: 1px;
+  $base-margin: 1px;
+  $base-radius: 5px;
+  $test-color: transparent;
+  $max-width: calc(($base-unit + $base-margin*2) * 8);
+  $highlight-color:green;
+  $highlight-color2:rgb(203, 3, 3);
+  $base-shadow: 1px 1px rgb(69, 80, 135);
+  $highlight-shadow: 1px 1px rgb(1, 92, 1);
+  $highlight-shadow2: 1px 1px  rgb(121, 1, 1);
+
+:host{
+    @extend #center-content ;
+    flex-direction: row;
+    //background-color: rgb(194, 237, 255);
+    max-width: 100%;
+    height: 100vh;
+}
+
+.top-bar{
+    width: $max-width;
+    @extend #center-content;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.user-widget{
+    @extend #center-content;
+    border-radius: $base-radius;
+}
+
+.login-or-register{
+    @extend #center-content ;
+}
+
+.auth-button{
+    height: $base-unit;
+    width: $base-unit;
+    border-radius: $base-radius 0px 0px $base-radius;
+   
+}
+
+.register-button{
+    @extend .auth-button;
+}
+
+.login-button{
+    @extend .auth-button;
+}
+
+.content{
+    @extend #center-content ;
+    height: $base-unit;
+    border-radius: 0px $base-radius $base-radius 0px;
+    background-color: rgb(98, 118, 216);
+}
+
+.index-button{
+    @extend #center-content;
+    text-align: center;
+    width: $base-unit;
+    height: $base-unit;
+    margin: $base-margin;
+    background-color: $highlight-color;
+    border: $base-border;
+    border-radius: $base-radius;
+}

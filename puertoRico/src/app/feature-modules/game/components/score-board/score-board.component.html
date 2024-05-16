@@ -1,0 +1,8 @@
+<div *ngIf="gs.gameOver">
+    <div class="score-bg">
+<h1>SCORE BOARD</h1>
+<div *ngFor="let player of gs.players">
+    player:{{(player.index+1)}} score:{{ floor(player.score)}} breaker:{{ breaker(player.score)}}
+</div>
+</div>
+</div>

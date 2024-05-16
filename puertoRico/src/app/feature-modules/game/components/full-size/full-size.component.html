@@ -1,0 +1,67 @@
+
+
+<div class="player-board">
+
+  
+
+<div class="plantation-list-bg">
+  <div id="myPlantations" class="plantation-list"
+       cdkDropList
+       cdkDropListSortingDisabled
+       [cdkDropListData]="this.myPlantations"
+       cdkDropListConnectedTo="exposedPlantations"
+       (cdkDropListDropped)="this.dropPlantation($event)"
+       > 
+
+    <div class="plantation color{{this.gameService.getPlayerPlantationType(plantation)?.color}}" *ngFor="let plantation of this.myPlantations"> 
+        <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}</div></div>  
+      <div class="bottom-plantation-card">
+        <div class="plantation-art" class="{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}"></div>
+        <div class="colonist-slot" (click)="this.onSlotClick(plantation.slot)">  
+          <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+<div>
+ <div class="board-nest only-desktop">
+  <app-my-controls></app-my-controls>
+ </div>  
+
+ <div class="user-profile-frame only-desktop">
+  {{'Player '+(this.gameService.playerIndex+1)}}
+  <app-profile></app-profile>
+ </div>
+</div>
+
+
+  <div class="building-list-bg" >
+  <div id="myBuildingsDisabled" *ngFor="let list of this.buildingsMatrix"
+   class="building-list"
+   cdkDropList
+   cdkDropListSortingDisabled
+   cdkDropListOrientation="vertical"
+   [cdkDropListData]="list">
+
+  <div class="building" *ngFor="let building of list"
+    [ngClass]="(this.gameService.getPlayerBuildingType(building)?.size != 1)?'building large-building':'building'"
+    class="color{{this.gameService.getPlayerBuildingType(building)?.color}}">
+      
+        <div class="top-building-card"> 
+          <div class="building-name">{{this.gameService.getPlayerBuildingType(building)?.displayName}}</div>
+          <div class="building-victory-score">
+            {{this.gameService.getPlayerBuildingType(building)?.victoryScore}}
+          </div> 
+        </div>  
+        <div class="bottom-building-card">
+          <div class="colonist-slot" *ngFor="let slot of building?.slots; let i=index" (click)="this.onSlotClick(slot)">
+             <div class="colonist" *ngIf="slot.isOccupied"></div>
+            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getPlayerBuildingType(building)?.price}}</div>
+          </div>
+         </div>
+       </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+
+<div id="myBuildings"
+cdkDropList
+cdkDropListSortingDisabled
+[cdkDropListData]="this.myBuildings"
+(cdkDropListDropped)="dropBuilding($event)"
+class="example-list">
+
+<div class="drop-prompt-building">
+    <div class="prompt-line">drop</div>
+    <div class="prompt-line">building</div>
+    <div class="prompt-line">here</div>
+</div>
+
+<div class="building"></div>
+</div>
+
+
+

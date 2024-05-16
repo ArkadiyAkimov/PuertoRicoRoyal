@@ -1,0 +1,98 @@
+<div class="board-collection">
+  
+<div  class="player-frame" *ngFor="let player of this.players; let i = index" >
+  <!-- the part below put in the part above to remove self from opponent display -->
+  <!-- [ngClass]="(this.gameService.playerIndex == player.index) ? 'display-none': ''" -->
+
+<div class="player-board" [ngClass]="(desktopPattern[i]? 'desktop-pattern ':' ') + (i%2==1?'mobile-pattern':'')">
+
+
+<div class="plantation-list-bg">
+  <div id="myPlantations" class="plantation-list">
+
+    <div class="plantation color{{this.gameService.getPlayerPlantationType(plantation)?.color}}" *ngFor="let plantation of player.plantations"> 
+        <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}</div></div>  
+      <div class="bottom-plantation-card">
+        <div class="plantation-art" class="{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}"></div>
+        <div class="colonist-slot" >
+          <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+  
+ <div class="board-nest">
+
+  <div class="goods-display">
+    <div class="good-and-number"
+    *ngFor="let good of this.getSortedPlayerGoodButtons(player);">
+    <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel"></div>
+    <div class="good-count">{{good.quantity}}</div>
+  </div>
+  </div>   
+  
+  <div class="goods-display">
+    
+    <div class="good-and-number">
+            <div class="doubloon">
+              <div class="chip-number">{{player.doubloons}}</div>
+            </div>
+          </div>
+            
+          <div class="good-and-number">
+            <div class="colonist-chip">
+              <div class="chip-number colonist-number">{{player.colonists}}</div>
+            </div>
+            </div>
+  
+            <div class="good-and-number">
+            <div class="victory-point-chip">
+              <div class="chip-number victory-number">{{player.victoryPoints}}</div>
+            </div>
+          </div>
+  
+          <div class="end-turn-button" [ngStyle]="{'background-color': player.index == this.gameService.gs.value.governorIndex ? 'rgb(198, 56, 56)' : ''}">
+           <div >{{player.index == this.gameService.gs.value.governorIndex ? "Governor":""}}</div>
+           </div>
+  </div>
+
+  <div class="user-profile-frame only-desktop" [ngStyle]="{'background-color': player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : ''}">
+        {{player.index == this.gameService.playerIndex ? "You" : "player " + (player.index+1) }} 
+   </div>
+
+</div>  
+
+
+
+<div class="building-list-bg">
+  <div id="myBuildingsDisabled"  *ngFor="let list of this.buildingsMatrixes[i]"
+   class="building-list">
+
+  <div class="building" *ngFor="let building of list"
+    [ngClass]="(this.gameService.getPlayerBuildingType(building)?.size != 1)?'building large-building':'building'"
+    class="color{{this.gameService.getPlayerBuildingType(building)?.color}}">
+      
+        <div class="top-building-card"> 
+          <div class="building-name">{{this.gameService.getPlayerBuildingType(building)?.displayName}}</div>
+          <div class="building-victory-score">
+            {{this.gameService.getPlayerBuildingType(building)?.victoryScore}}
+          </div> 
+        </div>  
+        <div class="bottom-building-card">
+          <div class="colonist-slot" 
+          *ngFor="let slot of building.slots; let i=index"
+          >
+             <div class="colonist" *ngIf="slot.isOccupied"></div>
+            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getPlayerBuildingType(building)?.price}}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>

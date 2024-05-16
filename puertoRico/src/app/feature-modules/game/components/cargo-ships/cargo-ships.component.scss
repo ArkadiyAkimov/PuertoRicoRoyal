@@ -1,0 +1,244 @@
+@import url(../../../../styles/colors.scss);
+@import url(../../../../styles/barrels.scss);
+
+#center-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'MyFont', sans-serif;
+}
+
+#start-content{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-family: 'MyFont', sans-serif;
+}
+
+#wrap-row{
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#cartographer{
+    background-image: url(../../../../../assets/textures/cartographer.png);
+    background-size: 200px;
+    background-position: center;
+}
+
+#fit-content{
+    width: fit-content;
+    height: fit-content;
+}
+
+$base-unit: 78px;
+$base-font: 15px;
+$base-border: 1px;
+$base-margin: 1px;
+$base-radius: 5px;
+$test-color:transparent;
+$max-width: calc(($base-unit + $base-margin*2) * 8);
+
+#main-container{
+    box-sizing: border-box;
+    max-width: $max-width;
+    background-color: $test-color;
+}
+
+:host{
+    @extend #center-content;
+    //background-color: rgb(128, 219, 255);
+    text-shadow: rgba(0, 0, 0, 0.466) -0.9px 0.5px;
+    // background: rgb(255,255,255);
+    // background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
+    max-width: 100%;
+}
+
+
+.ship-collection{
+    @extend #main-container, #center-content, #wrap-row ;
+    font-size: 20px;
+}
+
+#ship-card{
+    box-sizing: border-box;
+    width: calc(($base-unit + $base-margin)*2);
+    height: $base-unit*1.9;
+    border-radius: $base-radius;
+    margin: $base-margin;
+    //border: $base-border solid black;
+    flex-direction: column-reverse;
+    
+}
+
+
+.ship-name{
+    @extend #center-content ;
+    position: absolute;
+    margin-top: -120px;
+}
+
+.trading-house-card{
+    box-sizing: border-box;
+    @extend #center-content,#ship-card ;
+    flex-direction: column;
+    color: rgb(0, 0, 0);
+    //background-color: rgb(0, 0, 0);
+
+    background-image: url(../../../../../assets/svgs/tradeHouse.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+.cargo-ship-card{
+    @extend #center-content,#ship-card ;
+    flex-direction: column;
+    color: rgb(0, 0, 0);
+    //background-color: rgb(0, 0, 0);
+
+    background-image: url(../../../../../assets/svgs/goods-ship.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+
+
+.cargo-ship-button{
+    @extend #ship-card ;
+    position: absolute ;
+    z-index: 5 ;
+}
+
+.good-buttons-collection{
+    @extend #center-content, #wrap-row, #fit-content ;
+    position: relative;
+    top: 55px;
+    flex-direction: row-reverse;
+}
+
+.good-buttons-collection-wharf{
+    @extend #center-content, #wrap-row, #fit-content ;
+    position: relative;
+    top: 32px;
+    flex-direction: row-reverse;
+}
+
+.trading-house-slot{
+    //border-color: black;
+    //background-color: rgba(0, 0, 0, 0.39);
+    position: relative;
+    bottom: 30px;
+}
+
+.good-button{
+    box-sizing: border-box;
+    @extend #center-content;
+    width: calc($base-unit/3)+3px;
+    height: calc($base-unit/2.5)+3px;
+  
+    background-size: 130%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 2;
+}
+
+.shipped-goods-collection{
+    flex-wrap: wrap-reverse;
+    width: 90px;
+    height: 20px;
+    overflow: visible;
+}
+
+.good-on-board{
+    position: relative;
+    width: calc($base-unit/3)+3px;
+    height: calc($base-unit/2.5)+3px;
+    bottom: 30px;
+    margin: -4px;
+    transform: scale(0.9);
+}
+
+.good-on-board-wharf{
+    position: relative;
+    width: calc($base-unit/3)+3px;
+    height: calc($base-unit/2.5)+3px;
+    bottom: 23px;
+    margin: -4px;
+    transform: scale(0.9);
+}
+
+
+
+.wharf{
+    width: calc(($base-unit + $base-margin)*4);
+    background-image: url(../../../../../assets/svgs/wharf.svg);
+    -webkit-animation:slide-in-left .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-left .5s cubic-bezier(.25,.46,.45,.94) both
+}
+@-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
+
+
+.small-warehouse{
+    background-image: url(../../../../../assets/svgs/smallWarehouse.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+
+#warehouse-goods{
+    box-sizing: border-box;
+    @extend #center-content;
+    width: calc($base-unit/3)+3px;
+    height: calc($base-unit/2.5)+3px;
+  
+    background-size: 130%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+
+.good-in-small-warehouse{
+    @extend #warehouse-goods ;
+    position: absolute;
+    margin-bottom: -70px;
+    margin-left: -55px;
+    //background-color: red;
+    
+    //background-color: green;
+    z-index:1;
+}
+
+.good-in-large-warehouse1{
+    @extend #warehouse-goods ;
+    position: absolute;
+    margin-bottom: -52px;
+    margin-left: 39px;
+    //background-color: red;
+    
+    //background-color: green;
+    z-index:1;
+}
+
+.good-in-large-warehouse2{
+    @extend #warehouse-goods ;
+    position: absolute;
+    margin-bottom: -44px;
+    margin-left: 87px;
+    //background-color: red;
+    
+    z-index:0;
+}
+
+.large-warehouse{
+
+    background-image: url(../../../../../assets/svgs/largeWarehouseTigth.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,38 @@
+$base-unit: 78px;
+$base-font: 15px;
+$base-border: 1px;
+$base-margin: 1px;
+$base-radius: 5px;
+$test-color:transparent;
+$max-width: calc(($base-unit + $base-margin*2) * 8);
+
+
+:host{
+    display: unset;
+    max-width: 100%;
+}
+
+.invisible-scroll-asist{
+    position:absolute;
+    width: calc($base-unit/2);
+    height: $base-unit*10; 
+    z-index: 5;
+    background-color: $test-color;
+  }
+  
+  .left-bound{
+    left: 0px;
+  }
+  
+  .right-bound{
+    right: 0px;
+  }
+  
+  .middle-left{
+      left: 50%;
+  }
+  
+  .middle-right{
+      right: 50%;
+  }
+  

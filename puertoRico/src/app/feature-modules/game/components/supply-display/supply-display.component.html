@@ -1,0 +1,38 @@
+<div class="goods-display">
+
+    <div 
+    *ngFor="let good of getSortedGoodButtons(this.myGoods); let i = index" 
+    class="good-and-number"
+    (click)="this.onClickGood(good)">
+  
+    <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel"></div>
+    <div class="good-count">{{this.supplyGoods[i]}}</div></div>
+ 
+
+    <div class="good-and-number">
+        <div class="colonist-chip">
+            <div class="chip-number colonist-number">{{this.gameService.gs.value.colonistsOnShip}}</div>
+        </div>
+    </div>
+
+    <div class="good-and-number">
+        <div class="colonist-chip">
+            <div class="chip-number colonist-number">{{this.gameService.gs.value.colonistsSupply}}</div>
+        </div>
+    </div>
+
+    
+  
+    <div class="good-and-number">
+        <div class="victory-point-chip">
+            <div class="chip-number victory-number">{{this.gameService.gs.value.victoryPointSupply}}</div>
+        </div>
+    </div>
+
+    <div class="good-and-number">
+    </div>
+
+    <div class="good-and-number">
+    </div>
+  
+  </div>

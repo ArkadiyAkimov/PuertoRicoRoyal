@@ -1,0 +1,123 @@
+@import '../../../../styles/variables.scss';
+
+.example-list {
+    @extend #start-content, #wrap-row ;
+    max-width: $max-width;
+  }
+
+.plantation-list-bg{
+    display: flex;
+    
+    height: calc($max-width/2.665);
+    width: calc($max-width/2);
+  
+    background-image: url(../../../../../assets/svgs/plantation-tile.svg);
+    background-position: 0px 0px;
+    background-size: calc($base-unit + $base-margin*2);
+    background-repeat: repeat;
+    
+    background-color: white;
+  }
+  
+  .plantation-list{
+    box-sizing: border-box;
+    @extend .example-list, #start-content ;
+    width: fit-content;
+    height: fit-content;
+    max-width: calc($max-width/2);
+    max-height: calc($max-width/2.665);
+    
+    //temporary?
+    //height: calc($max-width/2.665);
+    
+  
+    min-width: calc($max-width/2);
+    min-height: calc($base-unit + $base-margin*2);
+  
+  }
+  
+  
+  .plantation{
+    box-sizing: border-box;
+    height: $base-unit;
+    width: $base-unit;
+    border: $base-border solid black;
+    margin: $base-margin;
+  }
+  
+  .top-plantation-card{
+    box-sizing: border-box;
+    @extend #center-content;
+    width: $base-unit;
+    height: calc($base-unit/3);
+  }
+  
+  .plantation-name{
+    box-sizing: border-box;
+    font-size: $base-font;
+    z-index: 2;
+  }
+  
+  .bottom-plantation-card{
+    box-sizing: border-box;
+    @extend #center-content ;
+    position: relative;
+    justify-content: flex-start;
+    width: $base-unit;
+    height: calc($base-unit*2/3);
+  }
+  
+  .plantation-art{
+    box-sizing: border-box;
+    @extend #center-content ;
+    position: absolute;
+    width:calc($base-unit*2/3);
+    height: calc($base-unit*2.5/3);
+    left: calc($base-unit/3 - $base-border);
+    bottom: 0px;
+  
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  .colonist-slot{
+  box-sizing: border-box;
+  @extend #center-content;
+  width: calc( $base-unit/2.2);
+  height: calc( $base-unit/2.2);
+  margin-left: calc($base-unit/15);
+  
+  border: black $base-border solid;
+  border-radius: 50%;
+  
+  background-color: white;
+  
+  color: rgba(161, 161, 161, 0.443);
+  font-size: $base-font*1.5;
+  font-weight: 900;
+  z-index: 2;
+  
+  -webkit-tap-highlight-color: transparent;
+  }
+  
+  .colonist{
+    box-sizing: border-box;
+    @extend #center-content;
+    right: calc($base-margin*3);
+    bottom: calc($base-margin*3);
+  
+    width: calc($base-unit/2.4);
+    height: calc($base-unit/2.4);
+  
+    font-size: calc($base-font*2);
+  
+    border-radius: 0px;
+  
+    background-image: url(../../../../../assets/svgs/colonist.svg);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  

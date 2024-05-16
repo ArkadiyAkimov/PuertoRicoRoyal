@@ -1,0 +1,166 @@
+@import url(../../../../styles/colors.scss);
+@import url(../../../../styles/plantations.scss);
+@import url(../../../../styles/barrels.scss);
+
+@import '../../../../styles/variables.scss';
+
+:host{
+  @extend #center-content ;
+  //background-color: rgb(45, 170, 220);
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.goods-display{
+  @extend  #main-container ,#center-content, #wrap-row;
+  width: fit-content;
+  height: fit-content;
+
+}
+
+.good-and-number{
+  @extend  #center-content ;
+  width: calc($base-unit/1.26);
+  height: calc($base-unit/1.5);
+  //border: $base-border solid black;
+  box-shadow: $base-shadow;
+  text-shadow: 1px 0.5px rgba(0, 0, 0, 0.317), 0.5px 1px rgba(0, 0, 0, 0.295);
+  border-radius: $base-radius;
+  margin: $base-margin;
+
+  color: white;
+  background-color: rgb(98, 118, 216);
+  background-size: calc($base-unit * 2);
+  background-blend-mode: luminosity;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.good-and-number:active{
+    box-shadow: -0px -0px rgb(69, 80, 135);
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-top: 2px;
+    margin-left: 2px; 
+    background-color: rgb(85, 102, 186);
+  }
+
+.good-button{
+  @extend #center-content;
+  width: calc(($base-unit/2.1) - 5px);
+  height: calc(($base-unit/1.5) - 5px);
+  margin: $base-margin;
+
+
+  background-size: 130%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.good-count{
+  font-size: calc($base-font*1.5);
+  margin-right: $base-margin;
+}
+
+
+.end-turn-button{
+  pointer-events: all;
+  @extend .good-and-number, #center-content ;
+  text-align: center;
+  width: calc(($base-unit/1.26)*2 + $base-margin*2);
+}
+
+
+.doubloon{
+  @extend #center-content;
+  position: relative;
+  width: calc($base-unit/2);
+  height: calc($base-unit/2);
+
+  font-size: calc($base-font*2);
+  font-weight: 900;
+  margin: calc($base-margin*5);
+
+  //background-color: rgba(255, 255, 255, 0.265);
+  //border: $base-border solid black;
+  background-image: url(../../../../../assets/svgs/doubloon.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 3;
+}
+
+.colonist-chip{
+  @extend .doubloon;
+  color: white;
+  background-image: url(../../../../../assets/svgs/colonist-OG.svg);
+}
+
+.victory-point-chip{
+  @extend .doubloon;
+  background-image: url(../../../../../assets/svgs/victoryChip.svg);
+}
+
+.chip-number{
+  @extend #center-content;
+  text-shadow: 2px 1px rgba(0, 0, 0, 0.317), -1px 1px rgba(0, 0, 0, 0.295);
+  position: relative;
+  color:  rgb(255, 235, 85);
+  top: 1px;
+  left: -2px;
+}
+
+.colonist-number{
+  color: white;
+}
+
+.victory-number{
+  color: white;
+}
+
+.highlight-button{
+  background-color: $highlight-color;
+  box-shadow: $highlight-shadow;
+}
+
+.highlight-colonist{
+  background-color: $highlight-color;
+  box-shadow: $highlight-shadow;
+}
+
+.highlight-green{
+  background-color: $highlight-color;
+  box-shadow: $highlight-shadow;
+}
+
+
+.highlight-yellow{
+  box-sizing: border-box;
+  border: solid 3px $highlight-color3;
+  box-shadow: $highlight-shadow2;
+}
+
+.highlight-red{
+  background-color: $highlight-color3;
+  box-shadow: $highlight-shadow2;
+}
+
+
+@media only screen and (min-width: 480px) {
+
+  :host{
+    background-image: none;
+    background-color: transparent;
+    max-width: 100%;
+  }
+}
+
+// @media only screen and (max-width: 480px) {
+//     :host{
+//     position: sticky;
+//     top: calc($base-unit/-1.5 - $base-margin*2 );
+//     z-index: 1000;
+//     background-color: rgb(233, 234, 196);
+//     padding-bottom: $base-margin;
+//     margin-bottom: -$base-margin;
+//    }
+// }

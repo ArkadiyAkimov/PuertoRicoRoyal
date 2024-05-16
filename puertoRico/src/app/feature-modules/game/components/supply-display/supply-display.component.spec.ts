@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { SupplyDisplayComponent } from './supply-display.component';
+
+describe('SupplyDisplayComponent', () => {
+  let component: SupplyDisplayComponent;
+  let fixture: ComponentFixture<SupplyDisplayComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ SupplyDisplayComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(SupplyDisplayComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

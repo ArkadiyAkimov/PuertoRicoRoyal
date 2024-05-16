@@ -1,0 +1,22 @@
+
+<div class="user-image" *ngIf="this.userLoggedIn"></div>
+
+<div class="user-data" *ngIf="this.userLoggedIn">
+    <div class="data-row">{{this.userLoggedIn.username}}</div>
+       
+    <div class="user-buttons">
+    <button (click)="logout()">logout</button>
+    <button (click)="deleteUser(userLoggedIn)">delete</button>
+    </div> 
+</div>
+
+
+<!-- 
+<div class="user-data">
+    <div class="data-row">Arkadiy</div>
+    
+    <div class="user-buttons">
+    <button>logout</button>
+    <button>delete</button>
+</div> -->
+

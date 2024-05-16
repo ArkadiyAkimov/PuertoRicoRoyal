@@ -1,0 +1,197 @@
+@import '../../../../styles/variables.scss';
+
+:host{ 
+  @extend #center-content; flex-direction: row; 
+  max-width: 100%;
+}
+
+.player-board{
+    @extend #main-container, #center-content,#wrap-row ;
+      max-width: calc($max-width);
+  }
+
+  .wrap-reverse{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .board-nest{
+    box-sizing: border-box;
+    @extend #center-content, #wrap-row ;
+    align-items: flex-start;
+
+    width: calc($max-width/2);
+    //max-height: calc($max-width/2.665);
+  }
+
+  .user-profile-frame{
+    @extend #center-content ;
+    box-sizing: border-box;
+    flex-direction: column;
+  width: calc($max-width/2 - $base-margin*2);;
+  height: calc($max-width/4.97);
+  margin: $base-margin;
+  border-radius: $base-radius;
+  background-color: rgb(98, 118, 216);
+  box-shadow: $base-shadow;
+  }
+
+
+  .example-list {
+    @extend #start-content, #wrap-row ;
+    max-width: $max-width;
+  }
+
+.building-list-bg{
+  box-sizing: border-box;
+  height: calc($max-width/2.665 * 2);
+  width: calc($max-width/2);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  background-image: url(../../../../../assets/svgs/building-tile.svg);
+  background-position: 0px 0px;
+  background-size: calc(($base-unit + $base-margin*2) * 2);
+  background-repeat: repeat;
+  
+  background-color: white;
+
+  
+ // outline: 3px solid rgb(0, 42, 255);
+}
+
+.building-list{
+  box-sizing: border-box;
+  @extend .example-list, #start-content ;
+
+  flex-direction: column;
+  height: calc($max-width/2.665);
+  width: calc($max-width/4);
+
+  }
+  
+  
+  .building{
+    box-sizing: border-box;
+    width: calc(($base-unit + $base-margin)*2);
+    height: calc($base-unit);
+    font-size: calc($base-font);
+    border: calc($base-border) black solid;
+    margin: calc($base-margin);
+    z-index: 2;
+  }
+  
+  .large-building{
+    height: calc(($base-unit + $base-margin)*2);
+  }
+  
+  .top-building-card{
+  box-sizing: border-box;
+  @extend #center-content;
+  justify-content: flex-start;
+  width: calc($base-unit*2);
+  height: calc($base-unit/3);
+  }
+  
+  .building-name{
+  box-sizing: border-box;
+  width: calc($base-unit*2);
+  font-size: calc($base-font);
+  margin-left: $base-margin*4;  
+  white-space: nowrap;
+  overflow: hidden;
+  }
+
+  .building-victory-score{
+    box-sizing: border-box;
+     width: calc($base-unit/4);
+     font-size: $base-font*1.5;
+     position: relative;
+     font-weight: 900;
+     right: 5px;
+     top: 2px;
+
+    color: $building-vp-color;
+    text-shadow: $building-vp-shadow;
+   }
+ 
+  
+  .bottom-building-card{
+  box-sizing: border-box;
+  @extend #center-content ;
+  justify-content: flex-start;
+  height: calc($base-unit*2/3);
+  }
+
+
+.cdk-drag-preview {
+  font-family: 'MyFont', sans-serif;
+  box-sizing: border-box;
+  //border-radius: $base-radius;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+.cdk-drop-list-receiving{
+  background-color: green;
+  transition: 0.5s;
+}
+
+.cdk-drop-list-dragging{
+  background-color: green;
+}
+
+  
+
+  
+.only-desktop{
+  display: none;
+}
+  
+//Mobile query
+
+@media only screen and (min-width: 480px) {
+ 
+  .only-desktop{
+    display: flex;
+    max-width: 100%;
+  }
+
+  #main-container{
+    box-sizing: border-box;
+    max-width: calc($max-width);
+    background-color: $test-color;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.building-list-bg{
+  box-sizing: border-box;
+  height: calc($max-width/2.665);
+  width: $max-width;
+}
+  
+}

@@ -1,0 +1,13 @@
+
+<div class="cargo-ship-card {{(shipIndex==3?'wharf ':'') + (((this.gameService.selectedShip == shipIndex)&&this.gameService.gs.value.currentRole==5) ?'ship-highlighted':'')}}" *ngIf="showShip || shipIndex != 3">
+<div [ngClass]="(canShipFlag() ?'ship-ladder-green-flag':'ship-ladder-red-flag')"></div>
+
+    <div class="cargo-ship-button"  (click)="selectShip()"></div>
+    <div class="ship-name"> {{this.getShipName()}} </div>
+
+    <div class="good-buttons-collection  {{shipIndex==3?'good-on-board-wharf':'shipped-goods-collection'}}">
+        <div class="empty-good-slot" *ngFor="let good of this.gameService.numSequence(cargoShip.load);">
+        <div class="good-button  good-on-board" class="{{this.gameService.goodTypes[cargoShip.type].displayName+'-barrel'}}"></div>
+        </div>
+</div>
+</div>

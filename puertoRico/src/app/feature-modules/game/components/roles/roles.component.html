@@ -1,0 +1,21 @@
+<div class="roles-container">
+    <div *ngFor="let role of this.roles; let i = index"  
+    class="role-card {{getRoleSelectionClass(role) 
+    + ((this.gs.players.length == 3)?' role-card-3-players':'') }}"
+    [ngClass]="getRoleNameString(role)"  
+    (click)="onClick(role.id)">
+
+    <div class="role-card-art" ></div>
+    <div class="role-name">{{getRoleNameString(role)}}</div>  
+
+    <div class="doubloon" *ngIf="role.bounty > 0">
+    <div class="chip-number">{{role.bounty}}</div></div>
+
+    <div class="disable-role-overlay" *ngIf="(!role.isPlayable && this.gs.currentRole != role.name && this.gs.currentRole != 7) || (!role.isPlayable && this.gs.currentRole != role.name && this.gs.currentRole == 7 && role.name != 5)"></div>
+    </div>
+    
+    <div *ngIf="this.roles.length == 8"  
+    class="role-card" style="opacity: 30%; pointer-events: none;"> 
+    </div>
+
+</div>

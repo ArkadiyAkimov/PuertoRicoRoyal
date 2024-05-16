@@ -1,0 +1,20 @@
+
+<!-- <div class="top-bar">
+
+<div class="user-widget">
+  <div class="login-or-register">
+    <button class="login-button" *ngIf="isRegistering" (click)="isRegistering = false">login</button>
+    <button class="register-button" *ngIf="!isRegistering" (click)="isRegistering = true">register</button>
+  </div>
+   <div class="content">
+     <app-register *ngIf="isRegistering" (createUser)="isRegistering = false"></app-register>
+     <app-login *ngIf="!isRegistering"></app-login>
+  </div>
+</div>
+
+</div> -->
+
+<div class="index-button" *ngFor="let button of this.gameService.numSequence(this.gameService.numOfPlayers); let i=index" 
+(click)="chooseIndex(i)">
+  {{i+1}}
+</div>

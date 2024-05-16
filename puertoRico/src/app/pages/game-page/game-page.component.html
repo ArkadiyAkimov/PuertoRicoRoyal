@@ -1,0 +1,67 @@
+<div style="
+background: rgb(255,255,255);
+background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);">
+
+<!-- <app-login-page></app-login-page> -->
+<div *ngIf="this.gameService.gs.value.lastGovernor">LAST GOVERNOR</div>
+
+<app-roles id="roles">
+</app-roles> 
+
+<app-cargo-ships 
+id="cargo-ships">
+</app-cargo-ships>
+
+<div class="land-transition-decoration">
+</div>
+
+</div>
+
+<app-supply-display
+id="test">
+</app-supply-display>
+
+<app-my-controls 
+id="my-controls" 
+class="only-mobile controls-drop">
+</app-my-controls>  
+
+<app-plantations 
+id="plantations" >
+</app-plantations>
+
+
+<div class="board-separator own" *ngIf="displayPlayerBoard"
+ (click)="switchBoards()">
+  Click to see all boards 
+</div>
+
+<app-full-size id="player-board" *ngIf="displayPlayerBoard">
+</app-full-size>
+
+<div class="board-separator opponents" *ngIf="!displayPlayerBoard" 
+(click)="switchBoards()"> Click to go back to your board </div>
+
+<app-opponent-boards *ngIf="!displayPlayerBoard">
+</app-opponent-boards>
+
+<app-utility-drop 
+id="utility-drop"  
+class="utility-drop">
+</app-utility-drop>
+
+
+<app-scroll-asist 
+class="scroll-asist">
+</app-scroll-asist>
+
+<app-buildings 
+id="buildings">
+</app-buildings>
+
+<div style="width: 100%;"
+>this error: {{this.gameService.errorToUI}}</div>
+
+<div class="score-board">
+    <app-score-board></app-score-board>
+</div>

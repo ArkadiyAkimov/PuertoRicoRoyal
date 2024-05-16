@@ -1,0 +1,41 @@
+<div class="goods-display">
+  <div 
+  *ngFor="let good of getSortedGoodButtons(this.myGoods)" 
+  class="good-and-number {{getGoodButtonHighlightRule(good)}}"
+  (click)="this.onClickGood(good)">
+
+  <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel"></div>
+  <div class="good-count">{{(this.gameService.storedGoodTypes[0]==good.type)?1:good.quantity}}</div></div>
+</div>   
+
+<div class="goods-display">
+  
+  <div class="good-and-number">
+          <div class="doubloon">
+            <div class="chip-number">{{this.myDoubloons}}</div>
+          </div>
+        </div>
+          
+        <div class="good-and-number">
+          <div class="colonist-chip">
+            <div class="chip-number colonist-number">{{this.myColonists}}</div>
+          </div>
+          </div>
+
+          <div class="good-and-number" (click)="this.hideVictoryPoints = !this.hideVictoryPoints">
+          <div class="victory-point-chip">
+            <div class="chip-number victory-number">{{this.hideVictoryPoints? "": this.myVictoryPoints}}</div>
+          </div>
+        </div>
+
+        <div class="end-turn-button" (click)="endTurn()">
+         <div > End Turn </div>
+         </div>
+
+</div>
+
+
+
+
+
+
