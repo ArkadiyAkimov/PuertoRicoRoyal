@@ -62,9 +62,6 @@ namespace PuertoRicoAPI.Controllers
                 case RoleName.Trader:
                     (currentRole as Trader).mainLoop(); 
                     break;
-                case RoleName.Craftsman:
-                    (currentRole as Craftsman).mainLoop();
-                    break;
                 case RoleName.PostCaptain:
                     (currentRole as PostCaptain).KeepLegalGoods(endTurnInput.StorageGoods);
                     (currentRole as PostCaptain).mainLoop();

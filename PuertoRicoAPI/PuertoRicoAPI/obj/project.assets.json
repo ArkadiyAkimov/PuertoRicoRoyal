@@ -4969,11 +4969,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI.csproj",
       "projectName": "PuertoRicoAPI",
-      "projectPath": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI.csproj",
+      "projectPath": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI.csproj",
       "packagesPath": "C:\\Users\\Akimo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI\\obj\\",
+      "outputPath": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Akimo\\AppData\\Roaming\\NuGet\\NuGet.Config",

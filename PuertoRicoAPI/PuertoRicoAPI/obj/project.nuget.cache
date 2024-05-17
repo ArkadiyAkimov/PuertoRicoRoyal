@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MqoIPzee4DE5Yi6Aua2UR1pF8OgCS56P1IazgAoPGbPbR0bQWlH0jiDGw6NGUmUTn2/ub/6QVT6ujbq/43YXkQ==",
+  "dgSpecHash": "+lyBjTnBUgPT5BXhUtDOrJIQZhzzP5y9Q2kcu21wnz6nFJRbakPrhyecQoN4+IYeD7zbcvOxucZwj54NIbLWgw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI.csproj",
+  "projectFilePath": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\PuertoRicoAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Akimo\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Akimo\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
