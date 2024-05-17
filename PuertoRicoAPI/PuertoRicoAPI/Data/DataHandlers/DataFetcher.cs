@@ -75,6 +75,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             dataGameState.TradeHouse.Goods = gs.TradeHouse.SerializeGoodsToJson();
             dataGameState.CaptainPlayableIndexes = JsonSerializer.Serialize(gs.CaptainPlayableIndexes);
             dataGameState.CaptainFirstShipment = gs.CaptainFirstShipment;
+            dataGameState.MayorTookPrivilige = gs.MayorTookPrivilige;
             dataGameState.LastGovernor = gs.LastGovernor;
             dataGameState.GameOver = gs.GameOver;
 

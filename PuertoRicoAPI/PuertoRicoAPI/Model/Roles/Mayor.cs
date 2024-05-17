@@ -2,6 +2,7 @@
 using PuertoRicoAPI.Data.DataHandlers;
 using PuertoRicoAPI.Model.deployables;
 using PuertoRicoAPI.Models;
+using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Model.Roles
 {
@@ -14,17 +15,16 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void mainLoop()
         {
+            if(IsFirstIteration)
+            {
+                gs.Players.ForEach(x => x.Colonists += (int)Math.Ceiling(((double)gs.ColonistsOnShip / gs.Players.Count) - ((double)Utility.Mod((x.Index - gs.getCurrPlayer().Index), gs.Players.Count) / gs.Players.Count)));
+                gs.ColonistsOnShip = 0;
+            }
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
-            int takenColonists = (int)Math.Ceiling((double)gs.ColonistsOnShip / gs.Players.Count);
             Player currentPlayer = gs.getCurrPlayer();
-            if (gs.PrivilegeIndex == currentPlayer.Index)
-            {
-                currentPlayer.Colonists += 1;
-                gs.ColonistsSupply -= 1;
-            }
-            currentPlayer.Colonists += takenColonists;
 
             uselessTurnSkip(currentPlayer);
         }
@@ -42,11 +42,15 @@ namespace PuertoRicoAPI.Model.Roles
                 gs.ColonistsOnShip = 0;
             }
 
+            gs.MayorTookPrivilige = false;
+
             base.endRole();
         }
 
         void uselessTurnSkip(Player currentPlayer)
         {
+            if (currentPlayer.CheckForPriviledge()) return;
+
             if(currentPlayer.Buildings.Count == 0 && currentPlayer.Plantations.Count == 0)
             {
                 Console.WriteLine("player {0} has no slots to fill",currentPlayer);

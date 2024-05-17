@@ -32,6 +32,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newGameState.TradeHouse = initializeTradeHouse();
             newGameState.CaptainPlayableIndexes = initCaptainPlayableIndexes(numOfPlayers);
             newGameState.CaptainFirstShipment = true;
+            newGameState.MayorTookPrivilige = false;
             newGameState.LastGovernor = false;
             newGameState.GameOver = false;
 

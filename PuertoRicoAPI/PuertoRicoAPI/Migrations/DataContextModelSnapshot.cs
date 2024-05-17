@@ -94,6 +94,9 @@ namespace PuertoRicoAPI.Migrations
                     b.Property<bool>("LastGovernor")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("MayorTookPrivilige")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PrivilegeIndex")
                         .HasColumnType("int");
 

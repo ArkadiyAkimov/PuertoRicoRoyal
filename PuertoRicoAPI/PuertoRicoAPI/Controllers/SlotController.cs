@@ -35,7 +35,7 @@ namespace PuertoRicoAPI.Controllers
             DataGameState dataGameState = await DataFetcher
             .getDataGameState(_context, slotInput.DataGameId);
 
-            if (slotInput.PlayerIndex != dataGameState.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+            //if (slotInput.PlayerIndex != dataGameState.CurrentPlayerIndex) return Ok("wait your turn, bitch");
 
             if (dataGameState.CurrentRole == Types.RoleName.Mayor)
             {

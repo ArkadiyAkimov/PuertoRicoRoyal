@@ -17,7 +17,7 @@ export class GameService{
   playerIndex:number = 0;
   numOfPlayers:number = 4;
 
-  gameId:number = 37;
+  gameId:number = 42;
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];
