@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PuertoRicoAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2cf772a80f8f3a8f184e45eb551edae49fc4249d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56a6a173b22db7837a721cd94ce92465afc561a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("PuertoRicoAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PuertoRicoAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -15,13 +15,11 @@
         </div>
     </div>
 
-    <div class="good-and-number">
+    <div class="good-and-number {{getColonistSupplyButtonHighlightRule()}}" (click)="this.onClickColonistSupply()">
         <div class="colonist-chip">
             <div class="chip-number colonist-number">{{this.gameService.gs.value.colonistsSupply}}</div>
         </div>
     </div>
-
-    
   
     <div class="good-and-number">
         <div class="victory-point-chip">
@@ -32,7 +30,11 @@
     <div class="good-and-number">
     </div>
 
-    <div class="good-and-number">
+    <div class="good-and-number {{getHotseatHighlight()}}"
+    style="flex-direction: column;"
+    (click)="this.toggleHotSeat()">
+        <div>Hotseat</div>
+        <div>{{this.gameService.isHotSeat ? "on" : "off" }}</div>
     </div>
   
   </div>

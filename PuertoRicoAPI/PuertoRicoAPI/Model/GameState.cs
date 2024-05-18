@@ -30,6 +30,7 @@ namespace PuertoRicoAPI.Model
             this.CaptainPlayableIndexes = JsonSerializer
                          .Deserialize<List<bool>>(dataGameState.CaptainPlayableIndexes);
             this.CaptainFirstShipment = dataGameState.CaptainFirstShipment;
+            this.MayorTookPrivilige = dataGameState.MayorTookPrivilige;
             this.LastGovernor = dataGameState.LastGovernor;
             this.GameOver = dataGameState.GameOver;
 
@@ -87,6 +88,7 @@ namespace PuertoRicoAPI.Model
         public TradeHouse TradeHouse { get; set; }
         public List<bool> CaptainPlayableIndexes { get; set; }
         public bool CaptainFirstShipment { get; set; }
+        public bool MayorTookPrivilige { get; set; }
         public bool LastGovernor { get; set; }
         public bool GameOver { get; set; }
         public Player getCurrPlayer()

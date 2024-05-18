@@ -67,6 +67,8 @@ export class SupplyDisplayComponent {
       this.gameService.selectedShip = 4;
     }
 
+
+
     getGoodButtonHighlightRule(good:DataPlayerGood):string{
       if(this.gameService.storedGoodTypes[0] == good.type) return 'highlight-red';
       else if(this.gameService.storedGoodTypes.includes(good.type)) return 'highlight-yellow';
@@ -85,5 +87,35 @@ export class SupplyDisplayComponent {
           console.log("error:",response.error.text);
         }
       });
+    }
+
+    
+    onClickColonistSupply(){
+      this.roleHttp.postColonist(this.gameService.gs.value.id, this.gameService.playerIndex)
+      .subscribe({
+        next: (result:GameStateJson) => {
+          console.log('success:',result);
+          this.gameService.gs.next(result);
+        },
+        error: (response:any)=> {
+          console.log("error:",response.error.text);
+        }
+      });
+    }
+
+    getColonistSupplyButtonHighlightRule():string{
+      if(!this.gameService.gs.value.mayorTookPrivilige 
+        && (this.gameService.gs.value.privilegeIndex == this.gameService.playerIndex)
+        && (this.gameService.gs.value.currentRole == 2)) return 'highlight-yellow';
+      else return '';
+    }
+
+    getHotseatHighlight():string{
+      if(!this.gameService.isHotSeat) return 'highlight-red';
+      else return '';
+    }
+
+    toggleHotSeat(){
+      this.gameService.isHotSeat = !this.gameService.isHotSeat
     }
 }

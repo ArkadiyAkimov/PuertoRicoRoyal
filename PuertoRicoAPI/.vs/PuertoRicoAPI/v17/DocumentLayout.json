@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|c:\\users\\akimo\\onedrive\\documents\\angular\\puertoricoroyal\\puertoricoapi\\puertoricoapi\\controllers\\endturncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|solutionrelative:puertoricoapi\\controllers\\endturncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|c:\\users\\akimo\\onedrive\\documents\\angular\\puertoricoroyal\\puertoricoapi\\puertoricoapi\\controllers\\chipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|solutionrelative:puertoricoapi\\controllers\\chipcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|c:\\users\\akimo\\onedrive\\documents\\angular\\puertoricoroyal\\puertoricoapi\\puertoricoapi\\model\\roles\\craftsman.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|solutionrelative:puertoricoapi\\model\\roles\\craftsman.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|c:\\users\\akimo\\onedrive\\documents\\angular\\puertoricoroyal\\puertoricoapi\\puertoricoapi\\controllers\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|solutionrelative:puertoricoapi\\controllers\\slotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D216BE3C-91C8-42AC-96A0-A604216B745F}|PuertoRicoAPI\\PuertoRicoAPI.csproj|c:\\users\\akimo\\onedrive\\documents\\angular\\puertoricoroyal\\puertoricoapi\\puertoricoapi\\controllers\\goodcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,19 +22,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EndTurnController.cs",
-              "DocumentMoniker": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Controllers\\EndTurnController.cs",
-              "RelativeDocumentMoniker": "PuertoRicoAPI\\Controllers\\EndTurnController.cs",
-              "ToolTip": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Controllers\\EndTurnController.cs",
-              "RelativeToolTip": "PuertoRicoAPI\\Controllers\\EndTurnController.cs",
-              "ViewState": "AQIAACkAAAAAAAAAAAAswD0AAAAlAAAA",
+              "DocumentIndex": 1,
+              "Title": "SlotController.cs",
+              "DocumentMoniker": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Controllers\\SlotController.cs",
+              "RelativeDocumentMoniker": "PuertoRicoAPI\\Controllers\\SlotController.cs",
+              "ToolTip": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Controllers\\SlotController.cs",
+              "RelativeToolTip": "PuertoRicoAPI\\Controllers\\SlotController.cs",
+              "ViewState": "AQIAACkAAAAAAAAAAAAUwDAAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-17T12:53:10.376Z",
+              "WhenOpened": "2024-05-17T18:30:44.367Z",
               "EditorCaption": ""
             },
             {
@@ -45,21 +45,22 @@
               "RelativeDocumentMoniker": "PuertoRicoAPI\\Controllers\\GoodController.cs",
               "ToolTip": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Controllers\\GoodController.cs",
               "RelativeToolTip": "PuertoRicoAPI\\Controllers\\GoodController.cs",
-              "ViewState": "AQIAAEMAAAAAAAAAAAAwwE8AAAA7AAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAA7wCoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-16T15:02:28.273Z"
+              "WhenOpened": "2024-05-17T17:40:26.527Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Craftsman.cs",
-              "DocumentMoniker": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Model\\Roles\\Craftsman.cs",
-              "RelativeDocumentMoniker": "PuertoRicoAPI\\Model\\Roles\\Craftsman.cs",
-              "ToolTip": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Model\\Roles\\Craftsman.cs",
-              "RelativeToolTip": "PuertoRicoAPI\\Model\\Roles\\Craftsman.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAqwCAAAAARAAAA",
+              "DocumentIndex": 0,
+              "Title": "ChipController.cs",
+              "DocumentMoniker": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Controllers\\ChipController.cs",
+              "RelativeDocumentMoniker": "PuertoRicoAPI\\Controllers\\ChipController.cs",
+              "ToolTip": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Controllers\\ChipController.cs",
+              "RelativeToolTip": "PuertoRicoAPI\\Controllers\\ChipController.cs",
+              "ViewState": "AQIAACEAAAAAAAAAAAAUwCIAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-16T14:22:44.55Z",
+              "WhenOpened": "2024-05-17T17:37:52.041Z",
               "EditorCaption": ""
             }
           ]

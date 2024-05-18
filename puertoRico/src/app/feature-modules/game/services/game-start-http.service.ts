@@ -48,6 +48,7 @@ export class GameStateJson{
   tradeHouse:DataTradeHouse = new DataTradeHouse();
   captainPlayableIndexes:string ='';
   captainFirstShipment:boolean = true;
+  mayorTookPrivilige:boolean = false;
   lastGovernor:boolean = false;
   gameOver:boolean = false;
 }

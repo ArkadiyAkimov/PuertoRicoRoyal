@@ -28,6 +28,7 @@ namespace PuertoRicoAPI.Data.DataClasses
         public DataTradeHouse TradeHouse { get; set; }
         public string CaptainPlayableIndexes { get; set; }
         public bool CaptainFirstShipment { get; set; }
+        public bool MayorTookPrivilige { get; set; }
         public bool LastGovernor { get; set; }
         public bool GameOver { get; set; }
     }
