@@ -17,7 +17,27 @@ namespace PuertoRicoAPI.Model.Roles
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
+            int budget = 0;
+            bool canBuild = false;
 
+            Player player = gs.getCurrPlayer();
+
+            budget += player.countActiveQuarries();
+            budget += player.Doubloons;
+            if (player.CheckForPriviledge()) budget++;
+
+            foreach (Building building in gs.Buildings)
+            {
+                if (!player.hasBuilding(building.Type.Name)
+                    && building.Quantity > 0
+                    && budget >= building.Type.Price) canBuild = true;
+            }
+
+            if (!canBuild)
+            {
+                Console.WriteLine("player {0} can't build anything skipping turn", player.Index);
+                this.mainLoop();
+            }
 
         }
 
@@ -43,7 +63,7 @@ namespace PuertoRicoAPI.Model.Roles
                 gs.getCurrPlayer().Buildings.Last().Slots[0] = true;
             }
 
-            if(gs.getCurrPlayer().freeBuildingTiles() == 0) gs.LastGovernor = true;
+            if (gs.getCurrPlayer().freeBuildingTiles() == 0) gs.LastGovernor = true;
 
             gs.getCurrentRole().mainLoop();
 
