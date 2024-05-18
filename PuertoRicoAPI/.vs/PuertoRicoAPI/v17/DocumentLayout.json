@@ -42,8 +42,7 @@
               "RelativeToolTip": "PuertoRicoAPI\\Model\\Roles\\Craftsman.cs",
               "ViewState": "AQIAACEAAAAAAAAAAAAYwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-18T03:55:25.156Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-18T03:55:25.156Z"
             },
             {
               "$type": "Document",
@@ -53,7 +52,7 @@
               "RelativeDocumentMoniker": "PuertoRicoAPI\\Model\\Roles\\Builder.cs",
               "ToolTip": "C:\\Users\\Akimo\\OneDrive\\Documents\\angular\\puertoRicoRoyal\\PuertoRicoAPI\\PuertoRicoAPI\\Model\\Roles\\Builder.cs",
               "RelativeToolTip": "PuertoRicoAPI\\Model\\Roles\\Builder.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAqwCYAAAAcAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAmwCQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-18T03:29:31.635Z",
               "EditorCaption": ""
@@ -68,8 +67,7 @@
               "RelativeToolTip": "PuertoRicoAPI\\Controllers\\SlotController.cs",
               "ViewState": "AQIAACkAAAAAAAAAAAAUwDAAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-17T18:30:44.367Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-17T18:30:44.367Z"
             },
             {
               "$type": "Document",
@@ -81,8 +79,7 @@
               "RelativeToolTip": "PuertoRicoAPI\\Controllers\\GoodController.cs",
               "ViewState": "AQIAABgAAAAAAAAAAAA7wCoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-17T17:40:26.527Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-17T17:40:26.527Z"
             },
             {
               "$type": "Document",
@@ -94,8 +91,7 @@
               "RelativeToolTip": "PuertoRicoAPI\\Controllers\\ChipController.cs",
               "ViewState": "AQIAABsAAAAAAAAAAAAIwCIAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-17T17:37:52.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-17T17:37:52.041Z"
             }
           ]
         }
