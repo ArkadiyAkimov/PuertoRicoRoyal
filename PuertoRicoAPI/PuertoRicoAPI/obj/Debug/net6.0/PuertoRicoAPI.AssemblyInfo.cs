@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PuertoRicoAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+54783ee3d08054b79655b6670cd1d7cd618d24ab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56a6a173b22db7837a721cd94ce92465afc561a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("PuertoRicoAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PuertoRicoAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
