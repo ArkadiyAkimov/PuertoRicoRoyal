@@ -42,18 +42,18 @@ namespace PuertoRicoAPI.Controllers
 
             //if (slotInput.PlayerIndex != dataGameState.CurrentPlayerIndex) return Ok("wait your turn, bitch");
 
-            if (dataGameState.CurrentRole == Types.RoleName.Mayor)
+
+            if (dataGameState.CurrentRole != Types.RoleName.Mayor) return Ok("Succes");
+            
+            if(dataSlot.IsOccupied)
             {
-                if(dataSlot.IsOccupied)
-                {
-                    dataSlot.IsOccupied = false;
-                    dataGameState.Players[slotInput.PlayerIndex].Colonists++;
-                } 
-                else if(dataGameState.Players[slotInput.PlayerIndex].Colonists > 0 )
-                {
-                    dataSlot.IsOccupied = true;
-                    dataGameState.Players[slotInput.PlayerIndex].Colonists--;
-                }
+                dataSlot.IsOccupied = false;
+                dataGameState.Players[slotInput.PlayerIndex].Colonists++;
+            } 
+            else if(dataGameState.Players[slotInput.PlayerIndex].Colonists > 0 )
+            {
+                dataSlot.IsOccupied = true;
+                dataGameState.Players[slotInput.PlayerIndex].Colonists--;
             }
 
             await _context.SaveChangesAsync();

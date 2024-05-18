@@ -45,10 +45,8 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     this.subscription.unsubscribe();
   }
 
-  sortSlots(){
-    this.gs.players[this.gs.currentPlayerIndex].buildings.forEach(building => {
-      building.slots.sort((a,b) => a.id - b.id);
-    })
+  sortSlots(slots: DataSlot[]):DataSlot[]{
+      return slots.sort((a,b) => a.id - b.id);
   }
 
   onSlotClick(slot:DataSlot){
@@ -56,8 +54,8 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     .subscribe({
       next: (result:GameStateJson) => {
         console.log('success: ',result);
+        
         this.gameService.gs.next(result);
-        this.sortSlots();
       },
       error: (response:any)=> {
         console.log("error:",response.error.text);
@@ -102,4 +100,5 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       event.currentIndex,
     );
   }
+
 }

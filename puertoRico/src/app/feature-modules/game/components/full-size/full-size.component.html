@@ -56,7 +56,8 @@
           </div> 
         </div>  
         <div class="bottom-building-card">
-          <div class="colonist-slot" *ngFor="let slot of building?.slots; let i=index" (click)="this.onSlotClick(slot)">
+          <div class="colonist-slot" *ngFor="let slot of this.sortSlots(building?.slots!); let i=index" (click)="this.onSlotClick(slot)">
+            <!-- {{slot.id.toString().charAt(slot.id.toString().length - 1)}} -->
              <div class="colonist" *ngIf="slot.isOccupied"></div>
             <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getPlayerBuildingType(building)?.price}}</div>
           </div>
