@@ -11,7 +11,6 @@ import { CargoShipsComponent } from './components/cargo-ships/cargo-ships.compon
 import { RolesComponent } from './components/roles/roles.component';
 import { ColonistsComponent } from './components/colonists/colonists.component';
 import { GoodsComponent } from './components/goods/goods.component';
-import { MyBoardComponent } from './components/my-board/my-board.component';
 import { OpponentBoardsComponent } from './components/opponent-boards/opponent-boards.component';
 import { MyControlsComponent } from './components/my-controls/my-controls.component';
 import { UtilityDropComponent } from './components/utility-drop/utility-drop.component';
@@ -32,7 +31,6 @@ import { SupplyDisplayComponent } from './components/supply-display/supply-displ
     RolesComponent,
     ColonistsComponent,
     GoodsComponent,
-    MyBoardComponent,
     OpponentBoardsComponent,
     MyControlsComponent,
     UtilityDropComponent,
@@ -57,7 +55,6 @@ import { SupplyDisplayComponent } from './components/supply-display/supply-displ
     RolesComponent,
     ColonistsComponent,
     GoodsComponent,
-    MyBoardComponent,
     OpponentBoardsComponent,
     MyControlsComponent,
     UtilityDropComponent,
