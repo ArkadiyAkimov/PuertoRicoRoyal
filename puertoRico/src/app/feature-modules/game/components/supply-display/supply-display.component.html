@@ -30,7 +30,11 @@
     <div class="good-and-number">
     </div>
 
-    <div class="good-and-number">
+    <div class="good-and-number {{getHotseatHighlight()}}"
+    style="flex-direction: column;"
+    (click)="this.toggleHotSeat()">
+        <div>Hotseat</div>
+        <div>{{this.gameService.isHotSeat ? "on" : "off" }}</div>
     </div>
   
   </div>

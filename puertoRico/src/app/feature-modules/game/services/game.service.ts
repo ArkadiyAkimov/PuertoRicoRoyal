@@ -17,7 +17,7 @@ export class GameService{
   playerIndex:number = 0;
   numOfPlayers:number = 4;
 
-  gameId:number = 42;
+  gameId:number = 47;
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];
@@ -25,6 +25,7 @@ export class GameService{
   errorToUI:string = 'error to ui';
   storedGoodTypes:number[] = [6,6,6,6];
   targetStorageIndex = 1;
+  isHotSeat:boolean = false;
 
   private hubConnection: HubConnection;
 
@@ -72,7 +73,7 @@ export class GameService{
 
      this.hubConnection.on('ReceiveUpdate', (gs:GameStateJson) => {
       console.log("update");
-      this.playerIndex = gs.currentPlayerIndex;  //hotseat adaptation (won't show vp correct)
+      if(this.isHotSeat)this.playerIndex = gs.currentPlayerIndex;  //hotseat adaptation (won't show vp correct)
       this.gs.next(gs);
     });
   }

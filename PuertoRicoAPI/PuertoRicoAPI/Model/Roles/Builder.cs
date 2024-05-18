@@ -16,6 +16,9 @@ namespace PuertoRicoAPI.Model.Roles
         {
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
+
+
+
         }
 
         public override void endRole()

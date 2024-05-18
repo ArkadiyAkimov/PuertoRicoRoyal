@@ -109,4 +109,13 @@ export class SupplyDisplayComponent {
         && (this.gameService.gs.value.currentRole == 2)) return 'highlight-yellow';
       else return '';
     }
+
+    getHotseatHighlight():string{
+      if(!this.gameService.isHotSeat) return 'highlight-red';
+      else return '';
+    }
+
+    toggleHotSeat(){
+      this.gameService.isHotSeat = !this.gameService.isHotSeat
+    }
 }
