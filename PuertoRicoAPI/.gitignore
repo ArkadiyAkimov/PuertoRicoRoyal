@@ -2,6 +2,3 @@
 
 # Compiled output
 .vs/
-obj/
-migrations/
-bin/
