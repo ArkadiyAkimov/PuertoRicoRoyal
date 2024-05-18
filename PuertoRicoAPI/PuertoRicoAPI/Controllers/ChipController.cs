@@ -5,6 +5,8 @@ using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Data.DataHandlers;
 using PuertoRicoAPI.Model.ModelHandlers;
 using PuertoRicoAPI.Model;
+using PuertoRicoAPI.Sockets;
+using Microsoft.AspNetCore.SignalR;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -18,10 +20,12 @@ namespace PuertoRicoAPI.Controllers
     [ApiController]
     public class ChipController : ControllerBase
     {
+        private readonly IHubContext<UpdateHub> _hubContext;
         private readonly DataContext _context;
-        public ChipController(DataContext context)
+        public ChipController(DataContext context, IHubContext<UpdateHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpPost("colonist")]
@@ -47,7 +51,10 @@ namespace PuertoRicoAPI.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(DataFetcher.sanitizeData(dataGameState, chipInput.PlayerIndex));
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("success");
         }
+         
     }
 }

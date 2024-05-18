@@ -118,4 +118,4 @@ export class SupplyDisplayComponent {
     toggleHotSeat(){
       this.gameService.isHotSeat = !this.gameService.isHotSeat
     }
-  }
+}
