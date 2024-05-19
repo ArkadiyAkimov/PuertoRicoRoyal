@@ -18,7 +18,9 @@ namespace PuertoRicoAPI.Data.DataClasses
         public bool CanUseLargeWarehouse { get; set; }
         public List<DataPlayerBuilding> Buildings { get; set; }
         public List<DataPlayerPlantation> Plantations { get; set; }
+        public int BuildOrder { get; set; }
         public List<DataPlayerGood> Goods { get; set; }
         public double Score { get; set; }
+
     }
 }

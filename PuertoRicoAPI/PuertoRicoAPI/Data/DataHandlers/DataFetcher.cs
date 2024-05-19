@@ -13,8 +13,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             return  await _context.Games
                 .Include(game => game.Roles)
-                .Include(game => game.Players).ThenInclude(player=> player.Buildings).ThenInclude(building=>building.Slots)
-                .Include(game => game.Players).ThenInclude(player => player.Plantations).ThenInclude(plantation=>plantation.Slot)
+                .Include(game => game.Players).ThenInclude(player=> player.Buildings.OrderBy(x => x.BuildOrder)).ThenInclude(building=>building.Slots)
+                .Include(game => game.Players).ThenInclude(player => player.Plantations.OrderBy(x => x.BuildOrder)).ThenInclude(plantation=>plantation.Slot)
                 .Include(game => game.Players).ThenInclude(player => player.Goods)
                 .Include(game => game.Buildings).ThenInclude(building=>building.Slots)
                 .Include(game => game.Plantations).ThenInclude(plantation=>plantation.Slot)
@@ -97,6 +97,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 dataPlayer.CanUseWharf = player.CanUseWharf;
                 dataPlayer.CanUseSmallWarehouse = player.CanUseSmallWarehouse;
                 dataPlayer.CanUseLargeWarehouse = player.CanUseLargeWarehouse;
+                dataPlayer.BuildOrder = player.BuildOrder;
                 dataPlayer.Score = player.Score;
 
                 foreach(var(dataGood,good) in dataPlayer.Goods.Zip(player.Goods)) // player-goods
@@ -104,54 +105,62 @@ namespace PuertoRicoAPI.Data.DataHandlers
                     dataGood.Quantity = good.Quantity;
                 }
 
-                foreach (var (dataBuilding, building) in dataPlayer.Buildings.Zip(player.Buildings))
+                foreach (var (dataBuilding, building) in dataPlayer.Buildings.Zip(player.Buildings)) //player-buildings
                 {
                     dataBuilding.Quantity = building.Quantity;
+                    dataBuilding.BuildOrder = building.BuildOrder;
                     foreach(var (dataSlot,slot) in dataBuilding.Slots.Zip(building.Slots))
                     {
                         dataSlot.IsOccupied = slot;
                     }
                 }
 
-                for(int i = dataPlayer.Buildings.Count; i < player.Buildings.Count; i++)
+                for (int i = dataPlayer.Buildings.Count; i < player.Buildings.Count; i++) //adding new player buildings
                 {
                     DataPlayerBuilding dataPlayerBuilding = new DataPlayerBuilding();
                     Building building = player.Buildings[i];
                     dataPlayerBuilding.Name = building.Type.Name;
                     dataPlayerBuilding.Quantity = building.Quantity;
                     dataPlayerBuilding.Slots = new List<DataSlot>();
+                    dataPlayerBuilding.BuildOrder = player.Buildings[i].BuildOrder;
+                    Console.WriteLine("build++");
+                    dataPlayer.BuildOrder++;
 
-                    for (int j = 0; j < building.Slots.Length; j++)
+                    for (int j = 0; j < building.Slots.Length; j++) //player building slots
                     {
                         dataPlayerBuilding.Slots.Add(new DataSlot());
                     }
 
-                    foreach (var (dataSlot, slot) in dataPlayerBuilding.Slots.Zip(building.Slots))
+                    foreach (var (dataSlot, slot) in dataPlayerBuilding.Slots.Zip(building.Slots)) //new player building slots
                     {
                         dataSlot.IsOccupied = slot;
                     }
                     dataPlayer.Buildings.Add(dataPlayerBuilding);
                 }
 
-                foreach (var (dataPlantation, plantation) in dataPlayer.Plantations.Zip(player.Plantations))
+                foreach (var (dataPlantation, plantation) in dataPlayer.Plantations.Zip(player.Plantations)) //player-plantations
                 {
                     dataPlantation.Slot.IsOccupied = plantation.IsOccupied;
+                    dataPlantation.BuildOrder = plantation.BuildOrder;
                 }
 
-                for (int i = dataPlayer.Plantations.Count; i < player.Plantations.Count; i++)
+                for (int i = dataPlayer.Plantations.Count; i < player.Plantations.Count; i++) //addings new plantations
                 {
                     DataPlayerPlantation dataPlayerPlantation = new DataPlayerPlantation();
                     Plantation plantation = player.Plantations[i];
                     dataPlayerPlantation.Good = plantation.Good;
                     dataPlayerPlantation.Slot = new DataSlot();
                     dataPlayerPlantation.Slot.IsOccupied = plantation.IsOccupied;
+                    dataPlayerPlantation.BuildOrder = player.BuildOrder;
+                    Console.WriteLine("build++");
+                    dataPlayer.BuildOrder++;
 
                     dataPlayer.Plantations.Add(dataPlayerPlantation);
                 }
 
             }
 
-            List<DataBuilding> newDataBuildings = new List<DataBuilding>();        // buildings 
+            List<DataBuilding> newDataBuildings = new List<DataBuilding>();        // game buildings 
             for (int i = 0 ; i < gs.Buildings.Count; i++)
             {
                 DataBuilding dataBuilding = dataGameState.Buildings[i];
@@ -179,7 +188,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
             List<DataPlantation> newDataPlantation = new List<DataPlantation>();
 
-            for(int i = 0; i < gs.Plantations.Count; i++)  // plantations
+            for(int i = 0; i < gs.Plantations.Count; i++)  // game plantations
             {
                 DataPlantation dataPlantation = new DataPlantation();
                 Plantation plantation = gs.Plantations[i];

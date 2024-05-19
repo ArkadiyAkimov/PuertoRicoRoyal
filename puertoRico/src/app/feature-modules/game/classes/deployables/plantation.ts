@@ -15,6 +15,7 @@ export class DataPlantation {
     dataPlayerId:number = 0;
     slot:DataSlot = new DataSlot();
     good:number = 0;
+    buildOrder:number = 0;
   }
   
   export class GoodType {

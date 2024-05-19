@@ -14,6 +14,7 @@ export class DataPlayerBuilding {
   name:number = 0;
   slots:DataSlot[] = [];
   quantity:number = 0;
+  buildOrder:number = 0;
 }
 
 export class BuildingType {

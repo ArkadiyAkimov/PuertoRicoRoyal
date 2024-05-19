@@ -23,6 +23,7 @@ namespace PuertoRicoAPI.Models
             this.CanUseWharf = dataPlayer.CanUseWharf;
             this.CanUseSmallWarehouse = dataPlayer.CanUseSmallWarehouse;
             this.CanUseLargeWarehouse = dataPlayer.CanUseLargeWarehouse;
+            this.BuildOrder = dataPlayer.BuildOrder;
             this.Score = dataPlayer.Score;
 
             this.Buildings = new List<Building>();
@@ -56,6 +57,7 @@ namespace PuertoRicoAPI.Models
         public bool CanUseLargeWarehouse { get; set; }
         public List<Building> Buildings { get; set; }
         public List<Plantation> Plantations { get; set; }
+        public int BuildOrder { get; set; }
         public List<Good> Goods { get; set; }
         public double Score { get; set; }
         public void chargePlayer(int amount)

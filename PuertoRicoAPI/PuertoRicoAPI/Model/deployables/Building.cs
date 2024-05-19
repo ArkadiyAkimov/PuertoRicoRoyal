@@ -13,7 +13,7 @@ namespace PuertoRicoAPI.Model.deployables
             this.Slots = new bool[buildingType.Slots];
             this.Quantity = dataBuilding.Quantity;
 
-            for(int i = 0; i < buildingType.Slots; i++) 
+            for (int i = 0; i < buildingType.Slots; i++) 
             {
                 this.Slots[i] = dataBuilding.Slots[i].IsOccupied;
             }
@@ -26,6 +26,7 @@ namespace PuertoRicoAPI.Model.deployables
             this.Type = buildingType;
             this.Slots = new bool[buildingType.Slots];
             this.Quantity = dataBuilding.Quantity;
+            this.BuildOrder = dataBuilding.BuildOrder;
 
             for (int i = 0; i < buildingType.Slots; i++)
             {
@@ -39,6 +40,7 @@ namespace PuertoRicoAPI.Model.deployables
             this.Type = building.Type;
             this.Slots = new bool[building.Type.Slots];
             this.Quantity = 1;
+            this.BuildOrder = building.BuildOrder;
 
             for(int i = 0; i < Slots.Length; i++)
             {
@@ -50,6 +52,7 @@ namespace PuertoRicoAPI.Model.deployables
         public BuildingType Type { get; set; }
         public bool[] Slots { get; set; }
         public int Quantity { get; set; }
+        public int BuildOrder { get; set; }
 
         public int freeSlots()
         {

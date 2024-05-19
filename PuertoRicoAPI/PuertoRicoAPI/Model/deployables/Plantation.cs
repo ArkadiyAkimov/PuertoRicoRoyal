@@ -14,6 +14,7 @@ namespace PuertoRicoAPI.Model.deployables
             this.IsDiscarded = dataPlant.IsDiscarded;
             
             this.Good = dataPlant.Good;
+
         }
 
         public Plantation()
@@ -25,7 +26,9 @@ namespace PuertoRicoAPI.Model.deployables
             this.IsDiscarded = false;
 
             this.Good = GoodType.Quarry;
-        }
+
+            this.BuildOrder = 0;
+    }
 
         public Plantation(DataPlayerPlantation dataPlant)
         {
@@ -36,10 +39,13 @@ namespace PuertoRicoAPI.Model.deployables
             this.IsDiscarded = false;
 
             this.Good = dataPlant.Good;
+
+            this.BuildOrder = dataPlant.BuildOrder;
         }
         public bool IsOccupied { get; set; }
         public bool IsExposed { get; set; }
         public bool IsDiscarded { get; set; }
         public GoodType Good { get; set; }
+        public int BuildOrder { get; set; }
     }
 }

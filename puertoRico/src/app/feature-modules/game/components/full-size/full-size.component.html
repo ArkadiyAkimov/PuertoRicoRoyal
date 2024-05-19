@@ -32,6 +32,7 @@
 
  <div class="user-profile-frame only-desktop">
   {{'Player '+(this.gameService.playerIndex+1)}}
+  <div>build order {{this.gameService.gs.value.players[this.gameService.playerIndex].buildOrder}}</div>
   <app-profile></app-profile>
  </div>
 </div>

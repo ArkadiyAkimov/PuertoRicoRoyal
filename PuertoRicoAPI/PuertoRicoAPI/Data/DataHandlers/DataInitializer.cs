@@ -146,6 +146,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newPlayer.CanUseLargeWarehouse = false;
             newPlayer.Buildings = new List<DataPlayerBuilding>();
             newPlayer.Plantations = new List<DataPlayerPlantation>();
+            newPlayer.BuildOrder = 0;
             newPlayer.Goods = new List<DataPlayerGood>();
             newPlayer.Score = 0;
             for(int i = 0; i< 5; i++)

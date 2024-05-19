@@ -97,6 +97,7 @@ export class DataPlayer {
   canUseLargeWarehouse:boolean = false;
   buildings:DataPlayerBuilding[] = [];
   plantations:DataPlayerPlantation[] = [];
+  buildOrder:number = 0;
   goods:DataPlayerGood[] = [];
   score:number = 0;
 }
