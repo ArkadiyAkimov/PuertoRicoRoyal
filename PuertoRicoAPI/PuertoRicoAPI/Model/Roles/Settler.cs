@@ -148,6 +148,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 if (player.hasBuilding(BuildingName.Hacienda, true)
                     && !player.CanUseHacienda
+                    && dataPlantation != null
                     && dataPlantation.IsExposed) 
                     {
                     player.CanUseHospice = false;

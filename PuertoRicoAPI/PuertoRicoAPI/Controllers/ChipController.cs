@@ -56,6 +56,8 @@ namespace PuertoRicoAPI.Controllers
                 player.Colonists++;
                 gs.ColonistsSupply--;
                 gs.MayorTookPrivilige = true;
+
+                (currentRole as Mayor).uselessTurnSkip(player);
             }
             if((gs.CurrentRole == Types.RoleName.Settler)
                 && player.CanUseHospice)
@@ -65,7 +67,7 @@ namespace PuertoRicoAPI.Controllers
                 else gs.ColonistsOnShip--;
 
                 player.Plantations.Last(plantation =>
-                       plantation.Good == player.HospiceTargetPlantation)
+                       plantation.Good == player.HospiceTargetPlantation && !plantation.IsOccupied)
                         .IsOccupied = true; 
 
                 if ( player.CanUseHacienda
