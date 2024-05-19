@@ -9,6 +9,7 @@ using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Model.Roles;
+using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -60,12 +61,15 @@ namespace PuertoRicoAPI.Controllers
                 && player.CanUseHospice)
             {
                 player.CanUseHospice = false;
-                Console.WriteLine("using hospice debug");
                 if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;
                 else gs.ColonistsOnShip--;
 
-                player.Plantations.First(plantation => plantation.Good == player.HospiceTargetPlantation).IsOccupied = true;
-                (currentRole as Settler).mainLoop();
+                player.Plantations.Last(plantation =>
+                       plantation.Good == player.HospiceTargetPlantation)
+                        .IsOccupied = true; 
+
+                if ( player.CanUseHacienda
+                     || !player.hasBuilding(BuildingName.Hacienda, true)) (currentRole as Settler).mainLoop();
             }
 
             await DataFetcher.Update(dataGameState, gs);

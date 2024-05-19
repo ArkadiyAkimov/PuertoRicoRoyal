@@ -9,6 +9,7 @@ using PuertoRicoAPI.Model.Roles;
 using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
 using PuertoRicoAPI.Models;
+using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -51,10 +52,15 @@ namespace PuertoRicoAPI.Controllers
             var dataGameState = await DataFetcher
                .getDataGameState(_context, plantationInput.DataGameId);
 
+
             var currentRole = gs.getCurrentRole();
 
             Player player = gs.getCurrPlayer();
-            if (player.CanUseHospice) return Ok("already took plantation");
+
+            if (player.CanUseHospice
+                && !player.CanUseHacienda
+                && player.hasBuilding(BuildingName.Hacienda, true)) return Ok("Cant take another plant");
+
 
             if (gs.CurrentRole == Types.RoleName.Settler)
             {
@@ -89,7 +95,11 @@ namespace PuertoRicoAPI.Controllers
             var currentRole = gs.getCurrentRole();
 
             Player player = gs.getCurrPlayer();
-            if (player.CanUseHospice) return Ok("already took plantation");
+
+            if (player.CanUseHospice
+             && !player.CanUseHacienda
+             && player.hasBuilding(BuildingName.Hacienda, true)) return Ok("Cant take another plant");
+
 
             if (gs.CurrentRole == Types.RoleName.Settler)
             {
@@ -124,11 +134,10 @@ namespace PuertoRicoAPI.Controllers
             var currentRole = gs.getCurrentRole();
 
             Player player = gs.getCurrPlayer();
-            if (player.CanUseHospice) return Ok("already took plantation");
 
             if (gs.CurrentRole == Types.RoleName.Settler)
             {
-                if ((currentRole as Settler).CanTakeUpSideDown())
+                if ((currentRole as Settler).CanTakeUpSideDown() && !player.CanUseHospice)
                 {
                     Random rnd = new Random();
                     var randomPlant = dataGameState.Plantations
@@ -136,7 +145,7 @@ namespace PuertoRicoAPI.Controllers
                                                .OrderBy(x => rnd.Next())
                                                .Take(1).ToList()[0];
 
-                    gs.getCurrPlayer().CanUseHacienda = false;
+                   
 
                     (currentRole as Settler).TakePlantation(randomPlant);
                 }

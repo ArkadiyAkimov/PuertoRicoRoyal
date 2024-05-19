@@ -14,7 +14,7 @@
       *ngFor="let plantation of this.exposedPlantations"
       class="plantation color{{this.gameService.getPlantationType(plantation)?.color}}"
       [cdkDragData]="plantation"
-      [cdkDragDisabled]="this.gs.currentRole != 0 || this.gs.currentPlayerIndex != this.gameService.playerIndex || this.gs.players[this.gameService.playerIndex].canUseHospice"
+      [cdkDragDisabled]="this.plantationInteractionCheck()"
       cdkDrag >
     
       <div class="top-plantation-card"> 
@@ -31,7 +31,7 @@
     *ngIf="this.gs.quarryCount > 0"
     class="plantation color{{this.gameService.goodTypes[5].color}}"
     [cdkDragData]="5"
-    [cdkDragDisabled]="this.gs.currentRole != 0 || this.gs.currentPlayerIndex != this.gameService.playerIndex || this.gs.players[this.gameService.playerIndex].canUseHospice"
+    [cdkDragDisabled]="this.plantationInteractionCheck()"
     cdkDrag >
   
     <div class="top-plantation-card"> 
@@ -52,7 +52,7 @@
   *ngIf="this.gs.plantations.length - this.exposedPlantations.length > 0"
   class="plantation color{{this.gameService.goodTypes[6].color}}"
   [cdkDragData]="6"
-  [cdkDragDisabled]="this.gs.currentRole != 0 || this.gs.currentPlayerIndex != this.gameService.playerIndex || this.gs.players[this.gameService.playerIndex].canUseHospice"
+  [cdkDragDisabled]="this.plantationInteractionCheck()"
   cdkDrag >
 
   <div class="top-plantation-card"> 

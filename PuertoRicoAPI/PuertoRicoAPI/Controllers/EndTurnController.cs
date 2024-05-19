@@ -60,9 +60,6 @@ namespace PuertoRicoAPI.Controllers
                 case RoleName.Settler:
                     Player player = gs.getCurrPlayer();
                     player.CanUseHospice = false;
-                    player.Plantations.Last(plantation => 
-                        plantation.Good == player.HospiceTargetPlantation)
-                         .IsOccupied = true;
                     (currentRole as Settler).mainLoop();
                     break;
                 case RoleName.Trader:

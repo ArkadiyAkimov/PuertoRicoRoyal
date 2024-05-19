@@ -19,7 +19,7 @@ namespace PuertoRicoAPI.Models
             this.VictoryPoints = dataPlayer.VictoryPoints;
             this.CanUseHacienda = dataPlayer.CanUseHacienda;
             this.CanUseHospice = dataPlayer.CanUseHospice;
-            this.HospiceTargetPlantation = dataPlayer.HospiceTargetSlotId;
+            this.HospiceTargetPlantation = dataPlayer.HospiceTargetPlantation;
             this.CanUseWharf = dataPlayer.CanUseWharf;
             this.CanUseSmallWarehouse = dataPlayer.CanUseSmallWarehouse;
             this.CanUseLargeWarehouse = dataPlayer.CanUseLargeWarehouse;

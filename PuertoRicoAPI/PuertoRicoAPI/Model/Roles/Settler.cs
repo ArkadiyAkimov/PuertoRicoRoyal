@@ -2,6 +2,7 @@
 using PuertoRicoAPI.Model.deployables;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
+using System.Numerics;
 
 namespace PuertoRicoAPI.Model.Roles
 {
@@ -17,7 +18,10 @@ namespace PuertoRicoAPI.Model.Roles
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
-            gs.getCurrPlayer().CanUseHacienda = true;
+            if(gs.getCurrPlayer().hasBuilding(BuildingName.Hacienda, true))
+                 { 
+                    gs.getCurrPlayer().CanUseHacienda = true;
+                 }
 
             if (gs.countExposedPlantations() == 0) DrawPlantations();
         }
@@ -117,6 +121,9 @@ namespace PuertoRicoAPI.Model.Roles
                     && plantation.Good == dataPlantation.Good);
 
                 this.gs.Plantations.Remove(removedPlantation);
+
+                player.CanUseHacienda = false;
+                player.HospiceTargetPlantation = dataPlantation.Good;
             }
             else  //quarry
             {
@@ -128,20 +135,30 @@ namespace PuertoRicoAPI.Model.Roles
 
             player.Plantations.Add(newPlantation);
 
-           
-            
-                //newPlantation.IsOccupied = true;
-                //add a var to prevent player from taking more plantations
-                //than he should.
 
-            if (dataPlantation == null || dataPlantation.IsExposed)
+
+            //newPlantation.IsOccupied = true;
+            //add a var to prevent player from taking more plantations
+            //than he should.
+
+
+            if (player.hasBuilding(BuildingName.Hospice, true)
+                && !player.CanUseHospice
+                && gs.ColonistsOnShip > 0)
             {
-                if (player.hasBuilding(BuildingName.Hospice, true)
-                    && gs.ColonistsOnShip > 0)
-                {
-                     player.CanUseHospice = true;
-                }
-                else this.mainLoop();
+                if (player.hasBuilding(BuildingName.Hacienda, true)
+                    && !player.CanUseHacienda
+                    && dataPlantation.IsExposed) 
+                    {
+                    player.CanUseHospice = false;
+                    this.mainLoop();
+                    } 
+                else player.CanUseHospice = true;
+            }
+            else if (dataPlantation == null || dataPlantation.IsExposed )
+            {
+                player.CanUseHospice = false;
+                this.mainLoop();
             }
         }
     }

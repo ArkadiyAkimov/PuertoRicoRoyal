@@ -93,7 +93,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 dataPlayer.VictoryPoints = player.VictoryPoints;
                 dataPlayer.CanUseHacienda = player.CanUseHacienda;
                 dataPlayer.CanUseHospice = player.CanUseHospice;
-                dataPlayer.HospiceTargetSlotId = player.HospiceTargetPlantation;
+                dataPlayer.HospiceTargetPlantation = player.HospiceTargetPlantation;
                 dataPlayer.CanUseWharf = player.CanUseWharf;
                 dataPlayer.CanUseSmallWarehouse = player.CanUseSmallWarehouse;
                 dataPlayer.CanUseLargeWarehouse = player.CanUseLargeWarehouse;

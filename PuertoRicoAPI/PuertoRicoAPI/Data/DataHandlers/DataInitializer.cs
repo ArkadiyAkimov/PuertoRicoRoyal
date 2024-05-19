@@ -135,12 +135,12 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             DataPlayer newPlayer = new DataPlayer();
             newPlayer.Index = index;
-            newPlayer.Doubloons = doubloons; 
+            newPlayer.Doubloons = 9; //doubloons
             newPlayer.Colonists = 0;
             newPlayer.VictoryPoints = 0;
             newPlayer.CanUseHacienda = false;
             newPlayer.CanUseHospice = false;
-            newPlayer.HospiceTargetSlotId = 0;
+            newPlayer.HospiceTargetPlantation = GoodType.NoType;
             newPlayer.CanUseWharf = false;
             newPlayer.CanUseSmallWarehouse = false;
             newPlayer.CanUseLargeWarehouse = false;
