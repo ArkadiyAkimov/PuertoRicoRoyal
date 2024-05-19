@@ -107,6 +107,8 @@ export class SupplyDisplayComponent {
       if(!this.gameService.gs.value.mayorTookPrivilige 
         && (this.gameService.gs.value.privilegeIndex == this.gameService.playerIndex)
         && (this.gameService.gs.value.currentRole == 2)) return 'highlight-yellow';
+      else if (this.gameService.gs.value.currentRole == 0
+              && this.gameService.gs.value.players[this.gameService.playerIndex].canUseHospice) return 'highlight-yellow';
       else return '';
     }
 

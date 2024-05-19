@@ -60,7 +60,7 @@ namespace PuertoRicoAPI.Controllers
                 && player.CanUseHospice)
             {
                 player.CanUseHospice = false;
-                Console.WriteLine("using hospice test debug //not yet implemented");
+                Console.WriteLine("using hospice debug");
                 if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;
                 else gs.ColonistsOnShip--;
 

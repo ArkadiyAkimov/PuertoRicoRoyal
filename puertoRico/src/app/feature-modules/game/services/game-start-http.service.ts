@@ -91,6 +91,7 @@ export class DataPlayer {
   victoryPoints:number = 0;
   canUseHacienda:boolean = false;
   canUseHospice:boolean = false;
+  hospiceTargetPlantation:number = 0;
   canUseWharf:boolean = true;
   canUseSmallWarehouse:boolean = false;
   canUseLargeWarehouse:boolean = false;
