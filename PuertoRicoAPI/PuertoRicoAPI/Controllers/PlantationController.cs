@@ -8,6 +8,7 @@ using PuertoRicoAPI.Data.DataHandlers;
 using PuertoRicoAPI.Model.Roles;
 using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
+using PuertoRicoAPI.Models;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -52,9 +53,15 @@ namespace PuertoRicoAPI.Controllers
 
             var currentRole = gs.getCurrentRole();
 
+            Player player = gs.getCurrPlayer();
+            if (player.CanUseHospice) return Ok("already took plantation");
+
             if (gs.CurrentRole == Types.RoleName.Settler)
             {
-                if ((currentRole as Settler).CanTakePlantation()) (currentRole as Settler).TakePlantation(dataPlantation);
+                if ((currentRole as Settler).CanTakePlantation())
+                {
+                    (currentRole as Settler).TakePlantation(dataPlantation);
+                }
             }
             else return Ok("it's not settler phase");
 
@@ -81,9 +88,15 @@ namespace PuertoRicoAPI.Controllers
 
             var currentRole = gs.getCurrentRole();
 
+            Player player = gs.getCurrPlayer();
+            if (player.CanUseHospice) return Ok("already took plantation");
+
             if (gs.CurrentRole == Types.RoleName.Settler)
             {
-                if ((currentRole as Settler).CanTakeQuarry()) (currentRole as Settler).TakePlantation(null);
+                if ((currentRole as Settler).CanTakeQuarry())
+                {
+                    (currentRole as Settler).TakePlantation(null);
+                }
             }
             else return Ok("it's not settler phase");
 
@@ -109,6 +122,9 @@ namespace PuertoRicoAPI.Controllers
                .getDataGameState(_context, quarryInput.DataGameId);
 
             var currentRole = gs.getCurrentRole();
+
+            Player player = gs.getCurrPlayer();
+            if (player.CanUseHospice) return Ok("already took plantation");
 
             if (gs.CurrentRole == Types.RoleName.Settler)
             {

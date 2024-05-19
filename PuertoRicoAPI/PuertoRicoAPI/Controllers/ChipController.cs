@@ -7,6 +7,8 @@ using PuertoRicoAPI.Model.ModelHandlers;
 using PuertoRicoAPI.Model;
 using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
+using PuertoRicoAPI.Models;
+using PuertoRicoAPI.Model.Roles;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -37,17 +39,36 @@ namespace PuertoRicoAPI.Controllers
             DataGameState dataGameState = await DataFetcher
             .getDataGameState(_context, chipInput.DataGameId);
 
+            GameState gs = await ModelFetcher
+               .getGameState(_context, dataGameState.Id);
+
+            Player player = gs.Players[chipInput.PlayerIndex];
+            var currentRole = gs.getCurrentRole();
+
             //if (slotInput.PlayerIndex != dataGameState.CurrentPlayerIndex) return Ok("wait your turn, bitch");
 
-            if ((dataGameState.CurrentRole == Types.RoleName.Mayor) 
-                && (!dataGameState.MayorTookPrivilige) 
-                && (chipInput.PlayerIndex == dataGameState.PrivilegeIndex)
-                && (dataGameState.ColonistsSupply > 0))
+            if ((gs.CurrentRole == Types.RoleName.Mayor) 
+                && (!gs.MayorTookPrivilige) 
+                && player.CheckForPriviledge()
+                && (gs.ColonistsSupply > 0))
             {
-                dataGameState.Players[chipInput.PlayerIndex].Colonists++;
-                dataGameState.ColonistsSupply--;
-                dataGameState.MayorTookPrivilige = true;
+                player.Colonists++;
+                gs.ColonistsSupply--;
+                gs.MayorTookPrivilige = true;
             }
+            if((gs.CurrentRole == Types.RoleName.Settler)
+                && player.CanUseHospice)
+            {
+                player.CanUseHospice = false;
+                Console.WriteLine("using hospice test debug //not yet implemented");
+                if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;
+                else gs.ColonistsOnShip--;
+
+                player.Plantations.First(plantation => plantation.Good == player.HospiceTargetPlantation).IsOccupied = true;
+                (currentRole as Settler).mainLoop();
+            }
+
+            await DataFetcher.Update(dataGameState, gs);
 
             await _context.SaveChangesAsync();
 

@@ -39,7 +39,6 @@ namespace PuertoRicoAPI.Model.deployables
         }
         public bool IsOccupied { get; set; }
         public bool IsExposed { get; set; }
-
         public bool IsDiscarded { get; set; }
         public GoodType Good { get; set; }
     }

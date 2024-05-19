@@ -90,6 +90,7 @@ export class DataPlayer {
   colonists:number = 0;
   victoryPoints:number = 0;
   canUseHacienda:boolean = false;
+  canUseHospice:boolean = false;
   canUseWharf:boolean = true;
   canUseSmallWarehouse:boolean = false;
   canUseLargeWarehouse:boolean = false;

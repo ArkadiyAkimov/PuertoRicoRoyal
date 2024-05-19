@@ -1,4 +1,6 @@
-﻿namespace PuertoRicoAPI.Data.DataClasses
+﻿using PuertoRicoAPI.Types;
+
+namespace PuertoRicoAPI.Data.DataClasses
 {
     public class DataPlayer
     {
@@ -9,6 +11,8 @@
         public int Colonists { get; set; }
         public int VictoryPoints { get; set; }
         public bool CanUseHacienda { get; set; }
+        public bool CanUseHospice { get; set; }
+        public GoodType HospiceTargetSlotId { get; set; }
         public bool CanUseWharf { get; set; }
         public bool CanUseSmallWarehouse { get; set; }
         public bool CanUseLargeWarehouse { get; set; }

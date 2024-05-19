@@ -139,6 +139,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newPlayer.Colonists = 0;
             newPlayer.VictoryPoints = 0;
             newPlayer.CanUseHacienda = false;
+            newPlayer.CanUseHospice = false;
+            newPlayer.HospiceTargetSlotId = 0;
             newPlayer.CanUseWharf = false;
             newPlayer.CanUseSmallWarehouse = false;
             newPlayer.CanUseLargeWarehouse = false;

@@ -1,5 +1,6 @@
 ﻿using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Model.deployables;
+using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Model.Roles
@@ -95,8 +96,9 @@ namespace PuertoRicoAPI.Model.Roles
         public void TakePlantation(DataPlantation dataPlantation)
         {
             Plantation newPlantation;
+            Player player = gs.getCurrPlayer();
 
-            if (dataPlantation != null && dataPlantation.IsExposed)
+            if (dataPlantation != null && dataPlantation.IsExposed)//exposed
             {
                 newPlantation = new Plantation(dataPlantation);
                 var removedPlantation = this.gs.Plantations
@@ -104,8 +106,10 @@ namespace PuertoRicoAPI.Model.Roles
                     && plantation.Good == dataPlantation.Good);
 
                 this.gs.Plantations.Remove(removedPlantation);
+
+                player.HospiceTargetPlantation = dataPlantation.Good;
             }
-            else if (dataPlantation != null)
+            else if (dataPlantation != null) //upside down
             {
                 newPlantation = new Plantation(dataPlantation);
                 var removedPlantation = this.gs.Plantations
@@ -114,21 +118,31 @@ namespace PuertoRicoAPI.Model.Roles
 
                 this.gs.Plantations.Remove(removedPlantation);
             }
-            else
+            else  //quarry
             {
                 this.gs.QuarryCount--;
                 newPlantation = new Plantation();
+
+                player.HospiceTargetPlantation = GoodType.Quarry;
             }
 
-            if (gs.getCurrPlayer().hasBuilding(BuildingName.Hospice, true))
-            {
-                newPlantation.IsOccupied = true;
-            }
+            player.Plantations.Add(newPlantation);
 
-            this.gs.getCurrPlayer().Plantations.Add(newPlantation);
+           
+            
+                //newPlantation.IsOccupied = true;
+                //add a var to prevent player from taking more plantations
+                //than he should.
 
             if (dataPlantation == null || dataPlantation.IsExposed)
-            this.mainLoop();
+            {
+                if (player.hasBuilding(BuildingName.Hospice, true)
+                    && gs.ColonistsOnShip > 0)
+                {
+                     player.CanUseHospice = true;
+                }
+                else this.mainLoop();
+            }
         }
     }
 }
