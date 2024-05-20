@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import {  DataSlot, GameStateJson } from '../../services/game-start-http.service';
+import {  DataPlayerBuilding, DataPlayerPlantation, DataSlot, GameStateJson } from '../../services/game-start-http.service';
 import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import {  DataPlayerPlantation } from '../../classes/deployables/plantation';
-import { DataPlayerBuilding } from '../../classes/deployables/building';
 
 @Component({
   selector: 'app-full-size',

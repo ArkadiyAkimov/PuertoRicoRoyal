@@ -1,6 +1,5 @@
 
-import { Produce } from "../goods/goodTypes";
-import { Player } from "./player";
+
 
 export class TradingHouse{
     goods:Produce[] = [];

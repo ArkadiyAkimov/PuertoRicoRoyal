@@ -1,8 +1,6 @@
-
-import { GoodType } from './../../classes/deployables/plantation';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { DataShip, DataTradeHouse, GameStateJson } from '../../services/game-start-http.service';
+import { DataShip, DataTradeHouse, GameStateJson, GoodType } from '../../services/game-start-http.service';
 
 @Component({
   selector: 'app-cargo-ships',

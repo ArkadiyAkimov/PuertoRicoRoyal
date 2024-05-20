@@ -1,7 +1,6 @@
-import { Produce } from "../goods/goodTypes";
-import { DataBuilding } from '../deployables/building';
 
-export class Player {
+
+ class Player {
     constructor(name:string,index:number,doubloons:number){
         this.name = name;
         this.index = index;

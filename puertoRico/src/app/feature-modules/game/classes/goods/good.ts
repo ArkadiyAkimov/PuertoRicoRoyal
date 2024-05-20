@@ -1,6 +1,6 @@
-import { coffee, corn, indigo, Produce, sugar, tobacco } from "./goodTypes";
 
-export class Good{
+
+ class Good{
     constructor(type:Produce){
         this.type = type;
     }

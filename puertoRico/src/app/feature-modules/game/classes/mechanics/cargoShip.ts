@@ -1,6 +1,6 @@
-import { Produce } from "../goods/goodTypes";
 
-export class cargoShip {
+
+ class cargoShip {
     size:number;
     numberOfGood:number = 0;
     goodType:Produce|null  = null;

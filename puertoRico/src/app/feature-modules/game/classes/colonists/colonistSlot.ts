@@ -1,4 +1,4 @@
-export class ColonistSlot{
+ class ColonistSlot{
     constructor(occupy:boolean = false){
         this.isOccupied = occupy;
         this.isNoble = false;
