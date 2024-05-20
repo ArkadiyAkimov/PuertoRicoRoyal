@@ -63,7 +63,8 @@ namespace PuertoRicoAPI.Controllers
                 break;
 
                 case RoleName.Settler:
-                    if (player.getBuilding(BuildingName.Hospice).EffectAvailable)
+                    if (player.hasBuilding(BuildingName.Hospice,true)
+                        && player.getBuilding(BuildingName.Hospice).EffectAvailable)
                         {
                             player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
                             if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;

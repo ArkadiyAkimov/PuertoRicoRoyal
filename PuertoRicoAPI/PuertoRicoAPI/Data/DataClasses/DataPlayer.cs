@@ -11,10 +11,6 @@ namespace PuertoRicoAPI.Data.DataClasses
         public int Colonists { get; set; }
         public int VictoryPoints { get; set; }
         public bool TookTurn {  get; set; } 
-        public bool CanUseHacienda { get; set; }
-        public bool CanUseHospice { get; set; }
-        public GoodType HospiceTargetPlantation { get; set; }
-        public bool CanUseWharf { get; set; }
         public bool CanUseSmallWarehouse { get; set; }
         public bool CanUseLargeWarehouse { get; set; }
         public List<DataPlayerBuilding> Buildings { get; set; }

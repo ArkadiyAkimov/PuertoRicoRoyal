@@ -1,4 +1,4 @@
-import { DataPlayer, GameStateJson } from '../../services/game-start-http.service';
+import { GameStateJson, DataPlayer } from '../../classes/general';
 import { GameService } from './../../services/game.service';
 import { Component, OnInit } from '@angular/core';
 

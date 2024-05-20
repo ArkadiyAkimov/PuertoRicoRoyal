@@ -92,10 +92,6 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 dataPlayer.Colonists = player.Colonists;
                 dataPlayer.VictoryPoints = player.VictoryPoints;
                 dataPlayer.TookTurn = player.TookTurn;
-                dataPlayer.CanUseHacienda = player.CanUseHacienda;
-                dataPlayer.CanUseHospice = player.CanUseHospice;
-                dataPlayer.HospiceTargetPlantation = player.HospiceTargetPlantation;
-                dataPlayer.CanUseWharf = player.CanUseWharf;
                 dataPlayer.CanUseSmallWarehouse = player.CanUseSmallWarehouse;
                 dataPlayer.CanUseLargeWarehouse = player.CanUseLargeWarehouse;
                 dataPlayer.BuildOrder = player.BuildOrder;

@@ -35,14 +35,14 @@ namespace PuertoRicoAPI.Model.deployables
             }
         }
 
-        public Building(Building building)
+        public Building(Building building)   //this is where player buildings are initialized
         {
             this.gs = building.gs;
             this.Type = building.Type;
             this.Slots = new bool[building.Type.Slots];
             this.Quantity = 1;
-            this.BuildOrder = building.BuildOrder;
-            this.EffectAvailable = building.EffectAvailable;
+            this.BuildOrder = 0; //updated when added to player
+            this.EffectAvailable = false; 
 
             for(int i = 0; i < Slots.Length; i++)
             {

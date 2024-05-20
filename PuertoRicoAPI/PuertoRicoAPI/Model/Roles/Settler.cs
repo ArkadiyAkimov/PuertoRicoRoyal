@@ -32,7 +32,7 @@ namespace PuertoRicoAPI.Model.Roles
                     if (player.hasBuilding(BuildingName.Hospice, true))
                     {
                         Console.WriteLine("player {0} hospice disabled.", player.Index);
-                        player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                        player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
                     }
                 }
             }
@@ -112,14 +112,14 @@ namespace PuertoRicoAPI.Model.Roles
         {
             Player player = this.gs.getCurrPlayer();
             return player.hasBuilding(BuildingName.Hacienda, true)
-                    && !player.CanUseHacienda;
+                    && !player.getBuilding(BuildingName.Hacienda).EffectAvailable;
         }
 
         public bool CheckUsedHospice()
         {
             Player player = this.gs.getCurrPlayer();
             return player.hasBuilding(BuildingName.Hospice, true)
-                   && !player.CanUseHospice;
+                   && !player.getBuilding(BuildingName.Hospice).EffectAvailable;
         }
 
         public void TakePlantation(DataPlantation dataPlantation)

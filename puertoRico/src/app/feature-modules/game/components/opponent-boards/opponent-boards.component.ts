@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { DataPlayer, DataPlayerBuilding, GameStateJson } from '../../services/game-start-http.service';
 import { Subscription } from 'rxjs';
+import { GameStateJson, DataPlayerBuilding, DataPlayer } from '../../classes/general';
 
 @Component({
   selector: 'app-opponent-boards',

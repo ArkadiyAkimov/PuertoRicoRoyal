@@ -1,8 +1,8 @@
 
 import { GameService } from './../../services/game.service';
 import { Component, Input } from '@angular/core';
-import { DataShip, GameStateJson } from '../../services/game-start-http.service';
 import { RoleHttpService } from '../../services/role-http.service';
+import { DataShip, GameStateJson } from '../../classes/general';
 
 @Component({
   selector: 'app-cargo-ship',

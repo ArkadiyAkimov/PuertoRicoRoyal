@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, RoleName } from '../../services/game-start-http.service';
 import { RoleHttpService } from '../../services/role-http.service';
 import { SoundService } from '../../services/sound.service';
 import { HighlightService } from '../../services/highlight.service';
 import { GameService } from '../../services/game.service';
+import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, PlayerUtility, RoleName } from '../../classes/general';
 
 @Component({
   selector: 'app-supply-display',
@@ -12,16 +12,22 @@ import { GameService } from '../../services/game.service';
 })
 export class SupplyDisplayComponent {
 
-  myGoods:DataPlayerGood[] = [];
-  supplyGoods:Number[] = [0,0,0,0,0];
-  player:DataPlayer = new DataPlayer();
+  myGoods:DataPlayerGood[]
+  supplyGoods:Number[]
+  player:DataPlayer
+  playerUtility:PlayerUtility
 
   constructor(
     public gameService:GameService,
     public highlightService: HighlightService,
     public soundService:SoundService,
     private roleHttp:RoleHttpService
-    ){}
+    ){
+      this.myGoods = [];
+      this.supplyGoods = [0,0,0,0,0];
+      this.player = new DataPlayer();
+      this.playerUtility = new PlayerUtility();
+    }
 
 
     ngOnInit(): void {
@@ -108,7 +114,9 @@ export class SupplyDisplayComponent {
       if(!this.gameService.gs.value.mayorTookPrivilige 
         && (this.gameService.gs.value.privilegeIndex == this.player.index)
         && (this.gameService.gs.value.currentRole == RoleName.Mayor)) return 'highlight-yellow';
-      else if (this.gameService.gs.value.currentRole == RoleName.Settler) return 'highlight-yellow';
+      else if (this.gameService.gs.value.currentRole == RoleName.Settler
+              && this.playerUtility.hasActiveBuilding(BuildingName.Hospice,this.player) 
+              && this.playerUtility.getBuilding(BuildingName.Hospice,this.player)?.effectAvailable) return 'highlight-yellow';
       else return '';
     }
 

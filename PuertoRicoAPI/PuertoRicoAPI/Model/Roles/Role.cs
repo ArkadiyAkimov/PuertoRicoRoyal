@@ -29,17 +29,6 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if (IsFirstIteration)
             {
-                if (this.Name == RoleName.PostCaptain)
-                {
-                    gs.Players.ForEach(x => x.CanUseSmallWarehouse = x.hasBuilding(BuildingName.SmallWarehouse, true)); // reset playable small warehouses
-                    gs.Players.ForEach(x => x.CanUseLargeWarehouse = x.hasBuilding(BuildingName.LargeWarehouse, true)); // reset playable Large warehouses
-                    gs.CurrentPlayerIndex = gs.PrivilegeIndex;
-                }
-                if (this.Name == RoleName.Captain)
-                {
-                    gs.Players.ForEach(x => x.CanUseWharf = x.hasBuilding(BuildingName.Wharf, true)); // reset playable wharfs
-                    gs.CaptainFirstShipment = true;
-                }
                 Console.WriteLine(this.Name + ": First Iteration");
                 this.gs.IsRoleInProgress = true;
                 this.gs.CurrentRole = this.Name;
