@@ -14,6 +14,7 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void mainLoop()
         {
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
@@ -57,12 +58,13 @@ namespace PuertoRicoAPI.Model.Roles
             if (building is ProdBuilding) gs.getCurrPlayer().Buildings.Add(new ProdBuilding(building as ProdBuilding));
             else gs.getCurrPlayer().Buildings.Add(new Building(building));
 
+            if (gs.getCurrPlayer().freeBuildingTiles() == 0) gs.LastGovernor = true;
+
             if (gs.getCurrPlayer().hasBuilding(BuildingName.Univercity, true))
             {
-                gs.getCurrPlayer().Buildings.Last().Slots[0] = true;
+                gs.getCurrPlayer().TookTurn = true;
+                return true;
             }
-
-            if (gs.getCurrPlayer().freeBuildingTiles() == 0) gs.LastGovernor = true;
 
             gs.getCurrentRole().mainLoop();
 

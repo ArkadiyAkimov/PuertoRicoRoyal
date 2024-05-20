@@ -17,24 +17,8 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if (this.IsFirstIteration)
             {
-                Console.WriteLine("first iteration settler");
-                foreach (Player player in gs.Players)
-                {
-                    player.TookTurn = false;
-                    Console.WriteLine("player {0} turn available", player.Index);
-
-                    if (player.hasBuilding(BuildingName.Hacienda, true))
-                    {
-                        Console.WriteLine("player {0} hacienda enabled.", player.Index);
-                        player.getBuilding(BuildingName.Hacienda).EffectAvailable = true;
-                    }
-
-                    if (player.hasBuilding(BuildingName.Hospice, true))
-                    {
-                        Console.WriteLine("player {0} hospice disabled.", player.Index);
-                        player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
-                    }
-                }
+                this.initializeBuildingEffects(BuildingName.Hacienda,true);
+                this.initializeBuildingEffects(BuildingName.Hospice, false);
             }
 
             base.mainLoop();

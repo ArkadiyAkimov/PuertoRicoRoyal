@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PuertoRicoAPI.Controllers;
 using PuertoRicoAPI.Data.DataClasses;
+using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Model.Roles
@@ -29,6 +30,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if (IsFirstIteration)
             {
+
                 Console.WriteLine(this.Name + ": First Iteration");
                 this.gs.IsRoleInProgress = true;
                 this.gs.CurrentRole = this.Name;
@@ -40,7 +42,7 @@ namespace PuertoRicoAPI.Model.Roles
                 Console.WriteLine("Current Player: " + gs.getCurrPlayer().Index);
                 return;
             }
-
+            
             if(this.Name != RoleName.Craftsman) gs.nextPlayer();
 
 
@@ -58,6 +60,19 @@ namespace PuertoRicoAPI.Model.Roles
             gs.IsRoleInProgress = false;
             gs.CurrentRole = RoleName.NoRole;
             this.IsFirstIteration = true;
+        }
+
+        public void initializeBuildingEffects(BuildingName buildingName, bool isTrue)
+        {
+            Console.WriteLine("first iteration settler");
+            foreach (Player player in gs.Players)
+            {
+                if (player.hasBuilding(buildingName, true))
+                {
+                    Console.WriteLine("player {0} {1} enabled.", player.Index, buildingName);
+                    player.getBuilding(buildingName).EffectAvailable = isTrue;
+                }
+            }
         }
 
     }

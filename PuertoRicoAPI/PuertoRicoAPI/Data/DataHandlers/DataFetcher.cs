@@ -120,10 +120,11 @@ namespace PuertoRicoAPI.Data.DataHandlers
                     dataPlayerBuilding.Name = building.Type.Name;
                     dataPlayerBuilding.Quantity = building.Quantity;
                     dataPlayerBuilding.Slots = new List<DataSlot>();
-                    dataPlayerBuilding.BuildOrder = player.Buildings[i].BuildOrder;
                     dataPlayerBuilding.EffectAvailable = player.Buildings[i].EffectAvailable;
+                    dataPlayerBuilding.BuildOrder = player.BuildOrder;
                     Console.WriteLine("build++");
                     dataPlayer.BuildOrder++;
+                    player.BuildOrder++;
 
                     for (int j = 0; j < building.Slots.Length; j++) //player building slots
                     {
@@ -153,6 +154,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                     dataPlayerPlantation.BuildOrder = player.BuildOrder;
                     Console.WriteLine("build++");
                     dataPlayer.BuildOrder++;
+                    player.BuildOrder++;
 
                     dataPlayer.Plantations.Add(dataPlayerPlantation);
                 }

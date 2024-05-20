@@ -113,10 +113,14 @@ export class SupplyDisplayComponent {
     getColonistSupplyButtonHighlightRule():string{
       if(!this.gameService.gs.value.mayorTookPrivilige 
         && (this.gameService.gs.value.privilegeIndex == this.player.index)
-        && (this.gameService.gs.value.currentRole == RoleName.Mayor)) return 'highlight-yellow';
+        && (this.gameService.gs.value.currentRole == RoleName.Mayor)) 
+        return 'highlight-yellow';
       else if (this.gameService.gs.value.currentRole == RoleName.Settler
               && this.playerUtility.hasActiveBuilding(BuildingName.Hospice,this.player) 
               && this.playerUtility.getBuilding(BuildingName.Hospice,this.player)?.effectAvailable) return 'highlight-yellow';
+      else if (this.gameService.gs.value.currentRole == RoleName.Builder
+              && this.player.tookTurn 
+              && this.player.index == this.gameService.gs.value.currentPlayerIndex) return 'highlight-yellow';  
       else return '';
     }
 

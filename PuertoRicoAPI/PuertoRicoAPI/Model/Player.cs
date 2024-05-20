@@ -133,6 +133,8 @@ namespace PuertoRicoAPI.Models
             return this.Index == this.gs.PrivilegeIndex;
         }
 
+        
+
         public void CalculateScore()
         {
             Score += VictoryPoints;

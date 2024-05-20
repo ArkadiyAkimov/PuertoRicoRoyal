@@ -45,6 +45,7 @@ namespace PuertoRicoAPI.Controllers
                .getGameState(_context, dataGameState.Id);
 
             Player player = gs.Players[chipInput.PlayerIndex];
+
             var currentRole = gs.getCurrentRole();
 
             switch (gs.CurrentRole)
@@ -79,6 +80,24 @@ namespace PuertoRicoAPI.Controllers
                             }
                         }
                 break;
+
+                case RoleName.Builder:
+                    if (player.hasBuilding(BuildingName.Univercity, true)
+                       && player.TookTurn)
+                    {
+                        if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;
+                        else gs.ColonistsOnShip--;
+
+
+                        Building targetBuilding = player.Buildings.FirstOrDefault(building => building.BuildOrder == player.BuildOrder - 1);
+
+                        Console.WriteLine("target building: {0}", targetBuilding);
+
+                        if (targetBuilding != null) targetBuilding.Slots[0] = true;
+
+                        (currentRole as Builder).mainLoop();
+                    }
+                    break;
             }
 
             await DataFetcher.Update(dataGameState, gs);

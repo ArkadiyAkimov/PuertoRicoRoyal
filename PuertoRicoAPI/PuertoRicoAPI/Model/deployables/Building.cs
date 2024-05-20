@@ -79,6 +79,11 @@ namespace PuertoRicoAPI.Model.deployables
 
             return basePrice;
         }
+
+        public bool isOccupied()
+        {
+            return this.Slots[0];
+        }
     }
 
     public class ProdBuilding : Building
