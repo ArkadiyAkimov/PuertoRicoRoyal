@@ -10,6 +10,7 @@ namespace PuertoRicoAPI.Data.DataClasses
         public int Doubloons { get; set; }
         public int Colonists { get; set; }
         public int VictoryPoints { get; set; }
+        public bool TookTurn {  get; set; } 
         public bool CanUseHacienda { get; set; }
         public bool CanUseHospice { get; set; }
         public GoodType HospiceTargetPlantation { get; set; }

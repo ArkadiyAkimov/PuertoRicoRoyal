@@ -44,23 +44,19 @@ namespace PuertoRicoAPI.Controllers
 
             DataPlantation dataPlantation = await DataFetcher.getDataPlantation(_context, plantationInput.PlantationId);
 
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, plantationInput.DataGameId);
+
             GameState gs = await ModelFetcher
                .getGameState(_context, plantationInput.DataGameId);
 
-            if (plantationInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+            if (plantationInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("Not Your Turn.");
 
-            var dataGameState = await DataFetcher
-               .getDataGameState(_context, plantationInput.DataGameId);
-
-
-            var currentRole = gs.getCurrentRole();
+            Role currentRole = gs.getCurrentRole();
 
             Player player = gs.getCurrPlayer();
 
-            if (player.CanUseHospice
-                && !player.CanUseHacienda
-                && player.hasBuilding(BuildingName.Hacienda, true)) return Ok("Cant take another plant");
-
+            if (player.TookTurn) return Ok("Can't take another plantation");
 
             if (gs.CurrentRole == Types.RoleName.Settler)
             {
@@ -84,21 +80,19 @@ namespace PuertoRicoAPI.Controllers
         public async Task<ActionResult<DataGameState>> PostQuarry(QuarryInput quarryInput)
         {
 
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, quarryInput.DataGameId);
+
             GameState gs = await ModelFetcher
                .getGameState(_context, quarryInput.DataGameId);
 
-            if (quarryInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+            if (quarryInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("Not Your Turn.");
 
-            var dataGameState = await DataFetcher
-               .getDataGameState(_context, quarryInput.DataGameId);
-
-            var currentRole = gs.getCurrentRole();
+            Role currentRole = gs.getCurrentRole();
 
             Player player = gs.getCurrPlayer();
 
-            if (player.CanUseHospice
-             && !player.CanUseHacienda
-             && player.hasBuilding(BuildingName.Hacienda, true)) return Ok("Cant take another plant");
+            if (player.TookTurn) return Ok("Can't take another plantation");
 
 
             if (gs.CurrentRole == Types.RoleName.Settler)
@@ -123,21 +117,23 @@ namespace PuertoRicoAPI.Controllers
         public async Task<ActionResult<DataGameState>> PostUpSideDown(QuarryInput quarryInput)
         {
 
+            DataGameState dataGameState = await DataFetcher
+              .getDataGameState(_context, quarryInput.DataGameId);
+
             GameState gs = await ModelFetcher
                .getGameState(_context, quarryInput.DataGameId);
 
-            if (quarryInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+            if (quarryInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("Not Your Turn.");
 
-            var dataGameState = await DataFetcher
-               .getDataGameState(_context, quarryInput.DataGameId);
-
-            var currentRole = gs.getCurrentRole();
+            Role currentRole = gs.getCurrentRole();
 
             Player player = gs.getCurrPlayer();
 
+            if (player.TookTurn) return Ok("Can't take an upside down plantation after taking turn");
+
             if (gs.CurrentRole == Types.RoleName.Settler)
             {
-                if ((currentRole as Settler).CanTakeUpSideDown() && !player.CanUseHospice)
+                if ((currentRole as Settler).CanTakeUpSideDown())
                 {
                     Random rnd = new Random();
                     var randomPlant = dataGameState.Plantations

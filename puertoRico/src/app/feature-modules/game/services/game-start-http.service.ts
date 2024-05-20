@@ -84,6 +84,7 @@ export class DataPlayer {
   doubloons:number = 0;
   colonists:number = 0;
   victoryPoints:number = 0;
+  tookTurn:boolean = false;
   canUseHacienda:boolean = false;
   canUseHospice:boolean = false;
   hospiceTargetPlantation:number = 0;
@@ -95,6 +96,16 @@ export class DataPlayer {
   buildOrder:number = 0;
   goods:DataPlayerGood[] = [];
   score:number = 0;
+
+  hasActiveBuilding(name:BuildingName){
+    let temp = this.buildings.find(building => building.name == name)
+    if(temp == undefined) return false;
+    else return temp.slots[0];
+  }
+
+  getBuilding(name:BuildingName):DataPlayerBuilding|undefined{
+    return this.buildings.find(building => building.name == name)
+  }
 }
 
 export class DataBuilding {
@@ -103,6 +114,7 @@ export class DataBuilding {
   name:number = 0;
   slots:DataSlot[] = [];
   quantity:number = 0;
+  effectAvailable:boolean = false;
 }
 
 export class DataPlayerBuilding {
@@ -112,6 +124,7 @@ export class DataPlayerBuilding {
   slots:DataSlot[] = [];
   quantity:number = 0;
   buildOrder:number = 0;
+  effectAvailable:boolean = false;
 }
 
 export class BuildingType {
@@ -172,4 +185,44 @@ export enum ColorName
     gray,
     green,
     zeroQuantBuilding
+}
+
+export enum BuildingName
+{
+    SmallIndigoPlant,
+    SmallSugarMill,
+    SmallMarket,
+    Hacienda,
+    ConstructionHut,
+    SmallWarehouse, 
+    LargeIndigoPlant,
+    LargeSugarMill,
+    Hospice,
+    Office,
+    LargeMarket,
+    LargeWarehouse,
+    TobaccoStorage,
+    CoffeeRoaster,
+    Univercity,
+    Factory,
+    Harbor,
+    Wharf,
+    GuildHall,
+    Residence,
+    Fortress,
+    CustomsHouse,
+    CityHall,
+}
+
+export enum RoleName
+{
+    Settler,
+    Builder,
+    Mayor,
+    Trader,
+    Craftsman,
+    Captain,
+    Prospector,
+    PostCaptain,
+    NoRole
 }

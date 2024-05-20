@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import {  DataPlayerBuilding, DataPlayerPlantation, DataSlot, GameStateJson } from '../../services/game-start-http.service';
+import {  DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, GameStateJson } from '../../services/game-start-http.service';
 import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -19,6 +19,7 @@ import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 export class FullSizeComponent implements OnInit {
 gs:GameStateJson = new GameStateJson();
 subscription: Subscription = new Subscription();
+player:DataPlayer = new DataPlayer();
 
 myBuildings:DataPlayerBuilding[] = [];
 myPlantations:DataPlayerPlantation[] = [];
@@ -33,9 +34,9 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     this.subscription = this.gameService.gs.subscribe((gs:GameStateJson) => {
       this.gs = gs;
       if(gs.players.length <= 0) return; 
-      let player = gs.players[this.gameService.playerIndex];
-      this.myPlantations = player.plantations;  
-      this.buildingsMatrix = this.gameService.sortBuildings(player.buildings);
+      this.player = gs.players[this.gameService.playerIndex];
+      this.myPlantations = this.player.plantations;  
+      this.buildingsMatrix = this.gameService.sortBuildings(this.player.buildings);
     })
   }
 

@@ -15,5 +15,7 @@ namespace PuertoRicoAPI.Data.DataClasses
         public int Quantity { get; set; }
 
         public int BuildOrder { get; set; }
+
+        public bool EffectAvailable { get; set; }
     }
 }

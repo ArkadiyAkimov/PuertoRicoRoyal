@@ -29,6 +29,6 @@ export class PlantationsComponent implements OnInit{
 
    plantationInteractionCheck():boolean{
         return this.gs.currentRole != 0 
-            || this.gs.currentPlayerIndex != this.gameService.playerIndex
+            || this.gs.currentPlayerIndex != this.gameService.playerIndex;
    }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.SignalR;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Model.Roles;
 using PuertoRicoAPI.Types;
+using PuertoRicoAPI.Model.deployables;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -46,32 +47,38 @@ namespace PuertoRicoAPI.Controllers
             Player player = gs.Players[chipInput.PlayerIndex];
             var currentRole = gs.getCurrentRole();
 
-            //if (slotInput.PlayerIndex != dataGameState.CurrentPlayerIndex) return Ok("wait your turn, bitch");
-
-            if ((gs.CurrentRole == Types.RoleName.Mayor) 
-                && (!gs.MayorTookPrivilige) 
-                && player.CheckForPriviledge()
-                && (gs.ColonistsSupply > 0))
+            switch (gs.CurrentRole)
             {
-                player.Colonists++;
-                gs.ColonistsSupply--;
-                gs.MayorTookPrivilige = true;
+                case RoleName.Mayor:
+                     if ((!gs.MayorTookPrivilige)
+                     && player.CheckForPriviledge()
+                     && (gs.ColonistsSupply > 0))
+                        {
+                         player.Colonists++;
+                         gs.ColonistsSupply--;
+                         gs.MayorTookPrivilige = true;
 
-                (currentRole as Mayor).uselessTurnSkip(player);
-            }
-            if((gs.CurrentRole == Types.RoleName.Settler)
-                && player.CanUseHospice)
-            {
-                player.CanUseHospice = false;
-                if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;
-                else gs.ColonistsOnShip--;
+                         (currentRole as Mayor).uselessTurnSkip(player);
+                         }
+                break;
 
-                player.Plantations.Last(plantation =>
-                       plantation.Good == player.HospiceTargetPlantation && !plantation.IsOccupied)
-                        .IsOccupied = true; 
+                case RoleName.Settler:
+                    if (player.getBuilding(BuildingName.Hospice).EffectAvailable)
+                        {
+                            player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
+                            if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;
+                            else gs.ColonistsOnShip--;
 
-                if ( player.CanUseHacienda
-                     || !player.hasBuilding(BuildingName.Hacienda, true)) (currentRole as Settler).mainLoop();
+                            Plantation targetplantation = player.Plantations.FirstOrDefault(plantation => plantation.BuildOrder == player.BuildOrder - 1);
+                            if (targetplantation != null) targetplantation.IsOccupied = true;
+
+                            if (!player.hasBuilding(BuildingName.Hacienda, true)
+                               || player.getBuilding(BuildingName.Hacienda).EffectAvailable)
+                            {
+                                (currentRole as Settler).mainLoop();
+                            }
+                        }
+                break;
             }
 
             await DataFetcher.Update(dataGameState, gs);

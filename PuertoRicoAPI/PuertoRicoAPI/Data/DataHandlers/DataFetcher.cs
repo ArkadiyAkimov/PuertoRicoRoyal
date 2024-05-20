@@ -91,6 +91,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 dataPlayer.Doubloons = player.Doubloons;
                 dataPlayer.Colonists = player.Colonists;
                 dataPlayer.VictoryPoints = player.VictoryPoints;
+                dataPlayer.TookTurn = player.TookTurn;
                 dataPlayer.CanUseHacienda = player.CanUseHacienda;
                 dataPlayer.CanUseHospice = player.CanUseHospice;
                 dataPlayer.HospiceTargetPlantation = player.HospiceTargetPlantation;
@@ -109,6 +110,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 {
                     dataBuilding.Quantity = building.Quantity;
                     dataBuilding.BuildOrder = building.BuildOrder;
+                    dataBuilding.EffectAvailable = building.EffectAvailable;
                     foreach(var (dataSlot,slot) in dataBuilding.Slots.Zip(building.Slots))
                     {
                         dataSlot.IsOccupied = slot;
@@ -123,6 +125,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                     dataPlayerBuilding.Quantity = building.Quantity;
                     dataPlayerBuilding.Slots = new List<DataSlot>();
                     dataPlayerBuilding.BuildOrder = player.Buildings[i].BuildOrder;
+                    dataPlayerBuilding.EffectAvailable = player.Buildings[i].EffectAvailable;
                     Console.WriteLine("build++");
                     dataPlayer.BuildOrder++;
 

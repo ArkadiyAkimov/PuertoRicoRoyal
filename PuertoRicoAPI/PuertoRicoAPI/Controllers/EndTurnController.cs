@@ -59,7 +59,8 @@ namespace PuertoRicoAPI.Controllers
                     break;
                 case RoleName.Settler:
                     Player player = gs.getCurrPlayer();
-                    player.CanUseHospice = false;
+                    if (player.hasBuilding(BuildingName.Hospice, true)) 
+                        player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
                     (currentRole as Settler).mainLoop();
                     break;
                 case RoleName.Trader:

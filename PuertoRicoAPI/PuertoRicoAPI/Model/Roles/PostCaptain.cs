@@ -31,7 +31,7 @@ namespace PuertoRicoAPI.Model.Roles
             var player = gs.getCurrPlayer();
             if (storageGoods[0] != GoodType.NoType)
             {
-                var singleGoodToStore = player.Goods.First(x => x.Type == storageGoods[0]);
+                var singleGoodToStore = player.Goods.FirstOrDefault(x => x.Type == storageGoods[0]);
                 if (singleGoodToStore.Quantity > 1) singleGoodToStore.Quantity = 1;
             }
 
@@ -43,7 +43,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             if (storageGoods[1] != GoodType.NoType)
             {
-                var smallWarehouseGood = player.Goods.First(x => x.Type == storageGoods[1]);
+                var smallWarehouseGood = player.Goods.FirstOrDefault(x => x.Type == storageGoods[1]);
                 if (!player.hasBuilding(BuildingName.SmallWarehouse, true))
                 {
                     gs.GetGoodCount(smallWarehouseGood.Type, -smallWarehouseGood.Quantity);
@@ -53,7 +53,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             if (storageGoods[2] != GoodType.NoType)
             {
-                var largeWarehouseGood1 = player.Goods.First(x => x.Type == storageGoods[2]);
+                var largeWarehouseGood1 = player.Goods.FirstOrDefault(x => x.Type == storageGoods[2]);
                 if (!player.hasBuilding(BuildingName.LargeWarehouse, true))
                 {
                     gs.GetGoodCount(largeWarehouseGood1.Type, -largeWarehouseGood1.Quantity);

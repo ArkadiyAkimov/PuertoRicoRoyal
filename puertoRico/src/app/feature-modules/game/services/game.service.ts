@@ -1,10 +1,8 @@
 
-import { DataPlayerGood, GameStartHttpService, GameStateJson, StartGameOutput } from './game-start-http.service';
+import { BuildingType, ColorName, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GameStartHttpService, GameStateJson, GoodType, StartGameOutput } from './game-start-http.service';
 import { Injectable, OnInit } from '@angular/core';
-import { BuildingType, ColorName, DataBuilding, DataPlayerBuilding } from '../classes/deployables/building';
-import { BehaviorSubject } from 'rxjs';
-import { DataPlantation, DataPlayerPlantation, GoodType } from '../classes/deployables/plantation';
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+ import { BehaviorSubject } from 'rxjs';
+ import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -17,7 +15,7 @@ export class GameService{
   playerIndex:number = 0;
   numOfPlayers:number = 4;
 
-  gameId:number = 25;
+  gameId:number = 4;
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];

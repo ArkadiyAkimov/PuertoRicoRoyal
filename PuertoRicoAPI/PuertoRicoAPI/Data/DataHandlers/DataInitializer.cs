@@ -138,6 +138,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newPlayer.Doubloons = 9; //doubloons
             newPlayer.Colonists = 0;
             newPlayer.VictoryPoints = 0;
+            newPlayer.TookTurn = false;
             newPlayer.CanUseHacienda = false;
             newPlayer.CanUseHospice = false;
             newPlayer.HospiceTargetPlantation = GoodType.NoType;

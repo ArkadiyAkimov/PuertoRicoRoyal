@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DataPlayerGood, GameStateJson } from '../../services/game-start-http.service';
+import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, RoleName } from '../../services/game-start-http.service';
 import { RoleHttpService } from '../../services/role-http.service';
 import { SoundService } from '../../services/sound.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -14,6 +14,7 @@ export class SupplyDisplayComponent {
 
   myGoods:DataPlayerGood[] = [];
   supplyGoods:Number[] = [0,0,0,0,0];
+  player:DataPlayer = new DataPlayer();
 
   constructor(
     public gameService:GameService,
@@ -27,8 +28,8 @@ export class SupplyDisplayComponent {
       this.gameService.gs.subscribe({
         next: (gs:GameStateJson) => {
           if(gs.players.length <= 0) return;
-          let player = gs.players[this.gameService.playerIndex];
-          this.myGoods = player.goods;
+          this.player = gs.players[this.gameService.playerIndex];
+          this.myGoods = this.player.goods;
 
           this.supplyGoods[0] = this.gameService.gs.value.cornSupply
           this.supplyGoods[1] = this.gameService.gs.value.indigoSupply
@@ -72,7 +73,7 @@ export class SupplyDisplayComponent {
     getGoodButtonHighlightRule(good:DataPlayerGood):string{
       if(this.gameService.storedGoodTypes[0] == good.type) return 'highlight-red';
       else if(this.gameService.storedGoodTypes.includes(good.type)) return 'highlight-yellow';
-      else if(good.quantity > 0 && this.gameService.gs.value.currentRole == 7) return 'highlight-green';
+      else if(good.quantity > 0 && this.gameService.gs.value.currentRole == RoleName.PostCaptain) return 'highlight-green';
       else return '';
     }
 
@@ -105,10 +106,9 @@ export class SupplyDisplayComponent {
 
     getColonistSupplyButtonHighlightRule():string{
       if(!this.gameService.gs.value.mayorTookPrivilige 
-        && (this.gameService.gs.value.privilegeIndex == this.gameService.playerIndex)
-        && (this.gameService.gs.value.currentRole == 2)) return 'highlight-yellow';
-      else if (this.gameService.gs.value.currentRole == 0
-              && this.gameService.gs.value.players[this.gameService.playerIndex].canUseHospice) return 'highlight-yellow';
+        && (this.gameService.gs.value.privilegeIndex == this.player.index)
+        && (this.gameService.gs.value.currentRole == RoleName.Mayor)) return 'highlight-yellow';
+      else if (this.gameService.gs.value.currentRole == RoleName.Settler) return 'highlight-yellow';
       else return '';
     }
 
