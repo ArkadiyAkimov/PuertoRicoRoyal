@@ -1,6 +1,7 @@
 ﻿using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
+using System.Numerics;
 using System.Text.Json;
 
 namespace PuertoRicoAPI.Model.Roles
@@ -14,10 +15,22 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void mainLoop()
         {
+            if (IsFirstIteration)
+            {
+                foreach(Player player in gs.Players)   // reset playable wharfs
+                {
+                    if (player.hasBuilding(BuildingName.Wharf, true))
+                    {
+                        player.getBuilding(BuildingName.Wharf).EffectAvailable = true;
+                    }
+                }; 
+                gs.CaptainFirstShipment = true;
+            }
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
-            if (gs.CaptainPlayableIndexes.All(x => x == false))
+            if (gs.CaptainPlayableIndexes.All(index => index == false))
             {
                 this.endRole();
                 return;
@@ -42,12 +55,18 @@ namespace PuertoRicoAPI.Model.Roles
             gs.getRole(RoleName.PostCaptain).mainLoop();
         }
 
+        public bool canUseWharf()
+        {
+            var player = gs.getCurrPlayer();
+
+            return player.hasBuilding(BuildingName.Wharf, true)
+                   && player.getBuilding(BuildingName.Wharf).EffectAvailable;
+        }
         public bool checkIfHasValidGoods()
         {
             var player = gs.getCurrPlayer();
             if(player.Goods.Sum(x=> x.Quantity) == 0) return false;
-            if (player.CanUseWharf) return true;
-            
+            if (canUseWharf()) return true;
 
             var playerTypes = player.GetUniqueGoodTypes();
 
@@ -87,25 +106,28 @@ namespace PuertoRicoAPI.Model.Roles
 
         public bool TryAddGoodsToShip(int shipIndex, GoodType type)
         {
-            Console.WriteLine("ship index: " +  shipIndex + " can use wharf: " + gs.getCurrPlayer().CanUseWharf);
-            if (shipIndex == 3 && !gs.getCurrPlayer().CanUseWharf) return false;
+            Player player = gs.getCurrPlayer();
+
+            Console.WriteLine("ship index: " +  shipIndex + " can use wharf: " + canUseWharf());
+            if (shipIndex == 3 && !canUseWharf()) return false;
             var ship = gs.Ships[shipIndex];
 
             if (!ship.IsEmpty() && ship.Type != type) return false;
             if(ship.IsEmpty() && gs.Ships.Any(x=>x.Type == type) && shipIndex != 3) return false;
 
-            var relGoodCount = gs.getCurrPlayer().GetGoodCount(type);
+            var relGoodCount = player.GetGoodCount(type);
             int goodsShipped = ship.TryAddGoods(relGoodCount,type);
             if (goodsShipped == 0) return false;
 
-            this.GivePlayerVictoryPoints(gs.getCurrPlayer(), goodsShipped);
-            gs.getCurrPlayer().GetGood(type).Quantity -= goodsShipped;
+            this.GivePlayerVictoryPoints(player, goodsShipped);
+            player.GetGood(type).Quantity -= goodsShipped;
 
             if(goodsShipped > 0)
             {
                 if (shipIndex == 3)
                 {
-                    gs.getCurrPlayer().CanUseWharf = false;
+                    if(player.hasBuilding(BuildingName.Wharf,true))
+                        player.getBuilding(BuildingName.Wharf).EffectAvailable = false;
                     ship.ResetShip();
                 }
                 else ship.Type = type;

@@ -1,8 +1,8 @@
 import { RoleHttpService } from './../../services/role-http.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { DataBuilding, GameStateJson } from '../../services/game-start-http.service';
 import { Subscription } from 'rxjs';
+import { GameStateJson, DataBuilding } from '../../classes/general';
 
 @Component({
   selector: 'app-buildings',

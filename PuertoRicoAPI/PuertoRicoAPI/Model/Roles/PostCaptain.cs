@@ -13,6 +13,13 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void mainLoop()
         {
+            if (IsFirstIteration)
+            {
+                gs.Players.ForEach(x => x.CanUseSmallWarehouse = x.hasBuilding(BuildingName.SmallWarehouse, true)); // reset playable small warehouses
+                gs.Players.ForEach(x => x.CanUseLargeWarehouse = x.hasBuilding(BuildingName.LargeWarehouse, true)); // reset playable Large warehouses
+                gs.CurrentPlayerIndex = gs.PrivilegeIndex;
+            }
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 

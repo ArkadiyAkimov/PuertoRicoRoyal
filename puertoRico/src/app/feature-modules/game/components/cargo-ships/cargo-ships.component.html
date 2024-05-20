@@ -13,7 +13,7 @@
 
     <app-cargo-ship 
     *ngFor="let ship of this.cargoShips; 
-    let i=index" [shipIndex]="i" [cargoShip]="ship" [showShip]="gs.players[gs.currentPlayerIndex].canUseWharf && gs.currentRole == 5">
+    let i=index" [shipIndex]="i" [cargoShip]="ship" [showShip]="wharfDisplayCheck()">
 
     </app-cargo-ship>
 

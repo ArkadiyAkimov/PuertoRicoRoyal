@@ -2,7 +2,7 @@ import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { DataPlayerBuilding, GameStateJson } from '../../services/game-start-http.service';
+import { GameStateJson, DataPlayerBuilding } from '../../classes/general';
 
 @Component({
   selector: 'app-utility-drop',

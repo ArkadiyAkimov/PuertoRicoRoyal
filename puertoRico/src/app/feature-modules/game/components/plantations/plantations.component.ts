@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { DataPlantation, GameStateJson } from '../../services/game-start-http.service';
+import { DataPlantation, GameStateJson } from '../../classes/general';
 
 @Component({
   selector: 'app-plantations',

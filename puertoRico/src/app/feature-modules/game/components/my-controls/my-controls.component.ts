@@ -1,8 +1,8 @@
 import { SoundService } from './../../services/sound.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { DataPlayerGood, GameStateJson } from '../../services/game-start-http.service';
 import { RoleHttpService } from '../../services/role-http.service';
+import { DataPlayerGood, GameStateJson } from '../../classes/general';
 
 @Component({
   selector: 'app-my-controls',

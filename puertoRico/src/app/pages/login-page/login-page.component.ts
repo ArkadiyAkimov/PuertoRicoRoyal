@@ -1,9 +1,7 @@
 import { User } from './../../feature-modules/user/models/user';
-import { BehaviorSubject, flatMap } from 'rxjs';
 import { UserMainService } from './../../feature-modules/user/services/user-main.service';
 import { Component, OnInit} from '@angular/core';
 import { GameService } from 'src/app/feature-modules/game/services/game.service';
-import { GameStateJson } from 'src/app/feature-modules/game/services/game-start-http.service';
 import { Router } from '@angular/router';
 
 @Component({

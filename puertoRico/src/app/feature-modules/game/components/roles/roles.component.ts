@@ -1,8 +1,7 @@
-import { GameStateJson } from './../../services/game-start-http.service';
 import { RoleHttpService } from './../../services/role-http.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { DataRole } from '../../services/game-start-http.service';
+import { DataRole, GameStateJson } from '../../classes/general';
 
 @Component({
   selector: 'app-roles',
