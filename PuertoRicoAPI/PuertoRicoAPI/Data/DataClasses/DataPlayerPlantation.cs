@@ -10,5 +10,7 @@ namespace PuertoRicoAPI.Data.DataClasses
         public DataSlot Slot { get; set; }
 
         public GoodType Good { get; set; }
+
+        public int BuildOrder { get; set; }
     }
 }

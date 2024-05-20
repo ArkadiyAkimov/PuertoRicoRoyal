@@ -1,6 +1,8 @@
 ﻿using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Model.deployables;
+using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
+using System.Numerics;
 
 namespace PuertoRicoAPI.Model.Roles
 {
@@ -13,10 +15,30 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void mainLoop()
         {
+            if (this.IsFirstIteration)
+            {
+                Console.WriteLine("first iteration settler");
+                foreach (Player player in gs.Players)
+                {
+                    player.TookTurn = false;
+                    Console.WriteLine("player {0} turn available", player.Index);
+
+                    if (player.hasBuilding(BuildingName.Hacienda, true))
+                    {
+                        Console.WriteLine("player {0} hacienda enabled.", player.Index);
+                        player.getBuilding(BuildingName.Hacienda).EffectAvailable = true;
+                    }
+
+                    if (player.hasBuilding(BuildingName.Hospice, true))
+                    {
+                        Console.WriteLine("player {0} hospice disabled.", player.Index);
+                        player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                    }
+                }
+            }
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
-
-            gs.getCurrPlayer().CanUseHacienda = true;
 
             if (gs.countExposedPlantations() == 0) DrawPlantations();
         }
@@ -44,7 +66,7 @@ namespace PuertoRicoAPI.Model.Roles
                 .Where(x => x.IsDiscarded == false)
                 .OrderBy(x => rnd.Next()).Take(legalPlantCount).ToList();
 
-            if (legalPlantCount < gs.Players.Count + 1) 
+            if (legalPlantCount < gs.Players.Count + 1)
             {
                 gs.Plantations.Where(x => x.IsDiscarded).ToList().ForEach(plantation =>
                 {
@@ -56,8 +78,8 @@ namespace PuertoRicoAPI.Model.Roles
                 .OrderBy(x => rnd.Next()).Take(this.gs.Players.Count + 1 - legalPlantCount));
             }
 
-            
-            foreach ( var plant in exposed )
+
+            foreach (var plant in exposed)
             {
                 plant.IsExposed = true;
             }
@@ -65,26 +87,20 @@ namespace PuertoRicoAPI.Model.Roles
 
         public bool CanTakeUpSideDown()
         {
-            var hasActiveHacienda = this.gs
-              .getCurrPlayer()
-              .hasBuilding(Types.BuildingName.Hacienda, true);
+            Player player = gs.getCurrPlayer();
 
-            return (hasActiveHacienda
-                && this.gs.getCurrPlayer().CanUseHacienda
-                && CanTakePlantation());
+            return player.hasBuilding(BuildingName.Hacienda,true)
+                && player.getBuilding(BuildingName.Hacienda).EffectAvailable
+                && CanTakePlantation();
         }
 
         public bool CanTakeQuarry()
         {
-           var hasActiveConstructionHut = this.gs
-                .getCurrPlayer()
-                .hasBuilding(Types.BuildingName.ConstructionHut,true);
+            Player player = gs.getCurrPlayer();
 
-           return (hasActiveConstructionHut 
-                || this.gs
-                   .getCurrPlayer()
-                   .CheckForPriviledge()) 
-                && CanTakePlantation();
+            return (player.hasBuilding(BuildingName.ConstructionHut,true)
+                 || player.CheckForPriviledge())
+                 && CanTakePlantation();
         }
 
         public bool CanTakePlantation()
@@ -92,43 +108,85 @@ namespace PuertoRicoAPI.Model.Roles
             return (gs.getCurrPlayer().freePlantationTiles() > 0);
         }
 
+        public bool CheckUsedHacienda()
+        {
+            Player player = this.gs.getCurrPlayer();
+            return player.hasBuilding(BuildingName.Hacienda, true)
+                    && !player.CanUseHacienda;
+        }
+
+        public bool CheckUsedHospice()
+        {
+            Player player = this.gs.getCurrPlayer();
+            return player.hasBuilding(BuildingName.Hospice, true)
+                   && !player.CanUseHospice;
+        }
+
         public void TakePlantation(DataPlantation dataPlantation)
         {
             Plantation newPlantation;
+            Player player = gs.getCurrPlayer();
 
-            if (dataPlantation != null && dataPlantation.IsExposed)
+            if (dataPlantation != null && dataPlantation.IsExposed)//exposed
             {
                 newPlantation = new Plantation(dataPlantation);
-                var removedPlantation = this.gs.Plantations
-                    .First(plantation => plantation.IsExposed
+                Plantation removedPlantation = this.gs.Plantations
+                    .FirstOrDefault(plantation => plantation.IsExposed
                     && plantation.Good == dataPlantation.Good);
 
                 this.gs.Plantations.Remove(removedPlantation);
+                player.Plantations.Add(newPlantation);
+
+                player.TookTurn = true;
+
+                if (player.hasBuilding(BuildingName.Hospice, true))
+                {
+                    if (player.hasBuilding(BuildingName.Hacienda, true)
+                        && !player.getBuilding(BuildingName.Hacienda).EffectAvailable) this.mainLoop();
+                    Console.WriteLine("player {0} hospice enabled.", player.Index);
+                    player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                    return;
+                }
+                else this.mainLoop();
             }
-            else if (dataPlantation != null)
+            else if (dataPlantation != null) //upside down
             {
                 newPlantation = new Plantation(dataPlantation);
-                var removedPlantation = this.gs.Plantations
-                    .First(plantation => !plantation.IsExposed
+                Plantation removedPlantation = this.gs.Plantations
+                    .FirstOrDefault(plantation => !plantation.IsExposed
                     && plantation.Good == dataPlantation.Good);
 
                 this.gs.Plantations.Remove(removedPlantation);
+                player.Plantations.Add(newPlantation);
+
+
+                player.getBuilding(BuildingName.Hacienda).EffectAvailable = false;
+
+                if (player.hasBuilding(BuildingName.Hospice, true))
+                {
+                    Console.WriteLine("player {0} hospice enabled.", player.Index);
+                    player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                }
+                return;
             }
-            else
+            else  //quarry
             {
                 this.gs.QuarryCount--;
                 newPlantation = new Plantation();
+                player.Plantations.Add(newPlantation);
+
+                player.TookTurn = true;
+                
+                if (player.hasBuilding(BuildingName.Hospice, true))
+                {
+                    if (player.hasBuilding(BuildingName.Hacienda, true)
+                        && !player.getBuilding(BuildingName.Hacienda).EffectAvailable) this.mainLoop();
+                    Console.WriteLine("player {0} hospice enabled.", player.Index);
+                    player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                    return;
+                }
+                else this.mainLoop();
             }
-
-            if (gs.getCurrPlayer().hasBuilding(BuildingName.Hospice, true))
-            {
-                newPlantation.IsOccupied = true;
-            }
-
-            this.gs.getCurrPlayer().Plantations.Add(newPlantation);
-
-            if (dataPlantation == null || dataPlantation.IsExposed)
-            this.mainLoop();
         }
     }
 }

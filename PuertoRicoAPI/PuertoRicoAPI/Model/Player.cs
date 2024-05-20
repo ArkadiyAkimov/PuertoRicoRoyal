@@ -17,10 +17,15 @@ namespace PuertoRicoAPI.Models
             this.Doubloons = dataPlayer.Doubloons;
             this.Colonists = dataPlayer.Colonists;
             this.VictoryPoints = dataPlayer.VictoryPoints;
+            this.TookTurn = dataPlayer.TookTurn;
             this.CanUseHacienda = dataPlayer.CanUseHacienda;
+            this.CanUseHospice = dataPlayer.CanUseHospice;
+            this.HospiceTargetPlantation = dataPlayer.HospiceTargetPlantation;
             this.CanUseWharf = dataPlayer.CanUseWharf;
             this.CanUseSmallWarehouse = dataPlayer.CanUseSmallWarehouse;
             this.CanUseLargeWarehouse = dataPlayer.CanUseLargeWarehouse;
+
+            this.BuildOrder = dataPlayer.BuildOrder;
             this.Score = dataPlayer.Score;
 
             this.Buildings = new List<Building>();
@@ -46,19 +51,22 @@ namespace PuertoRicoAPI.Models
         public int Doubloons { get; set; }
         public int Colonists { get; set; }
         public int VictoryPoints { get; set; }
+        public bool TookTurn { get; set; }
         public bool CanUseHacienda { get; set; }
+        public bool CanUseHospice { get; set; }
+        public GoodType HospiceTargetPlantation { get; set; }
         public bool CanUseWharf { get; set; }
         public bool CanUseSmallWarehouse { get; set; }
         public bool CanUseLargeWarehouse { get; set; }
         public List<Building> Buildings { get; set; }
         public List<Plantation> Plantations { get; set; }
+        public int BuildOrder { get; set; }
         public List<Good> Goods { get; set; }
         public double Score { get; set; }
         public void chargePlayer(int amount)
         {
             Doubloons = Doubloons - amount;
         }
-
 
         public int GetGoodCount(GoodType goodType)
         {
@@ -96,16 +104,17 @@ namespace PuertoRicoAPI.Models
             return count;  
         }
 
-        public bool hasBuilding(BuildingName name, bool checkOccupied = false)
+        public Building getBuilding(BuildingName name)
         {
-            foreach(Building building in this.Buildings)
-            {
-                if(building.Type.Name == name && (!checkOccupied || building.Slots[0]))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return Buildings.FirstOrDefault(building => building.Type.Name == name);
+        }
+
+        public bool hasBuilding(BuildingName name, bool checkOccupied = false)
+        { 
+            Building building = getBuilding(name);
+            if (building == null) return false;
+            if(checkOccupied) return building.Slots[0];
+            else return true;
         }
 
         public int freeBuildingTiles()

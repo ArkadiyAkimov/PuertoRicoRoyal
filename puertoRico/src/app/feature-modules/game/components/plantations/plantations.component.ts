@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { DataPlantation } from '../../classes/deployables/plantation';
 import { RoleHttpService } from '../../services/role-http.service';
-import { GameStateJson } from '../../services/game-start-http.service';
+import { DataPlantation, GameStateJson } from '../../services/game-start-http.service';
 
 @Component({
   selector: 'app-plantations',
@@ -28,5 +27,8 @@ export class PlantationsComponent implements OnInit{
       });
     }
 
-   
+   plantationInteractionCheck():boolean{
+        return this.gs.currentRole != 0 
+            || this.gs.currentPlayerIndex != this.gameService.playerIndex;
+   }
 }

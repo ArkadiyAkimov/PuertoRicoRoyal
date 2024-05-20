@@ -10,6 +10,7 @@ using PuertoRicoAPI.Types;
 using PuertoRicoAPI.Model.Roles;
 using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
+using PuertoRicoAPI.Models;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -57,6 +58,9 @@ namespace PuertoRicoAPI.Controllers
                     (currentRole as Builder).mainLoop();
                     break;
                 case RoleName.Settler:
+                    Player player = gs.getCurrPlayer();
+                    if (player.hasBuilding(BuildingName.Hospice, true)) 
+                        player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
                     (currentRole as Settler).mainLoop();
                     break;
                 case RoleName.Trader:

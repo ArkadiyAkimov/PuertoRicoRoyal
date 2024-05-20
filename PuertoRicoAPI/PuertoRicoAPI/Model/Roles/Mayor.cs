@@ -26,6 +26,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             Player currentPlayer = gs.getCurrPlayer();
 
+            if (currentPlayer.CheckForPriviledge()) return;
             uselessTurnSkip(currentPlayer);
         }
 
@@ -47,9 +48,8 @@ namespace PuertoRicoAPI.Model.Roles
             base.endRole();
         }
 
-        void uselessTurnSkip(Player currentPlayer)
+        public void uselessTurnSkip(Player currentPlayer)
         {
-            if (currentPlayer.CheckForPriviledge()) return;
 
             if(currentPlayer.Buildings.Count == 0 && currentPlayer.Plantations.Count == 0)
             {

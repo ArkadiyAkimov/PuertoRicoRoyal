@@ -1,9 +1,7 @@
 import { RoleHttpService } from './../../services/role-http.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { GameStateJson } from '../../services/game-start-http.service';
-import { DataBuilding } from '../../classes/deployables/building';
+import { DataBuilding, GameStateJson } from '../../services/game-start-http.service';
 import { Subscription } from 'rxjs';
 
 @Component({

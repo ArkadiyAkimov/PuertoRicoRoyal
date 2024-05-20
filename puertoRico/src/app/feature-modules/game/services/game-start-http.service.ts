@@ -1,13 +1,8 @@
-import { GoodType } from './../classes/deployables/plantation';
-import { Player } from './../classes/mechanics/player';
 import { User } from './../../user/models/user';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BuildingType, ColorName, DataBuilding, DataPlayerBuilding } from '../classes/deployables/building';
-import { DataPlantation, DataPlayerPlantation } from '../classes/deployables/plantation';
-import { Data } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -89,14 +84,77 @@ export class DataPlayer {
   doubloons:number = 0;
   colonists:number = 0;
   victoryPoints:number = 0;
+  tookTurn:boolean = false;
   canUseHacienda:boolean = false;
+  canUseHospice:boolean = false;
+  hospiceTargetPlantation:number = 0;
   canUseWharf:boolean = true;
   canUseSmallWarehouse:boolean = false;
   canUseLargeWarehouse:boolean = false;
   buildings:DataPlayerBuilding[] = [];
   plantations:DataPlayerPlantation[] = [];
+  buildOrder:number = 0;
   goods:DataPlayerGood[] = [];
   score:number = 0;
+
+  hasActiveBuilding(name:BuildingName){
+    let temp = this.buildings.find(building => building.name == name)
+    if(temp == undefined) return false;
+    else return temp.slots[0];
+  }
+
+  getBuilding(name:BuildingName):DataPlayerBuilding|undefined{
+    return this.buildings.find(building => building.name == name)
+  }
+}
+
+export class DataBuilding {
+  id:number = 0;
+  gameStateId:number = 0;
+  name:number = 0;
+  slots:DataSlot[] = [];
+  quantity:number = 0;
+  effectAvailable:boolean = false;
+}
+
+export class DataPlayerBuilding {
+  id:number = 0;
+  dataPlayerId:number = 0;
+  name:number = 0;
+  slots:DataSlot[] = [];
+  quantity:number = 0;
+  buildOrder:number = 0;
+  effectAvailable:boolean = false;
+}
+
+export class BuildingType {
+  name: number = 0;
+  displayName:string = '';
+  good:number = 0;
+  color:ColorName = 0;
+  price:number = 0;
+  victoryScore:number = 0;
+  isProduction:boolean = false;
+  slots:number = 0;
+  size:number = 0;
+  startingQuantity:number = 0;
+}
+
+export class DataPlantation {
+  id:number = 0;
+  gameStateId:number = 0;
+  slot:DataSlot = new DataSlot();
+  isExposed:boolean = false;
+  isDiscarded:boolean = false;
+  good:number = 0;
+}
+
+export class DataPlayerPlantation {
+  id:number = 0;
+  dataPlayerId:number = 0;
+  slot:DataSlot = new DataSlot();
+  good:number = 0;
+  buildOrder:number = 0;
 }
 
 export class DataTradeHouse {
@@ -108,4 +166,63 @@ export class DataTradeHouse {
 export class StartGameOutput{
   gameState:GameStateJson = new GameStateJson();
   buildingTypes:BuildingType[] = [];
+}
+
+export class GoodType {
+  good:number = 0;
+  displayName:string = '';
+  color:ColorName = 0;
+}
+
+export enum ColorName
+{
+    yellow,
+    blue,
+    white,
+    burlywood,
+    black,
+    violet,
+    gray,
+    green,
+    zeroQuantBuilding
+}
+
+export enum BuildingName
+{
+    SmallIndigoPlant,
+    SmallSugarMill,
+    SmallMarket,
+    Hacienda,
+    ConstructionHut,
+    SmallWarehouse, 
+    LargeIndigoPlant,
+    LargeSugarMill,
+    Hospice,
+    Office,
+    LargeMarket,
+    LargeWarehouse,
+    TobaccoStorage,
+    CoffeeRoaster,
+    Univercity,
+    Factory,
+    Harbor,
+    Wharf,
+    GuildHall,
+    Residence,
+    Fortress,
+    CustomsHouse,
+    CityHall,
+}
+
+export enum RoleName
+{
+    Settler,
+    Builder,
+    Mayor,
+    Trader,
+    Craftsman,
+    Captain,
+    Prospector,
+    PostCaptain,
+    NoRole
 }
