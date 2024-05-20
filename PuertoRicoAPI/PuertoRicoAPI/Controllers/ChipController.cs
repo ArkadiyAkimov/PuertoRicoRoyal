@@ -73,8 +73,7 @@ namespace PuertoRicoAPI.Controllers
                             Plantation targetplantation = player.Plantations.FirstOrDefault(plantation => plantation.BuildOrder == player.BuildOrder - 1);
                             if (targetplantation != null) targetplantation.IsOccupied = true;
 
-                            if (!player.hasBuilding(BuildingName.Hacienda, true)
-                               || player.getBuilding(BuildingName.Hacienda).EffectAvailable)
+                            if (player.TookTurn)
                             {
                                 (currentRole as Settler).mainLoop();
                             }
