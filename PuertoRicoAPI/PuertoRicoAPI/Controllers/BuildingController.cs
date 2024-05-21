@@ -43,6 +43,8 @@ namespace PuertoRicoAPI.Controllers
                 .getGameState(_context, buildingInput.DataGameId);
 
             if (buildingInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+           
+            if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
 
             Console.WriteLine(gs.Buildings.Count);
 
@@ -58,7 +60,6 @@ namespace PuertoRicoAPI.Controllers
             await _context.SaveChangesAsync();
 
             await UpdateHub.SendUpdate(dataGameState, _hubContext);
-            //await _hubContext.Clients.All.SendAsync("ReceiveUpdate", dataGameState);
 
             return Ok("Succes");
         }

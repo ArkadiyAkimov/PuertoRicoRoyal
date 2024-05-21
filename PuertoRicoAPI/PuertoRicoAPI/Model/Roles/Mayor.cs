@@ -50,7 +50,6 @@ namespace PuertoRicoAPI.Model.Roles
 
         public void uselessTurnSkip(Player currentPlayer)
         {
-
             if(currentPlayer.Buildings.Count == 0 && currentPlayer.Plantations.Count == 0)
             {
                 Console.WriteLine("player {0} has no slots to fill",currentPlayer);

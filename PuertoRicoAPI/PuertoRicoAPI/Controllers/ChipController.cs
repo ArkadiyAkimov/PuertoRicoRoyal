@@ -45,6 +45,7 @@ namespace PuertoRicoAPI.Controllers
                .getGameState(_context, dataGameState.Id);
 
             Player player = gs.Players[chipInput.PlayerIndex];
+
             var currentRole = gs.getCurrentRole();
 
             switch (gs.CurrentRole)
@@ -73,13 +74,30 @@ namespace PuertoRicoAPI.Controllers
                             Plantation targetplantation = player.Plantations.FirstOrDefault(plantation => plantation.BuildOrder == player.BuildOrder - 1);
                             if (targetplantation != null) targetplantation.IsOccupied = true;
 
-                            if (!player.hasBuilding(BuildingName.Hacienda, true)
-                               || player.getBuilding(BuildingName.Hacienda).EffectAvailable)
+                            if (player.TookTurn)
                             {
                                 (currentRole as Settler).mainLoop();
                             }
                         }
                 break;
+
+                case RoleName.Builder:
+                    if (player.hasBuilding(BuildingName.Univercity, true)
+                       && player.TookTurn)
+                    {
+                        if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;
+                        else gs.ColonistsOnShip--;
+
+
+                        Building targetBuilding = player.Buildings.FirstOrDefault(building => building.BuildOrder == player.BuildOrder - 1);
+
+                        Console.WriteLine("target building: {0}", targetBuilding);
+
+                        if (targetBuilding != null) targetBuilding.Slots[0] = true;
+
+                        (currentRole as Builder).mainLoop();
+                    }
+                    break;
             }
 
             await DataFetcher.Update(dataGameState, gs);
