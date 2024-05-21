@@ -2,7 +2,8 @@ import { RoleHttpService } from './../../services/role-http.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
-import { GameStateJson, DataBuilding } from '../../classes/general';
+import { BuildingName, DataBuilding, DataPlantation, DataPlayer, GameStateJson, PlayerUtility, RoleName } from '../../classes/general';
+
 
 @Component({
   selector: 'app-buildings',
@@ -25,6 +26,7 @@ export class BuildingsComponent implements OnInit {
   buildings4:DataBuilding[] = [];
   buildings5:DataBuilding[] = [];
 
+  
   constructor(
     public gameService:GameService,
     private roleHttpService:RoleHttpService,

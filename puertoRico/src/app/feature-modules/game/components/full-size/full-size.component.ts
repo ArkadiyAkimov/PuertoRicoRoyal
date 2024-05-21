@@ -96,7 +96,7 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       event.previousContainer.data,
       event.container.data,
       event.previousIndex,
-      event.currentIndex,
+      event.container.data.length,
     );
   }
 

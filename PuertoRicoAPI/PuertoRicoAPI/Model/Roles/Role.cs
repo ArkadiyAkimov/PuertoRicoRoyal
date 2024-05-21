@@ -28,30 +28,33 @@ namespace PuertoRicoAPI.Model.Roles
 
         public virtual void mainLoop()
         {
+            Player player = gs.getCurrPlayer();  
+
             if (IsFirstIteration)
             {
-
+                player.TookTurn = false;
                 Console.WriteLine(this.Name + ": First Iteration");
                 this.gs.IsRoleInProgress = true;
                 this.gs.CurrentRole = this.Name;
                 IsFirstIteration = false;
                 IsPlayable = false;
-                var currentPlayer = gs.getCurrPlayer();
-                currentPlayer.chargePlayer(-this.Bounty);
+                player.chargePlayer(-this.Bounty);
                 this.Bounty = 0;
-                Console.WriteLine("Current Player: " + gs.getCurrPlayer().Index);
+                Console.WriteLine("Current Player: " + player.Index);
                 return;
             }
-            
-            if(this.Name != RoleName.Craftsman) gs.nextPlayer();
 
+
+            if (this.Name != RoleName.Craftsman) gs.nextPlayer();
+
+            gs.getCurrPlayer().TookTurn = false;
 
             if (gs.getCurrPlayer().CheckForPriviledge() && this.Name != RoleName.Captain)
             {
                 endRole();
                 return;
             }
-            Console.WriteLine("Current Player: " + gs.getCurrPlayer().Index);
+            Console.WriteLine("Current Player: " + player.Index);
         }
         public virtual void endRole()
         {
@@ -64,7 +67,6 @@ namespace PuertoRicoAPI.Model.Roles
 
         public void initializeBuildingEffects(BuildingName buildingName, bool isTrue)
         {
-            Console.WriteLine("first iteration settler");
             foreach (Player player in gs.Players)
             {
                 if (player.hasBuilding(buildingName, true))

@@ -21,8 +21,10 @@ namespace PuertoRicoAPI.Model.Roles
                 this.initializeBuildingEffects(BuildingName.Hospice, false);
             }
 
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
+
 
             if (gs.countExposedPlantations() == 0) DrawPlantations();
         }
@@ -113,6 +115,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             if (dataPlantation != null && dataPlantation.IsExposed)//exposed
             {
+
                 newPlantation = new Plantation(dataPlantation);
                 Plantation removedPlantation = this.gs.Plantations
                     .FirstOrDefault(plantation => plantation.IsExposed

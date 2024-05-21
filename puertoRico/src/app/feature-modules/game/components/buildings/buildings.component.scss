@@ -21,6 +21,7 @@
   display: flex;
   box-sizing: border-box;
   width: $max-width;
+  outline: solid 2px red;
 }
 
 .one-row-at-bottom{
@@ -210,6 +211,7 @@
 
 .cdk-drag-placeholder {
   opacity: 0;
+  
 }
 
 .cdk-drag-animating {

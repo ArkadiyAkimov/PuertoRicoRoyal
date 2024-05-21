@@ -11,12 +11,14 @@ import { GameStartHttpService } from './game-start-http.service';
 })
 export class GameService{
   
+  debugOptions:boolean = true;
+
   startGameOutput!:StartGameOutput;
 
   playerIndex:number = 0;
   numOfPlayers:number = 4;
 
-  gameId:number = 15;
+  gameId:number = 28;
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];
@@ -228,7 +230,7 @@ export class GameService{
   }
 
   sortBuildings(myBuildings:DataPlayerBuilding[]){
-    myBuildings.sort((a,b)=> a.name - b.name);
+    myBuildings.sort((a,b)=> a.buildOrder - b.buildOrder && a.name - b.name);
     let buildingsMatrix = this.initMatrix();
     let occupiedBuildingSpaces:number[] = [0,0,0,0];
 
@@ -249,6 +251,7 @@ export class GameService{
         occupiedBuildingSpaces[Math.floor(((i-4)/2)+1)] += this.getPlayerBuildingType(myBuildings[i])!.size;
       }
     }
+
 
     return buildingsMatrix;
   }
