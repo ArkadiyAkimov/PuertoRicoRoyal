@@ -92,8 +92,6 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 dataPlayer.Colonists = player.Colonists;
                 dataPlayer.VictoryPoints = player.VictoryPoints;
                 dataPlayer.TookTurn = player.TookTurn;
-                dataPlayer.CanUseSmallWarehouse = player.CanUseSmallWarehouse;
-                dataPlayer.CanUseLargeWarehouse = player.CanUseLargeWarehouse;
                 dataPlayer.BuildOrder = player.BuildOrder;
                 dataPlayer.Score = player.Score;
 

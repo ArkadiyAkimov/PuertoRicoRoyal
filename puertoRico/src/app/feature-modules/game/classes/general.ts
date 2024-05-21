@@ -68,8 +68,6 @@ export class GameStateJson{
     colonists:number = 0;
     victoryPoints:number = 0;
     tookTurn:boolean = false;  
-    canUseSmallWarehouse:boolean = false;
-    canUseLargeWarehouse:boolean = false;
     buildings:DataPlayerBuilding[] = [];
     plantations:DataPlayerPlantation[] = [];
     buildOrder:number = 0;
@@ -120,6 +118,7 @@ export class GameStateJson{
     slots:number = 0;
     size:number = 0;
     startingQuantity:number = 0;
+    expansion:number = 0;
   }
   
   export class DataPlantation {
@@ -164,6 +163,7 @@ export class GameStateJson{
       burlywood,
       black,
       violet,
+      red,
       gray,
       green,
       zeroQuantBuilding
@@ -174,26 +174,48 @@ export class GameStateJson{
       SmallIndigoPlant,
       SmallSugarMill,
       SmallMarket,
+      Aqueduct,//1
       Hacienda,
       ConstructionHut,
+      ForestHouse,//1
+      BlackMarket,//1
       SmallWarehouse, 
+      Storehouse,//1
+      LandOffice,//2
+      Chapel,//2
       LargeIndigoPlant,
       LargeSugarMill,
       Hospice,
+      GuestHouse,//1
       Office,
       LargeMarket,
+      TradingPost,//1
+      Church,//1
       LargeWarehouse,
+      SmallWharf,//1
+      HuntingLodge,//2
+      ZoningOffice,//2
+      RoyalSupplier,//2
       TobaccoStorage,
       CoffeeRoaster,
       Univercity,
+      Lighthouse,//1
       Factory,
       Harbor,
+      SpecialtyFactory,//1
+      Library,//1
       Wharf,
+      UnionHall,//1
+      Villa,//2
+      Jeweler,//2
       GuildHall,
       Residence,
       Fortress,
       CustomsHouse,
       CityHall,
+      Statue,//1
+      Cloister,//1
+      RoyalGarden,//2
   }
   
   export enum RoleName

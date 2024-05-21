@@ -32,7 +32,8 @@ namespace PuertoRicoAPI
             white,
             burlywood,
             black,
-            violet
+            violet,
+            red
         }
     }
 }

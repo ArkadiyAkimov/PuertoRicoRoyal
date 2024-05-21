@@ -18,8 +18,6 @@ namespace PuertoRicoAPI.Models
             this.Colonists = dataPlayer.Colonists;
             this.VictoryPoints = dataPlayer.VictoryPoints;
             this.TookTurn = dataPlayer.TookTurn;
-            this.CanUseSmallWarehouse = dataPlayer.CanUseSmallWarehouse;
-            this.CanUseLargeWarehouse = dataPlayer.CanUseLargeWarehouse;
             this.BuildOrder = dataPlayer.BuildOrder;
             this.Score = dataPlayer.Score;
 
@@ -47,8 +45,6 @@ namespace PuertoRicoAPI.Models
         public int Colonists { get; set; }
         public int VictoryPoints { get; set; }
         public bool TookTurn { get; set; }
-        public bool CanUseSmallWarehouse { get; set; }
-        public bool CanUseLargeWarehouse { get; set; }
         public List<Building> Buildings { get; set; }
         public List<Plantation> Plantations { get; set; }
         public int BuildOrder { get; set; }

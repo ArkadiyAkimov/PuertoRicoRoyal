@@ -23,13 +23,13 @@
   width: calc($base-unit/1.26);
   height: calc($base-unit/1.5);
   //border: $base-border solid black;
-  box-shadow:  1px 1px rgb(0, 101, 0);
+  box-shadow: $base-shadow;
   text-shadow: 1px 0.5px rgba(0, 0, 0, 0.317), 0.5px 1px rgba(0, 0, 0, 0.295);
   border-radius: $base-radius;
   margin: $base-margin;
 
   color: white;
-  background-color: rgb(42, 113, 21);
+  background-color: rgb(98, 118, 216);
   background-size: calc($base-unit * 2);
   background-blend-mode: luminosity;
 
@@ -37,13 +37,13 @@
 }
 
 .good-and-number:active{
-    box-shadow: -0px -0px rgb(72, 135, 69);
-    margin-bottom: 0px;
-    margin-right: 0px;
-    margin-top: 2px;
-    margin-left: 2px; 
-    background-color: rgb(0, 101, 0);
-  }
+  box-shadow: -0px -0px rgb(69, 80, 135);
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: 2px;
+  margin-left: 2px; 
+  background-color: rgb(85, 102, 186);
+}
 
 .good-button{
   @extend #center-content;

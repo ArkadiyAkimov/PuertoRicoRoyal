@@ -42,6 +42,7 @@ export class BuildingsComponent implements OnInit {
     initializeBuildings(){
       let initBuildings = this.gs.buildings;
 
+      initBuildings = initBuildings.filter(building => this.gameService.getBuildingType(building)?.expansion == 0 );
       initBuildings.sort((a,b) => a.name - b.name);
 
       this.buildings1 = [];
