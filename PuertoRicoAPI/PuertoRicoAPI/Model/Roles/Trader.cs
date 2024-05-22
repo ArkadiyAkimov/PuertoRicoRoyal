@@ -2,6 +2,7 @@
 using PuertoRicoAPI.Model.Containers;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
+using System.Numerics;
 
 namespace PuertoRicoAPI.Model.Roles
 {
@@ -42,12 +43,25 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach(Good good in player.Goods)
             {
-                if (gs.TradeHouse.CanSellGood(good.Type, player))
+                if (gs.TradeHouse.CanSellGood(good.Type, player) || player.hasBuilding(BuildingName.TradingPost, true))
                 {
                     canSellAnything = true;
                 }
             }
             return canSellAnything;
+        }
+
+        public void SellToTradingPost(Good good)
+        {
+            Player player = gs.getCurrPlayer();
+
+            Console.WriteLine("player selling good to trading post:" + good.Type);
+            
+            good.Quantity--;
+            player.chargePlayer(-good.GetPrice());
+            if (player.CheckForPriviledge()) player.chargePlayer(-1);
+
+            this.mainLoop();
         }
 
         public bool TrySellGood(Good good)

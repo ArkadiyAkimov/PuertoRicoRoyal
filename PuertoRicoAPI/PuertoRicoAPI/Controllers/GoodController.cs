@@ -9,6 +9,7 @@ using PuertoRicoAPI.Types;
 using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
 using PuertoRicoAPI.Models;
+using System.Numerics;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -97,6 +98,40 @@ namespace PuertoRicoAPI.Controllers
                 default:
                     return Ok("Nothing to do with this good");
             }
+
+            await DataFetcher.Update(dataGameState, gs);
+
+            await _context.SaveChangesAsync();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+        [HttpPost("tradingPostGood")]
+        public async Task<ActionResult<DataGameState>> PostTradingPostGood(GoodInput goodInput)
+        {
+            DataPlayerGood dataGood = await DataFetcher
+                .getDataGood(_context, goodInput.GoodId);
+
+            DataGameState dataGameState = await DataFetcher
+              .getDataGameState(_context, goodInput.DataGameId);
+
+            GameState gs = await ModelFetcher
+             .getGameState(_context, goodInput.DataGameId);
+
+            if (goodInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+            if (gs.CurrentRole != RoleName.Trader) return Ok("hi");
+
+            var currentRole = gs.getCurrentRole();
+
+            Player player = gs.getCurrPlayer();
+
+            var good = gs.getCurrPlayer().GetGood(dataGood.Type);
+
+            if (player.GetGoodCount(good.Type) == 0) return Ok("You don't have haha");
+
+            if (player.hasBuilding(BuildingName.TradingPost, true)) (currentRole as Trader).SellToTradingPost(good);
 
             await DataFetcher.Update(dataGameState, gs);
 
