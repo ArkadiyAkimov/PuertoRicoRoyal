@@ -34,7 +34,7 @@
               <div class="building-victory-score {{(building?.quantity == 0)?'mute-vp':''}}">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
             </div>  
             <div class="bottom-building-card">
-              <div class="colonist-slot expansion-{{this.gameService.getBuildingType(building)?.expansion}}" *ngFor="let slot of building?.slots; let i=index">
+              <div class="colonist-slot expansion-{{this.gameService.getBuildingType(building)?.expansion}} ring-{{this.gameService.getBuildingType(building)?.color}}" *ngFor="let slot of building?.slots; let i=index">
                 <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
               </div>
             </div>

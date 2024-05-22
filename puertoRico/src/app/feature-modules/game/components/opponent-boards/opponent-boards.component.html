@@ -14,7 +14,7 @@
         <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}</div></div>  
       <div class="bottom-plantation-card">
         <div class="plantation-art" class="{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}"></div>
-        <div class="colonist-slot expansion-0" >
+        <div class="colonist-slot plantation-ring" >
           <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
         </div>
       </div>

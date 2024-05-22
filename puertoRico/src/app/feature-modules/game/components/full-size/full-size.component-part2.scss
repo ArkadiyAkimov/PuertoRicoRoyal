@@ -1,4 +1,17 @@
 @import '../../../../styles/variables.scss';
+.plantation-ring{
+  outline: $plantation-ring;
+}
+.expansion-0{
+  outline: $expansion-0-ring;
+}
+.expansion-1{
+ outline: $expansion-1-ring;
+}
+.expansion-2{
+  outline: $expansion-2-ring;
+}
+
 
 .example-list {
     @extend #start-content, #wrap-row ;
@@ -138,14 +151,5 @@
     pointer-events: none;
   }
   
-  .expansion-0{
-    outline: solid wheat 1.5px;
-  }
-  
-  .expansion-1{
-   outline: solid rgb(89, 76, 236) 1.5px;
-  }
-  
-  .expansion-2{
-    outline: solid rgb(245, 52, 52) 1.5px;
-  }
+
+ 
