@@ -16,6 +16,8 @@
     background-size: calc($base-unit + $base-margin*2);
     background-repeat: repeat;
     
+    border-radius: $base-radius;
+    
     background-color: white;
   }
   
@@ -136,3 +138,14 @@
     pointer-events: none;
   }
   
+  .expansion-0{
+    outline: solid wheat 1.5px;
+  }
+  
+  .expansion-1{
+   outline: solid rgb(89, 76, 236) 1.5px;
+  }
+  
+  .expansion-2{
+    outline: solid rgb(245, 52, 52) 1.5px;
+  }

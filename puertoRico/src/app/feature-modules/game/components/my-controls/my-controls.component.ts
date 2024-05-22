@@ -79,9 +79,12 @@ export class MyControlsComponent implements OnInit {
       let gs = this.gameService.gs.value;
       let player = gs.players[this.gameService.playerIndex];
 
-      if(gs.currentPlayerIndex != player.index) return '';
+      if(gs.currentPlayerIndex != this.gameService.playerIndex) return '';
 
       switch(this.gameService.gs.value.currentRole){
+        case RoleName.Draft:
+          canEndTurn = false;
+          break;
         case RoleName.NoRole:
           break;
         case RoleName.Mayor:

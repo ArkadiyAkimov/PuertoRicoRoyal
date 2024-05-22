@@ -14,7 +14,8 @@ namespace PuertoRicoAPI.Types
         Captain,
         Prospector,
         PostCaptain,
-        NoRole
+        NoRole,
+        Draft
     }
     public static class RoleInit
     {
@@ -36,6 +37,8 @@ namespace PuertoRicoAPI.Types
                     return new Captain(dataRole, gs);
                 case RoleName.PostCaptain:
                     return new PostCaptain(dataRole, gs);
+                case RoleName.Draft:
+                    return new Draft(dataRole, gs);
                 default:
                     return new Prospector(dataRole, gs);
             }

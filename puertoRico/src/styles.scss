@@ -6,10 +6,13 @@ body{
     user-select: none; /* Standard syntax */
     margin: 0px; 
     background-color: rgb(233, 234, 196);
+    
 }
 
 html, body {
     max-width: 100%;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
 }
 
 

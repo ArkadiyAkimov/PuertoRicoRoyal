@@ -12,6 +12,7 @@ namespace PuertoRicoAPI.Model.deployables
             this.Type = buildingType;
             this.Slots = new bool[buildingType.Slots];
             this.Quantity = dataBuilding.Quantity;
+            this.isDrafted = dataBuilding.isDrafted;
 
             for (int i = 0; i < buildingType.Slots; i++) 
             {
@@ -56,6 +57,7 @@ namespace PuertoRicoAPI.Model.deployables
         public int Quantity { get; set; }
         public int BuildOrder { get; set; }
         public bool EffectAvailable { get; set; }
+        public bool isDrafted { get; set; }
 
         public int freeSlots()
         {

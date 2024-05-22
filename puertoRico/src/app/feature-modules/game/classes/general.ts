@@ -95,6 +95,7 @@ export class GameStateJson{
     slots:DataSlot[] = [];
     quantity:number = 0;
     effectAvailable:boolean = false;
+    isDrafted:boolean = false;
   }
   
   export class DataPlayerBuilding {
@@ -228,5 +229,6 @@ export class GameStateJson{
       Captain,
       Prospector,
       PostCaptain,
-      NoRole
+      NoRole,
+      Draft
   }

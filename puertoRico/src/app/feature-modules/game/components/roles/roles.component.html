@@ -1,4 +1,5 @@
 <div class="roles-container">
+    
     <div *ngFor="let role of this.roles; let i = index"  
     class="role-card {{getRoleSelectionClass(role) 
     + ((this.gs.players.length == 3)?' role-card-3-players':'') }}"

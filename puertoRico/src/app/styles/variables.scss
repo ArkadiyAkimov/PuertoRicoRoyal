@@ -5,13 +5,14 @@ $base-margin: 1px;
 $base-radius: 5px;
 $test-color: transparent;
 $max-width: calc(($base-unit + $base-margin*2) * 8);
-$highlight-color:rgb(42, 113, 21);
-$highlight-color2:gold;
+$highlight-color:rgb(7, 110, 9);
+$highlight-color2:rgb(12, 6, 51);
 $highlight-color3:rgb(203, 3, 3);
 
 $base-shadow: 1px 1px rgb(69, 80, 135);
-$highlight-shadow: 1px 1px rgb(1, 92, 1);
-$highlight-shadow2: 1px 1px  rgb(121, 1, 1);
+$highlight-shadow: 1px 1px rgb(5, 70, 5);
+$highlight-shadow2: 1px 1px  rgb(12, 6, 51);
+$highlight-shadow3: 1px 1px  rgb(121, 1, 1);
 
 $building-vp-color: rgba(255, 59, 59, 0.893);
 $building-vp-shadow: 1px 0.5px black;
@@ -55,3 +56,4 @@ $building-vp-shadow: 1px 0.5px black;
       border-radius: $base-radius;
       background-color: $test-color;
   }
+

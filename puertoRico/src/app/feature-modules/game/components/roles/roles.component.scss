@@ -2,13 +2,13 @@
 
 :host{ 
     @extend #center-content ;
-    //background-color:  rgb(194, 237, 255);
     max-width: 100%;
+
 }
 
 .roles-container{
-    @extend #main-container,#start-content, #wrap-row ;
-
+    @extend #main-container,#center-content, #wrap-row ;
+    
 }
 
 .role-card{

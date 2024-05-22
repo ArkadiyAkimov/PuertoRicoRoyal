@@ -4,22 +4,30 @@
   class="good-and-number {{getGoodButtonHighlightRule(good)}}"
   (click)="this.onClickGood(good)">
 
-  <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel"></div>
-  <div class="good-count">{{(this.gameService.storedGoodTypes[0]==good.type)?1:good.quantity}}</div></div>
+  <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
+    <div class="good-count">{{(this.gameService.storedGoodTypes[0]==good.type)?1:good.quantity}}</div>
+  </div>
+  </div>
 </div>   
 
 <div class="goods-display">
-  
-  <div class="good-and-number">
-          <div class="doubloon">
-            <div class="chip-number">{{this.myDoubloons}}</div>
+
+        <div class="good-and-number">
+          <div class="noble-chip">
+            <div class="chip-number colonist-number">1</div>
           </div>
-        </div>
+          </div>
           
         <div class="good-and-number">
           <div class="colonist-chip">
             <div class="chip-number colonist-number">{{this.myColonists}}</div>
           </div>
+          </div>
+
+          <div class="good-and-number">
+            <div class="doubloon">
+              <div class="chip-number">{{this.myDoubloons}}</div>
+            </div>
           </div>
 
           <div class="good-and-number" (click)="this.hideVictoryPoints = !this.hideVictoryPoints">
@@ -28,7 +36,7 @@
           </div>
         </div>
 
-        <div class="end-turn-button {{this.getEndTurnHighlightRule()}}" (click)="endTurn()">
+        <div class=" end-turn-button {{this.getEndTurnHighlightRule()}}" (click)="endTurn()">
          <div > End Turn </div>
          </div>
 

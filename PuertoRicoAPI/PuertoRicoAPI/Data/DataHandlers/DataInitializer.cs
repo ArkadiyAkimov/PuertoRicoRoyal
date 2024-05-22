@@ -14,7 +14,9 @@ namespace PuertoRicoAPI.Data.DataHandlers
         public static async Task<StartGameOutput> Initialize(DataContext _context, int numOfPlayers) 
         {
             DataGameState newGameState = new DataGameState();
-            newGameState.IsRoleInProgress = false;
+            newGameState.IsBuildingsExpansion = false; //add init
+            newGameState.IsNoblesExpansion = false; // add init
+            newGameState.IsRoleInProgress = true; //true for draft  false for no draft
             newGameState.VictoryPointSupply = new int[]{ 75, 100, 122}[numOfPlayers - 3];
             newGameState.ColonistsOnShip = numOfPlayers;
             newGameState.QuarryCount = 9;
@@ -23,7 +25,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newGameState.SugarSupply = 11;
             newGameState.TobaccoSupply = 9;
             newGameState.CoffeeSupply = 9;
-            newGameState.CurrentRole = RoleName.NoRole;
+            newGameState.CurrentRole = RoleName.Draft;  //add option to choose default:noRole
             newGameState.Roles = initializeRoles(numOfPlayers);
             newGameState.Players = initializePlayers(numOfPlayers);
             newGameState.Buildings = initializeBuildings(numOfPlayers);
@@ -109,10 +111,15 @@ namespace PuertoRicoAPI.Data.DataHandlers
                     };
 
             List<DataPlayer> newPlayers = new List<DataPlayer>();
+
             for (int i = 0; i < numOfPlayers; i++)
             {
                 var newPlayer = initPlayer(i, numOfPlayers - 1);
                 var faceUpGoodType = (GoodType)faceUpPlants[numOfPlayers-1][i];
+
+                newPlayer.Doubloons--;  //balanced
+                newPlayer.Doubloons += faceUpPlants[numOfPlayers - 1][i];  //balanced
+
                 newPlayer.Plantations.Add(initPlayerPlantation(faceUpGoodType));
 
                 newPlayers.Add(newPlayer);
@@ -135,7 +142,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             DataPlayer newPlayer = new DataPlayer();
             newPlayer.Index = index;
-            newPlayer.Doubloons = 80; //doubloons
+            newPlayer.Doubloons = doubloons; //doubloons
             newPlayer.Colonists = 0;
             newPlayer.VictoryPoints = 0;
             newPlayer.TookTurn = false;
@@ -176,6 +183,9 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newBuilding.Name = type.Name;
             newBuilding.Slots = new List<DataSlot>();
             newBuilding.Quantity = type.StartingQuantity;
+            
+            if(type.IsProduction)newBuilding.isDrafted = true;
+            if(type.Expansion == 2)newBuilding.isDrafted=true;
 
             for (int i = 0; i < type.Slots; i++)
             {

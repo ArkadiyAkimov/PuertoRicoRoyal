@@ -57,7 +57,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
         public static async Task<DataGameState> Update(DataGameState dataGameState, GameState gs)
         {
-
+            dataGameState.IsBuildingsExpansion = gs.IsBuildingsExpansion;
+            dataGameState.IsNoblesExpansion = gs.IsNoblesExpansion;
             dataGameState.IsRoleInProgress = gs.IsRoleInProgress;
             dataGameState.CurrentPlayerIndex = gs.CurrentPlayerIndex;
             dataGameState.PrivilegeIndex = gs.PrivilegeIndex;
@@ -167,6 +168,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
                 dataBuilding.Name = building.Type.Name;
                 dataBuilding.Quantity = building.Quantity;
+                dataBuilding.isDrafted = building.isDrafted;
                 dataBuilding.Slots = new List<DataSlot>();
 
                 for (int j = 0; j < building.Slots.Length; j++)

@@ -5,20 +5,22 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
+import { ScrollService } from './scroll.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService{
   
-  debugOptions:boolean = true;
-
+  debugOptions:boolean = false;
+  isHotSeat:boolean = true;
+  islargeBuildingDragging = new BehaviorSubject<boolean>(false); 
   startGameOutput!:StartGameOutput;
 
   playerIndex:number = 0;
   numOfPlayers:number = 4;
 
-  gameId:number = 43;
+  gameId:number = 1;
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];
@@ -27,11 +29,10 @@ export class GameService{
   storedGoodTypes:number[] = [6,6,6,6];
   finishedInitialStorage:boolean = false;
   targetStorageIndex = 1;
-  isHotSeat:boolean = false;
 
   private hubConnection: HubConnection;
 
-  constructor(private gameStartHttp:GameStartHttpService){ 
+  constructor(private gameStartHttp:GameStartHttpService, private scrollService:ScrollService){ 
     this.hubConnection = new HubConnectionBuilder()
     .withUrl(`${environment.apiUrl}/updatehub`)
     .build();
@@ -76,6 +77,7 @@ export class GameService{
      this.hubConnection.on('ReceiveUpdate', (gs:GameStateJson) => {
       console.log("update");
       if(this.isHotSeat)this.playerIndex = gs.currentPlayerIndex;  //hotseat adaptation (won't show vp correct)
+      this.scrollService.autoScroll(gs.currentRole);
       this.gs.next(gs);
     });
   }
@@ -83,6 +85,7 @@ export class GameService{
   selectIndex() {
       this.hubConnection.invoke('SelectIndex', this.playerIndex);
   };
+
 
   getBuildingType(dataBuilding:DataBuilding):BuildingType|null{
     let buildingType = this.buildingTypes.find(bt => bt.name == dataBuilding.name);

@@ -65,8 +65,8 @@ namespace PuertoRicoAPI.Types
         Fortress,
         CustomsHouse,
         CityHall,
-        Statue,//1
         Cloister,//1
+        Statue,//1
         RoyalGarden,//2
     }
 
@@ -128,8 +128,8 @@ namespace PuertoRicoAPI.Types
                 fortress,
                 customsHouse,
                 cityHall,
-                statue,//1
                 cloister,//1
+                statue,//1
                 royalGarden,//2
             };
         }
@@ -666,21 +666,6 @@ namespace PuertoRicoAPI.Types
             Expansion = 1,
         };
 
-        public static BuildingType statue { get; } = new BuildingType
-        {
-            Name = BuildingName.Statue,
-            DisplayName = "statue",
-            Good = GoodType.NoType,
-            Color = ColorName.violet,
-            Price = 10,
-            VictoryScore = 8,
-            IsProduction = false,
-            Slots = 0,
-            size = 2,
-            StartingQuantity = 1,
-            Expansion = 1,
-        };
-
         public static BuildingType cloister { get; } = new BuildingType
         {
             Name = BuildingName.Cloister,
@@ -691,6 +676,21 @@ namespace PuertoRicoAPI.Types
             VictoryScore = 4,
             IsProduction = false,
             Slots = 1,
+            size = 2,
+            StartingQuantity = 1,
+            Expansion = 1,
+        };
+
+        public static BuildingType statue { get; } = new BuildingType
+        {
+            Name = BuildingName.Statue,
+            DisplayName = "statue",
+            Good = GoodType.NoType,
+            Color = ColorName.violet,
+            Price = 10,
+            VictoryScore = 8,
+            IsProduction = false,
+            Slots = 0,
             size = 2,
             StartingQuantity = 1,
             Expansion = 1,
@@ -814,8 +814,9 @@ namespace PuertoRicoAPI.Types
             VictoryScore = 4,
             IsProduction = false,
             Slots = 1,
-            size = 1,
-            StartingQuantity = 2,
+            size = 2,
+            StartingQuantity = 1,
+            Expansion = 2,
         };
     }
 }
