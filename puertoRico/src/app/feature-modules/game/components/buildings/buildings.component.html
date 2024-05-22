@@ -16,17 +16,18 @@
             </div>
           </div>
         </div>
-        
-        <div
-          class="building color{{this.gameService.getBuildingType(building)?.color}} building-size-{{this.gameService.getBuildingType(building)?.size}}"
+          
+        <div  
+        class="building color{{this.gameService.getBuildingType(building)?.color}} {{this.getBuildingHighlight(building)}} building-size-{{this.gameService.getBuildingType(building)?.size}}"
           *ngFor="let building of buildingList"
           [cdkDragData]="building"
           [cdkDragStartDelay]="this.buildingDragDelay"
           [cdkDragDisabled]="this.checkBuildingDraggable(building)"
           (cdkDragStarted)="this.onDragBuilding(building)"
           (cdkDragReleased)="this.onDragBuildingEnded()"
-          cdkDrag>
-    
+          cdkDrag
+          >
+
           <div class="building-card-frame">
             <div class="top-building-card"> 
               <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>

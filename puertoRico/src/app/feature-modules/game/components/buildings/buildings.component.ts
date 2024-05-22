@@ -75,6 +75,14 @@ export class BuildingsComponent implements OnInit {
           buildingsMatrix[ArrayIndex-1].push(initBuildings[currentBuildingIndex]);
     }
 
+    getBuildingHighlight(building:DataBuilding){
+      if(this.gameService.gs.value.currentRole == RoleName.Draft){
+      if(building.isDrafted) return "isDrafted";
+      if(building.isBlocked) return "isBlocked";
+      };
+      return "";
+    }
+
     checkBuildingDraggable(building:DataBuilding){
       let disableDragging = false;
 

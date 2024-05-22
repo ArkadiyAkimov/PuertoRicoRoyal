@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PuertoRicoAPI.Controllers;
 using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Front.FrontClasses;
 using PuertoRicoAPI.Model.Containers;
@@ -11,12 +12,13 @@ namespace PuertoRicoAPI.Data.DataHandlers
 {
     public static class DataInitializer
     {
-        public static async Task<StartGameOutput> Initialize(DataContext _context, int numOfPlayers) 
+        public static async Task<StartGameOutput> Initialize(DataContext _context, int numOfPlayers,GameStartInput gsInput) 
         {
             DataGameState newGameState = new DataGameState();
-            newGameState.IsBuildingsExpansion = false; //add init
-            newGameState.IsNoblesExpansion = false; // add init
-            newGameState.IsRoleInProgress = true; //true for draft  false for no draft
+            newGameState.IsDraft = gsInput.IsDraft;
+            newGameState.IsBuildingsExpansion = gsInput.IsBuildingsExpansion; 
+            newGameState.IsNoblesExpansion = gsInput.IsNoblesExpansion; 
+            newGameState.IsRoleInProgress = true; 
             newGameState.VictoryPointSupply = new int[]{ 75, 100, 122}[numOfPlayers - 3];
             newGameState.ColonistsOnShip = numOfPlayers;
             newGameState.QuarryCount = 9;
@@ -25,7 +27,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newGameState.SugarSupply = 11;
             newGameState.TobaccoSupply = 9;
             newGameState.CoffeeSupply = 9;
-            newGameState.CurrentRole = RoleName.Draft;  //add option to choose default:noRole
+            newGameState.CurrentRole = RoleName.Draft;
             newGameState.Roles = initializeRoles(numOfPlayers);
             newGameState.Players = initializePlayers(numOfPlayers);
             newGameState.Buildings = initializeBuildings(numOfPlayers);
@@ -69,7 +71,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
         static List<DataRole> initializeRoles(int numOfPlayers)
         {
-            RoleName[] roleNames = { RoleName.Settler, RoleName.Builder, RoleName.Mayor, RoleName.Trader, RoleName.Craftsman, RoleName.Captain ,RoleName.PostCaptain};
+            RoleName[] roleNames = { RoleName.Settler, RoleName.Builder, RoleName.Mayor, RoleName.Trader, RoleName.Craftsman, RoleName.Captain ,RoleName.PostCaptain, RoleName.Draft};
             List<DataRole> roles = new List<DataRole>();
 
             foreach (RoleName roleName in roleNames)
@@ -186,6 +188,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
             
             if(type.IsProduction)newBuilding.isDrafted = true;
             if(type.Expansion == 2)newBuilding.isDrafted=true;
+
+            newBuilding.isBlocked = false;
 
             for (int i = 0; i < type.Slots; i++)
             {

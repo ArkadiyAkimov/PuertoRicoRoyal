@@ -13,5 +13,6 @@ namespace PuertoRicoAPI.Data.DataClasses
         public List<DataSlot> Slots { get; set; }
         public int Quantity { get; set; }
         public bool isDrafted { get; set; }
+        public bool isBlocked { get; set; }
     }
 }  

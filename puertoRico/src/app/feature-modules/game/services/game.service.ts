@@ -3,7 +3,7 @@ import { Injectable, OnInit } from '@angular/core';
  import { BehaviorSubject } from 'rxjs';
  import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { environment } from 'src/environments/environment.development';
-import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName } from '../classes/general';
+import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
 import { ScrollService } from './scroll.service';
 
@@ -18,9 +18,7 @@ export class GameService{
   startGameOutput!:StartGameOutput;
 
   playerIndex:number = 0;
-  numOfPlayers:number = 4;
 
-  gameId:number = 1;
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];
@@ -32,6 +30,8 @@ export class GameService{
 
   private hubConnection: HubConnection;
 
+  startGameInput:GameStartInput = new GameStartInput()
+
   constructor(private gameStartHttp:GameStartHttpService, private scrollService:ScrollService){ 
     this.hubConnection = new HubConnectionBuilder()
     .withUrl(`${environment.apiUrl}/updatehub`)
@@ -42,7 +42,14 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.gameStartHttp.postNewGame(this.gameId ,this.numOfPlayers ,this.playerIndex)
+    this.startGameInput.gameId = 22;
+    this.startGameInput.numOfPlayers = 4;
+    this.startGameInput.playerIndex = 0;
+    this.startGameInput.isDraft = false;
+    this.startGameInput.isBuildingsExpansion = false;
+    this.startGameInput.isNoblesExpansion = false;
+
+    this.gameStartHttp.postNewGame(this.startGameInput)
     .subscribe({
       next:(startGameOutput:StartGameOutput) => {
       this.buildingTypes = startGameOutput.buildingTypes;

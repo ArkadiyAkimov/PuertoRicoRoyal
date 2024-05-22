@@ -2,6 +2,9 @@ import { User } from "../../user/models/user";
 
 export class GameStateJson{
     id:number = 0;
+    isDraft:boolean = false;
+    isBuildingsExpansion:boolean = false;
+    isNoblesExpansion:boolean = false;
     isRoleInProgress:boolean = false;
     currentPlayerIndex:number = 0;
     privilegeIndex:number = 0;
@@ -96,6 +99,7 @@ export class GameStateJson{
     quantity:number = 0;
     effectAvailable:boolean = false;
     isDrafted:boolean = false;
+    isBlocked:boolean = false;
   }
   
   export class DataPlayerBuilding {
@@ -148,6 +152,15 @@ export class GameStateJson{
   export class StartGameOutput{
     gameState:GameStateJson = new GameStateJson();
     buildingTypes:BuildingType[] = [];
+  }
+
+  export class GameStartInput{
+    gameId:number = 0;
+    numOfPlayers:number = 0;
+    playerIndex:number = 0;
+    isDraft:boolean = false;
+    isBuildingsExpansion:boolean = false;
+    isNoblesExpansion:boolean = false;
   }
   
   export class GoodType {

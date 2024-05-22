@@ -14,7 +14,7 @@
 
 </div> -->
 
-<div class="index-button" *ngFor="let button of this.gameService.numSequence(this.gameService.numOfPlayers); let i=index" 
+<div class="index-button" *ngFor="let button of this.gameService.numSequence(this.gameService.startGameInput.numOfPlayers); let i=index" 
 (click)="chooseIndex(i)">
   {{i+1}}
 </div>

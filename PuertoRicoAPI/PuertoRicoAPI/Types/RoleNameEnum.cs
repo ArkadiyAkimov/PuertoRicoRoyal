@@ -15,7 +15,7 @@ namespace PuertoRicoAPI.Types
         Prospector,
         PostCaptain,
         NoRole,
-        Draft
+        Draft,
     }
     public static class RoleInit
     {

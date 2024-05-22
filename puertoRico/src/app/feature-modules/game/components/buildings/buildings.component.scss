@@ -46,6 +46,15 @@
   transform: translateY($base-unit/1.7) translateX(- $base-unit/2.5);
 }
 
+.isDrafted{
+  opacity: 0.5;
+  outline: solid 1px rgb(27, 218, 27);
+}
+
+.isBlocked{
+  opacity: 0.5;
+  outline: solid 1px red;
+}
 
   
   .building{

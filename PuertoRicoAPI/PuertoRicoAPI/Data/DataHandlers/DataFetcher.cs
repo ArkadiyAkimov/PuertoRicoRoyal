@@ -3,6 +3,7 @@ using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Model;
 using PuertoRicoAPI.Model.Containers;
 using PuertoRicoAPI.Model.deployables;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace PuertoRicoAPI.Data.DataHandlers
@@ -57,6 +58,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
         public static async Task<DataGameState> Update(DataGameState dataGameState, GameState gs)
         {
+            dataGameState.IsDraft = gs.IsDraft;
             dataGameState.IsBuildingsExpansion = gs.IsBuildingsExpansion;
             dataGameState.IsNoblesExpansion = gs.IsNoblesExpansion;
             dataGameState.IsRoleInProgress = gs.IsRoleInProgress;
@@ -169,6 +171,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 dataBuilding.Name = building.Type.Name;
                 dataBuilding.Quantity = building.Quantity;
                 dataBuilding.isDrafted = building.isDrafted;
+                dataBuilding.isBlocked = building.isBlocked;
                 dataBuilding.Slots = new List<DataSlot>();
 
                 for (int j = 0; j < building.Slots.Length; j++)
