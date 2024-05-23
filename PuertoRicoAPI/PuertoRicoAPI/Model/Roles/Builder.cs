@@ -29,38 +29,27 @@ namespace PuertoRicoAPI.Model.Roles
 
         public void checkBuilderSkip()
         {
-            int budget = 0;
-            bool canBuild = false;
-
-            Player player = gs.getCurrPlayer();
-
-            budget += player.Doubloons;
-            if (player.CheckForPriviledge()) budget++;
-
+          
             foreach (Building building in gs.Buildings)
             {
-                int quarryDiscount = Math.Min(player.countActiveQuarries(), building.Type.VictoryScore);
-                int finalPrice = budget + quarryDiscount;
-
-                if (!player.hasBuilding(building.Type.Name)
-                    && building.Quantity > 0
-                    && building.isDrafted
-                    && finalPrice >= building.Type.Price) return;
+                if (canBuyBuilding(building)) return;
             }
 
-            Console.WriteLine("player {0} can't build anything skipping turn", player.Index);
+            Console.WriteLine("player {0} can't build anything skipping turn", gs.getCurrPlayer().Index);
             this.mainLoop();
         }
 
-        public static bool tryBuyBuilding(Building building, GameState gs)
+      
+
+        public bool tryBuyBuilding(Building building)
         {
             int buildingPrice = building.getBuildingPrice();
 
-            if (!canBuyBuilding(building, buildingPrice, gs)) return false;
-
+            if (!canBuyBuilding(building)) return false;
             building.Quantity--;
-
             gs.getCurrPlayer().chargePlayer(buildingPrice);
+
+
             if (building is ProdBuilding) gs.getCurrPlayer().Buildings.Add(new ProdBuilding(building as ProdBuilding));
             else gs.getCurrPlayer().Buildings.Add(new Building(building));
 
@@ -83,16 +72,20 @@ namespace PuertoRicoAPI.Model.Roles
             return true;
         }
 
-        public static bool canBuyBuilding(Building building, int buildingPrice, GameState gs)
+        public bool canBuyBuilding(Building building)
         {
-            Console.WriteLine("info: currentRole {0}, Doubloons {1}, HasBuilding {2}, freeBuildingSlots {3}."
-                , gs.CurrentRole, gs.getCurrPlayer().Doubloons, gs.getCurrPlayer().hasBuilding(building.Type.Name)
-                , gs.getCurrPlayer().freeBuildingTiles());
+            Player player = gs.getCurrPlayer();
 
             if (gs.CurrentRole != RoleName.Builder) return false;
-            if (gs.getCurrPlayer().Doubloons < buildingPrice) return false;
-            if (gs.getCurrPlayer().hasBuilding(building.Type.Name)) return false;
-            if (gs.getCurrPlayer().freeBuildingTiles() < building.Type.size) return false;
+
+            if (player.hasBuilding(building.Type.Name)) return false;
+
+            if (player.freeBuildingTiles() < building.Type.size) return false;
+
+            if (building.getBuildingPrice() > player.Doubloons) return false;
+
+
+
             return true;
         }
     }

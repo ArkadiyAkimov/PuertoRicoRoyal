@@ -59,7 +59,11 @@ namespace PuertoRicoAPI.Model.Roles
             
             good.Quantity--;
             player.chargePlayer(-good.GetPrice());
-            if (player.CheckForPriviledge()) player.chargePlayer(-1);
+            if (player.CheckForPriviledge())
+            {
+                player.chargePlayer(-1);
+                if (player.hasBuilding(BuildingName.Library, true)) player.chargePlayer(-1);
+            }
 
             this.mainLoop();
         }
@@ -72,7 +76,11 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 Console.WriteLine("player selling good " + good.Type);
                 gs.TradeHouse.SellGood(good, player);
-                if (player.CheckForPriviledge()) player.chargePlayer(-1);
+                if (player.CheckForPriviledge())
+                {
+                    player.chargePlayer(-1);
+                    if(player.hasBuilding(BuildingName.Library, true)) player.chargePlayer(-1);
+                }
                 return true;
             }
             return false;

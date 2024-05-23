@@ -144,7 +144,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             DataPlayer newPlayer = new DataPlayer();
             newPlayer.Index = index;
-            newPlayer.Doubloons = doubloons; //doubloons
+            newPlayer.Doubloons = 90; //doubloons
             newPlayer.Colonists = 0;
             newPlayer.VictoryPoints = 0;
             newPlayer.TookTurn = false;

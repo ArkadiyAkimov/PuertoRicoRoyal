@@ -1,4 +1,5 @@
 ﻿using PuertoRicoAPI.Data.DataClasses;
+using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Model.deployables
@@ -73,13 +74,18 @@ namespace PuertoRicoAPI.Model.deployables
 
         public int getBuildingPrice()
         {
+            Player player = gs.getCurrPlayer();
             int basePrice = this.Type.Price;
-            int quarryDiscountLimit = this.Type.VictoryScore;
-            int activeQuarries = this.gs.getCurrPlayer().countActiveQuarries();
+            int quarryDiscountLimit = Math.Min(this.Type.VictoryScore,4);
+            int activeQuarries = player.countActiveQuarries();
             int quarryDiscount = Math.Min(quarryDiscountLimit, activeQuarries);
             basePrice -= quarryDiscount;
 
-            if(this.gs.getCurrPlayer().CheckForPriviledge()) basePrice-- ;
+            if (player.CheckForPriviledge())
+            {   
+                basePrice--;
+                if (player.hasBuilding(BuildingName.Library, true)) basePrice--;
+            }
 
             return basePrice;
         }

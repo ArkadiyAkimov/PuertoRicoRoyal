@@ -90,7 +90,20 @@ namespace PuertoRicoAPI.Controllers
 
                         if (canProduceChosenGood) { 
                         craftsman.GiveSupplyGood(good.Type);
-                        craftsman.endRole();
+
+                            bool hasLibrary = player.hasBuilding(BuildingName.Library,true);
+
+                            if (hasLibrary && player.getBuilding(BuildingName.Library).EffectAvailable)
+                            {
+                                player.getBuilding(BuildingName.Library).EffectAvailable = false;
+                            }
+
+                            if(hasLibrary && (player.getBuilding(BuildingName.Library).EffectAvailable == false))
+                            {
+                                craftsman.endRole();
+                            }
+
+                            if(!hasLibrary) craftsman.endRole();
                         }
                     }
                     else return Ok("Good Insufficient");

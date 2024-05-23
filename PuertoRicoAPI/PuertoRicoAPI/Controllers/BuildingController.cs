@@ -55,13 +55,10 @@ namespace PuertoRicoAPI.Controllers
             }
             else
             {
-
                 if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
                 Console.WriteLine(gs.Buildings.Count);
-                if (!Builder.tryBuyBuilding(building, gs)) return Ok("can't buy building");
-
+                if (!(currentRole as Builder).tryBuyBuilding(building)) return Ok("can't buy building");
             }
-
 
             var dataGameState = await DataFetcher
                 .getDataGameState(_context, dataBuilding.DataGameStateId);

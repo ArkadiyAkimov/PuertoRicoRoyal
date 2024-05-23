@@ -19,6 +19,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 gs.Players.ForEach(x => x.Colonists += (int)Math.Ceiling(((double)gs.ColonistsOnShip / gs.Players.Count) - ((double)Utility.Mod((x.Index - gs.getCurrPlayer().Index), gs.Players.Count) / gs.Players.Count)));
                 gs.ColonistsOnShip = 0;
+                initializeBuildingEffects(BuildingName.Library, true);
             }
 
             base.mainLoop();

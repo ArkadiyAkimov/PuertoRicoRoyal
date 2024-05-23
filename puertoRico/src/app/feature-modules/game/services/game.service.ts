@@ -41,10 +41,10 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 38;
+    this.startGameInput.gameId = 0;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
-    this.startGameInput.isDraft = true;
+    this.startGameInput.isDraft = false;
     this.startGameInput.isBuildingsExpansion = false;
     this.startGameInput.isNoblesExpansion = false;
 

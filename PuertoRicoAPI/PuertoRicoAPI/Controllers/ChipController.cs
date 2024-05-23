@@ -51,16 +51,33 @@ namespace PuertoRicoAPI.Controllers
             switch (gs.CurrentRole)
             {
                 case RoleName.Mayor:
-                     if ((!gs.MayorTookPrivilige)
-                     && player.CheckForPriviledge()
-                     && (gs.ColonistsSupply > 0))
-                        {
-                         player.Colonists++;
-                         gs.ColonistsSupply--;
-                         gs.MayorTookPrivilige = true;
+                    if ((!gs.MayorTookPrivilige)
+                        && player.CheckForPriviledge()
+                        && (gs.ColonistsSupply > 0))
+                    {
+                        player.Colonists++;
+                        gs.ColonistsSupply--;
+                        gs.MayorTookPrivilige = true;
 
-                         (currentRole as Mayor).uselessTurnSkip(player);
-                         }
+                        if (!player.hasBuilding(BuildingName.Library, true))
+                        {
+                            (currentRole as Mayor).uselessTurnSkip(player);
+                        }
+                    }
+                    else if (
+                        gs.MayorTookPrivilige
+                        && player.CheckForPriviledge()
+                        && (gs.ColonistsSupply > 0)
+                        && player.hasBuilding(BuildingName.Library, true)
+                        && player.getBuilding(BuildingName.Library).EffectAvailable
+                        )
+                    {
+                        player.Colonists++;
+                        gs.ColonistsSupply--;
+                        player.getBuilding(BuildingName.Library).EffectAvailable = false;
+
+                        (currentRole as Mayor).uselessTurnSkip(player);
+                    }
                 break;
 
                 case RoleName.Settler:

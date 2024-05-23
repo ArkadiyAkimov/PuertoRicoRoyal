@@ -15,6 +15,11 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void mainLoop()
         {
+            if (IsFirstIteration)
+            {
+                initializeBuildingEffects(BuildingName.Library, true);
+            }
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
