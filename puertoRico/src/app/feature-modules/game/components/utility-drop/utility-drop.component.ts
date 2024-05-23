@@ -27,12 +27,6 @@ export class UtilityDropComponent implements OnInit{
             this.myBuildings = gs.players[gs.currentPlayerIndex].buildings;
           }
         })
-
-        this.gameService.islargeBuildingDragging.subscribe({
-          next: (isDrag:boolean) => {
-            this.isLargeBuildingDragging = isDrag;
-          }
-        })
       }
 
       largeBuildingDragging(){

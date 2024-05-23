@@ -1,7 +1,7 @@
-@import url(../../../../styles/colors.scss);
-@import url(../../../../styles/plantations.scss);
-
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/plantations.scss';
 @import '../../../../styles/variables.scss';
+@import '../../../../styles/slot-rings.scss';
 
 :host{ 
   @extend #center-content; 
@@ -87,13 +87,19 @@
   box-sizing: border-box;
   @extend #center-content;
   position: relative;
-  left: calc($base-unit*2/3 - $base-border);
-  bottom: calc($base-unit*2/3);
+  bottom: $base-unit/1.5;
+  left: $base-margin*2;
 
-  width: calc($base-unit/3);
   height: calc($base-unit/3);
 
-  border-radius: $base-radius 0px 0px $base-radius;
+  max-width: fit-content;
+
+  bottom: $base-unit/1.5;
+  left: $base-margin*2;
+  float: right;
+  border-radius: $base-radius*4 0px 0px $base-radius*4;
+
+  padding-left: $base-margin*2;
 
   border: $base-border solid rgb(0, 0, 0);
   background-color: burlywood;
@@ -134,10 +140,6 @@
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.plantation-ring{
-  outline: solid wheat 1.5px;
 }
 
 @media only screen and (min-width: 480px) {

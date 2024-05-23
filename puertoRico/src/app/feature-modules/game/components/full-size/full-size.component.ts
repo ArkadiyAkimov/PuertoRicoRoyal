@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot } from '../../classes/general';
+import { StylingService } from '../../services/styling.service';
 
 @Component({
   selector: 'app-full-size',
@@ -27,7 +28,8 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
 
   constructor(
     public gameService: GameService,
-    public roleHttp: RoleHttpService
+    public roleHttp: RoleHttpService,
+    public stylingService:StylingService,
   ){}
 
   ngOnInit(): void {

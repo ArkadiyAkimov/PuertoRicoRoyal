@@ -21,7 +21,7 @@
         <div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div>
       </div>  
       <div class="bottom-plantation-card">
-        <div class="colonist-slot plantation-ring"></div>
+        <div class="{{this.stylingService.getPlantationSlotClasses(plantation)}}"></div>
         <div class="plantation-art" [ngClass]="this.gameService.getPlantationType(plantation)?.displayName"></div>
       </div>  
       
@@ -38,7 +38,7 @@
       <div class="plantation-name">{{this.gameService.goodTypes[5].displayName}}</div>
     </div>  
     <div class="bottom-plantation-card">
-      <div class="colonist-slot plantation-ring"></div>
+      <div class="{{this.stylingService.getPlantationSlotClasses(null)}}"></div>
       <div class="plantation-art" [ngClass]="this.gameService.goodTypes[5].displayName"></div>
     </div>  
     <div class="plantation-count-badge">
@@ -62,6 +62,7 @@
     <div class="plantation-art"></div>
   </div>  
   <div class="plantation-count-badge">
+    <div class="plantation-multiplier">X</div>
     <div class="plantation-number">{{this.gs.plantations.length - this.exposedPlantations.length}}</div>
     </div>
 

@@ -32,7 +32,7 @@
     box-sizing: border-box;
     flex-direction: column;
   width: calc($max-width/2 - $base-margin*2);;
-  height: calc($max-width/4.97);
+  height: calc($base-unit/3.6);
   margin: $base-margin;
   border-radius: $base-radius;
   background-color: rgb(98, 118, 216);
@@ -193,5 +193,11 @@
   height: calc($max-width/2.665);
   width: $max-width;
 }
+
+
+.only-mobile{
+  display: none;
+}
   
 }
+

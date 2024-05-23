@@ -1,9 +1,28 @@
-<div style="
+
+<!-- <div style="
 background: rgb(255,255,255);
 background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);">
 
+</div>
+</div> -->
+
+<div  >
+<div style="
+display: flex;
+align-items: start;
+justify-content: center;
+flex-direction: row;
+    flex-wrap: wrap;">
+<div class="test-2" >
+
+
+
 <!-- <app-login-page></app-login-page> -->
 <div *ngIf="this.gameService.gs.value.lastGovernor">LAST GOVERNOR</div>
+
+<div style="
+background: rgb(255,255,255);
+background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);">
 
 <app-roles id="roles">
 </app-roles> 
@@ -12,17 +31,17 @@ background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100
 id="cargo-ships">
 </app-cargo-ships>
 
-<div class="land-transition-decoration">
+
+<div class="land-transition-decoration"></div>
 </div>
 
-</div>
 
 <app-supply-display
 id="supply">
 </app-supply-display>
 
 <app-my-controls 
-id="my-controls" 
+id="" 
 class="only-mobile controls-drop">
 </app-my-controls>  
 
@@ -45,6 +64,11 @@ id="plantations" >
 <app-opponent-boards *ngIf="!displayPlayerBoard">
 </app-opponent-boards>
 
+
+</div>
+<div class="test-2">
+
+
 <app-utility-drop 
 id="utility-drop"  
 class="utility-drop">
@@ -59,9 +83,10 @@ class="scroll-asist">
 id="buildings">
 </app-buildings>
 
-<div style="width: 100%;"
->this error: {{this.gameService.errorToUI}}</div>
+</div>
+</div>
+</div>
 
 <div class="score-board">
-    <app-score-board></app-score-board>
+  <app-score-board></app-score-board>
 </div>

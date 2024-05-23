@@ -12,7 +12,10 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
 :host{
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .ports-of-rico{

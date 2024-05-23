@@ -1,8 +1,8 @@
-import { RoleHttpService } from './../../services/role-http.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
-import { BuildingName, DataBuilding, DataPlantation, DataPlayer, GameStateJson, PlayerUtility, RoleName } from '../../classes/general';
+import {  DataBuilding, GameStateJson, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import { StylingService } from '../../services/styling.service';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class BuildingsComponent implements OnInit {
   
   constructor(
     public gameService:GameService,
-    private roleHttpService:RoleHttpService,
+    public stylingService:StylingService,
     ){
       this.buildingCols = [
         this.buildings1,
@@ -38,7 +38,6 @@ export class BuildingsComponent implements OnInit {
         this.buildings4,
       ];
     }
-
 
 
     initializeBuildings(){
@@ -75,23 +74,16 @@ export class BuildingsComponent implements OnInit {
           buildingsMatrix[ArrayIndex-1].push(initBuildings[currentBuildingIndex]);
     }
 
-    getBuildingHighlight(building:DataBuilding){
-      if(this.gameService.gs.value.currentRole == RoleName.Draft){
-      if(building.isDrafted) return "isDrafted";
-      if(building.isBlocked) return "isBlocked";
-      };
-      return "";
-    }
 
     checkBuildingDraggable(building:DataBuilding){
       let disableDragging = false;
 
       switch(this.gs.currentRole){
         case RoleName.Builder:
-          if(building.quantity == 0) disableDragging = true;
+          if(building.quantity == 0 ) disableDragging = true;
           break;
         case RoleName.Draft:
-          if(building.isDrafted) disableDragging = true;
+          if(building.isDrafted || building.isBlocked) disableDragging = true;
           break;
         default:
           disableDragging = true;
@@ -100,14 +92,7 @@ export class BuildingsComponent implements OnInit {
       return disableDragging 
     }
  
-    onDragBuilding(building:DataBuilding){
-      if(this.gameService.getBuildingType(building)?.size == 2) this.gameService.islargeBuildingDragging.next(true);
-      else return;
-    } 
 
-    onDragBuildingEnded(){
-      this.gameService.islargeBuildingDragging.next(false);
-    }
 
     ngOnInit(): void {
       this.subscription = this.gameService.gs.subscribe((gs:GameStateJson) => {
@@ -120,7 +105,6 @@ export class BuildingsComponent implements OnInit {
     ngOnDestroy(): void{
       this.subscription.unsubscribe();
     }
-
 
     buildingDragDelay = 0;
 }

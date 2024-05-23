@@ -1,44 +1,78 @@
 <div class="goods-display">
-  <div 
-  *ngFor="let good of getSortedGoodButtons(this.myGoods)" 
-  class="good-and-number {{getGoodButtonHighlightRule(good)}}"
+
+  <div class="vertical-pair"  *ngFor="let good of getSortedGoodButtons(this.myGoods)">
+    <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
+  <div class="good-and-number {{getGoodButtonHighlightRule(good)}}"
   (click)="this.onClickGood(good)">
 
   <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
     <div class="good-count">{{(this.gameService.storedGoodTypes[0]==good.type)?1:good.quantity}}</div>
   </div>
   </div>
+</div>
 </div>   
 
 <div class="goods-display">
 
-        <div class="good-and-number">
-          <div class="noble-chip">
-            <div class="chip-number colonist-number">1</div>
-          </div>
-          </div>
+  <div class="vertical-pair">
+    <div class="button-label">nobles</div>
+    <div class="good-and-number">
+      <div class="noble-chip">
+        <div class="chip-number colonist-number">1</div>
+      </div>
+    </div>
+  </div>
           
-        <div class="good-and-number">
-          <div class="colonist-chip">
-            <div class="chip-number colonist-number">{{this.myColonists}}</div>
-          </div>
-          </div>
+  <div class="vertical-pair">
+    <div class="button-label">colonists</div>
+    <div class="good-and-number">
+      <div class="colonist-chip">
+        <div class="chip-number colonist-number">{{this.myColonists}}</div>
+      </div>
+    </div>
+  </div>
 
-          <div class="good-and-number">
-            <div class="doubloon">
-              <div class="chip-number">{{this.myDoubloons}}</div>
-            </div>
-          </div>
+    <div class="vertical-pair">
+      <div class="button-label">doubloons</div>
+    <div class="good-and-number">
+      <div class="doubloon">
+        <div class="chip-number">{{this.myDoubloons}}</div>
+      </div>
+    </div>
+  </div>
 
-          <div class="good-and-number" (click)="this.hideVictoryPoints = !this.hideVictoryPoints">
-          <div class="victory-point-chip">
-            <div class="chip-number victory-number">{{this.hideVictoryPoints? "": this.myVictoryPoints}}</div>
-          </div>
-        </div>
+    <div class="vertical-pair">
+      <div class="button-label">building points</div>
+    <div class="good-and-number">
+      <div class="">
+        <div class="chip-number">{{ 0 }}</div>
+      </div>
+    </div>
+  </div>
+   
+  <div class="vertical-pair">
+    <div class="button-label">victory chips</div>
+  <div class="good-and-number" (click)="this.hideVictoryPoints = !this.hideVictoryPoints">
+    <div class="victory-point-chip">
+      <div class="chip-number victory-number">{{this.hideVictoryPoints? "": this.myVictoryPoints}}</div>
+    </div>
+  </div>
+</div>
 
-        <div class=" end-turn-button {{this.getEndTurnHighlightRule()}}" (click)="endTurn()">
-         <div > End Turn </div>
-         </div>
+</div>
+
+<div class="goods-display">
+
+
+
+  
+  <div class="governor-or-turn-button "  [ngStyle]="{'background-color': this.gameService.playerIndex == this.gameService.gs.value.governorIndex ? (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
+    {{this.gameService.playerIndex == this.gameService.gs.value.governorIndex ? "Governor": (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? "Your Turn":"Not Your Turn")}}
+  </div>
+
+  <div class="end-turn-button {{this.getEndTurnHighlightRule()}}" (click)="endTurn()">
+    <div > End Turn </div>
+  </div>
 
 </div>
 

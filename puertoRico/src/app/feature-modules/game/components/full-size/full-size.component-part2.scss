@@ -1,17 +1,5 @@
 @import '../../../../styles/variables.scss';
-.plantation-ring{
-  outline: $plantation-ring;
-}
-.expansion-0{
-  outline: $expansion-0-ring;
-}
-.expansion-1{
- outline: $expansion-1-ring;
-}
-.expansion-2{
-  outline: $expansion-2-ring;
-}
-
+@import '../../../../styles/slot-rings.scss';
 
 .example-list {
     @extend #start-content, #wrap-row ;
@@ -135,9 +123,11 @@
     background-repeat: no-repeat;
   }
   
+  
   .build-order{
-    background-color: rgba(255, 255, 255, 0.66);
-    color: rgb(0, 81, 255);
+    color: rgb(104, 124, 255);
+    font-weight: 900;
+    font-size: x-large;
     border-radius: 50%;
     width: calc($base-unit/3.2);
     height: calc($base-unit/3.2);
@@ -147,7 +137,7 @@
     text-align: center;
     position: absolute;
     z-index: 1000;
-    transform: translateX(10px);
+    transform: translateX(10px) ;
     pointer-events: none;
   }
   

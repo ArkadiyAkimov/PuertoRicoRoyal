@@ -2,7 +2,7 @@
 <div class="goods-display">
 
         <div class="vertical-pair" *ngFor="let good of getSortedGoodButtons(this.myGoods); let i = index">
-        <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
+        <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}} supply</div>
         <div class="good-and-number"
         (click)="this.onClickGood(good)">
         <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
@@ -51,8 +51,8 @@
         </div>
   
         <div class="vertical-pair">
-            <div class="button-label">victory points</div>
-        <div class="good-and-number">
+            <div class="button-label">victory supply</div>
+        <div class="good-and-number {{getHotseatHighlight()}}" (click)="this.toggleHotSeat()">
         <div class="victory-point-chip">
         <div class="chip-number victory-number">{{this.gameService.gs.value.victoryPointSupply}}</div>
         </div>
@@ -64,7 +64,7 @@
 
         <!-- <div>
             <div class="button-label"></div>
-        <div class="good-and-number {{getHotseatHighlight()}}"
+        <div class="good-and-number "
         style="flex-direction: column;"
         (click)="this.toggleHotSeat()">
         <div>Hotseat</div>
