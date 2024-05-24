@@ -15,8 +15,6 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if (IsFirstIteration)
             {
-                gs.Players.ForEach(x => x.CanUseSmallWarehouse = x.hasBuilding(BuildingName.SmallWarehouse, true)); // reset playable small warehouses
-                gs.Players.ForEach(x => x.CanUseLargeWarehouse = x.hasBuilding(BuildingName.LargeWarehouse, true)); // reset playable Large warehouses
                 gs.CurrentPlayerIndex = gs.PrivilegeIndex;
             }
 
@@ -33,9 +31,37 @@ namespace PuertoRicoAPI.Model.Roles
             base.endRole();
         }
 
+        public bool canEndTurn(GoodType[] storageGoods)
+        {
+            Player player = gs.getCurrPlayer();
+            int playerGoodTypes = 0;
+            int playerAvailableStorageSpace = 1;
+            int playerStoredGoodTypes = 0;
+            bool canEndTurn = false;
+
+            if (player.hasBuilding(BuildingName.SmallWarehouse, true)) playerAvailableStorageSpace += 1;
+            if (player.hasBuilding(BuildingName.LargeWarehouse, true)) playerAvailableStorageSpace += 2;
+
+            foreach (Good good in player.Goods)
+            {
+                if(good.Quantity > 0) playerGoodTypes++;
+            }
+
+            foreach(GoodType goodType in storageGoods)
+            {
+                if(goodType != GoodType.NoType) playerStoredGoodTypes++;
+            }
+
+            int totalGoodTypesMustStore = Math.Min(playerGoodTypes, playerAvailableStorageSpace);
+
+            if(totalGoodTypesMustStore == playerStoredGoodTypes) canEndTurn = true;
+
+            return canEndTurn;
+        }
+
         public void KeepLegalGoods(GoodType[] storageGoods) 
         {
-            var player = gs.getCurrPlayer();
+            Player player = gs.getCurrPlayer();
             if (storageGoods[0] != GoodType.NoType)
             {
                 var singleGoodToStore = player.Goods.FirstOrDefault(x => x.Type == storageGoods[0]);

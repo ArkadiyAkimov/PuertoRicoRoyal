@@ -1,5 +1,17 @@
 
-
+@import '../../../../styles/variables.scss';
+.plantation-ring{
+  outline: $plantation-ring;
+}
+.expansion-0{
+  outline: $expansion-0-ring;
+}
+.expansion-1{
+ outline: $expansion-1-ring;
+}
+.expansion-2{
+  outline: $expansion-2-ring;
+}
 
 #center-content{
     display: flex;

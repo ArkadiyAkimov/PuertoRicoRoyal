@@ -32,31 +32,28 @@
 </div> -->
 
 <div class="cargo-ship-card small-warehouse" 
-*ngIf="gs.players[gs.currentPlayerIndex]?.canUseSmallWarehouse && gs.currentRole == 7">
+*ngIf="this.showSmallWarehouse()">
     <div class="ship-name"> Small Warehouse </div>
 
         <div class="good-in-small-warehouse"
         *ngIf="this.gameService.storedGoodTypes[1] != 6;" 
-        class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[1]].displayName+'-barrel'}}" 
-        (click)="removeGoodFromWarehouse(1)"> 
+        class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[1]].displayName+'-barrel'}}"> 
     </div>
 </div>
 
 
 <div class="cargo-ship-card large-warehouse"
-*ngIf="gs.players[gs.currentPlayerIndex]?.canUseLargeWarehouse && gs.currentRole == 7" >
+*ngIf="this.showLargeWarehouse()" >
     <div class="ship-name"> Large Warehouse </div>
         
         <div class="good-in-large-warehouse1"
         *ngIf="this.gameService.storedGoodTypes[2] != 6;" 
-        class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[2]].displayName+'-barrel'}}" 
-        (click)="removeGoodFromWarehouse(2)">
+        class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[2]].displayName+'-barrel'}}">
     </div>
 
        <div class="good-in-large-warehouse2"
        *ngIf="this.gameService.storedGoodTypes[3] != 6;" 
-       class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[3]].displayName+'-barrel'}}" 
-       (click)="removeGoodFromWarehouse(3)"> 
+       class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[3]].displayName+'-barrel'}}"> 
       </div>
 </div>
 

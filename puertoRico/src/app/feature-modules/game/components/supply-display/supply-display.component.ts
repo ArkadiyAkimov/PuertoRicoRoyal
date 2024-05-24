@@ -83,6 +83,7 @@ export class SupplyDisplayComponent {
       else return '';
     }
 
+
     endTurn(){
       this.roleHttp.postEndTurn(this.gameService.gs.value.id, this.gameService.storedGoodTypes, this.gameService.playerIndex)
       .subscribe({

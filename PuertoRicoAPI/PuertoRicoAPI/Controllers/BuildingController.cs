@@ -9,6 +9,7 @@ using PuertoRicoAPI.Model.deployables;
 using PuertoRicoAPI.Model.ModelHandlers;
 using PuertoRicoAPI.Model.Roles;
 using PuertoRicoAPI.Sockets;
+using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -37,20 +38,30 @@ namespace PuertoRicoAPI.Controllers
         {
 
             DataBuilding dataBuilding = await DataFetcher
-                .getDataBuilding(_context,buildingInput.BuildingId);
+                .getDataBuilding(_context, buildingInput.BuildingId);
 
             GameState gs = await ModelFetcher
                 .getGameState(_context, buildingInput.DataGameId);
 
-            if (buildingInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
-           
-            if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
+            var currentRole = gs.getCurrentRole();
 
-            Console.WriteLine(gs.Buildings.Count);
+            if (buildingInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
 
             Building building = gs.getBuilding(dataBuilding.Name);
 
-            if (!Builder.tryBuyBuilding(building, gs)) return Ok("can't buy building"); 
+            if (gs.CurrentRole == RoleName.Draft && !building.isDrafted && !building.isBlocked)
+            {
+                (currentRole as Draft).draftBuilding(building);
+            }
+            else
+            {
+
+                if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
+                Console.WriteLine(gs.Buildings.Count);
+                if (!Builder.tryBuyBuilding(building, gs)) return Ok("can't buy building");
+
+            }
+
 
             var dataGameState = await DataFetcher
                 .getDataGameState(_context, dataBuilding.DataGameStateId);

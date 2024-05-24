@@ -1,4 +1,17 @@
 @import '../../../../styles/variables.scss';
+.plantation-ring{
+  outline: $plantation-ring;
+}
+.expansion-0{
+  outline: $expansion-0-ring;
+}
+.expansion-1{
+ outline: $expansion-1-ring;
+}
+.expansion-2{
+  outline: $expansion-2-ring;
+}
+
 
 .example-list {
     @extend #start-content, #wrap-row ;
@@ -15,6 +28,8 @@
     background-position: 0px 0px;
     background-size: calc($base-unit + $base-margin*2);
     background-repeat: repeat;
+    
+    border-radius: $base-radius;
     
     background-color: white;
   }
@@ -136,3 +151,5 @@
     pointer-events: none;
   }
   
+
+ 

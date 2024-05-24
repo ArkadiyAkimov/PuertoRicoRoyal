@@ -49,7 +49,9 @@ namespace PuertoRicoAPI.Model.Roles
 
             gs.getCurrPlayer().TookTurn = false;
 
-            if (gs.getCurrPlayer().CheckForPriviledge() && this.Name != RoleName.Captain)
+            if (gs.getCurrPlayer().CheckForPriviledge() 
+                && this.Name != RoleName.Captain
+                && this.Name != RoleName.Draft)
             {
                 endRole();
                 return;
@@ -59,7 +61,7 @@ namespace PuertoRicoAPI.Model.Roles
         public virtual void endRole()
         {
             Console.WriteLine(this.Name + ": End Role");
-            if(this.Name != RoleName.Captain) gs.nextPrivilege();
+            if(this.Name != RoleName.Captain && this.Name != RoleName.Draft) gs.nextPrivilege();
             gs.IsRoleInProgress = false;
             gs.CurrentRole = RoleName.NoRole;
             this.IsFirstIteration = true;

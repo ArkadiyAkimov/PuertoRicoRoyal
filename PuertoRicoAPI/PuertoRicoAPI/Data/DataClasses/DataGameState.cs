@@ -5,6 +5,9 @@ namespace PuertoRicoAPI.Data.DataClasses
     public class DataGameState
     {
         public int Id { get; set; }
+        public bool IsDraft { get; set; }
+        public bool IsBuildingsExpansion { get; set; }
+        public bool IsNoblesExpansion { get; set; }
         public bool IsRoleInProgress { get; set; }
         public int CurrentPlayerIndex { get; set; }
         public int PrivilegeIndex { get; set; }

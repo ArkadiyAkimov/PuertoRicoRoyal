@@ -12,6 +12,9 @@ namespace PuertoRicoAPI.Model
     {
         public GameState(DataGameState dataGameState)
         {
+            this.IsDraft = dataGameState.IsDraft;
+            this.IsBuildingsExpansion = dataGameState.IsBuildingsExpansion;
+            this.IsNoblesExpansion = dataGameState.IsNoblesExpansion;
             this.IsRoleInProgress = dataGameState.IsRoleInProgress;
             this.CurrentPlayerIndex = dataGameState.CurrentPlayerIndex;
             this.PrivilegeIndex = dataGameState.PrivilegeIndex;
@@ -66,6 +69,9 @@ namespace PuertoRicoAPI.Model
             });
         }
 
+        public bool IsDraft { get; set; }
+        public bool IsBuildingsExpansion { get; set; }
+        public bool IsNoblesExpansion { get; set; }
         public bool IsRoleInProgress { get; set; }
         public int CurrentPlayerIndex { get; set; }
         public int PrivilegeIndex { get; set; }

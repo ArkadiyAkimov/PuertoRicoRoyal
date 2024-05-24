@@ -60,4 +60,16 @@ export class CargoShipsComponent implements OnInit{
       if(temp != undefined) return temp;
       else return false
     }
+
+    showSmallWarehouse():boolean{
+      return this.gs.currentRole == RoleName.PostCaptain 
+          && this.playerUtility.hasActiveBuilding(BuildingName.SmallWarehouse,this.player);
+    }
+
+    showLargeWarehouse():boolean{
+      return this.gs.currentRole == RoleName.PostCaptain 
+          && this.playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse,this.player);
+    }
+
+    
 }

@@ -1,4 +1,5 @@
 <div class="roles-container">
+    
     <div *ngFor="let role of this.roles; let i = index"  
     class="role-card {{getRoleSelectionClass(role) 
     + ((this.gs.players.length == 3)?' role-card-3-players':'') }}"
@@ -14,7 +15,7 @@
     <div class="disable-role-overlay" *ngIf="(!role.isPlayable && this.gs.currentRole != role.name && this.gs.currentRole != 7) || (!role.isPlayable && this.gs.currentRole != role.name && this.gs.currentRole == 7 && role.name != 5)"></div>
     </div>
     
-    <div *ngIf="this.roles.length == 8"  
+    <div *ngIf="this.roles.length == 9"  
     class="role-card" style="opacity: 30%; pointer-events: none;"> 
     </div>
 

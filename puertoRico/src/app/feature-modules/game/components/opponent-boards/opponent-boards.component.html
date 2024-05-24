@@ -14,7 +14,7 @@
         <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}</div></div>  
       <div class="bottom-plantation-card">
         <div class="plantation-art" class="{{this.gameService.getPlayerPlantationType(plantation)?.displayName}}"></div>
-        <div class="colonist-slot" >
+        <div class="colonist-slot plantation-ring" >
           <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
         </div>
       </div>
@@ -28,8 +28,9 @@
   <div class="goods-display">
     <div class="good-and-number"
     *ngFor="let good of this.getSortedPlayerGoodButtons(player);">
-    <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel"></div>
-    <div class="good-count">{{good.quantity}}</div>
+    <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
+      <div class="good-count">{{good.quantity}}</div></div>
+    
   </div>
   </div>   
   
@@ -81,7 +82,7 @@
           </div> 
         </div>  
         <div class="bottom-building-card">
-          <div class="colonist-slot" 
+          <div class="colonist-slot expansion-{{this.gameService.getPlayerBuildingType(building)?.expansion}}" 
           *ngFor="let slot of building.slots; let i=index"
           >
              <div class="colonist" *ngIf="slot.isOccupied"></div>

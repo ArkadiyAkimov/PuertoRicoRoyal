@@ -1,40 +1,75 @@
+
 <div class="goods-display">
 
-    <div 
-    *ngFor="let good of getSortedGoodButtons(this.myGoods); let i = index" 
-    class="good-and-number"
-    (click)="this.onClickGood(good)">
-  
-    <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel"></div>
-    <div class="good-count">{{this.supplyGoods[i]}}</div></div>
+        <div class="vertical-pair" *ngFor="let good of getSortedGoodButtons(this.myGoods); let i = index">
+        <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
+        <div class="good-and-number"
+        (click)="this.onClickGood(good)">
+        <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
+        <div class="good-count">{{this.supplyGoods[i]}}</div>
+        </div>
+        
+        </div>
+
+        </div>
  
 
-    <div class="good-and-number">
-        <div class="colonist-chip">
-            <div class="chip-number colonist-number">{{this.gameService.gs.value.colonistsOnShip}}</div>
+        <div class="vertical-pair">
+            <div class="button-label">nobles on ship</div>
+        <div class="good-and-number">
+        <div class="noble-chip">
+        <div class="chip-number colonist-number">1</div>
         </div>
-    </div>
+        </div>
+        </div>
 
-    <div class="good-and-number {{getColonistSupplyButtonHighlightRule()}}" (click)="this.onClickColonistSupply()">
+        <div class="vertical-pair">
+            <div class="button-label">colonists on ship</div>
+        <div class="good-and-number">
         <div class="colonist-chip">
-            <div class="chip-number colonist-number">{{this.gameService.gs.value.colonistsSupply}}</div>
+        <div class="chip-number colonist-number">{{this.gameService.gs.value.colonistsOnShip}}</div>
         </div>
-    </div>
+        </div>
+        </div>
+
+        <div class="vertical-pair">
+            <div class="button-label">nobles supply</div>
+        <div class="good-and-number">
+         <div class="noble-chip">
+        <div class="chip-number colonist-number">20</div>
+        </div>
+        </div>
+        </div>
+
+        <div class="vertical-pair">
+            <div class="button-label">colonist supply</div>
+        <div class="good-and-number {{getColonistSupplyButtonHighlightRule()}}" (click)="this.onClickColonistSupply()">
+        <div class="colonist-chip">
+        <div class="chip-number colonist-number">{{this.gameService.gs.value.colonistsSupply}}</div>
+        </div>
+        </div>
+        </div>
   
-    <div class="good-and-number">
+        <div class="vertical-pair">
+            <div class="button-label">victory points</div>
+        <div class="good-and-number">
         <div class="victory-point-chip">
-            <div class="chip-number victory-number">{{this.gameService.gs.value.victoryPointSupply}}</div>
+        <div class="chip-number victory-number">{{this.gameService.gs.value.victoryPointSupply}}</div>
         </div>
-    </div>
+        </div>
+        </div>
 
-    <div class="good-and-number">
-    </div>
 
-    <div class="good-and-number {{getHotseatHighlight()}}"
-    style="flex-direction: column;"
-    (click)="this.toggleHotSeat()">
+        
+
+        <!-- <div>
+            <div class="button-label"></div>
+        <div class="good-and-number {{getHotseatHighlight()}}"
+        style="flex-direction: column;"
+        (click)="this.toggleHotSeat()">
         <div>Hotseat</div>
         <div>{{this.gameService.isHotSeat ? "on" : "off" }}</div>
-    </div>
+        </div>
+        </div> -->
   
   </div>

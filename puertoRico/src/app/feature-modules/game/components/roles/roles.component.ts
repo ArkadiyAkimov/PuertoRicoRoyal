@@ -1,7 +1,7 @@
 import { RoleHttpService } from './../../services/role-http.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
-import { DataRole, GameStateJson } from '../../classes/general';
+import { DataRole, GameStateJson, RoleName } from '../../classes/general';
 
 @Component({
   selector: 'app-roles',
@@ -63,14 +63,16 @@ export class RolesComponent implements OnInit{
             return 'Prospector';
         case 7:
             return 'PostCaptain';
+        case 9:
+            return 'Draft';
         default:
             return '';
     }
 }
 
 getRoleSelectionClass(role:DataRole):string{
-  if(role.name == 5 && this.gs.currentRole == 7) return 'role-alternate';
-  else if(this.gs.currentRole == role.name ) return 'role-selected';
+  if(role.name == RoleName.Captain && this.gs.currentRole == RoleName.PostCaptain) return 'role-alternate';
+  else if(this.gs.currentRole == role.name && role.name != RoleName.Draft) return 'role-selected';
   return '';
 }
 

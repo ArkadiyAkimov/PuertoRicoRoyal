@@ -39,8 +39,12 @@ export class BuildingsComponent implements OnInit {
       ];
     }
 
+
+
     initializeBuildings(){
       let initBuildings = this.gs.buildings;
+      
+      if(this.gs.currentRole != RoleName.Draft) initBuildings = initBuildings.filter(building => building.isDrafted)
 
       initBuildings.sort((a,b) => a.name - b.name);
 
@@ -49,33 +53,60 @@ export class BuildingsComponent implements OnInit {
       this.buildings3 = [];
       this.buildings4 = [];
       this.buildings5 = [];
-    
-      let targetBuildingIndex = 6;
+
+      let buildingsMatrix = [this.buildings1,this.buildings2,this.buildings3,this.buildings4,this.buildings5]
+      let ArrayIndex = 0;
+
       let currentBuildingIndex = 0;
-      for(; currentBuildingIndex<targetBuildingIndex; currentBuildingIndex++){
-        //if(initBuildings[currentBuildingIndex].quantity > 0)
-        this.buildings1.push(initBuildings[currentBuildingIndex]);
+
+      do{
+          if(this.gameService.getBuildingType(initBuildings[currentBuildingIndex])?.victoryScore == ArrayIndex + 1){
+            buildingsMatrix[ArrayIndex].push(initBuildings[currentBuildingIndex]);
+            currentBuildingIndex++
+          } else if(this.gameService.getBuildingType(initBuildings[currentBuildingIndex])?.victoryScore == 8){
+            //statue :|
+            buildingsMatrix[3].push(initBuildings[currentBuildingIndex]);
+            currentBuildingIndex++
+          }
+            else ArrayIndex++;
+
+        }while (currentBuildingIndex < initBuildings.length- 1)
+
+          buildingsMatrix[ArrayIndex-1].push(initBuildings[currentBuildingIndex]);
+    }
+
+    getBuildingHighlight(building:DataBuilding){
+      if(this.gameService.gs.value.currentRole == RoleName.Draft){
+      if(building.isDrafted) return "isDrafted";
+      if(building.isBlocked) return "isBlocked";
+      };
+      return "";
+    }
+
+    checkBuildingDraggable(building:DataBuilding){
+      let disableDragging = false;
+
+      switch(this.gs.currentRole){
+        case RoleName.Builder:
+          if(building.quantity == 0) disableDragging = true;
+          break;
+        case RoleName.Draft:
+          if(building.isDrafted) disableDragging = true;
+          break;
+        default:
+          disableDragging = true;
+          break;
       }
-      targetBuildingIndex = 12;
-      for(; currentBuildingIndex<targetBuildingIndex; currentBuildingIndex++){
-        //if(initBuildings[currentBuildingIndex].quantity > 0)
-        this.buildings2.push(initBuildings[currentBuildingIndex]);
-      }
-      targetBuildingIndex = 18;
-      for(; currentBuildingIndex<targetBuildingIndex; currentBuildingIndex++){
-        //if(initBuildings[currentBuildingIndex].quantity > 0)
-        this.buildings3.push(initBuildings[currentBuildingIndex]);
-      }
-      targetBuildingIndex = 21;
-      for(; currentBuildingIndex<targetBuildingIndex; currentBuildingIndex++){
-        //if(initBuildings[currentBuildingIndex].quantity > 0)
-        this.buildings4.push(initBuildings[currentBuildingIndex]);
-      }
-      targetBuildingIndex = 23;
-      for(; currentBuildingIndex<targetBuildingIndex; currentBuildingIndex++){
-        //if(initBuildings[currentBuildingIndex].quantity > 0)
-        this.buildings5.push(initBuildings[currentBuildingIndex]);
-      }
+      return disableDragging 
+    }
+ 
+    onDragBuilding(building:DataBuilding){
+      if(this.gameService.getBuildingType(building)?.size == 2) this.gameService.islargeBuildingDragging.next(true);
+      else return;
+    } 
+
+    onDragBuildingEnded(){
+      this.gameService.islargeBuildingDragging.next(false);
     }
 
     ngOnInit(): void {

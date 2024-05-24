@@ -1,5 +1,20 @@
 
 @import '../../../../styles/variables.scss';
+.plantation-ring{
+  outline: $plantation-ring;
+}
+.expansion-0{
+  outline: $expansion-0-ring;
+}
+.expansion-1{
+ outline: $expansion-1-ring;
+}
+.expansion-2{
+  outline: $expansion-2-ring;
+}
+.ring-7{
+  outline: $sold-ring;
+}
 
 #main-container{
     box-sizing: border-box;
@@ -20,8 +35,7 @@
   @extend #wrap-row ;
   display: flex;
   box-sizing: border-box;
-  width: $max-width;
-  outline: solid 2px red;
+  width: $max-width; 
 }
 
 .one-row-at-bottom{
@@ -38,12 +52,24 @@
 
   margin: $base-margin;
   font-size: $base-font*2;
-
   color: gray;
-  background-color: gainsboro;
-  border: $base-border solid black;
+  background-color: rgba(220, 220, 220, 0.646);
+  //border: $base-border solid black;
 }
 
+.bank-text{
+  transform: translateY($base-unit/1.7) translateX(- $base-unit/2.5);
+}
+
+.isDrafted{
+  opacity: 0.5;
+  outline: solid 1px rgb(27, 218, 27);
+}
+
+.isBlocked{
+  opacity: 0.5;
+  outline: solid 1px red;
+}
 
   
   .building{
@@ -59,7 +85,7 @@
   }
 
   
-.large-building{
+.building-size-2{
   height: calc(($base-unit + $base-margin)*2);
 }
 
@@ -211,7 +237,6 @@
 
 .cdk-drag-placeholder {
   opacity: 0;
-  
 }
 
 .cdk-drag-animating {
@@ -236,9 +261,16 @@
 }
 
 
+
+
 @media only screen and (min-width: 480px) {
   #main-container{
     box-sizing: border-box;
     max-width: calc($max-width);
+}
+
+.game-bank{
+  
+  margin-top: -$base-unit*2 -$base-margin*3 ;
 }
 }

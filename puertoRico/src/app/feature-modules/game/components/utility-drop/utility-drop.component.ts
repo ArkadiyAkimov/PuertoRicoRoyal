@@ -12,6 +12,7 @@ import { GameStateJson, DataPlayerBuilding } from '../../classes/general';
 export class UtilityDropComponent implements OnInit{
     gs = new GameStateJson();
     myBuildings: DataPlayerBuilding[] = [];
+    isLargeBuildingDragging:boolean = false;
 
     constructor(
       public gameService:GameService,
@@ -26,7 +27,19 @@ export class UtilityDropComponent implements OnInit{
             this.myBuildings = gs.players[gs.currentPlayerIndex].buildings;
           }
         })
+
+        this.gameService.islargeBuildingDragging.subscribe({
+          next: (isDrag:boolean) => {
+            this.isLargeBuildingDragging = isDrag;
+          }
+        })
       }
+
+      largeBuildingDragging(){
+        if(this.isLargeBuildingDragging) return "large-building-dragging";
+        else return "";
+      }
+
 
       dropBuilding(event: CdkDragDrop<DataPlayerBuilding[]>){
   

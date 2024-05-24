@@ -33,6 +33,7 @@ namespace PuertoRicoAPI.Model.Roles
 
                 if (!player.hasBuilding(building.Type.Name)
                     && building.Quantity > 0
+                    && building.isDrafted
                     && finalPrice >= building.Type.Price) return;
             }
 

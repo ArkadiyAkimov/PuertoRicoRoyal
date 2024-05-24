@@ -3,6 +3,7 @@ using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Model;
 using PuertoRicoAPI.Model.Containers;
 using PuertoRicoAPI.Model.deployables;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace PuertoRicoAPI.Data.DataHandlers
@@ -57,7 +58,9 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
         public static async Task<DataGameState> Update(DataGameState dataGameState, GameState gs)
         {
-
+            dataGameState.IsDraft = gs.IsDraft;
+            dataGameState.IsBuildingsExpansion = gs.IsBuildingsExpansion;
+            dataGameState.IsNoblesExpansion = gs.IsNoblesExpansion;
             dataGameState.IsRoleInProgress = gs.IsRoleInProgress;
             dataGameState.CurrentPlayerIndex = gs.CurrentPlayerIndex;
             dataGameState.PrivilegeIndex = gs.PrivilegeIndex;
@@ -92,8 +95,6 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 dataPlayer.Colonists = player.Colonists;
                 dataPlayer.VictoryPoints = player.VictoryPoints;
                 dataPlayer.TookTurn = player.TookTurn;
-                dataPlayer.CanUseSmallWarehouse = player.CanUseSmallWarehouse;
-                dataPlayer.CanUseLargeWarehouse = player.CanUseLargeWarehouse;
                 dataPlayer.BuildOrder = player.BuildOrder;
                 dataPlayer.Score = player.Score;
 
@@ -169,6 +170,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
                 dataBuilding.Name = building.Type.Name;
                 dataBuilding.Quantity = building.Quantity;
+                dataBuilding.isDrafted = building.isDrafted;
+                dataBuilding.isBlocked = building.isBlocked;
                 dataBuilding.Slots = new List<DataSlot>();
 
                 for (int j = 0; j < building.Slots.Length; j++)

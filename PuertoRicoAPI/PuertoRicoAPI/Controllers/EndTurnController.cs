@@ -67,6 +67,7 @@ namespace PuertoRicoAPI.Controllers
                     (currentRole as Trader).mainLoop(); 
                     break;
                 case RoleName.PostCaptain:
+                    if(!(currentRole as PostCaptain).canEndTurn(endTurnInput.StorageGoods)) return Ok("Must use all windrose and warehouse storage");
                     (currentRole as PostCaptain).KeepLegalGoods(endTurnInput.StorageGoods);
                     (currentRole as PostCaptain).mainLoop();
                     break;

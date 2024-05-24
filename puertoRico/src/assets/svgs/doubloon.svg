@@ -1,16 +1,10 @@
 <svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
  <g id="Layer_1">
   <title>Layer 1</title>
-  <ellipse stroke="#E6C36A" transform="rotate(180 -5406.62 466.482) matrix(0.957514 0.0015865 -0.00157435 0.9649 1.23175 -0.177472)" ry="382.08585" rx="381.34325" id="svg_1" cy="410.51182" cx="2413.45208" stroke-width="20" fill="#E6C36A"/>
-  <g id="svg_27" transform="rotate(-7 400 400)">
-   <g id="svg_23">
-    <ellipse ry="350" rx="350" id="svg_21" cy="410" cx="410" stroke-width="20" fill="#A98E49"/>
-    <ellipse ry="350" rx="350" id="svg_22" cy="390" cx="390" stroke-width="20" fill="#FFFF91"/>
-   </g>
-   <ellipse ry="340" rx="340" id="svg_24" cy="390" cx="390" stroke-width="20" fill="#A98E49"/>
-   <ellipse ry="330" rx="330" id="svg_25" cy="390" cx="390" stroke-width="20" fill="#A98E49"/>
-   <ellipse ry="320" rx="320" id="svg_26" cy="400" cx="400" stroke-width="20" fill="#FFFF91"/>
-  </g>
+  <ellipse ry="350" rx="350" id="svg_1" cy="260.80569" cx="380.84958" fill="#969642" transform="rotate(-21 423.77 426.752) matrix(-0.968032 0.0166418 -0.0168971 -0.953411 796.851 669.069)" stroke="null"/>
+  <ellipse ry="350" rx="350" id="svg_3" cy="176.82051" cx="378.12266" fill="#ffff56" transform="rotate(-21 376.23 373.248) matrix(-0.968032 0.0166418 -0.0168971 -0.953411 745.253 535.538)" stroke="null"/>
+  <ellipse ry="340" rx="340" id="svg_4" cy="176.82051" cx="378.12266" fill="#969648" transform="rotate(-21 376.23 373.248) matrix(-0.968032 0.0166418 -0.0168971 -0.953411 745.253 535.538)" stroke="null"/>
+  <ellipse ry="330" rx="330" id="svg_5" cy="178.54364" cx="375.03454" fill="#e5e542" transform="rotate(-21 386.038 382.914) matrix(-0.935087 0.0157248 -0.016322 -0.900874 739.642 537.862)" stroke="null"/>
  </g>
 
 </svg>
