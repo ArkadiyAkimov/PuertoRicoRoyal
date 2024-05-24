@@ -178,6 +178,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 gs.CaptainFirstShipment = false;
                 totalVp++;
+                if (player.hasBuilding(BuildingName.Library, true)) totalVp++;
             }
 
             player.VictoryPoints += totalVp;

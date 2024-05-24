@@ -28,35 +28,39 @@ namespace PuertoRicoAPI.Model.Roles
 
         public virtual void mainLoop()
         {
-            Player player = gs.getCurrPlayer();  
-
+            
             if (IsFirstIteration)
             {
-                player.TookTurn = false;
+                gs.getCurrPlayer().TookTurn = false;
                 Console.WriteLine(this.Name + ": First Iteration");
                 this.gs.IsRoleInProgress = true;
                 this.gs.CurrentRole = this.Name;
                 IsFirstIteration = false;
                 IsPlayable = false;
-                player.chargePlayer(-this.Bounty);
+                gs.getCurrPlayer().chargePlayer(-this.Bounty);
                 this.Bounty = 0;
-                Console.WriteLine("Current Player: " + player.Index);
+                Console.WriteLine("Current Player: " + gs.getCurrPlayer().Index);
                 return;
             }
 
 
             if (this.Name != RoleName.Craftsman) gs.nextPlayer();
 
-            gs.getCurrPlayer().TookTurn = false;
+            if(!(gs.getCurrPlayer().hasBuilding(BuildingName.Library,true)
+                && gs.getCurrPlayer().CheckForPriviledge()))
+            {
+                gs.getCurrPlayer().TookTurn = false;
+            }
 
-            if (gs.getCurrPlayer().CheckForPriviledge() 
+
+            if (gs.getCurrPlayer().CheckForPriviledge()
                 && this.Name != RoleName.Captain
-                && this.Name != RoleName.Draft)
+                && this.Name != RoleName.Draft )
             {
                 endRole();
                 return;
             }
-            Console.WriteLine("Current Player: " + player.Index);
+            Console.WriteLine("Current Player: " + gs.getCurrPlayer().Index);
         }
         public virtual void endRole()
         {

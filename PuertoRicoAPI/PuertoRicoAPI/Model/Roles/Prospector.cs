@@ -1,4 +1,6 @@
 ﻿using PuertoRicoAPI.Data.DataClasses;
+using PuertoRicoAPI.Models;
+using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Model.Roles
 {
@@ -14,7 +16,10 @@ namespace PuertoRicoAPI.Model.Roles
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
-            this.gs.getCurrPlayer().chargePlayer(-1);
+            Player player = this.gs.getCurrPlayer();
+
+            player.chargePlayer(-1);
+            if(player.hasBuilding(BuildingName.Library,true)) player.chargePlayer(-1);
             this.endRole();
         }
 

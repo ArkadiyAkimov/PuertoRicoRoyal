@@ -38,7 +38,11 @@ export class PlantationsComponent implements OnInit{
    disablePlantationInteractionCheck():boolean{
               return this.gs.currentRole != RoleName.Settler 
                     || this.gs.currentPlayerIndex != this.gameService.playerIndex
-                    || this.player.tookTurn
+                    || (this.player.tookTurn 
+                    && !(this.playerUtility.hasActiveBuilding(BuildingName.Library,this.player)
+                    && !this.playerUtility.getBuilding(BuildingName.Library,this.player)?.effectAvailable))
+                  
+                    
    }
 
    disableQuarryInteractionCheck():boolean{

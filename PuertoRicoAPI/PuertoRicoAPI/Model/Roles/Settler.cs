@@ -19,6 +19,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 this.initializeBuildingEffects(BuildingName.Hacienda,true);
                 this.initializeBuildingEffects(BuildingName.Hospice, false);
+                this.initializeBuildingEffects(BuildingName.Library, true);
             }
 
 
@@ -31,6 +32,16 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void endRole()
         {
+            Player player = gs.getCurrPlayer();
+
+            if (player.hasBuilding(BuildingName.Library, true)
+                && player.getBuilding(BuildingName.Library).EffectAvailable)
+            {
+                Console.WriteLine("nigger HARD SEX TODAY");
+                player.getBuilding(BuildingName.Library).EffectAvailable = false;
+                return;
+            }
+
             gs.Plantations.Where(x => x.IsExposed).ToList().ForEach(plantation =>
             {
                 plantation.IsExposed = false;
@@ -39,6 +50,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             DrawPlantations();
             base.endRole();
+
         }
 
         public void DrawPlantations()
@@ -126,6 +138,14 @@ namespace PuertoRicoAPI.Model.Roles
 
                 player.TookTurn = true;
 
+                if (player.hasBuilding(BuildingName.Library, true)
+                  && !player.getBuilding(BuildingName.Library).EffectAvailable)
+                {
+                    Console.WriteLine("nigger sex 2");
+                    this.endRole();
+                    return;
+                }
+
                 if (player.hasBuilding(BuildingName.Hospice, true))
                 {
                     if (player.hasBuilding(BuildingName.Hacienda, true)
@@ -138,6 +158,7 @@ namespace PuertoRicoAPI.Model.Roles
             }
             else if (dataPlantation != null) //upside down
             {
+
                 newPlantation = new Plantation(dataPlantation);
                 Plantation removedPlantation = this.gs.Plantations
                     .FirstOrDefault(plantation => !plantation.IsExposed
