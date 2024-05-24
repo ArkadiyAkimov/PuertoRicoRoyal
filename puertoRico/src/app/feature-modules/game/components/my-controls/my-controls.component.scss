@@ -106,6 +106,7 @@
 
 
 .end-turn-button{
+  font-size: large;
   pointer-events: all;
   @extend .good-and-number, #center-content ;
   text-align: center;
@@ -114,6 +115,7 @@
 }
 
 .governor-or-turn-button{
+  font-size: large;
   pointer-events: all;
   @extend .good-and-number, #center-content ;
   text-align: center;

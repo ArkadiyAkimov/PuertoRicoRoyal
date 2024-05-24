@@ -1,377 +1,420 @@
-@import '../../../../styles/slot-rings.scss';
-
-
-#center-content{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'MyFont', sans-serif;
-}
-
-#start-content{
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  font-family: 'MyFont', sans-serif;
-}
-
-#wrap-row{
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-
-$base-unit: calc(78px/2);
-$base-font: calc(15px/2);
-$base-border: 0.5px;
-$base-margin: 0.5px;
-$base-radius: 2.5px;
-$test-color: transparent;
-$max-width: calc(($base-unit + $base-margin*2) * 8);
-$highlight-color:green;
-$highlight-color2:rgb(203, 3, 3);
-$base-shadow: 1px 1px rgb(69, 80, 135);
-$highlight-shadow: 1px 1px rgb(1, 92, 1);
-$highlight-shadow2: 1px 1px  rgb(121, 1, 1);
-
-$building-vp-color: rgba(255, 59, 59, 0.893);
-$building-vp-shadow: 0.5px 0.5px black;
-
-#main-container{
-    box-sizing: border-box;
-    max-width: calc($max-width*2);
-    width: calc($max-width*2);
-    background-color: $test-color;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: row;
-    
-    background-color: rgb(255, 255, 255);
-    border-radius: $base-radius;
-}
+// @import '../../../../styles/slot-rings.scss';
+@import '../../../../styles/variables.scss';
 
 :host{
-  @extend #center-content ;
-  flex-direction: row;
-  flex-wrap: wrap;
-  max-width: 100%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: row;
+ flex-wrap: wrap;
+ width: $max-width;
 }
+
 
 .board-collection{
-    @extend #main-container, #wrap-row;
-    width: calc($max-width);
-}
-
-.player-board{
-    @extend #center-content,#wrap-row ;
-    max-width: calc($max-width); 
-    width: fit-content;
-    height: fit-content;
-    border-radius: $base-radius;
-  }
-
-.display-none{
-    display: none;
-}
-
-  .player-frame{
-    width: fit-content;
-    height: fit-content;
-  }
-
-  .wrap-reverse{
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
-    width: fit-content;
-    height: fit-content;
-  }
-
-  .board-nest{
-    box-sizing: border-box;
-    @extend #start-content ;
-    flex-direction: column;
-
-    width: calc($max-width/2);
-    max-height: calc($max-width/2.665);
-    min-height: calc($base-unit + $base-margin*2)*2;
-  }
-
-  .user-profile-frame{
-    @extend #center-content ;
-    box-sizing: border-box;
-    flex-direction: column;
-  width: calc($max-width/2 - $base-margin*2);;
-  height: calc($max-width/4.97);
-  border-radius: $base-radius;
-  margin: $base-margin;
-  background-color: rgb(98, 118, 216);
-  }
-
-
-  .example-list {
-    @extend #start-content, #wrap-row ;
-    max-width: $max-width;
-  }
-
-
-  .building-list-bg{
-    box-sizing: border-box;
-    height: calc($max-width/2.665 );
-    width: fit-content;
-    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
-
-  
-  background-image: url(../../../../../assets/svgs/building-tile.svg);
-  background-position: 0px 0px;
-  background-size: calc(($base-unit + $base-margin*2) * 2);
-  background-repeat: repeat;
-  }
-
-.building-list{
-  box-sizing: border-box;
-  @extend .example-list, #start-content ;
-  min-width: calc($max-width/4);
-  max-width: $max-width;
-  min-height: calc($base-unit + $base-margin*2);
-
-  flex-direction: column;
-  flex-wrap: wrap;
-
-  }
-
-  
-  
-  .building{
-    box-sizing: border-box;
-    width: calc(($base-unit + $base-margin)*2);
-    height: calc($base-unit);
-    font-size: calc($base-font);
-    border: calc($base-border) black solid;
-    margin: calc($base-margin);
-    z-index: 2;
-  }
-
-  
-  .large-building{
-    height: calc(($base-unit + $base-margin)*2);
-  }
-
-  .top-building-card{
-  box-sizing: border-box;
-  @extend #center-content;
-  justify-content: flex-start;
-  width: calc($base-unit*2);
-  height: calc($base-unit/3);
-  }
-  
-  .building-name{
-  box-sizing: border-box;
-  width: calc($base-unit*2);
-  font-size: calc($base-font*1.2);
-  margin-left: calc($base-margin*4);  
-  white-space: nowrap;
-  overflow: hidden;
-  }
-
-  .building-victory-score{
-    box-sizing: border-box;
-     width: calc($base-unit/4);
-     font-size: calc($base-font*1.5);
-     position: relative;
-     font-weight: 900;
-     right: 2.5px;
-     top: 1px;
-     
-     color: $building-vp-color;
-     text-shadow: $building-vp-shadow;
-   }
- 
-
-  
-  .bottom-building-card{
-  box-sizing: border-box;
-  @extend #center-content ;
-  justify-content: flex-start;
-  height: calc($base-unit*2/3);
-  }
-
-
-.goods-display{
-  @extend  #center-content, #wrap-row;
-  width: fit-content;
-  height: fit-content;
+    width: $max-width;
 }
 
-.good-and-number{
-  @extend  #center-content ;
-  width: calc($base-unit/1.26);
-  height: calc($base-unit/1.5);
-  border-radius: $base-radius;
-  margin: $base-margin;
-
-  color: white;
-  background-color: rgb(98, 118, 216);
-  background-size: calc($base-unit * 2);
-  background-blend-mode: luminosity;
+.player-frame{     //scaling-margin-fix
+    margin: -(($base-unit*6 + $base-margin*12)/4);
+    margin-left: -($base-unit*8 + $base-margin*16)/4;
+    margin-right: -($base-unit*8 + $base-margin*16)/4;
 }
-
-.good-button{
-  @extend #center-content;
-  width: calc(($base-unit/1.5));
-  height: calc(($base-unit/1.5));
-  margin: $base-margin;
-
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.good-count{
-  @extend #center-content;
-  text-align: center;
-  color: white;
-  font-size: calc($base-font);
-  font-weight: 900;
-  
-  background-color: rgb(12, 6, 51);
-  border-radius: 50%;
-  width: calc($base-unit/3);
-  height: calc($base-unit/3);
-
-  transform: translateX(7.5px) translateY(5px);
-}
-
 
 
 .end-turn-button{
-  pointer-events: all;
-  @extend .good-and-number, #center-content ;
-  text-align: center;
-  width: calc(($base-unit/1.26)*2 + $base-margin*2);
-  height: calc($base-unit/1.07);
-  background-color: rgb(24, 13, 95);
-}
-
-.governor-or-turn-button{
-  pointer-events: all;
-  @extend .good-and-number, #center-content ;
-  text-align: center;
-  width: calc(($base-unit/1.25)*3 + $base-margin*2);
-  height: calc($base-unit/1.07);
-  
-}
-
-.doubloon{
-  @extend #center-content;
-  position: relative;
-  width: calc($base-unit/2);
-  height: calc($base-unit/2);
-
-  font-size: calc($base-font*2);
-  font-weight: 900;
-  margin: calc($base-margin*5);
-
-  //background-color: rgba(255, 255, 255, 0.265);
-  //border: $base-border solid black;
-  background-image: url(../../../../../assets/svgs/doubloon.svg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 3;
-}
-
-.colonist-chip{
-  @extend .doubloon;
-  color: white;
-  background-image: url(../../../../../assets/svgs/colonist-OG.svg);
-}
-
-.victory-point-chip{
-  @extend .doubloon;
-  background-image: url(../../../../../assets/svgs/victoryChip.svg);
-}
-
-  
-.noble-chip{
-  @extend .doubloon;
-  background-image: url(../../../../../assets/svgs/noble.svg);
-}
-
-.chip-number{
-  // @extend #center-content;
-  // text-shadow: 2px 1px rgba(0, 0, 0, 0.317), -1px 1px rgba(0, 0, 0, 0.295);
-  // position: relative;
-  // color:  rgb(255, 235, 85);
-  // top: 1px;
-  // left: -2px;
-  @extend #center-content;
-  text-align: center;
-  color: white;
-  //text-shadow: black 0.5px 0.5px, black -0.5px -0.5px, black 0.5px -0.5px, black -0.5px 0.5px, rgba(0, 0, 0, 0.653) 1px 1px,  rgba(0, 0, 0, 0.653) -1px -1px,  rgba(0, 0, 0, 0.653) 1px -1px,  rgba(0, 0, 0, 0.653) -1px 1px;
-  font-size: calc($base-font);
-  font-weight: 900;
-  
-  background-color: rgb(12, 6, 51);
-  border-radius: 50%;
-  width: calc($base-unit/3);
-  height: calc($base-unit/3);
-
-  transform: translateX(7.5px) translateY(5px);
-}
-
-.colonist-number{
-  color: rgb(255, 255, 255);
-}
-
-.victory-number{
-  color: white;
-}
-
-.highlight-button{
-  background-color: $highlight-color;
-  box-shadow: $highlight-shadow;
-}
-
-.highlight-colonist{
-  background-color: $highlight-color;
-  box-shadow: $highlight-shadow;
-}
-
-.highlight-good{
-  background-color: $highlight-color;
-  box-shadow: $highlight-shadow;
-}
-
-.highlight-stored-good{
-  background-color: $highlight-color2;
-  box-shadow: $highlight-shadow;
-}
-
-
-
-@media only screen and (min-width: 480px) {
- 
-  .board-collection{
-    @extend #main-container, #wrap-row;
-    width: calc($max-width*2);
-}
-}
-
-@media only screen and (min-width: 480px){
-
-  .desktop-pattern{
-    background-color:  rgba(255, 251, 0, 0.132);
+    pointer-events: all;
+    text-align: center;
+    width: calc(($base-unit/1.26)*2 + $base-margin*2);
+    height: calc($base-unit/1.07);
+    background-color: rgb(24, 13, 95);
+    box-shadow: 1px 1px rgb(12, 6, 51);
   }
+
+//   #main-container{
+//     box-sizing: border-box;
+//     max-width: calc($max-width*2);
+//     width: calc($max-width*2);
+//     background-color: $test-color;
+//     display: flex;
+//     align-items: flex-start;
+//     justify-content: flex-start;
+//     flex-direction: row;
+    
+//     background-color: rgb(255, 255, 255);
+//     border-radius: $base-radius;
+// }
+
+// #wrap-row{
+//   flex-direction: row;
+//   flex-wrap: wrap;
+// }
+  
+
+// #center-content{
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-family: 'MyFont', sans-serif;
+// }
+
+// #start-content{
+//   display: flex;
+//   align-items: flex-start;
+//   justify-content: flex-start;
+//   font-family: 'MyFont', sans-serif;
+// }
+
+
+
+
+// // $base-unit: calc(78px/2);
+// // $base-font: calc(15px/2);
+// // $base-border: 0.5px;
+// // $base-margin: 0.5px;
+// // $base-radius: 2.5px;
+// // $test-color: transparent;
+// // $max-width: calc(($base-unit + $base-margin*2) * 8);
+// // $highlight-color:green;
+// // $highlight-color2:rgb(203, 3, 3);
+// // $base-shadow: 1px 1px rgb(69, 80, 135);
+// // $highlight-shadow: 1px 1px rgb(1, 92, 1);
+// // $highlight-shadow2: 1px 1px  rgb(121, 1, 1);
+
+// // $building-vp-color: rgba(255, 59, 59, 0.893);
+// // $building-vp-shadow: 0.5px 0.5px black;
+
+
+
+// :host{
+//   @extend #center-content ;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   max-width: 100%;
+// }
+
+
+
+// // .player-board{
+// //     @extend #center-content,#wrap-row ;
+// //     max-width: calc($max-width); 
+// //     width: fit-content;
+// //     height: fit-content;
+// //     border-radius: $base-radius;
+// //   }
+
+// // .display-none{
+// //     display: none;
+// // }
+
+//   .player-frame{
+//     width: fit-content;
+//     height: fit-content;
+//   }
+
+//   .wrap-reverse{
+//     display: flex;
+//     flex-direction: row;
+//     flex-wrap: wrap-reverse;
+//     width: fit-content;
+//     height: fit-content;
+//   }
+
+// //   .board-nest{
+// //     box-sizing: border-box;
+// //     @extend #start-content ;
+// //     flex-direction: column;
+
+// //     width: calc($max-width/2);
+// //     max-height: calc($max-width/2.665);
+// //     min-height: calc($base-unit + $base-margin*2)*2;
+// //   }
+
+// //   .user-profile-frame{
+// //     @extend #center-content ;
+// //     box-sizing: border-box;
+// //     flex-direction: column;
+// //   width: calc($max-width/2 - $base-margin*2);;
+// //   height: calc($max-width/4.97);
+// //   border-radius: $base-radius;
+// //   margin: $base-margin;
+// //   background-color: rgb(98, 118, 216);
+// //   }
+
+
+// //   .example-list {
+// //     @extend #start-content, #wrap-row ;
+// //     max-width: $max-width;
+// //   }
+
+
+// //   .building-list-bg{
+// //     box-sizing: border-box;
+// //     height: calc($max-width/2.665 );
+// //     width: fit-content;
+// //     display: flex;
+// //     flex-direction: row;
+// //     flex-wrap: wrap;
+
+  
+// //   background-image: url(../../../../../assets/svgs/building-tile.svg);
+// //   background-position: 0px 0px;
+// //   background-size: calc(($base-unit + $base-margin*2) * 2);
+// //   background-repeat: repeat;
+// //   }
+
+// // .building-list{
+// //   box-sizing: border-box;
+// //   @extend .example-list, #start-content ;
+// //   min-width: calc($max-width/4);
+// //   max-width: $max-width;
+// //   min-height: calc($base-unit + $base-margin*2);
+
+// //   flex-direction: column;
+// //   flex-wrap: wrap;
+
+// //   }
+
+  
+  
+// //   .building{
+// //     box-sizing: border-box;
+// //     width: calc(($base-unit + $base-margin)*2);
+// //     height: calc($base-unit);
+// //     font-size: calc($base-font);
+// //     border: calc($base-border) black solid;
+// //     margin: calc($base-margin);
+// //     z-index: 2;
+// //   }
+
+  
+// //   .large-building{
+// //     height: calc(($base-unit + $base-margin)*2);
+// //   }
+
+// //   .top-building-card{
+// //   box-sizing: border-box;
+// //   @extend #center-content;
+// //   justify-content: flex-start;
+// //   width: calc($base-unit*2);
+// //   height: calc($base-unit/3);
+// //   }
+  
+// //   .building-name{
+// //   box-sizing: border-box;
+// //   width: calc($base-unit*2);
+// //   font-size: calc($base-font*1.2);
+// //   margin-left: calc($base-margin*4);  
+// //   white-space: nowrap;
+// //   overflow: hidden;
+// //   }
+
+// //   .building-victory-score{
+// //     box-sizing: border-box;
+// //      width: calc($base-unit/4);
+// //      font-size: calc($base-font*1.5);
+// //      position: relative;
+// //      font-weight: 900;
+// //      right: 2.5px;
+// //      top: 1px;
+     
+// //      color: $building-vp-color;
+// //      text-shadow: $building-vp-shadow;
+// //    }
+ 
+
+  
+// //   .bottom-building-card{
+// //   box-sizing: border-box;
+// //   @extend #center-content ;
+// //   justify-content: flex-start;
+// //   height: calc($base-unit*2/3);
+// //   }
+
+
+// // .goods-display{
+// //   @extend  #center-content, #wrap-row;
+// //   width: fit-content;
+// //   height: fit-content;
+// // }
+
+// // .good-and-number{
+// //   @extend  #center-content ;
+// //   width: calc($base-unit/1.26);
+// //   height: calc($base-unit/1.5);
+// //   border-radius: $base-radius;
+// //   margin: $base-margin;
+
+// //   color: white;
+// //   background-color: rgb(98, 118, 216);
+// //   background-size: calc($base-unit * 2);
+// //   background-blend-mode: luminosity;
+// // }
+
+// // .good-button{
+// //   @extend #center-content;
+// //   width: calc(($base-unit/1.5));
+// //   height: calc(($base-unit/1.5));
+// //   margin: $base-margin;
+
+// //   background-size: 100%;
+// //   background-position: center;
+// //   background-repeat: no-repeat;
+// // }
+
+// // .good-count{
+// //   @extend #center-content;
+// //   text-align: center;
+// //   color: white;
+// //   font-size: calc($base-font);
+// //   font-weight: 900;
+  
+// //   background-color: rgb(12, 6, 51);
+// //   border-radius: 50%;
+// //   width: calc($base-unit/3);
+// //   height: calc($base-unit/3);
+
+// //   transform: translateX(7.5px) translateY(5px);
+// // }
+
+
+
+// // .end-turn-button{
+// //   pointer-events: all;
+// //   @extend .good-and-number, #center-content ;
+// //   text-align: center;
+// //   width: calc(($base-unit/1.26)*2 + $base-margin*2);
+// //   height: calc($base-unit/1.07);
+// //   background-color: rgb(24, 13, 95);
+// // }
+
+// // .governor-or-turn-button{
+// //   pointer-events: all;
+// //   @extend .good-and-number, #center-content ;
+// //   text-align: center;
+// //   width: calc(($base-unit/1.25)*3 + $base-margin*2);
+// //   height: calc($base-unit/1.07);
+// // }
+
+// // .doubloon{
+// //   @extend #center-content;
+// //   position: relative;
+// //   width: calc($base-unit/2);
+// //   height: calc($base-unit/2);
+
+// //   font-size: calc($base-font*2);
+// //   font-weight: 900;
+// //   margin: calc($base-margin*5);
+
+// //   //background-color: rgba(255, 255, 255, 0.265);
+// //   //border: $base-border solid black;
+// //   background-image: url(../../../../../assets/svgs/doubloon.svg);
+// //   background-size: contain;
+// //   background-repeat: no-repeat;
+// //   z-index: 3;
+// // }
+
+// // .colonist-chip{
+// //   @extend .doubloon;
+// //   color: white;
+// //   background-image: url(../../../../../assets/svgs/colonist-OG.svg);
+// // }
+
+// // .victory-point-chip{
+// //   @extend .doubloon;
+// //   background-image: url(../../../../../assets/svgs/victoryChip.svg);
+// // }
+
+  
+// // .noble-chip{
+// //   @extend .doubloon;
+// //   background-image: url(../../../../../assets/svgs/noble.svg);
+// // }
+
+// // .chip-number{
+// //   // @extend #center-content;
+// //   // text-shadow: 2px 1px rgba(0, 0, 0, 0.317), -1px 1px rgba(0, 0, 0, 0.295);
+// //   // position: relative;
+// //   // color:  rgb(255, 235, 85);
+// //   // top: 1px;
+// //   // left: -2px;
+// //   @extend #center-content;
+// //   text-align: center;
+// //   color: white;
+// //   //text-shadow: black 0.5px 0.5px, black -0.5px -0.5px, black 0.5px -0.5px, black -0.5px 0.5px, rgba(0, 0, 0, 0.653) 1px 1px,  rgba(0, 0, 0, 0.653) -1px -1px,  rgba(0, 0, 0, 0.653) 1px -1px,  rgba(0, 0, 0, 0.653) -1px 1px;
+// //   font-size: calc($base-font);
+// //   font-weight: 900;
+  
+// //   background-color: rgb(12, 6, 51);
+// //   border-radius: 50%;
+// //   width: calc($base-unit/3);
+// //   height: calc($base-unit/3);
+
+// //   transform: translateX(7.5px) translateY(5px);
+// // }
+
+// // .colonist-number{
+// //   color: rgb(255, 255, 255);
+// // }
+
+// // .victory-number{
+// //   color: white;
+// // }
+
+// // .highlight-button{
+// //   background-color: $highlight-color;
+// //   box-shadow: $highlight-shadow;
+// // }
+
+// // .highlight-colonist{
+// //   background-color: $highlight-color;
+// //   box-shadow: $highlight-shadow;
+// // }
+
+// // .highlight-good{
+// //   background-color: $highlight-color;
+// //   box-shadow: $highlight-shadow;
+// // }
+
+// // .highlight-stored-good{
+// //   background-color: $highlight-color2;
+// //   box-shadow: $highlight-shadow;
+// // }
+
+
+ 
+//Mobile query
+@media only screen and (max-width: 480px) { 
+
+  .only-desktop{
+    display: flex;
+    max-width: 100%;
+  }
+
+
+  .board-collection{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: $max-width/2;
 }
 
+.building-list-bg{
+    box-sizing: border-box;
+    height: calc($max-width/2.665);
+    width: calc($max-width);
+  }
 
-@media only screen and (max-width: 480px){
 
-  .mobile-pattern{
-    background-color:  rgba(255, 251, 0, 0.132);
-   }
-
+.only-mobile{
+  display: none;
 }
+}
+

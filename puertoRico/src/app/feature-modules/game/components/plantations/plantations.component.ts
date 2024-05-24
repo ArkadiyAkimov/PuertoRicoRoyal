@@ -51,6 +51,7 @@ export class PlantationsComponent implements OnInit{
     let canTakeQuarry = false;
     if(constructionHutCheck != undefined) canTakeQuarry = constructionHutCheck;
     if(this.player.index == this.gs.privilegeIndex) canTakeQuarry = true;
+    if(this.player.tookTurn) canTakeQuarry = false;
 
     return !canTakeQuarry || this.disablePlantationInteractionCheck();
    }

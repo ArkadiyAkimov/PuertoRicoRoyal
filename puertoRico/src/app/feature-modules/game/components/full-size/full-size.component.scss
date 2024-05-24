@@ -1,4 +1,5 @@
 @import '../../../../styles/variables.scss';
+@import '../../../../styles/buildings.scss';
 
 :host{ 
   @extend #center-content; flex-direction: row; 
@@ -6,44 +7,42 @@
 }
 
 .player-board{
-    @extend #main-container, #center-content,#wrap-row ;
-      max-width: calc($max-width);
-  }
+  @extend #main-container, #center-content,#wrap-row ;
+  max-width: calc($max-width);
+}
 
-  .wrap-reverse{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
-    width: fit-content;
-    height: fit-content;
-  }
+.wrap-reverse{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  width: fit-content;
+  height: fit-content;
+}
 
-  .board-nest{
-    box-sizing: border-box;
-    @extend #center-content, #wrap-row ;
-    align-items: flex-start;
+.board-nest{
+  box-sizing: border-box;
+  @extend #center-content, #wrap-row ;
+  align-items: flex-start;
+  width: calc($max-width/2);
+}
 
-    width: calc($max-width/2);
-    //max-height: calc($max-width/2.665);
-  }
-
-  .user-profile-frame{
-    @extend #center-content ;
-    box-sizing: border-box;
-    flex-direction: column;
+.user-profile-frame{
+  @extend #center-content ;
+  box-sizing: border-box;
+  flex-direction: column;
   width: calc($max-width/2 - $base-margin*2);;
   height: calc($base-unit/3.6);
   margin: $base-margin;
   border-radius: $base-radius;
   background-color: rgb(98, 118, 216);
   box-shadow: $base-shadow;
-  }
+}
 
 
-  .example-list {
-    @extend #start-content, #wrap-row ;
-    max-width: $max-width;
-  }
+.example-list {
+  @extend #start-content, #wrap-row ;
+  max-width: $max-width;
+}
 
 .building-list-bg{
   box-sizing: border-box;
@@ -52,89 +51,20 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
   background-image: url(../../../../../assets/svgs/building-tile.svg);
   background-position: 0px 0px;
   background-size: calc(($base-unit + $base-margin*2) * 2);
   background-repeat: repeat;
-  
   background-color: white;
   border-radius: $base-radius;
-  
- // outline: 3px solid rgb(0, 42, 255);
 }
 
 .building-list{
   box-sizing: border-box;
   @extend .example-list, #start-content ;
-
   flex-direction: column;
   height: calc($max-width/2.665);
   width: calc($max-width/4);
-
-  }
-  
-  
-  .building{
-    box-sizing: border-box;
-    width: calc(($base-unit + $base-margin)*2);
-    height: calc($base-unit);
-    font-size: calc($base-font);
-    border: calc($base-border) black solid;
-    margin: calc($base-margin);
-    z-index: 2;
-  }
-  
-  .large-building{
-    height: calc(($base-unit + $base-margin)*2);
-  }
-  
-  .top-building-card{
-  box-sizing: border-box;
-  @extend #center-content;
-  justify-content: flex-start;
-  width: calc($base-unit*2);
-  height: calc($base-unit/3);
-  }
-  
-  .building-name{
-  box-sizing: border-box;
-  width: calc($base-unit*2);
-  font-size: calc($base-font);
-  margin-left: $base-margin*4;  
-  white-space: nowrap;
-  overflow: hidden;
-  }
-
-  .building-victory-score{
-    box-sizing: border-box;
-     width: calc($base-unit/4);
-     font-size: $base-font*1.5;
-     position: relative;
-     font-weight: 900;
-     right: 5px;
-     top: 2px;
-
-    color: $building-vp-color;
-    text-shadow: $building-vp-shadow;
-   }
- 
-  
-  .bottom-building-card{
-  box-sizing: border-box;
-  @extend #center-content ;
-  justify-content: flex-start;
-  height: calc($base-unit*2/3);
-  }
-
-
-.cdk-drag-preview {
-  font-family: 'MyFont', sans-serif;
-  box-sizing: border-box;
-  //border-radius: $base-radius;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-              0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 
@@ -165,14 +95,7 @@
 }
 
   
-
-  
-.only-desktop{
-  display: none;
-}
-  
 //Mobile query
-
 @media only screen and (min-width: 480px) {
  
   .only-desktop{

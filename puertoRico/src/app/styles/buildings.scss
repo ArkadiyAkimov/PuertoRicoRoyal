@@ -1,3 +1,4 @@
+@import './variables.scss';
 
 .isDrafted{
     filter: grayscale(100%) sepia(50%) hue-rotate(90deg);
@@ -11,6 +12,57 @@
     filter: saturate(0);
 }
 
+
+.building{
+    box-sizing: border-box;
+    width: calc(($base-unit + $base-margin)*2);
+    height: calc($base-unit);
+    font-size: calc($base-font);
+    border: calc($base-border) black solid;
+    margin: calc($base-margin);
+    z-index: 2;
+}
+
+.building-size-2{
+    height: calc(($base-unit + $base-margin)*2);    
+}
+
+.top-building-card{
+    box-sizing: border-box;
+    @extend #center-content;
+    justify-content: flex-start;
+    width: calc($base-unit*2);
+    height: calc($base-unit/3);
+}
+
+.building-name{
+    box-sizing: border-box;
+    width: calc($base-unit*2);
+    font-size: calc($base-font);
+    margin-left: $base-margin*4;  
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.building-victory-score{
+    box-sizing: border-box;
+    width: calc($base-unit/4);
+    font-size: $base-font*1.5;
+    position: relative;
+    font-weight: 900;
+    right: 5px;
+    top: 2px;
+    color: $building-vp-color;
+    text-shadow: $building-vp-shadow;
+}
+
+
+.bottom-building-card{
+    @extend #center-content ;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    height: calc($base-unit*2/3);
+}
 
 
 .market{

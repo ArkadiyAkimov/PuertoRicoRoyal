@@ -43,9 +43,7 @@
    cdkDropListOrientation="vertical"
    [cdkDropListData]="list">
 
-  <div class="building" *ngFor="let building of list"
-    [ngClass]="(this.gameService.getBuildingType(building)?.size != 1)?'building large-building':'building'"
-    class="color{{this.gameService.getBuildingType(building)?.color}}">
+  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list">
       
         <div class="top-building-card"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
@@ -54,12 +52,12 @@
           </div> 
         </div>  
         <div class="bottom-building-card">
-          <div class="colonist-slot expansion-{{this.gameService.getBuildingType(building)?.expansion}}" *ngFor="let slot of this.sortSlots(building?.slots!); let i=index" (click)="this.onSlotClick(slot)">
+          <div class="{{this.stylingService.getBuildingSlotClasses(building)}}" *ngFor="let slot of this.sortSlots(building?.slots!); let i=index" (click)="this.onSlotClick(slot)">
             <!-- {{slot.id.toString().charAt(slot.id.toString().length - 1)}} -->
              <div class="colonist" *ngIf="slot.isOccupied"></div>
-            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+            <!-- <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div> -->
           </div>
-          <div *ngIf="this.gameService.debugOptions" class="build-order">{{building.buildOrder}}</div>
+          <div *ngIf="this.gameService.debugOptions" class="build-order build-order-{{this.gameService.getBuildingType(building)?.size}}" >{{building.buildOrder}}</div>
          </div>
        </div>
     </div>
