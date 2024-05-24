@@ -18,6 +18,17 @@ namespace PuertoRicoAPI.Model.Roles
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
 
+
+            checkBuilderSkip();
+        }
+
+        public override void endRole()
+        {
+            base.endRole();
+        }
+
+        public void checkBuilderSkip()
+        {
             int budget = 0;
             bool canBuild = false;
 
@@ -39,12 +50,6 @@ namespace PuertoRicoAPI.Model.Roles
 
             Console.WriteLine("player {0} can't build anything skipping turn", player.Index);
             this.mainLoop();
-
-        }
-
-        public override void endRole()
-        {
-            base.endRole();
         }
 
         public static bool tryBuyBuilding(Building building, GameState gs)
@@ -65,6 +70,12 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 gs.getCurrPlayer().TookTurn = true;
                 return true;
+            }
+
+            if (gs.getCurrPlayer().hasBuilding(BuildingName.Church, true))
+            {
+                if (building.Type.VictoryScore == 2 || building.Type.VictoryScore == 3) gs.getCurrPlayer().VictoryPoints++;
+                if (building.Type.VictoryScore > 3) gs.getCurrPlayer().VictoryPoints += 2;
             }
 
             gs.getCurrentRole().mainLoop();

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import { GameStateJson, DataPlayerBuilding, DataPlayer } from '../../classes/general';
+import { StylingService } from '../../services/styling.service';
 
 @Component({
   selector: 'app-opponent-boards',
@@ -26,6 +27,7 @@ export class OpponentBoardsComponent implements OnInit {
 
   constructor(
     public gameService:GameService,
+    public stylingService:StylingService,
   ){}
 
   getSortedPlayerGoodButtons(player:DataPlayer){

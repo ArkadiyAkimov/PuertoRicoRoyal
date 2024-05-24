@@ -60,11 +60,6 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
   transition: 0.3s;
 }
 
-.large-building-dragging{
-  height: calc($base-unit + $base-margin * 2) * 2 ;
-  
-  margin-bottom:  calc( -1 * ($base-unit + $base-margin * 2) * 2);
-}
 
 .drop-prompt-building{
   position: absolute;

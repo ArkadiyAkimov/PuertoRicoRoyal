@@ -18,23 +18,21 @@
         </div>
           
         <div  
-        class="building color{{this.gameService.getBuildingType(building)?.color}} {{this.getBuildingHighlight(building)}} building-size-{{this.gameService.getBuildingType(building)?.size}}"
+        class="{{this.stylingService.getBuildingClasses(building)}}"
           *ngFor="let building of buildingList"
           [cdkDragData]="building"
           [cdkDragStartDelay]="this.buildingDragDelay"
           [cdkDragDisabled]="this.checkBuildingDraggable(building)"
-          (cdkDragStarted)="this.onDragBuilding(building)"
-          (cdkDragReleased)="this.onDragBuildingEnded()"
           cdkDrag
           >
 
           <div class="building-card-frame">
             <div class="top-building-card"> 
               <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
-              <div class="building-victory-score {{(building?.quantity == 0)?'mute-vp':''}}">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
+              <div class="building-victory-score">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
             </div>  
             <div class="bottom-building-card">
-              <div class="colonist-slot expansion-{{this.gameService.getBuildingType(building)?.expansion}} ring-{{this.gameService.getBuildingType(building)?.color}}" *ngFor="let slot of building?.slots; let i=index">
+              <div class="{{this.stylingService.getBuildingSlotClasses(building)}}" *ngFor="let slot of building?.slots; let i=index">
                 <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
               </div>
             </div>

@@ -123,11 +123,15 @@ namespace PuertoRicoAPI.Model.Roles
                 }
             }
 
+
             int totalCorn = cornCt;
             int totalIndigo = Math.Min(indigoCt[0], indigoCt[1]);
             int totalSugar = Math.Min(sugarCt[0], sugarCt[1]);
             int totalTobacco = Math.Min(tobaccoCt[0], tobaccoCt[1]);
             int totalCoffee = Math.Min(coffeeCt[0], coffeeCt[1]);
+
+            if (totalIndigo > 0 && player.hasBuilding(BuildingName.Aqueduct, true) && player.hasBuilding(BuildingName.LargeIndigoPlant, true)) totalIndigo++;
+            if (totalSugar > 0 && player.hasBuilding(BuildingName.Aqueduct, true) && player.hasBuilding(BuildingName.LargeSugarMill, true)) totalSugar++;
 
             int[] productionArray = { totalCorn, totalIndigo, totalSugar, totalTobacco, totalCoffee };
 
@@ -151,6 +155,11 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 if (uniqueGoodsProduced == 5) player.chargePlayer(-5);
                 else if (uniqueGoodsProduced > 0) player.chargePlayer(uniqueGoodsProduced - 1);
+            }
+
+            if (player.hasBuilding(BuildingName.SpecialtyFactory, true))
+            {
+                player.chargePlayer(-(productionArray.Skip(1).Max() - 1));
             }
 
             Console.WriteLine("unique goods produced {0} exported", uniqueGoodsProduced);

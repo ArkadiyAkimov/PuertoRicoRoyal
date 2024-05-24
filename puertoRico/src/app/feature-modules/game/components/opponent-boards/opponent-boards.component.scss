@@ -1,4 +1,5 @@
-@import '../../../../styles/variables.scss';
+@import '../../../../styles/slot-rings.scss';
+
 
 #center-content{
   display: flex;
@@ -245,13 +246,24 @@ $building-vp-shadow: 0.5px 0.5px black;
 }
 
 
+
 .end-turn-button{
   pointer-events: all;
   @extend .good-and-number, #center-content ;
   text-align: center;
   width: calc(($base-unit/1.26)*2 + $base-margin*2);
+  height: calc($base-unit/1.07);
+  background-color: rgb(24, 13, 95);
 }
 
+.governor-or-turn-button{
+  pointer-events: all;
+  @extend .good-and-number, #center-content ;
+  text-align: center;
+  width: calc(($base-unit/1.25)*3 + $base-margin*2);
+  height: calc($base-unit/1.07);
+  
+}
 
 .doubloon{
   @extend #center-content;
@@ -282,6 +294,11 @@ $building-vp-shadow: 0.5px 0.5px black;
   background-image: url(../../../../../assets/svgs/victoryChip.svg);
 }
 
+  
+.noble-chip{
+  @extend .doubloon;
+  background-image: url(../../../../../assets/svgs/noble.svg);
+}
 
 .chip-number{
   // @extend #center-content;

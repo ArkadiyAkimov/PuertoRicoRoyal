@@ -12,9 +12,8 @@ import { ScrollService } from './scroll.service';
 })
 export class GameService{
   
-  debugOptions:boolean = false;
+  debugOptions:boolean = true;
   isHotSeat:boolean = true;
-  islargeBuildingDragging = new BehaviorSubject<boolean>(false); 
   startGameOutput!:StartGameOutput;
 
   playerIndex:number = 0;
@@ -42,10 +41,10 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 28;
+    this.startGameInput.gameId = 38;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
-    this.startGameInput.isDraft = false;
+    this.startGameInput.isDraft = true;
     this.startGameInput.isBuildingsExpansion = false;
     this.startGameInput.isNoblesExpansion = false;
 
@@ -94,44 +93,13 @@ export class GameService{
   };
 
 
-  getBuildingType(dataBuilding:DataBuilding):BuildingType|null{
+  getBuildingType(dataBuilding:DataBuilding|DataPlayerBuilding):BuildingType|null{
     let buildingType = this.buildingTypes.find(bt => bt.name == dataBuilding.name);
-    if(buildingType){
-      if(dataBuilding.quantity == 0)
-      {
-        let copy:BuildingType = {...buildingType};
-        copy.color = ColorName.gray;
-        return copy
-      }
-      return buildingType;
-    } 
+    if(buildingType) return buildingType;
     else return null;
   }
 
-  getPlayerBuildingType(dataBuilding:DataPlayerBuilding):BuildingType|null{
-    let buildingType = this.buildingTypes.find(bt => bt.name == dataBuilding.name);
-    if(buildingType){
-      if(dataBuilding.quantity == 0)
-      {
-        let copy:BuildingType = {...buildingType};
-        copy.color = ColorName.gray;
-        return copy
-      }
-      return buildingType;
-    } 
-    else return null;
-  }
-
-  getPlantationType(dataPlantation:DataPlantation):GoodType|null{
-    let plantationType = this.goodTypes.find(pt => pt.good == dataPlantation.good);
-    if(plantationType){
-
-      return plantationType;
-    } 
-    else return null;
-  }
-
-  getPlayerPlantationType(dataPlantation:DataPlayerPlantation):GoodType|null{
+  getPlantationType(dataPlantation:DataPlantation|DataPlayerPlantation):GoodType|null{
     let plantationType = this.goodTypes.find(pt => pt.good == dataPlantation.good);
     if(plantationType){
 
@@ -286,20 +254,20 @@ export class GameService{
     let occupiedBuildingSpaces:number[] = [0,0,0,0];
 
     for(let i=0; i< myBuildings.length; i++){
-      if(Math.floor(i/4) == 0 && occupiedBuildingSpaces[i%4] + this.getPlayerBuildingType(myBuildings[i])!.size <= 3)
+      if(Math.floor(i/4) == 0 && occupiedBuildingSpaces[i%4] + this.getBuildingType(myBuildings[i])!.size <= 3)
       {
         buildingsMatrix[i%4].push(myBuildings[i]);
-        occupiedBuildingSpaces[i%4] += this.getPlayerBuildingType(myBuildings[i])!.size;
+        occupiedBuildingSpaces[i%4] += this.getBuildingType(myBuildings[i])!.size;
       }
-      else if(occupiedBuildingSpaces[Math.floor((i-4)/2)] + this.getPlayerBuildingType(myBuildings[i])!.size <= 3)
+      else if(occupiedBuildingSpaces[Math.floor((i-4)/2)] + this.getBuildingType(myBuildings[i])!.size <= 3)
       {
         buildingsMatrix[Math.floor((i-4)/2)].push(myBuildings[i]);
-        occupiedBuildingSpaces[Math.floor((i-4)/2)] += this.getPlayerBuildingType(myBuildings[i])!.size;
+        occupiedBuildingSpaces[Math.floor((i-4)/2)] += this.getBuildingType(myBuildings[i])!.size;
       }
       else
       {
         buildingsMatrix[Math.floor(((i-4)/2)+1)].push(myBuildings[i]);
-        occupiedBuildingSpaces[Math.floor(((i-4)/2)+1)] += this.getPlayerBuildingType(myBuildings[i])!.size;
+        occupiedBuildingSpaces[Math.floor(((i-4)/2)+1)] += this.getBuildingType(myBuildings[i])!.size;
       }
     }
 

@@ -23,6 +23,16 @@ namespace PuertoRicoAPI.Model.Roles
                     {
                         player.getBuilding(BuildingName.Wharf).EffectAvailable = true;
                     }
+
+                    if(player.hasBuilding(BuildingName.Lighthouse, true))
+                    {
+                        player.chargePlayer(-1);
+                    }
+
+                    if (player.hasBuilding(BuildingName.UnionHall, true))
+                    {
+                        this.scoreUnionHall(player);
+                    }
                 }; 
                 gs.CaptainFirstShipment = true;
             }
@@ -53,6 +63,19 @@ namespace PuertoRicoAPI.Model.Roles
             } 
             Console.WriteLine("indexes: " + JsonSerializer.Serialize(gs.CaptainPlayableIndexes));
             gs.getRole(RoleName.PostCaptain).mainLoop();
+        }
+
+        public void scoreUnionHall(Player player)
+        {
+            int totalVp = 0;
+
+            foreach(Good good in player.Goods)
+            {
+                totalVp += (int)Math.Floor((double)good.Quantity / 2);
+            }
+
+            player.VictoryPoints += totalVp;
+            gs.VictoryPointSupply -= totalVp;
         }
 
         public bool canUseWharf()
@@ -145,7 +168,13 @@ namespace PuertoRicoAPI.Model.Roles
                 totalVp++;
             }
 
-            if(player.CheckForPriviledge() && gs.CaptainFirstShipment)
+            if (player.hasBuilding(BuildingName.Lighthouse, true))
+            {
+                player.chargePlayer(-1);
+            }
+
+
+            if (player.CheckForPriviledge() && gs.CaptainFirstShipment)
             {
                 gs.CaptainFirstShipment = false;
                 totalVp++;

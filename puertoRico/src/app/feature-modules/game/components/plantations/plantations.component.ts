@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
 import { BuildingName, DataPlantation, DataPlayer, GameStateJson, PlayerUtility, RoleName } from '../../classes/general';
+import { StylingService } from '../../services/styling.service';
 
 @Component({
   selector: 'app-plantations',
@@ -16,7 +17,7 @@ export class PlantationsComponent implements OnInit{
 
   constructor(
     public gameService:GameService,
-    private roleHttp: RoleHttpService
+    public stylingService:StylingService,
     ){
       this.player = new DataPlayer();
       this.playerUtility = new PlayerUtility();
@@ -31,6 +32,8 @@ export class PlantationsComponent implements OnInit{
         }
       });
     }
+
+  
 
    disablePlantationInteractionCheck():boolean{
               return this.gs.currentRole != RoleName.Settler 

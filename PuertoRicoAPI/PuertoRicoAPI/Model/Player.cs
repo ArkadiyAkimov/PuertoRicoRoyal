@@ -185,9 +185,54 @@ namespace PuertoRicoAPI.Models
 
                 case BuildingName.Residence:
                     return Math.Max(Plantations.Count - 5, 4);
+                case BuildingName.Cloister:
+                                int[] plantationCounts = new int[5] { 0, 0, 0, 0, 0 };
+                                foreach (Plantation plantation in this.Plantations)
+                                {
+                                if (plantation.IsOccupied)
+                                switch (plantation.Good)
+                                {
+                                case Types.GoodType.Corn:
+                                plantationCounts[0]++;
+                                break;
+                                case Types.GoodType.Indigo:
+                                plantationCounts[1]++;
+                                break;
+                                case Types.GoodType.Sugar:
+                                plantationCounts[2]++;
+                                break;
+                                case Types.GoodType.Tobacco:
+                                plantationCounts[3]++;
+                                break;
+                                case Types.GoodType.Coffee:
+                                plantationCounts[4]++;
+                                break;
+                                default:
+                                break;
+                                }
+                                }
 
-                default:
-                    return 0;
+                                int trios = 0;
+                                for(int i = 0; i< 5; i++)
+                                {
+                                trios += plantationCounts[i] / 3;
+                                }
+                        switch(trios)
+                            {
+                                case 0:
+                                 return 0;
+                                case 1:
+                                return 1;
+                                case 2:
+                                return 3;
+                                case 3:
+                                return 6;
+                                case 4:
+                                return 10;
+                          }
+                             return 0;
+                    default:
+                        return 0;
             }
         }
     }
