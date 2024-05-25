@@ -3,7 +3,7 @@
 <div [ngClass]="(canShipFlag() ?'ship-ladder-green-flag':'ship-ladder-red-flag')"></div>
 
     <div class="cargo-ship-button"  (click)="selectShip()"></div>
-    <div class="ship-name"> {{this.getShipName()}} </div>
+    <!-- <div class="ship-name"> {{this.getShipName()}} </div> -->
 
     <div class="good-buttons-collection  {{shipIndex==3?'good-on-board-wharf':'shipped-goods-collection'}}">
         <div class="empty-good-slot" *ngFor="let good of this.gameService.numSequence(cargoShip.load);">

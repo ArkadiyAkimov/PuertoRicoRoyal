@@ -1,92 +1,88 @@
 
-<!-- <div style="
-background: rgb(255,255,255);
-background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);">
 
+<div style="
+background: rgb(255,255,255);
+background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
+flex-direction: column;"
+class="only-mobile">
+
+<app-roles id="roles" class="only-mobile"/>
+<app-cargo-ships id="cargo-ships" class="only-mobile"/>
+
+<div class="land-transition-decoration"></div>
 </div>
-</div> -->
-
-<div  >
-<div style="
-display: flex;
-align-items: start;
-justify-content: center;
-flex-direction: row;
-    flex-wrap: wrap;">
-<div class="test-2" >
 
 
+<app-supply-display id="supply" class="only-mobile"/>
+<app-plantations id="plantations" class="only-mobile"/>
 
-<!-- <app-login-page></app-login-page> -->
-<div *ngIf="this.gameService.gs.value.lastGovernor">LAST GOVERNOR</div>
+<div class="only-mobile">
+<div class="board-separator {{this.displayPlayerBoard ? 'own':'opponents'}}"
+ (click)="switchBoards()">
+  Click to switch Boards
+</div>
+</div>
+
+<app-full-size id="player-board" *ngIf="displayPlayerBoard" class="only-mobile" />
+
+<app-opponent-boards *ngIf="!displayPlayerBoard" class="only-mobile"/>
+
+
+
+
+
+<div class="width-limiter">
+
+<!-- <div *ngIf="this.gameService.gs.value.lastGovernor">LAST GOVERNOR</div> -->
 
 <div style="
 background: rgb(255,255,255);
-background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);">
+background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
+flex-direction: column; width: 1280px;"
+class="only-desktop">
 
-<app-roles id="roles">
-</app-roles> 
-
-<app-cargo-ships 
-id="cargo-ships">
-</app-cargo-ships>
+<div style="flex-direction: row; width: 1280px;" class="only-desktop">
+<app-cargo-ships id="cargo-ships" class="only-desktop"/>
+<app-roles id="roles" class="only-desktop"/>
+</div>
 
 
 <div class="land-transition-decoration"></div>
 </div>
 
 
-<app-supply-display
-id="supply">
-</app-supply-display>
-
-<app-my-controls 
-id="" 
-class="only-mobile controls-drop">
-</app-my-controls>  
-
-<app-plantations 
-id="plantations" >
-</app-plantations>
-
-
-<div class="board-separator own" *ngIf="displayPlayerBoard"
+<div class="only-desktop">
+<div class="board-separator {{this.displayPlayerBoard ? 'own':'opponents'}}"
  (click)="switchBoards()">
-  Click to see all boards 
-</div>
-
-<app-full-size id="player-board" *ngIf="displayPlayerBoard">
-</app-full-size>
-
-<div class="board-separator opponents" *ngIf="!displayPlayerBoard" 
-(click)="switchBoards()"> Click to go back to your board </div>
-
-<app-opponent-boards *ngIf="!displayPlayerBoard">
-</app-opponent-boards>
-
-
-</div>
-<div class="test-2">
-
-
-<app-utility-drop 
-id="utility-drop"  
-class="utility-drop">
-</app-utility-drop>
-
-
-<app-scroll-asist 
-class="scroll-asist">
-</app-scroll-asist>
-
-<app-buildings 
-id="buildings">
-</app-buildings>
-
-</div>
+  Click to switch Boards
 </div>
 </div>
 
-<div class="score-board">
-  <app-score-board></app-score-board>
+
+<app-supply-display id="supply" class="only-desktop" *ngIf="!displayPlayerBoard"/>
+<app-plantations id="plantations" class="only-desktop" *ngIf="!displayPlayerBoard"/>
+
+
+
+<div *ngIf="displayPlayerBoard">
+<app-plantations id="plantations" class="only-desktop"/>
+<app-supply-display id="supply" class="only-desktop"/>
+<app-full-size id="player-board" class="only-desktop" />
 </div>
+
+<div *ngIf="displayPlayerBoard">
+  <app-buildings id="buildings" />
+</div>
+
+<app-opponent-boards *ngIf="!displayPlayerBoard" class="only-desktop"/>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="score-board"><app-score-board/></div>

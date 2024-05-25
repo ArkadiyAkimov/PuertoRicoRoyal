@@ -1,11 +1,12 @@
 <div class="board-collection">
-  
-<div  class="player-frame" *ngFor="let player of this.players; let i = index" style="transform: scale(0.5);" >
+  <app-full-size class="only-desktop"/>
+
+<div  class="player-frame" *ngFor="let player of this.players; let i = index"   >
   <!-- the part below put in the part above to remove self from opponent display -->
   <!-- [ngClass]="(this.gameService.playerIndex == player.index) ? 'display-none': ''" -->
 
-<div class="player-board" [ngClass]="(desktopPattern[i]? 'desktop-pattern ':' ') + (i%2==1?'mobile-pattern':'')">
 
+<div class="player-board {{player.index == this.gameService.playerIndex?'only-mobile':''}}">
 
 <div class="plantation-list-bg">
   <div id="myPlantations" class="plantation-list">
@@ -93,14 +94,17 @@
   
   
   
-    
+    <div class="vertical-pair">
     <div class="governor-or-turn-button"  [ngStyle]="{'background-color': player.index == this.gameService.gs.value.governorIndex ? (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
       <div > {{player.index == this.gameService.gs.value.governorIndex ? "Governor": (player.index == this.gameService.gs.value.currentPlayerIndex ? "Turn":"")}}</div>
       </div>
+    </div>
   
+      <div class="vertical-pair">
     <div class="end-turn-button">
       <div > {{ player.index == this.gameService.playerIndex ? "You": ("player " + (player.index+1 )) }}</div>
     </div>
+  </div>
   
   </div>
 

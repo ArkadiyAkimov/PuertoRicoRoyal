@@ -3,16 +3,21 @@
 @import '../../../../styles/slot-rings.scss';
 @import '../../../../styles/buildings.scss';
 
+
 #main-container{
   box-sizing: border-box;
-  max-width: calc($max-width/2);
-  background-color: $test-color;
+  max-width: $max-width;
 }
 
 :host{ 
   @extend #center-content; flex-direction: row; 
-  max-width: 100%;
+  max-width: $max-width;
+  
+  display: flex;
+  flex-direction: column;
 }
+
+
 
 .buildings-four-plus-one-at-bottom{
   @extend #start-content,#main-container,#wrap-row ;
@@ -36,11 +41,11 @@
   @extend #center-content;
   width: calc(($base-unit *4) + $base-margin*6);
   height: calc(($base-unit + $base-margin)*2);
-  margin: $base-margin;
   font-size: $base-font*2;
   color: gray;
   background-color: rgba(220, 220, 220, 0.646);
 //border: $base-border solid black;
+  margin-top: -$base-unit*2 -$base-margin*3 ;
 }
 
 .bank-text{
@@ -169,15 +174,16 @@
   display: none;
 }
 
-@media only screen and (min-width: 480px) {
-
+@media only screen and (max-width: 480px) {
   #main-container{
     box-sizing: border-box;
-    max-width: calc($max-width);
+    max-width: calc($max-width/2);
+    background-color: $test-color;
   }
-
-  .game-bank{
-    margin-top: -$base-unit*2 -$base-margin*3 ;
-  }
+ 
+  
+.game-bank{
+  margin: $base-margin;
+}
 
 }

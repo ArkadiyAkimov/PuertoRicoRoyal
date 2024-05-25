@@ -41,8 +41,8 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 199;
-    this.startGameInput.numOfPlayers = 3;
+    this.startGameInput.gameId = 201;
+    this.startGameInput.numOfPlayers = 5;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
     this.startGameInput.isBuildingsExpansion = false;

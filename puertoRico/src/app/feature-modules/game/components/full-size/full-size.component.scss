@@ -98,10 +98,7 @@
 //Mobile query
 @media only screen and (min-width: 480px) {
  
-  .only-desktop{
-    display: flex;
-    max-width: 100%;
-  }
+
 
   #main-container{
     box-sizing: border-box;
@@ -118,9 +115,6 @@
 }
 
 
-.only-mobile{
-  display: none;
-}
   
 }
 

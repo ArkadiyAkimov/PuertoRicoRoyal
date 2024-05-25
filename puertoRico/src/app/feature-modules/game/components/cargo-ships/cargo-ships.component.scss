@@ -1,5 +1,6 @@
-@import url(../../../../styles/colors.scss);
-@import url(../../../../styles/barrels.scss);
+@import '../../../../styles/barrels.scss';
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/variables.scss';
 
 #center-content{
     display: flex;
@@ -63,7 +64,8 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
 #ship-card{
     box-sizing: border-box;
     width: calc(($base-unit + $base-margin)*2);
-    height: $base-unit*1.9;
+    
+    height: calc($base-unit*1.4);
     border-radius: $base-radius;
     margin: $base-margin;
     //border: $base-border solid black;

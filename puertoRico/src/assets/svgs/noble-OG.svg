@@ -1,0 +1,10 @@
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <ellipse transform="rotate(-184 414.396 416.396)" ry="350" rx="350" id="svg_1" cy="416.3957" cx="414.39618" fill="#7f0000"/>
+  <ellipse transform="rotate(-184 385.605 383.607)" ry="350" rx="350" id="svg_3" cy="383.60715" cx="385.60499" fill="#bf0000"/>
+  <ellipse transform="rotate(-184 385.605 383.607)" ry="340" rx="340" id="svg_4" cy="383.60715" cx="385.60499" fill="#7f0000"/>
+  <ellipse transform="rotate(-184 390.026 388.24)" ry="330" rx="330" id="svg_5" cy="388.23951" cx="390.02555" fill="#bf0000"/>
+ </g>
+
+</svg>

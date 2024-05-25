@@ -59,3 +59,24 @@ $building-vp-shadow: 1px 0.5px black;
       background-color: $test-color;
   }
 
+  
+  .only-desktop{
+    display: flex;
+  }
+  
+  
+  .only-mobile{
+    display:none;
+  }
+
+  @media only screen and (max-width: 480px) {
+
+
+    .only-mobile{
+      display:flex;
+    }
+
+    .only-desktop{
+      display: none;
+    }
+}

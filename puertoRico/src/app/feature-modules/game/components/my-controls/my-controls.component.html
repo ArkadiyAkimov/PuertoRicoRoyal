@@ -66,13 +66,18 @@
 
 
   
+  <div class="vertical-pair">
   <div class="governor-or-turn-button "  [ngStyle]="{'background-color': this.gameService.playerIndex == this.gameService.gs.value.governorIndex ? (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
     {{this.gameService.playerIndex == this.gameService.gs.value.governorIndex ? "Governor": (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? "Your Turn":"Not Your Turn")}}
   </div>
+</div>
 
+  
+  <div class="vertical-pair">
   <div class="end-turn-button {{this.getEndTurnHighlightRule()}}" (click)="endTurn()">
     <div > End Turn </div>
   </div>
+</div>
 
 </div>
 
