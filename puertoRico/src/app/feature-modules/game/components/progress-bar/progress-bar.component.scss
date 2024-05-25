@@ -1,0 +1,32 @@
+
+@import '../../../../styles/variables.scss';
+
+:host{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: $max-width*2;
+   }
+   
+   
+   .end-turn-button{
+    height: $base-unit/2;
+    }
+
+    .player-name{
+      background-color: rgb(24, 13, 95);
+      box-shadow: 1px 1px rgb(12, 6, 51);
+    }
+
+
+    
+//mobile query
+@media only screen and (max-width: 480px) { 
+  
+ 
+  
+  }
+  
+  

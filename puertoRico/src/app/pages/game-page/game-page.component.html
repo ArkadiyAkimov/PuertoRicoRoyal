@@ -1,31 +1,13 @@
 
 
-<div style="
-background: rgb(255,255,255);
-background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
-flex-direction: column;"
-class="only-mobile">
-
-<app-roles id="roles" class="only-mobile"/>
-<app-cargo-ships id="cargo-ships" class="only-mobile"/>
-
-<div class="land-transition-decoration"></div>
-</div>
 
 
-<app-supply-display id="supply" class="only-mobile"/>
-<app-plantations id="plantations" class="only-mobile"/>
 
-<div class="only-mobile">
-<div class="board-separator {{this.displayPlayerBoard ? 'own':'opponents'}}"
- (click)="switchBoards()">
-  Click to switch Boards
-</div>
-</div>
 
-<app-full-size id="player-board" *ngIf="displayPlayerBoard" class="only-mobile" />
 
-<app-opponent-boards *ngIf="!displayPlayerBoard" class="only-mobile"/>
+
+
+
 
 
 
@@ -38,50 +20,50 @@ class="only-mobile">
 <div style="
 background: rgb(255,255,255);
 background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
+flex-direction: column;"
+class="only-mobile">
+<app-roles id="roles" class="only-mobile"/>
+<app-cargo-ships id="cargo-ships" class="only-mobile"/>
+<div class="land-transition-decoration"></div>
+</div>
+
+<div style="
+background: rgb(255,255,255);
+background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
 flex-direction: column; width: 1280px;"
 class="only-desktop">
-
 <div style="flex-direction: row; width: 1280px;" class="only-desktop">
 <app-cargo-ships id="cargo-ships" class="only-desktop"/>
 <app-roles id="roles" class="only-desktop"/>
 </div>
-
-
 <div class="land-transition-decoration"></div>
 </div>
 
 
-<div class="only-desktop">
+<app-progress-bar class="only-desktop"/>
+
+<app-supply-display id="supply" class="only-mobile"/>
+<app-plantations id="plantations" class="only-mobile"/>
+
+
 <div class="board-separator {{this.displayPlayerBoard ? 'own':'opponents'}}"
  (click)="switchBoards()">
   Click to switch Boards
 </div>
-</div>
-
-
-<app-supply-display id="supply" class="only-desktop" *ngIf="!displayPlayerBoard"/>
-<app-plantations id="plantations" class="only-desktop" *ngIf="!displayPlayerBoard"/>
-
-
 
 <div *ngIf="displayPlayerBoard">
 <app-plantations id="plantations" class="only-desktop"/>
 <app-supply-display id="supply" class="only-desktop"/>
-<app-full-size id="player-board" class="only-desktop" />
+<app-full-size id="player-board"/>
 </div>
 
-<div *ngIf="displayPlayerBoard">
-  <app-buildings id="buildings" />
-</div>
+<app-buildings id="buildings" *ngIf="displayPlayerBoard"/> 
 
 <app-opponent-boards *ngIf="!displayPlayerBoard" class="only-desktop"/>
+<app-opponent-boards *ngIf="!displayPlayerBoard" class="only-mobile"/>
 
 
 </div>
-
-
-
-
 
 
 

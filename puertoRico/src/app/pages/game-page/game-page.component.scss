@@ -142,7 +142,7 @@ $test-color:transparent;
     }
 
     .board-separator{
-      width: calc(($max-width - $base-margin * 3)/2);
+      width: calc(($max-width)/2 - $base-margin * 3);
     }
 
   }

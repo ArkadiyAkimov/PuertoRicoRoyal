@@ -1,12 +1,12 @@
 <div class="board-collection">
-  <app-full-size class="only-desktop"/>
+  <!-- <app-full-size class="only-desktop"/> -->
 
 <div  class="player-frame" *ngFor="let player of this.players; let i = index"   >
   <!-- the part below put in the part above to remove self from opponent display -->
   <!-- [ngClass]="(this.gameService.playerIndex == player.index) ? 'display-none': ''" -->
 
-
-<div class="player-board {{player.index == this.gameService.playerIndex?'only-mobile':''}}">
+  <!-- {{player.index == this.gameService.playerIndex?'only-mobile':''}} -->
+<div class="player-board">
 
 <div class="plantation-list-bg">
   <div id="myPlantations" class="plantation-list">
