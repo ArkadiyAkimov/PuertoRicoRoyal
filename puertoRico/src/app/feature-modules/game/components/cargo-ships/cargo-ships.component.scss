@@ -49,7 +49,6 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
 :host{
     @extend #center-content;
     //background-color: rgb(128, 219, 255);
-    text-shadow: rgba(0, 0, 0, 0.466) -0.9px 0.5px;
     // background: rgb(255,255,255);
     // background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
     max-width: 100%;
@@ -72,6 +71,41 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
     flex-direction: column-reverse;
     
 }
+
+
+.ship-count{
+    @extend #center-content;
+    text-shadow: none;
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: calc($base-font);
+    font-weight: 900;
+    
+    background-color: rgb(12, 6, 51);
+    border-radius: 50%;
+    width: calc($base-unit/3);
+    height: calc($base-unit/3);
+  
+    transform: translateX(40px) translateY(-40px);
+  }
+
+  .ship-capacity{
+    @extend #center-content;
+    text-shadow: none;
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: calc($base-font);
+    font-weight: 900;
+    
+    background-color: rgb(176, 23, 23);
+    border-radius: 50%;
+    width: calc($base-unit/3);
+    height: calc($base-unit/3);
+  
+    transform: translateX(60px) translateY(-30px);
+  }
 
 
 .ship-name{

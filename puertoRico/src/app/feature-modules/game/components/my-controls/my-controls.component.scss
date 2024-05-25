@@ -103,14 +103,14 @@
 
 .end-turn-button{
   @extend #center-content ;
-  box-shadow: $base-shadow;
+  // box-shadow: $base-shadow;
   text-shadow: 1px 0.5px rgba(0, 0, 0, 0.317), 0.5px 1px rgba(0, 0, 0, 0.295);
   border-radius: $base-radius;
   
   margin-bottom: 1px;
 
   color: white;
-  background-color: rgb(98, 118, 216);
+  // background-color: rgb(98, 118, 216);
   background-size: calc($base-unit * 2);
   background-blend-mode: luminosity;
 
@@ -130,7 +130,7 @@
   margin-right: -1px;
   margin-top: 1px;
   margin-left: 1px; 
-  background-color: rgb(85, 102, 186);
+  // background-color: rgb(85, 102, 186);
 }
 
 .governor-or-turn-button{
@@ -209,34 +209,6 @@
   color: white;
 }
 
-.highlight-button{
-  background-color: $highlight-color;
-  box-shadow: $highlight-shadow;
-}
-
-.highlight-colonist{
-  background-color: $highlight-color;
-  box-shadow: $highlight-shadow;
-}
-
-.highlight-green{
-  box-sizing: border-box;
-  border: solid 3px $highlight-color;
-  box-shadow: $highlight-shadow;
-}
-
-
-.highlight-yellow{
-  box-sizing: border-box;
-  border: solid 3px $highlight-color2;
-  box-shadow: $highlight-shadow2;
-}
-
-.highlight-red{
-  box-sizing: border-box;
-  border: solid 3px $highlight-color3;
-  box-shadow: $highlight-shadow3;
-}
 
 
 

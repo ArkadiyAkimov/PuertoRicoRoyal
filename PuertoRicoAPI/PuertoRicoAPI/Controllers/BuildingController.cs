@@ -37,15 +37,20 @@ namespace PuertoRicoAPI.Controllers
         public async Task<ActionResult<DataGameState>> PostBuilding(BuildingInput buildingInput)
         {
 
+
+
             DataBuilding dataBuilding = await DataFetcher
                 .getDataBuilding(_context, buildingInput.BuildingId);
 
-            GameState gs = await ModelFetcher
-                .getGameState(_context, buildingInput.DataGameId);
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, dataBuilding.DataGameStateId);
 
-            var currentRole = gs.getCurrentRole();
+            GameState gs = await ModelFetcher
+                .getGameState(_context, dataGameState.Id);
 
             if (buildingInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+
+            var currentRole = gs.getCurrentRole();
 
             Building building = gs.getBuilding(dataBuilding.Name);
 
@@ -60,8 +65,6 @@ namespace PuertoRicoAPI.Controllers
                 if (!(currentRole as Builder).tryBuyBuilding(building)) return Ok("can't buy building");
             }
 
-            var dataGameState = await DataFetcher
-                .getDataGameState(_context, dataBuilding.DataGameStateId);
             
             await DataFetcher.Update(dataGameState, gs);
 

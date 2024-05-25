@@ -17,8 +17,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
             DataGameState newGameState = new DataGameState();
             newGameState.IsDraft = gsInput.IsDraft;
             newGameState.IsBuildingsExpansion = gsInput.IsBuildingsExpansion; 
-            newGameState.IsNoblesExpansion = gsInput.IsNoblesExpansion; 
-            newGameState.IsRoleInProgress = true; 
+            newGameState.IsNoblesExpansion = gsInput.IsNoblesExpansion;
+            newGameState.IsRoleInProgress = false; 
             newGameState.VictoryPointSupply = new int[]{ 75, 100, 122}[numOfPlayers - 3];
             newGameState.ColonistsOnShip = numOfPlayers;
             newGameState.QuarryCount = 9;
@@ -27,10 +27,10 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newGameState.SugarSupply = 11;
             newGameState.TobaccoSupply = 9;
             newGameState.CoffeeSupply = 9;
-            newGameState.CurrentRole = RoleName.Draft;
+            newGameState.CurrentRole = RoleName.NoRole;
             newGameState.Roles = initializeRoles(numOfPlayers);
             newGameState.Players = initializePlayers(numOfPlayers);
-            newGameState.Buildings = initializeBuildings(numOfPlayers);
+            newGameState.Buildings = initializeBuildings(gsInput);
             newGameState.Plantations = initializePlantations();
             newGameState.Ships = initializeShips(numOfPlayers);
             newGameState.TradeHouse = initializeTradeHouse();
@@ -164,14 +164,15 @@ namespace PuertoRicoAPI.Data.DataHandlers
             return newPlayer;
         }
 
-        static List<DataBuilding> initializeBuildings(int numOfPlayers)
+        static List<DataBuilding> initializeBuildings(GameStartInput gsInput)
         {
             var buildingTypes = BuildingTypes.getAll();
             List<DataBuilding> newBuildings = new List<DataBuilding>();
 
             for (int i = 0; i < buildingTypes.Count; i++)
             {
-                var newBuilding = initBuilding(buildingTypes[i]);
+                var newBuilding = initBuilding(buildingTypes[i],gsInput);
+               
                 newBuildings.Add(newBuilding);
                 // use the index i here as needed
             }
@@ -179,7 +180,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             return newBuildings;
         }
 
-        static DataBuilding initBuilding(BuildingType type)
+        static DataBuilding initBuilding(BuildingType type, GameStartInput gsInput)
         {
             DataBuilding newBuilding = new DataBuilding();
             newBuilding.Name = type.Name;
@@ -187,7 +188,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newBuilding.Quantity = type.StartingQuantity;
             
             if(type.IsProduction)newBuilding.isDrafted = true;
-            if(type.Expansion == 2)newBuilding.isDrafted=true;
+            if(gsInput.IsNoblesExpansion && type.Expansion == 2)newBuilding.isDrafted=true;
 
             newBuilding.isBlocked = false;
 

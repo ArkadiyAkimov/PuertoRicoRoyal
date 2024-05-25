@@ -8,7 +8,8 @@
         Tobacco,
         Coffee,
         Quarry,
-        NoType
+        NoType,
+        Forest,
     }
 }
 

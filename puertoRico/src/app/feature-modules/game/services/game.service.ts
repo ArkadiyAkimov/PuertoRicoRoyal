@@ -26,6 +26,8 @@ export class GameService{
   storedGoodTypes:number[] = [6,6,6,6];
   finishedInitialStorage:boolean = false;
   targetStorageIndex = 1;
+  takingForest: boolean = false;
+  
 
   private hubConnection: HubConnection;
 
@@ -41,12 +43,12 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 201;
-    this.startGameInput.numOfPlayers = 5;
+    this.startGameInput.gameId = 332;
+    this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
-    this.startGameInput.isBuildingsExpansion = false;
-    this.startGameInput.isNoblesExpansion = false;
+    this.startGameInput.isBuildingsExpansion = true;
+    this.startGameInput.isNoblesExpansion = true;
 
     this.gameStartHttp.postNewGame(this.startGameInput)
     .subscribe({
@@ -150,7 +152,13 @@ export class GameService{
     upSideDown.color = ColorName.green;
     upSideDown.displayName = "";
 
-    this.goodTypes.push(corn,indigo,sugar,tobacco,coffee,quarry,upSideDown);
+    let forest = new GoodType();
+    forest.good = 7;
+    forest.color = ColorName.green;
+    forest.displayName = "forest";
+   
+
+    this.goodTypes.push(corn,indigo,sugar,tobacco,coffee,quarry,upSideDown,forest);
   }
 
 

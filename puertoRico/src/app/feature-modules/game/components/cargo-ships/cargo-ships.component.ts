@@ -53,6 +53,8 @@ export class CargoShipsComponent implements OnInit{
       return goodTypeArr;
     }
 
+    
+
     wharfDisplayCheck():boolean{
       let temp = (BuildingName.Wharf) 
       && this.playerUtility.getBuilding(BuildingName.Wharf,this.player)?.effectAvailable 

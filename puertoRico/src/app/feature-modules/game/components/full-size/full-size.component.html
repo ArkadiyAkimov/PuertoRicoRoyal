@@ -14,10 +14,10 @@
        cdkDropListSortingDisabled
        [cdkDropListData]="this.myPlantations"
        cdkDropListConnectedTo="exposedPlantations"
-       (cdkDropListDropped)="this.dropPlantation($event)"
-       > 
+       (cdkDropListDropped)="this.dropPlantation($event)"> 
 
-    <div class="plantation color{{this.gameService.getPlantationType(plantation)?.color}}" *ngFor="let plantation of this.myPlantations"> 
+       <div *ngFor="let plantation of this.myPlantations">
+    <div class="{{this.stylingService.getPlantationClasses(plantation)}}" *ngIf="plantation.good != 7"> 
         <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
       <div class="bottom-plantation-card">
         <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
@@ -27,7 +27,19 @@
         <div  class="build-order" *ngIf="this.gameService.debugOptions">{{plantation.buildOrder}}</div>
       </div>
     </div>
+
+    <div *ngIf="plantation.good == 7"
+    class="plantation color{{this.gameService.goodTypes[7].color}} forest">
+    <div class="top-plantation-card"> 
+      <div class="plantation-name">{{this.gameService.goodTypes[7].displayName}}</div>
+    </div>  
+    <div class="bottom-plantation-card">
+    </div>  
+  </div> 
+  </div>
+  
 </div>
+
 </div>
 
 
@@ -44,7 +56,7 @@
    cdkDropListOrientation="vertical"
    [cdkDropListData]="list">
 
-  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list">
+  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list" (click)="this.toggleBuildingEffect(building)">
       
         <div class="top-building-card"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>

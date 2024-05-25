@@ -6,21 +6,31 @@
   <!-- [ngClass]="(this.gameService.playerIndex == player.index) ? 'display-none': ''" -->
 
   <!-- {{player.index == this.gameService.playerIndex?'only-mobile':''}} -->
-<div class="player-board">
+<div class="player-board" *ngIf="player.index != this.gameService.playerIndex || this.players.length%2 == 0">
 
 <div class="plantation-list-bg">
   <div id="myPlantations" class="plantation-list">
 
-    <div class="plantation color{{this.gameService.getPlantationType(plantation)?.color}}" *ngFor="let plantation of player.plantations"> 
-        <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
-      <div class="bottom-plantation-card">
-        <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
-        <div class="{{this.stylingService.getPlantationSlotClasses(plantation)}}" 
-        style="outline-width: 1px;" >
-          <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
+    <div *ngFor="let plantation of player.plantations">
+      <div class="{{this.stylingService.getPlantationClasses(plantation)}}" *ngIf="plantation.good != 7"> 
+          <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
+        <div class="bottom-plantation-card">
+          <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
+          <div class="{{this.stylingService.getPlantationSlotClasses(plantation)}}">  
+            <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
+          </div>
+          <div  class="build-order" *ngIf="this.gameService.debugOptions">{{plantation.buildOrder}}</div>
         </div>
-        <div  class="build-order" *ngIf="this.gameService.debugOptions">{{plantation.buildOrder}}</div>
       </div>
+  
+      <div *ngIf="plantation.good == 7"
+      class="plantation color{{this.gameService.goodTypes[7].color}} forest">
+      <div class="top-plantation-card"> 
+        <div class="plantation-name">{{this.gameService.goodTypes[7].displayName}}</div>
+      </div>  
+      <div class="bottom-plantation-card">
+      </div>  
+    </div> 
     </div>
 
 </div>
@@ -43,11 +53,11 @@
   
   <div class="goods-display">
   
-    <div class="vertical-pair">
+    <div class="vertical-pair {{this.gameService.gs.value.isNoblesExpansion ?'':'offline'}}">
       <div class="button-label">nobles</div>
       <div class="good-and-number">
         <div class="noble-chip">
-          <div class="chip-number colonist-number">1</div>
+          <div class="chip-number colonist-number">0</div>
         </div>
       </div>
     </div>
@@ -95,13 +105,13 @@
   
   
     <div class="vertical-pair">
-    <div class="governor-or-turn-button"  [ngStyle]="{'background-color': player.index == this.gameService.gs.value.governorIndex ? (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
-      <div > {{player.index == this.gameService.gs.value.governorIndex ? "Governor": (player.index == this.gameService.gs.value.currentPlayerIndex ? "Turn":"")}}</div>
+    <div class="governor-or-turn-button purple {{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[0]}}">
+      {{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[1]}}
       </div>
     </div>
   
       <div class="vertical-pair">
-    <div class="end-turn-button">
+    <div class="end-turn-button blue">
       <div > {{ player.index == this.gameService.playerIndex ? "You": ("player " + (player.index+1 )) }}</div>
     </div>
   </div>

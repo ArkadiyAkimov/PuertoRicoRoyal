@@ -64,7 +64,7 @@ namespace PuertoRicoAPI.Controllers
             {
                 if ((currentRole as Settler).CanTakePlantation())
                 {
-                    (currentRole as Settler).TakePlantation(dataPlantation);
+                    (currentRole as Settler).TakePlantation(dataPlantation,false);
                 }
             }
             else return Ok("it's not settler phase");
@@ -101,7 +101,7 @@ namespace PuertoRicoAPI.Controllers
             {
                 if ((currentRole as Settler).CanTakeQuarry())
                 {
-                    (currentRole as Settler).TakePlantation(null);
+                    (currentRole as Settler).TakePlantation(null,false);
                 }
             }
             else return Ok("it's not settler phase");
@@ -145,7 +145,7 @@ namespace PuertoRicoAPI.Controllers
 
                    
 
-                    (currentRole as Settler).TakePlantation(randomPlant);
+                    (currentRole as Settler).TakePlantation(randomPlant, false);
                 }
             }
             else return Ok("it's not settler phase");
@@ -153,6 +153,46 @@ namespace PuertoRicoAPI.Controllers
             await DataFetcher.Update(dataGameState, gs);
 
             await _context.SaveChangesAsync();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+        [HttpPost("forest")]
+        public async Task<ActionResult<DataGameState>> PostForest(PlantationInput plantationInput)
+        {
+
+            DataPlantation dataPlantation = await DataFetcher.getDataPlantation(_context, plantationInput.PlantationId);
+
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, plantationInput.DataGameId);
+
+            GameState gs = await ModelFetcher
+               .getGameState(_context, plantationInput.DataGameId);
+
+            if (plantationInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("Not Your Turn.");
+
+            Role currentRole = gs.getCurrentRole();
+
+            Player player = gs.getCurrPlayer();
+
+            if (player.TookTurn
+                && !(player.hasBuilding(BuildingName.Library, true)
+                && !player.getBuilding(BuildingName.Library).EffectAvailable)) return Ok("Can't take another plantation");
+
+            if (gs.CurrentRole == Types.RoleName.Settler)
+            {
+                if ((currentRole as Settler).CanTakeForest())
+                {
+                    (currentRole as Settler).TakePlantation(dataPlantation,true);
+                }
+            }
+            else return Ok("it's not settler phase");
+
+            await DataFetcher.Update(dataGameState, gs);
+
+            _context.SaveChanges();
 
             await UpdateHub.SendUpdate(dataGameState, _hubContext);
 

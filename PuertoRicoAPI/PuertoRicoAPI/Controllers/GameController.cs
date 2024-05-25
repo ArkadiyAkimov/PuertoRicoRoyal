@@ -56,16 +56,18 @@ namespace PuertoRicoAPI.Controllers
                 GameState gs = await ModelFetcher
                .getGameState(_context, output.gameState.Id);
 
+                Role draft = gs.getRole(RoleName.Draft);
+                (draft as Draft).mainLoop();
+
                 if (!output.gameState.IsDraft)
                 {
-                    var currentRole = gs.getCurrentRole();
-
-                    (currentRole as Draft).draftRandom();
-
-                    await DataFetcher.Update(output.gameState, gs);
-
-                    await _context.SaveChangesAsync();
+                    (draft as Draft).draftRandom();
+                    
                 }
+
+                await DataFetcher.Update(output.gameState, gs);
+
+                await _context.SaveChangesAsync();
             }
             else
             {

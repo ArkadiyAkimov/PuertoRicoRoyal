@@ -28,7 +28,7 @@ namespace PuertoRicoAPI.Model.deployables
             this.Good = GoodType.Quarry;
 
             this.BuildOrder = 0;
-    }
+        }
 
         public Plantation(DataPlayerPlantation dataPlant)
         {

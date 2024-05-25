@@ -39,8 +39,9 @@ class="only-desktop">
 <div class="land-transition-decoration"></div>
 </div>
 
+<app-my-controls class="only-mobile" *ngIf="checkForCaptainOrPostCaptain()" />
 
-<app-progress-bar class="only-desktop"/>
+<app-progress-bar/>
 
 <app-supply-display id="supply" class="only-mobile"/>
 <app-plantations id="plantations" class="only-mobile"/>

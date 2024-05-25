@@ -29,6 +29,10 @@ export class RoleHttpService {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/quarry`,{ dataGameId ,playerIndex});
   } 
 
+  public postForest(plantationId:number, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/forest`,{plantationId , dataGameId ,playerIndex});
+  } 
+
   public postUpsideDown( dataGameId:number, playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/upSideDown`,{ dataGameId ,playerIndex});
   } 

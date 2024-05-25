@@ -3,7 +3,6 @@
 
 :host{
     @extend #center-content;
-    text-shadow: $base-shadow;
     max-width: 100%;
 }
 
@@ -25,6 +24,37 @@
 
     -webkit-tap-highlight-color: transparent;
 }
+.ship-count{
+    @extend #center-content;
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: calc($base-font);
+    font-weight: 900;
+    
+    background-color: rgb(12, 6, 51);
+    border-radius: 50%;
+    width: calc($base-unit/3);
+    height: calc($base-unit/3);
+  
+    transform: translateX(40px) translateY(-40px);
+  }
+
+  .ship-capacity{
+    @extend #center-content;
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-size: calc($base-font);
+    font-weight: 900;
+    
+    background-color: rgb(176, 23, 23);
+    border-radius: 50%;
+    width: calc($base-unit/3);
+    height: calc($base-unit/3);
+  
+    transform: translateX(60px) translateY(-30px);
+  }
 
 .ship-highlighted{
     outline: solid 2px $highlight-color;

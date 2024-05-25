@@ -69,13 +69,13 @@
     
     
       <div class="vertical-pair">
-      <div class="end-turn-button"  [ngStyle]="{'background-color': player.index == this.gameService.gs.value.governorIndex ? (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
-        <div > {{player.index == this.gameService.gs.value.governorIndex ? "Governor": (player.index == this.gameService.gs.value.currentPlayerIndex ? "Turn":"")}}</div>
+      <div class="end-turn-button left purple {{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[0]}}"  >
+        <div>{{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[1]}}</div>
         </div>
       </div>
     
         <div class="vertical-pair">
-      <div class="end-turn-button player-name">
+      <div class="end-turn-button right blue">
         <div > {{ player.index == this.gameService.playerIndex ? "You": ("player " + (player.index+1 )) }}</div>
       </div>
     </div>
@@ -85,3 +85,25 @@
   </div>  
   
   
+
+  <div class="board-nest offline only-desktop" *ngFor="let index of this.gameService.numSequence(5 - players.length)">
+  
+        <div class="goods-display">
+        
+        
+        
+          <div class="vertical-pair">
+          <div class="end-turn-button left purple">
+            </div>
+          </div>
+        
+            <div class="vertical-pair">
+          <div class="end-turn-button right blue">
+          </div>
+        </div>
+        
+        </div>
+      
+      </div>  
+      
+      

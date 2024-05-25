@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerPlantation, RoleName } from '../classes/general';
+import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerPlantation, GoodType, RoleName } from '../classes/general';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,31 @@ export class StylingService {
 
   constructor(private gameService:GameService) { }
 
+  getGovernorOrTurnClassesAndText(playerIndex:number):string[]{
+    let classesAndText = ["",""];
+
+    if(playerIndex == this.gameService.gs.value.governorIndex) classesAndText[0] += " red";
+    if(playerIndex == this.gameService.gs.value.privilegeIndex) classesAndText[0] += " yellow";
+    if(playerIndex == this.gameService.gs.value.currentPlayerIndex) classesAndText[0] += " green";
+    
+    if(playerIndex == this.gameService.gs.value.currentPlayerIndex) classesAndText[1] = "Turn";
+    else classesAndText[1] = "No Turn"
+    if(playerIndex == this.gameService.gs.value.privilegeIndex) classesAndText[1] = "Privilege";
+    if(playerIndex == this.gameService.gs.value.governorIndex) classesAndText[1] = "Governor";
+
+    return classesAndText;
+  }
+
+  getPlantationClasses(plantation:DataPlantation|DataPlayerPlantation|null){
+    let plantationClasses = "plantation"
+    
+    if(plantation != null){
+    plantationClasses += " color" + plantation.good
+    }
+    if(plantation?.good == 7) plantationClasses += " forest"
+
+    return plantationClasses;
+  }
 
   getPlantationSlotClasses(plantation:DataPlantation|DataPlayerPlantation|null){
     let plantationSlotClasses = "colonist-slot ";

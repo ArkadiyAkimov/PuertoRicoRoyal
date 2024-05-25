@@ -17,12 +17,17 @@ export class GamePageComponent {
     
   }
 
+  checkForCaptainOrPostCaptain(){
+    return this.gameService.gs.value.currentRole == RoleName.Captain || this.gameService.gs.value.currentRole == RoleName.PostCaptain;
+  }
+
   ngOnInit(): void {
     this.subscription = this.gameService.gs.subscribe((gs:GameStateJson)=>{
       if(gs.currentRole == RoleName.Settler && gs.currentPlayerIndex == this.gameService.playerIndex) this.displayPlayerBoard = true;
       
     });
   }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
