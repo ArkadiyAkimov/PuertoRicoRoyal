@@ -166,11 +166,12 @@ namespace PuertoRicoAPI.Model.Roles
                 }
                 else this.mainLoop();
             }
-            else if (dataPlantation != null && dataPlantation.IsExposed && tookForest)//forrest
+            else if (dataPlantation != null && dataPlantation.IsExposed && tookForest)//forest
             {
 
                 newPlantation = new Plantation();
                 newPlantation.Good = GoodType.Forest;
+                newPlantation.IsOccupied = true;
 
                 Plantation removedPlantation = this.gs.Plantations
                     .FirstOrDefault(plantation => plantation.IsExposed

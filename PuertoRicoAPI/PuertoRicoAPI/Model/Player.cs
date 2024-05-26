@@ -91,6 +91,11 @@ namespace PuertoRicoAPI.Models
             return count;  
         }
 
+        public int countForests()
+        {
+            return this.Plantations.Count(plantation => plantation.Good == GoodType.Forest); 
+        }
+
         public Building getBuilding(BuildingName name)
         {
             return Buildings.FirstOrDefault(building => building.Type.Name == name);
@@ -162,7 +167,7 @@ namespace PuertoRicoAPI.Models
             }
             foreach(Plantation plantation in Plantations)
             {
-                count += plantation.IsOccupied ? 1 : 0;
+                if(plantation.Good != GoodType.Forest) count += plantation.IsOccupied ? 1 : 0;
             }
             return count+Colonists;
         } 
@@ -189,7 +194,6 @@ namespace PuertoRicoAPI.Models
                                 int[] plantationCounts = new int[5] { 0, 0, 0, 0, 0 };
                                 foreach (Plantation plantation in this.Plantations)
                                 {
-                                if (plantation.IsOccupied)
                                 switch (plantation.Good)
                                 {
                                 case Types.GoodType.Corn:

@@ -64,40 +64,37 @@
     height: calc($base-unit*2/3);
 }
 
+.building-art{
+    position: absolute;
+    box-sizing: border-box;
+    width: calc(($base-unit + $base-margin)*2 - $base-margin);
+    height: calc($base-unit - $base-margin);
+    font-size: calc($base-font);
+    opacity: 1 ;
+    z-index: -2;
 
-.market{
-    background-image: url(../../assets/svgs/weights.svg);
-    background-size: contain;
+    background-size: 50%;
     background-repeat: no-repeat;
-    background-position: center;
+}
+
+
+.small-market{
+    background-image: url(../../assets/svgs/buildings/Small-market.svg);
+    background-position: 40px 20px;
 }
 
 .small-warehouse{
-    background-image: url(../../assets/svgs/smallWarehouse.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url(../../assets/svgs/buildings/smallWarehouse.svg);
+    background-position: 40px 20px;
 }
 
 .large-warehouse{
-    background-image: url(../../assets/svgs/largeWarehouseTigth.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url(../../assets/svgs/buildings/largeWarehouseTigth.svg);
+    background-position: 40px 20px;
 }
 
-
-.office{
-    background-image: url(../../assets/svgs/office.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+.hacienda{
+    background-image: url(../../assets/svgs/buildings/hacienda.svg);
+    background-position: 40px 20px;
 }
 
-
-.hospice{
-    background-image: url(../../assets/svgs/hospice.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
