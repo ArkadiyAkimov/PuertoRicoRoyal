@@ -245,3 +245,15 @@ export class GameStateJson{
       NoRole,
       Draft
   }
+
+  export enum GoodName
+  {
+      Corn,
+      Indigo,
+      Sugar,
+      Tobacco,
+      Coffee,
+      Quarry,
+      NoType,
+      Forest,
+  }

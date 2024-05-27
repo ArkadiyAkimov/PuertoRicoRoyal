@@ -179,6 +179,11 @@
   background-image: url(../../../../../assets/svgs/noble.svg);
 }
 
+.building-point{
+  @extend .doubloon;
+  background-image: url(../../../../../assets/svgs/hammer-green.svg)
+}
+
 .chip-number{
     // @extend #center-content;
     // text-shadow: 2px 1px rgba(0, 0, 0, 0.317), -1px 1px rgba(0, 0, 0, 0.295);

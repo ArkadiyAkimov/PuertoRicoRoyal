@@ -1,4 +1,5 @@
-﻿using PuertoRicoAPI.Data.DataClasses;
+﻿using PuertoRicoAPI.Controllers;
+using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
 
@@ -31,78 +32,45 @@ namespace PuertoRicoAPI.Model.Roles
             base.endRole();
         }
 
-        public bool canEndTurn(GoodType[] storageGoods)
+        public bool canEndTurn(EndTurnPostCaptainInput endTurnPostCaptainInput)
+        {
+
+            Player player = gs.getCurrPlayer();
+            int playerTotalGoods = player.Goods.Sum(good => good.Quantity);
+
+            if (playerTotalGoods == 0) return true;
+
+            if (player.hasBuilding(BuildingName.LargeWarehouse, true))
+            {
+                if (endTurnPostCaptainInput.LargeWarehouseStoredTypes.Contains(GoodType.NoType)) return false;
+            }
+            if (player.hasBuilding(BuildingName.SmallWarehouse, true))
+            {
+                if (endTurnPostCaptainInput.SmallWarehouseStoredType == GoodType.NoType) return false;
+            }
+            if (player.hasBuilding(BuildingName.Storehouse, true))
+            {
+                if (endTurnPostCaptainInput.StorehouseStoredGoods.Contains(GoodType.NoType)) return false;
+            }
+            if (endTurnPostCaptainInput.WindroseStoredGood == GoodType.NoType) return false;
+
+            return true;
+        }
+
+        public void KeepLegalGoods(EndTurnPostCaptainInput endTurnPostCaptainInput) 
         {
             Player player = gs.getCurrPlayer();
-            int playerGoodTypes = 0;
-            int playerAvailableStorageSpace = 1;
-            int playerStoredGoodTypes = 0;
-            bool canEndTurn = false;
-
-            if (player.hasBuilding(BuildingName.SmallWarehouse, true)) playerAvailableStorageSpace += 1;
-            if (player.hasBuilding(BuildingName.LargeWarehouse, true)) playerAvailableStorageSpace += 2;
 
             foreach (Good good in player.Goods)
             {
-                if(good.Quantity > 0) playerGoodTypes++;
-            }
-
-            foreach(GoodType goodType in storageGoods)
-            {
-                if(goodType != GoodType.NoType) playerStoredGoodTypes++;
-            }
-
-            int totalGoodTypesMustStore = Math.Min(playerGoodTypes, playerAvailableStorageSpace);
-
-            if(totalGoodTypesMustStore == playerStoredGoodTypes) canEndTurn = true;
-
-            return canEndTurn;
-        }
-
-        public void KeepLegalGoods(GoodType[] storageGoods) 
-        {
-            Player player = gs.getCurrPlayer();
-            if (storageGoods[0] != GoodType.NoType)
-            {
-                var singleGoodToStore = player.Goods.FirstOrDefault(x => x.Type == storageGoods[0]);
-                if (singleGoodToStore.Quantity > 1) singleGoodToStore.Quantity = 1;
-            }
-
-            foreach (Good good in player.Goods.Where(x => !storageGoods.Contains(x.Type)).ToList())
-            {
-                gs.GetGoodCount(good.Type, -good.Quantity);
                 good.Quantity = 0;
+                if (good.Type == endTurnPostCaptainInput.WindroseStoredGood) good.Quantity++;
+                good.Quantity += endTurnPostCaptainInput.StorehouseStoredGoods.Count(x => x == good.Type);
+                if (endTurnPostCaptainInput.SmallWarehouseStoredType == good.Type) good.Quantity = endTurnPostCaptainInput.SmallWarehouseStoredQuantity;
+                if (endTurnPostCaptainInput.LargeWarehouseStoredTypes[0] == good.Type) good.Quantity = endTurnPostCaptainInput.LargeWarehouseStoredQuantities[0];
+                if (endTurnPostCaptainInput.LargeWarehouseStoredTypes[1] == good.Type) good.Quantity = endTurnPostCaptainInput.LargeWarehouseStoredQuantities[1];
             }
 
-            if (storageGoods[1] != GoodType.NoType)
-            {
-                var smallWarehouseGood = player.Goods.FirstOrDefault(x => x.Type == storageGoods[1]);
-                if (!player.hasBuilding(BuildingName.SmallWarehouse, true))
-                {
-                    gs.GetGoodCount(smallWarehouseGood.Type, -smallWarehouseGood.Quantity);
-                    smallWarehouseGood.Quantity = 0;
-                }
-            }
-
-            if (storageGoods[2] != GoodType.NoType)
-            {
-                var largeWarehouseGood1 = player.Goods.FirstOrDefault(x => x.Type == storageGoods[2]);
-                if (!player.hasBuilding(BuildingName.LargeWarehouse, true))
-                {
-                    gs.GetGoodCount(largeWarehouseGood1.Type, -largeWarehouseGood1.Quantity);
-                    largeWarehouseGood1.Quantity = 0;
-                }
-            }
-
-            if (storageGoods[3] != GoodType.NoType)
-            {
-                var largeWarehouseGood2 = player.Goods.First(x => x.Type == storageGoods[3]);
-                if (!player.hasBuilding(BuildingName.LargeWarehouse, true))
-                {
-                    gs.GetGoodCount(largeWarehouseGood2.Type, -largeWarehouseGood2.Quantity);
-                    largeWarehouseGood2.Quantity = 0;
-                }
-            }
         }
     }
 }

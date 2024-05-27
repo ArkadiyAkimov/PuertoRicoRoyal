@@ -2,8 +2,10 @@ import { SoundService } from './../../services/sound.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
+import { SelectionService } from '../../services/selection.service';
+import { HighlightService } from '../../services/highlight.service';
 
 @Component({
   selector: 'app-my-controls',
@@ -24,6 +26,8 @@ export class MyControlsComponent implements OnInit {
     public gameService:GameService,
     public soundService:SoundService,
     private roleHttp:RoleHttpService,
+    public selectionService : SelectionService,
+    public highlightService : HighlightService,
     public stylingService:StylingService,
     ){}
 
@@ -38,10 +42,6 @@ export class MyControlsComponent implements OnInit {
           this.myVictoryPoints = player.victoryPoints;
           this.myGoods = player.goods;
           this.player = player;
-          
-          this.gameService.storedGoodTypes= [6,6,6,6];
-          this.gameService.targetStorageIndex = 0;
-          this.gameService.finishedInitialStorage=false
         }
       })
     }
@@ -51,14 +51,14 @@ export class MyControlsComponent implements OnInit {
     }
 
     onClickGood(good:DataPlayerGood){
-      if(this.gameService.selectedShip == 4 && this.gameService.gs.value.currentRole == 5) return;
-      if(this.gameService.gs.value.currentRole == 7)
+      if(this.selectionService.selectedShip == 4 && this.gameService.gs.value.currentRole == RoleName.Captain) return;
+      if(this.gameService.gs.value.currentRole == RoleName.PostCaptain)
       { 
-        this.gameService.changeTargetStorageGood(good);// NEW SSHIT
+        this.selectionService.selectGoodToStore(good);// NEW SSHIT
         return;
       }
 
-      this.roleHttp.postGood(good.id , this.gameService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+      this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
               .subscribe({
                 next: (result:GameStateJson) => {
                   console.log('success:',result);
@@ -68,15 +68,10 @@ export class MyControlsComponent implements OnInit {
                   console.log("error:",response.error.text);
                 }
               });
-      this.gameService.selectedShip = 4;
+      this.selectionService.selectedShip = 4;
     }
 
-    getGoodButtonHighlightRule(good:DataPlayerGood):string{
-      if(this.gameService.storedGoodTypes[0] == good.type) return 'highlight-red';
-      else if(this.gameService.storedGoodTypes.includes(good.type)) return 'highlight-yellow';
-      else if(good.quantity > 0 && this.gameService.gs.value.currentRole == RoleName.PostCaptain) return 'highlight-green';
-      else return '';
-    }
+   
 
     getEndTurnHighlightRule():string{
       let canEndTurn:boolean = false;
@@ -111,7 +106,7 @@ export class MyControlsComponent implements OnInit {
         case RoleName.Captain:
           break;
         case RoleName.PostCaptain:
-          if(this.canEndTurnPostCptain(this.gameService.storedGoodTypes)) canEndTurn = true;
+          if(this.selectionService.canEndTurnPostCptain())canEndTurn = true; 
           break;
         default:
           canEndTurn = true;
@@ -121,31 +116,12 @@ export class MyControlsComponent implements OnInit {
       return canEndTurn ? 'highlight-yellow' : '';
     }
 
-    canEndTurnPostCptain(storageGoods:number[]):boolean{
-      let player = this.gameService.gs.value.players[this.gameService.playerIndex];
-      let playerUtility = new PlayerUtility()
-      let playerGoodTypes = 0;
-      let playerAvailableStorageSpace = 1;
-      let playerStoredGoodTypes = 0;
-      let canEndTurn = false;
-      if (playerUtility.hasActiveBuilding(BuildingName.SmallWarehouse, player)) playerAvailableStorageSpace += 1;
-      if (playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse, player)) playerAvailableStorageSpace += 2;
-      
-      player.goods.forEach(good => {
-        if(good.quantity > 0) playerGoodTypes++;
-      });
-      
-      storageGoods.forEach(goodType => {
-        if(goodType != 6) playerStoredGoodTypes++;
-      });
-
-      let totalGoodTypesMustStore = Math.min(playerGoodTypes, playerAvailableStorageSpace);
-      if(totalGoodTypesMustStore == playerStoredGoodTypes) canEndTurn = true;
-      return canEndTurn;
-  }
+    
 
     endTurn(){
-      this.roleHttp.postEndTurn(this.gameService.gs.value.id, this.gameService.storedGoodTypes, this.gameService.playerIndex)
+      if(this.gameService.gs.value.currentRole != RoleName.PostCaptain){
+      this.roleHttp.postEndTurn(
+        this.gameService.gs.value.id,this.gameService.playerIndex) //temp
       .subscribe({
         next: (result:GameStateJson) => {
           console.log('success:',result);
@@ -156,4 +132,26 @@ export class MyControlsComponent implements OnInit {
         }
       });
     }
+    else{
+      this.roleHttp.postEndTurnPostCaptain(
+        this.gameService.gs.value.id,
+        this.selectionService.windroseStoredGood,
+        this.selectionService.storeHouseStoredGoods,
+        this.selectionService.smallWarehouseStoredType,
+        this.selectionService.smallWarehouseStoredQuantity,
+        this.selectionService.largeWarehouseStoredTypes,
+        this.selectionService.largeWarehouseStoredQuantities,
+        this.gameService.playerIndex) //temp
+      .subscribe({
+        next: (result:GameStateJson) => {
+          console.log('success:',result);
+          this.gameService.gs.next(result);
+        },
+        error: (response:any)=> {
+          console.log("error:",response.error.text);
+        }
+      });
+    }
+    }
+  
 }

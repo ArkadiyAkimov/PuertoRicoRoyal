@@ -84,6 +84,11 @@ $building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
   box-shadow: $highlight-shadow;
 }
 
+.colonist-highlight-green{
+  background-color: rgb(7, 110, 9);
+  outline: solid 2px rgb(5, 70, 5);
+  border-radius: 50%;
+}
 
 .highlight-yellow{
   box-sizing: border-box;

@@ -7,12 +7,12 @@
   justify-content: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
-  width: $max-width*2;
+  width: calc($max-width*2);
 }
 
 
 .end-turn-button{
-  height: $base-unit/2;
+  height: calc($base-unit/2);
 }
 
 .left{
@@ -30,8 +30,8 @@
   @media only screen and (max-width: 600px) {
 
     .end-turn-button{
-      height: $base-unit/2;
-      width: ($max-width/4 - $base-margin*2);
+      height: calc($base-unit/2);
+      width: calc($max-width/4 - $base-margin*2);
     }
 
   }
@@ -40,8 +40,8 @@
   @media only screen and (min-width:600px) and (max-width: 1260px) {
 
     .end-turn-button{
-      height: $base-unit/2;
-      width: ($max-width/5 - $base-margin*2);
+      height: calc($base-unit/2);
+      width: calc($max-width/5 - $base-margin*2);
     }
 
     .goods-display{

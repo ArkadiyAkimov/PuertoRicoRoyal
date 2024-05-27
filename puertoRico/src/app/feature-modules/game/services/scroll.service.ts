@@ -10,7 +10,7 @@ export class ScrollService {
   constructor(private router:Router ) { }
 
   autoScroll(role:RoleName){
-    return; //temp
+     return; //temp
     switch(role){
           case RoleName.NoRole:
           this.router.navigate([{ behavior: 'smooth' }], { fragment: "roles"})

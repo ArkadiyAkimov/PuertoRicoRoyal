@@ -3,7 +3,7 @@ import { Injectable, OnInit } from '@angular/core';
  import { BehaviorSubject } from 'rxjs';
  import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { environment } from 'src/environments/environment.development';
-import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput } from '../classes/general';
+import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
 import { ScrollService } from './scroll.service';
 
@@ -15,18 +15,13 @@ export class GameService{
   debugOptions:boolean = true;
   isHotSeat:boolean = true;
   startGameOutput!:StartGameOutput;
+  errorToUI:string = 'error to ui';
 
   playerIndex:number = 0;
-
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];
-  selectedShip: number = 4;
-  errorToUI:string = 'error to ui';
-  storedGoodTypes:number[] = [6,6,6,6];
-  finishedInitialStorage:boolean = false;
-  targetStorageIndex = 1;
-  takingForest: boolean = false;
+
   
 
   private hubConnection: HubConnection;
@@ -43,7 +38,7 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 10;
+    this.startGameInput.gameId = 18;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
@@ -56,7 +51,6 @@ export class GameService{
       this.buildingTypes = startGameOutput.buildingTypes;
       this.startGameOutput = startGameOutput;
       this.gs.next(startGameOutput.gameState);
-      //this.gameId = startGameOutput.gameState.id;
     },
     error: (error:JSON) => {
       this.errorToUI = JSON.stringify(error);
@@ -161,91 +155,17 @@ export class GameService{
     this.goodTypes.push(corn,indigo,sugar,tobacco,coffee,quarry,upSideDown,forest);
   }
 
+  calculateBuildingPoints(player:DataPlayer):number{
+    let points = 0;
 
-  changeTargetStorageGood(good:DataPlayerGood){
-    if(this.gs.value.currentRole != RoleName.PostCaptain || good.quantity == 0 || this.playerIndex != this.gs.value.currentPlayerIndex) return;
-    
-    if(this.storedGoodTypes[0] != 6) this.finishedInitialStorage = true
-    this.finishedInitialStorage = this.storedGoodTypes[0] != 6;
-
-    let player = this.gs.value.players[this.playerIndex];
-      let playerGoodTypes = 0;
-      let playerStoredGoodTypes = 0;
-
-      player.goods.forEach(good => {
-        if(good.quantity > 0) playerGoodTypes++;
-      });
-
-      this.storedGoodTypes.forEach(goodType => {
-        if(goodType != 6) playerStoredGoodTypes++;
-      });
-
-
-    if(!this.finishedInitialStorage){
-    if(this.storedGoodTypes.includes(good.type)) return;
-
-    do{
-      this.targetStorageIndex = (this.targetStorageIndex + 1)%4;
-    }
-    while(!this.hasWarehouseCondition(this.targetStorageIndex));
-    this.storedGoodTypes[this.targetStorageIndex] = good.type;
-    
-    }else if(playerGoodTypes == playerStoredGoodTypes){
-        this.storedGoodTypes= [6,6,6,6];
-        this.targetStorageIndex = 0;
-        this.finishedInitialStorage=false
-    }else{
-
-      if(this.storedGoodTypes.includes(good.type)){
-        let index = this.storedGoodTypes.indexOf(good.type)
-         this.targetStorageIndex = index
-      }else{
-        this.storedGoodTypes[this.targetStorageIndex] = good.type
-      }
-    }
-  }
-
-  hasWarehouseCondition(index:number)
-  {
-    let player = this.gs.value.players[this.gs.value.currentPlayerIndex];
-    let playerUtility = new PlayerUtility()
-
-    switch(index){
-      case 0:
-        if(!playerUtility.hasActiveBuilding(BuildingName.SmallWarehouse,player) 
-          && !playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse,player)
-          || this.allWarehousesFull()) return true;
-        return false;
-      case 1:
-        if(playerUtility.hasActiveBuilding(BuildingName.SmallWarehouse,player)) return true;
-        return false;
-      case 2:
-      case 3:
-        if(playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse,player)) return true;
-        return false;
-      default:
-        return true;
-    }
-  }
-
-  allWarehousesFull():boolean{
-    let player = this.gs.value.players[this.gs.value.currentPlayerIndex];
-    let playerUtility = new PlayerUtility()
-    
-    let warehouseSlots = 0;
-    let storedTypes = 0;
-    if(playerUtility.hasActiveBuilding(BuildingName.SmallWarehouse,player)) warehouseSlots += 1;
-    if(playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse,player)) warehouseSlots += 2;
-
-    this.storedGoodTypes.forEach(goodType => {
-      if(goodType != 6) storedTypes++;
+    player.buildings.forEach(building => {
+      let buildingPoints = this.getBuildingType(building)?.victoryScore;
+      if(buildingPoints != null) points += buildingPoints;
     });
 
-    return storedTypes == warehouseSlots;
+    return points;
   }
-
-  
-  
+ 
   initMatrix(){
     let buildingsMatrix: DataPlayerBuilding[][] = [];
     for(let i=0 ; i< 4; i++){

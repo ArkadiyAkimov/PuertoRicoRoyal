@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
-import { GameStateJson } from '../classes/general';
+import { GameStateJson, GoodName } from '../classes/general';
 
 
 @Injectable({
@@ -45,13 +45,19 @@ export class RoleHttpService {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Slot`,{slotId ,dataGameId ,playerIndex});
   } 
 
-  public postEndTurn( dataGameId:number, StorageGoods:number[], playerIndex:number): Observable<GameStateJson> {
-    return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn`,{ dataGameId, StorageGoods ,playerIndex});
+  public postEndTurn( dataGameId:number, playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn`,{ dataGameId ,playerIndex});
+  } 
+
+  public postEndTurnPostCaptain( dataGameId:number, windroseStoredGood:GoodName, storehouseStoredGoods:GoodName[], smallWarehouseStoredType:GoodName, smallWarehouseStoredQuantity:number, largeWarehouseStoredTypes:GoodName[], largeWarehouseStoredQuantities:number[], playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn/postCaptain`,{ dataGameId, windroseStoredGood, storehouseStoredGoods, smallWarehouseStoredType, smallWarehouseStoredQuantity, largeWarehouseStoredTypes, largeWarehouseStoredQuantities ,playerIndex});
   } 
 
   public postGood(GoodId:number, ShipIndex:number, DataGameId:number, playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Good`,{GoodId ,ShipIndex,DataGameId ,playerIndex});
   } 
+
+
 
   public postColonist(DataGameId:number, playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Chip/colonist`,{DataGameId ,playerIndex});

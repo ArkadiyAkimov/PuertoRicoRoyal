@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerPlantation, GoodType, RoleName } from '../classes/general';
+import { BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerPlantation, GoodType, RoleName } from '../classes/general';
+import { HighlightService } from './highlight.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StylingService {
 
-
-  constructor(private gameService:GameService) { }
+  constructor(private gameService:GameService,
+    private highlightService:HighlightService,
+  ) { }
 
   getGovernorOrTurnClassesAndText(playerIndex:number):string[]{
     let classesAndText = ["",""];
@@ -56,6 +58,7 @@ export class StylingService {
     buildingClassString += " color" + buildingType.color;
     if(building as DataBuilding) buildingClassString += " "+ this.getBuildingHighlight(building as DataBuilding);
     buildingClassString += " building-size-" + buildingType.size;
+    buildingClassString += " " + this.highlightService.getBuildingEffectHighlight(buildingType);
     return buildingClassString;
   }
 

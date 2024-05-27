@@ -17,7 +17,18 @@ namespace PuertoRicoAPI.Controllers
     public class EndTurnInput
     {
         public int DataGameId { get; set; }
-        public GoodType[] StorageGoods { get; set; }
+        public int PlayerIndex { get; set; }
+    }
+
+    public class EndTurnPostCaptainInput
+    {
+        public int DataGameId { get; set; }
+        public GoodType WindroseStoredGood { get; set; }
+        public GoodType[] StorehouseStoredGoods { get; set; } 
+        public GoodType SmallWarehouseStoredType { get; set; }
+        public int SmallWarehouseStoredQuantity { get; set; }
+        public GoodType[] LargeWarehouseStoredTypes { get; set; }
+        public int[] LargeWarehouseStoredQuantities { get; set; }
         public int PlayerIndex { get; set; }
     }
 
@@ -66,15 +77,41 @@ namespace PuertoRicoAPI.Controllers
                 case RoleName.Trader:
                     (currentRole as Trader).mainLoop(); 
                     break;
-                case RoleName.PostCaptain:
-                    if(!(currentRole as PostCaptain).canEndTurn(endTurnInput.StorageGoods)) return Ok("Must use all windrose and warehouse storage");
-                    (currentRole as PostCaptain).KeepLegalGoods(endTurnInput.StorageGoods);
-                    (currentRole as PostCaptain).mainLoop();
-                    break;
                 default:
                     return Ok("No turn to end here");
             }
             
+            await DataFetcher.Update(dataGameState, gs);
+
+            await _context.SaveChangesAsync();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+        [HttpPost("postCaptain")]
+        public async Task<ActionResult<DataGameState>> PostEndTurnPostCaptain(EndTurnPostCaptainInput endTurnPostCaptainInput)
+        {
+
+            DataGameState dataGameState = await DataFetcher
+            .getDataGameState(_context, endTurnPostCaptainInput.DataGameId);
+
+            GameState gs = await ModelFetcher
+             .getGameState(_context, endTurnPostCaptainInput.DataGameId);
+
+            if (endTurnPostCaptainInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+
+            var currentRole = gs.getCurrentRole();
+            //if(gs.CurrentRole == RoleName.NoRole) { return Ok("No turn to end here"); }
+
+            if (gs.CurrentRole == RoleName.PostCaptain)
+            {
+                if (!(currentRole as PostCaptain).canEndTurn(endTurnPostCaptainInput)) return Ok("Must use all windrose and warehouse storage");
+                (currentRole as PostCaptain).KeepLegalGoods(endTurnPostCaptainInput);
+                (currentRole as PostCaptain).mainLoop();
+            }
+
             await DataFetcher.Update(dataGameState, gs);
 
             await _context.SaveChangesAsync();

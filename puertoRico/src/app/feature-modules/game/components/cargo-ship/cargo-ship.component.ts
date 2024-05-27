@@ -3,6 +3,7 @@ import { GameService } from './../../services/game.service';
 import { Component, Input } from '@angular/core';
 import { RoleHttpService } from '../../services/role-http.service';
 import { DataShip, GameStateJson } from '../../classes/general';
+import { SelectionService } from '../../services/selection.service';
 
 @Component({
   selector: 'app-cargo-ship',
@@ -21,18 +22,19 @@ export class CargoShipComponent{
 
   constructor(
     public gameService:GameService,
+    public selectionService : SelectionService,
     public roleHttp:RoleHttpService,
     ){}
 
     selectShip(){
       if(this.cargoShip.load == this.cargoShip.capacity) return;
-      if(this.gameService.selectedShip == this.shipIndex) this.gameService.selectedShip = 5;
-      else this.gameService.selectedShip = this.shipIndex;
+      if(this.selectionService.selectedShip == this.shipIndex) this.selectionService.selectedShip = 5;
+      else this.selectionService.selectedShip = this.shipIndex;
 
       if(this.cargoShip.type != 6){
         let player = this.gameService.gs.value.players[this.gameService.gs.value.currentPlayerIndex];
         
-        this.roleHttp.postGood(player.goods[this.cargoShip.type].id , this.gameService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+        this.roleHttp.postGood(player.goods[this.cargoShip.type].id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
         .subscribe({
           next: (result:GameStateJson) => {
             console.log('success:',result);
@@ -42,7 +44,7 @@ export class CargoShipComponent{
             console.log("error:",response.error.text);
           }
         });
-        this.gameService.selectedShip = 4;
+        this.selectionService.selectedShip = 4;
       }
     }
 

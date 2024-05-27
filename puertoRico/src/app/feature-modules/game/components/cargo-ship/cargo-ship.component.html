@@ -1,5 +1,5 @@
 
-<div class="cargo-ship-card {{(shipIndex==3?'wharf ':'') + (((this.gameService.selectedShip == shipIndex)&&this.gameService.gs.value.currentRole==5) ?'ship-highlighted':'')}}" *ngIf="showShip || shipIndex != 3">
+<div class="cargo-ship-card {{(shipIndex==3?'wharf ':'') + (((this.selectionService.selectedShip == shipIndex)&&this.gameService.gs.value.currentRole==5) ?'ship-highlighted':'')}}" *ngIf="showShip || shipIndex != 3">
 
     <div class="ship-capacity">{{ cargoShip.capacity }}</div>
     <div class="ship-count">{{ cargoShip.load }}</div>
