@@ -6,16 +6,34 @@ $base-border: 1px;
 $base-margin: 1px;
 $base-radius: 5px;
 $test-color:transparent;
-$max-width: calc(($base-unit + $base-margin*2) * 8);
 
 
 :host{
     display: flex;
     flex-direction: column;
-    width: 100%;
     align-items: center;
     justify-content: center;
+    
+    width: 100%;
+    max-width: $max-width*2;
+}
 
+.sky-decoration{
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
+  flex-direction: column;
+}
+
+
+.width-limiter{
+  
+  width: 100%;
+  max-width: $max-width*2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .ports-of-rico{
@@ -27,34 +45,11 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
     height: 100px;
 }
 
-// .controls-drop{
-    
-//     position: sticky;
-//     position: -webkit-sticky;
-//     bottom: 0px;
-
-
-//     z-index: 3;
-// }
-
-
-
-
-
-.utility-drop{
-  
-  position: -webkit-sticky;
-    position: sticky;
-    top: 0px;
-
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    z-index: 7;
+.ships-and-roles{
+  flex-direction: row;
+   flex-wrap: wrap;
+    max-width: 1280px;
 }
-
 
 .scroll-asist{
   
@@ -72,7 +67,9 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
     background-size: contain;
     background-repeat: repeat-x;
   
-    max-width: 100%;
+    margin-bottom: -1px;
+    width: 100%;
+    max-width: $max-width*2;
     }
   
     .board-separator{
@@ -83,15 +80,23 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
 
       align-self: center;
       height: calc($base-unit/2); 
-      width: calc($max-width/2 - $base-margin * 2);
+      width: calc($max-width*2 - $base-margin*2);
       color: white;
-      margin-top: $base-margin;
-      margin-bottom: $base-margin * 2;
+
+      margin: $base-margin;
+      margin-right: 2px;
+      margin-bottom: 2px;
 
       text-shadow: 1px 0.5px rgba(0, 0, 0, 0.317), 0.5px 1px rgba(0, 0, 0, 0.295);
       
 
       border-radius: $base-radius;
+    }
+
+    .board-separator:active{
+      margin: $base-margin;
+      margin-top: 1px;
+      margin-left: 1px;
     }
 
 
@@ -123,42 +128,59 @@ $max-width: calc(($base-unit + $base-margin*2) * 8);
       box-shadow: -0px -0px ;
     }
 
-
-  // .debug-overlay{
-  //   pointer-events: none;
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100vw;
-  //   height: 100vw;
-  //   display: flex;
-  //   flex-direction: column;
-    
-  // }
-
   .score-board{
     position: absolute;
     align-self: center;
     justify-self: center;
-
     z-index: 2000;
   }
 
-  .only-mobile{
-    display: flex;
-  }
 
+ 
 
-  @media only screen and (min-width: 480px) {
-    .only-mobile{
-      display: none;
+  //mobile 
+  @media only screen and (max-width: 600px) and (orientation: portrait) {
+
+    .land-transition-decoration{
+      width: calc($max-width/2);
     }
 
-    .scroll-asist{
-      display: none;
+   :host{
+    max-width: calc($max-width/2);
+   }
+
+    .width-limiter{
+      max-width: calc($max-width/2);
+    }
+
+    .board-separator{
+      width: calc(($max-width)/2 - $base-margin * 3);
+    }
+
   }
 
-  .board-separator{
-    width: calc($max-width - $base-margin*2);
-  }
+
+  @media only screen and (min-width:600px) and (max-width: 1260px) {
+
+    .land-transition-decoration{
+      width: $max-width;
+    }
+
+   :host{
+    max-width: $max-width;
+   }
+
+    .width-limiter{
+      max-width: $max-width;
+    }
+
+    .board-separator{
+      width: calc(($max-width) - $base-margin * 3);
+    }
+
+    .ships-and-roles{
+      flex-direction: row;
+       flex-wrap: wrap-reverse;
+        max-width: 1280px;
+    }
   }

@@ -26,6 +26,8 @@ export class GameService{
   storedGoodTypes:number[] = [6,6,6,6];
   finishedInitialStorage:boolean = false;
   targetStorageIndex = 1;
+  takingForest: boolean = false;
+  
 
   private hubConnection: HubConnection;
 
@@ -41,11 +43,11 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 0;
+    this.startGameInput.gameId = 10;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
-    this.startGameInput.isBuildingsExpansion = false;
+    this.startGameInput.isBuildingsExpansion = true;
     this.startGameInput.isNoblesExpansion = false;
 
     this.gameStartHttp.postNewGame(this.startGameInput)
@@ -150,7 +152,13 @@ export class GameService{
     upSideDown.color = ColorName.green;
     upSideDown.displayName = "";
 
-    this.goodTypes.push(corn,indigo,sugar,tobacco,coffee,quarry,upSideDown);
+    let forest = new GoodType();
+    forest.good = 7;
+    forest.color = ColorName.green;
+    forest.displayName = "forest";
+   
+
+    this.goodTypes.push(corn,indigo,sugar,tobacco,coffee,quarry,upSideDown,forest);
   }
 
 
@@ -253,24 +261,33 @@ export class GameService{
     let buildingsMatrix = this.initMatrix();
     let occupiedBuildingSpaces:number[] = [0,0,0,0];
 
-    for(let i=0; i< myBuildings.length; i++){
-      if(Math.floor(i/4) == 0 && occupiedBuildingSpaces[i%4] + this.getBuildingType(myBuildings[i])!.size <= 3)
-      {
-        buildingsMatrix[i%4].push(myBuildings[i]);
-        occupiedBuildingSpaces[i%4] += this.getBuildingType(myBuildings[i])!.size;
-      }
-      else if(occupiedBuildingSpaces[Math.floor((i-4)/2)] + this.getBuildingType(myBuildings[i])!.size <= 3)
-      {
-        buildingsMatrix[Math.floor((i-4)/2)].push(myBuildings[i]);
-        occupiedBuildingSpaces[Math.floor((i-4)/2)] += this.getBuildingType(myBuildings[i])!.size;
-      }
-      else
-      {
-        buildingsMatrix[Math.floor(((i-4)/2)+1)].push(myBuildings[i]);
-        occupiedBuildingSpaces[Math.floor(((i-4)/2)+1)] += this.getBuildingType(myBuildings[i])!.size;
-      }
-    }
+    myBuildings.forEach(building => {
+      let buildingSize = this.getBuildingType(building)?.size
+      if(buildingSize == null) return;
 
+      let occupiedSum = occupiedBuildingSpaces[0] > 0   //is first line occupied
+      && occupiedBuildingSpaces[1] > 0 
+      && occupiedBuildingSpaces[2] > 0 
+      && occupiedBuildingSpaces[3] > 0 ;
+
+      if(buildingSize == 1 && !occupiedSum){    //first fill top line if possible
+        for(let i=0; i<4; i++){                    //unless someone builds a large building revert to natural sorting
+          if(occupiedBuildingSpaces[i] == 0){
+          buildingsMatrix[i].push(building);
+          occupiedBuildingSpaces[i] += buildingSize;
+          return;
+          }
+        }
+      } else{        //then fill in the rest
+      for(let i=0; i<occupiedBuildingSpaces.length; i++){
+        while(buildingSize + occupiedBuildingSpaces[i] > 3){
+          i++ 
+        }
+        buildingsMatrix[i].push(building);
+        occupiedBuildingSpaces[i] += buildingSize;
+        return;
+      }
+    }});
 
     return buildingsMatrix;
   }

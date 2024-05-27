@@ -18,6 +18,7 @@ import { TradingHouseComponent } from './components/trading-house/trading-house.
 import { CargoShipComponent } from './components/cargo-ship/cargo-ship.component';
 import { ScoreBoardComponent } from './components/score-board/score-board.component';
 import { SupplyDisplayComponent } from './components/supply-display/supply-display.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 
 
@@ -36,6 +37,7 @@ import { SupplyDisplayComponent } from './components/supply-display/supply-displ
     CargoShipComponent,
     ScoreBoardComponent,
     SupplyDisplayComponent,
+    ProgressBarComponent,
   ],
   imports: [
     CommonModule,
@@ -55,7 +57,8 @@ import { SupplyDisplayComponent } from './components/supply-display/supply-displ
     FullSizeComponent,
     ScrollAsistComponent,
     ScoreBoardComponent,
-    SupplyDisplayComponent
+    SupplyDisplayComponent,
+    ProgressBarComponent,
   ],
 })
 export class GameModule { }

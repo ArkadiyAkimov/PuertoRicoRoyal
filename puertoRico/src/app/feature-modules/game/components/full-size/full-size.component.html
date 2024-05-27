@@ -7,17 +7,17 @@
      <app-my-controls></app-my-controls>
     </div>  
   </div> -->
-
+  <div class="wrap-reverse">
 <div class="plantation-list-bg">
   <div id="myPlantations" class="plantation-list"
        cdkDropList
        cdkDropListSortingDisabled
        [cdkDropListData]="this.myPlantations"
        cdkDropListConnectedTo="exposedPlantations"
-       (cdkDropListDropped)="this.dropPlantation($event)"
-       > 
+       (cdkDropListDropped)="this.dropPlantation($event)"> 
 
-    <div class="plantation color{{this.gameService.getPlantationType(plantation)?.color}}" *ngFor="let plantation of this.myPlantations"> 
+       <div *ngFor="let plantation of this.myPlantations">
+    <div class="{{this.stylingService.getPlantationClasses(plantation)}}" *ngIf="plantation.good != 7"> 
         <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
       <div class="bottom-plantation-card">
         <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
@@ -27,13 +27,26 @@
         <div  class="build-order" *ngIf="this.gameService.debugOptions">{{plantation.buildOrder}}</div>
       </div>
     </div>
-</div>
+
+    <div *ngIf="plantation.good == 7"
+    class="plantation color{{this.gameService.goodTypes[7].color}} forest">
+    <div class="top-plantation-card"> 
+      <div class="plantation-name">{{this.gameService.goodTypes[7].displayName}}</div>
+    </div>  
+    <div class="bottom-plantation-card">
+    </div>  
+  </div> 
+  </div>
+
 </div>
 
- <div class="board-nest only-desktop">
+</div>
+
+
+ <div class="board-nest">
   <app-my-controls></app-my-controls>
  </div>  
-
+</div>
 
   <div class="building-list-bg" >
   <div id="myBuildingsDisabled" *ngFor="let list of this.buildingsMatrix"
@@ -43,10 +56,8 @@
    cdkDropListOrientation="vertical"
    [cdkDropListData]="list">
 
-  <div class="building" *ngFor="let building of list"
-    [ngClass]="(this.gameService.getBuildingType(building)?.size != 1)?'building large-building':'building'"
-    class="color{{this.gameService.getBuildingType(building)?.color}}">
-      
+  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list" (click)="this.toggleBuildingEffect(building)">
+    <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
         <div class="top-building-card"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
           <div class="building-victory-score">
@@ -54,12 +65,12 @@
           </div> 
         </div>  
         <div class="bottom-building-card">
-          <div class="colonist-slot expansion-{{this.gameService.getBuildingType(building)?.expansion}}" *ngFor="let slot of this.sortSlots(building?.slots!); let i=index" (click)="this.onSlotClick(slot)">
+          <div class="{{this.stylingService.getBuildingSlotClasses(building)}}" *ngFor="let slot of this.sortSlots(building?.slots!); let i=index" (click)="this.onSlotClick(slot)">
             <!-- {{slot.id.toString().charAt(slot.id.toString().length - 1)}} -->
              <div class="colonist" *ngIf="slot.isOccupied"></div>
-            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+            <!-- <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div> -->
           </div>
-          <div *ngIf="this.gameService.debugOptions" class="build-order">{{building.buildOrder}}</div>
+          <div *ngIf="this.gameService.debugOptions" class="build-order build-order-{{this.gameService.getBuildingType(building)?.size}}" >{{building.buildOrder}}</div>
          </div>
        </div>
     </div>

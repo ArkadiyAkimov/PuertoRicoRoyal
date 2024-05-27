@@ -1,7 +1,9 @@
 <div class="ship-collection"> 
 
     <div class="trading-house-card">
-        <div class="ship-name trading-house-text">Trading House</div>
+    <div class="ship-capacity">{{ 4 }}</div>
+    <div class="ship-count">{{ this.deserializeTradeHouse(this.tradeHouse.goods).length }}</div>
+
     <div class="good-buttons-collection">
         <div class="empty-good-slot trading-house-slot" *ngFor="let good of this.deserializeTradeHouse(this.tradeHouse.goods) ; let i=index">
         <div class="good-button" class="{{good.displayName+'-barrel'}}"></div>
@@ -33,7 +35,6 @@
 
 <div class="cargo-ship-card small-warehouse" 
 *ngIf="this.showSmallWarehouse()">
-    <div class="ship-name"> Small Warehouse </div>
 
         <div class="good-in-small-warehouse"
         *ngIf="this.gameService.storedGoodTypes[1] != 6;" 
@@ -44,7 +45,6 @@
 
 <div class="cargo-ship-card large-warehouse"
 *ngIf="this.showLargeWarehouse()" >
-    <div class="ship-name"> Large Warehouse </div>
         
         <div class="good-in-large-warehouse1"
         *ngIf="this.gameService.storedGoodTypes[2] != 6;" 

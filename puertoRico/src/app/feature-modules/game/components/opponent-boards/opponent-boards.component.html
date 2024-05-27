@@ -1,24 +1,37 @@
 <div class="board-collection">
-  
-<div  class="player-frame" *ngFor="let player of this.players; let i = index" >
+  <!-- <app-full-size class="only-desktop"/> -->
+
+<div  class="player-frame" *ngFor="let player of this.players; let i = index"   >
   <!-- the part below put in the part above to remove self from opponent display -->
   <!-- [ngClass]="(this.gameService.playerIndex == player.index) ? 'display-none': ''" -->
 
-<div class="player-board" [ngClass]="(desktopPattern[i]? 'desktop-pattern ':' ') + (i%2==1?'mobile-pattern':'')">
-
+  <!-- {{player.index == this.gameService.playerIndex?'only-mobile':''}} -->
+<div class="player-board" *ngIf="player.index != this.gameService.playerIndex || this.players.length%2 == 0">
 
 <div class="plantation-list-bg">
   <div id="myPlantations" class="plantation-list">
 
-    <div class="plantation color{{this.gameService.getPlantationType(plantation)?.color}}" *ngFor="let plantation of player.plantations"> 
-        <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
-      <div class="bottom-plantation-card">
-        <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
-        <div class="{{this.stylingService.getPlantationSlotClasses(plantation)}}" 
-        style="outline-width: 1px;" >
-          <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
+    <div *ngFor="let plantation of player.plantations">
+      <div class="{{this.stylingService.getPlantationClasses(plantation)}}" *ngIf="plantation.good != 7"> 
+        
+          <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
+        <div class="bottom-plantation-card">
+          <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
+          <div class="{{this.stylingService.getPlantationSlotClasses(plantation)}}">  
+            <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
+          </div>
+          <div  class="build-order" *ngIf="this.gameService.debugOptions">{{plantation.buildOrder}}</div>
         </div>
       </div>
+  
+      <div *ngIf="plantation.good == 7"
+      class="plantation color{{this.gameService.goodTypes[7].color}} forest">
+      <div class="top-plantation-card"> 
+        <div class="plantation-name">{{this.gameService.goodTypes[7].displayName}}</div>
+      </div>  
+      <div class="bottom-plantation-card">
+      </div>  
+    </div> 
     </div>
 
 </div>
@@ -41,11 +54,11 @@
   
   <div class="goods-display">
   
-    <div class="vertical-pair">
+    <div class="vertical-pair {{this.gameService.gs.value.isNoblesExpansion ?'':'offline'}}">
       <div class="button-label">nobles</div>
       <div class="good-and-number">
         <div class="noble-chip">
-          <div class="chip-number colonist-number">1</div>
+          <div class="chip-number colonist-number">0</div>
         </div>
       </div>
     </div>
@@ -92,61 +105,19 @@
   
   
   
-    
-    <div class="governor-or-turn-button"  [ngStyle]="{'background-color': player.index == this.gameService.gs.value.governorIndex ? (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
-      <div > {{player.index == this.gameService.gs.value.governorIndex ? "Governor": (player.index == this.gameService.gs.value.currentPlayerIndex ? "Turn":"")}}</div>
+    <div class="vertical-pair">
+    <div class="governor-or-turn-button purple {{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[0]}}">
+      {{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[1]}}
       </div>
-  
-    <div class="end-turn-button">
-      <div > {{ player.index == this.gameService.playerIndex ? "You": ("player " + (player.index+1 )) }}</div>
     </div>
   
+      <div class="vertical-pair">
+    <div class="end-turn-button blue">
+      <div > {{ player.index == this.gameService.playerIndex ? "You": ("player " + (player.index+1 )) }}</div>
+    </div>
   </div>
   
-  
-  
-  
-  
-  
-  
-  
-  <!-- <div class="goods-display">
-    <div class="good-and-number"
-    *ngFor="let good of this.getSortedPlayerGoodButtons(player);">
-    <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
-      <div class="good-count">{{good.quantity}}</div></div>
-    
   </div>
-  </div>   
-  
-  <div class="goods-display">
-    
-          <div class="good-and-number">
-            <div class="noble-chip">
-              <div class="chip-number colonist-number">1</div>
-            </div>
-            </div>
-                  
-          <div class="good-and-number">
-            <div class="colonist-chip">
-              <div class="chip-number colonist-number">{{player.colonists}}</div>
-            </div>
-            </div>
-
-            <div class="good-and-number">
-              <div class="doubloon">
-                <div class="chip-number">{{player.doubloons}}</div>
-              </div>
-            </div>
-  
-          
-  
-          <div class="end-turn-button"  [ngStyle]="{'background-color': player.index == this.gameService.gs.value.governorIndex ? (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (player.index == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
-           <div > {{player.index == this.gameService.gs.value.governorIndex ? "Governor": (player.index == this.gameService.gs.value.currentPlayerIndex ? "Turn":"")}}</div>
-           </div>
-  </div>
-
- -->
 
 </div>  
 
@@ -156,10 +127,8 @@
   <div id="myBuildingsDisabled"  *ngFor="let list of this.buildingsMatrixes[i]"
    class="building-list">
 
-  <div class="building" *ngFor="let building of list"
-    [ngClass]="(this.gameService.getBuildingType(building)?.size != 1)?'building large-building':'building'"
-    class="color{{this.gameService.getBuildingType(building)?.color}}">
-      
+  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list">
+    <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
         <div class="top-building-card"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
           <div class="building-victory-score">
@@ -172,8 +141,9 @@
           *ngFor="let slot of building.slots; let i=index"
           >
              <div class="colonist" *ngIf="slot.isOccupied"></div>
-            <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+            <!-- <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div> -->
           </div>
+          <div *ngIf="this.gameService.debugOptions" class="build-order build-order-{{this.gameService.getBuildingType(building)?.size}}" >{{building.buildOrder}}</div>
         </div>
 
       </div>
@@ -182,4 +152,5 @@
 
 </div>
 </div>
+
 </div>

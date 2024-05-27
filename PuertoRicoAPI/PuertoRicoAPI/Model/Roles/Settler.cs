@@ -37,7 +37,6 @@ namespace PuertoRicoAPI.Model.Roles
             if (player.hasBuilding(BuildingName.Library, true)
                 && player.getBuilding(BuildingName.Library).EffectAvailable)
             {
-                Console.WriteLine("nigger HARD SEX TODAY");
                 player.getBuilding(BuildingName.Library).EffectAvailable = false;
                 return;
             }
@@ -101,10 +100,20 @@ namespace PuertoRicoAPI.Model.Roles
                  && CanTakePlantation();
         }
 
+        public bool CanTakeForest()
+        {
+            Player player = gs.getCurrPlayer();
+
+            return player.hasBuilding(BuildingName.ForestHouse, true)
+                && CanTakePlantation();
+        }
+
         public bool CanTakePlantation()
         {
             return (gs.getCurrPlayer().freePlantationTiles() > 0);
         }
+
+      
 
         public bool CheckUsedHacienda()
         {
@@ -120,12 +129,13 @@ namespace PuertoRicoAPI.Model.Roles
                    && !player.getBuilding(BuildingName.Hospice).EffectAvailable;
         }
 
-        public void TakePlantation(DataPlantation dataPlantation)
+        public void TakePlantation(DataPlantation dataPlantation,bool tookForest)
         {
             Plantation newPlantation;
             Player player = gs.getCurrPlayer();
 
-            if (dataPlantation != null && dataPlantation.IsExposed)//exposed
+
+            if (dataPlantation != null && dataPlantation.IsExposed && !tookForest)//exposed
             {
 
                 newPlantation = new Plantation(dataPlantation);
@@ -142,6 +152,39 @@ namespace PuertoRicoAPI.Model.Roles
                   && !player.getBuilding(BuildingName.Library).EffectAvailable)
                 {
                     Console.WriteLine("nigger sex 2");
+                    this.endRole();
+                    return;
+                }
+
+                if (player.hasBuilding(BuildingName.Hospice, true))
+                {
+                    if (player.hasBuilding(BuildingName.Hacienda, true)
+                        && !player.getBuilding(BuildingName.Hacienda).EffectAvailable) this.mainLoop();
+                    Console.WriteLine("player {0} hospice enabled.", player.Index);
+                    player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                    return;
+                }
+                else this.mainLoop();
+            }
+            else if (dataPlantation != null && dataPlantation.IsExposed && tookForest)//forest
+            {
+
+                newPlantation = new Plantation();
+                newPlantation.Good = GoodType.Forest;
+                newPlantation.IsOccupied = true;
+
+                Plantation removedPlantation = this.gs.Plantations
+                    .FirstOrDefault(plantation => plantation.IsExposed
+                    && plantation.Good == dataPlantation.Good);
+
+                this.gs.Plantations.Remove(removedPlantation);
+                player.Plantations.Add(newPlantation);
+
+                player.TookTurn = true;
+
+                if (player.hasBuilding(BuildingName.Library, true)
+                  && !player.getBuilding(BuildingName.Library).EffectAvailable)
+                {
                     this.endRole();
                     return;
                 }

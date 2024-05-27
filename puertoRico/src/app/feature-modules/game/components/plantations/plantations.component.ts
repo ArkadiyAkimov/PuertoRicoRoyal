@@ -14,6 +14,7 @@ export class PlantationsComponent implements OnInit{
   gs: GameStateJson = new GameStateJson();
   player:DataPlayer;
   playerUtility:PlayerUtility;
+ 
 
   constructor(
     public gameService:GameService,
@@ -21,6 +22,7 @@ export class PlantationsComponent implements OnInit{
     ){
       this.player = new DataPlayer();
       this.playerUtility = new PlayerUtility();
+      
     }
 
     ngOnInit(): void {
@@ -51,6 +53,7 @@ export class PlantationsComponent implements OnInit{
     let canTakeQuarry = false;
     if(constructionHutCheck != undefined) canTakeQuarry = constructionHutCheck;
     if(this.player.index == this.gs.privilegeIndex) canTakeQuarry = true;
+    if(this.player.tookTurn) canTakeQuarry = false;
 
     return !canTakeQuarry || this.disablePlantationInteractionCheck();
    }

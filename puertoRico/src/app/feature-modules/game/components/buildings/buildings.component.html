@@ -1,3 +1,6 @@
+<app-utility-drop/>
+<app-scroll-asist class="scroll-asist" class="only-mobile"/>
+
 <div class="buildings-four-plus-one-at-bottom">
   <div class="four-columns-layout">
 
@@ -27,6 +30,7 @@
           >
 
           <div class="building-card-frame">
+            <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
             <div class="top-building-card"> 
               <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
               <div class="building-victory-score">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 
@@ -49,8 +53,8 @@
     
   </div>
 
-  <div class="game-bank">
+  <!-- <div class="game-bank">
     <div class="bank-text"> bank of san juan</div>
-  </div>
+  </div> -->
 
 </div>

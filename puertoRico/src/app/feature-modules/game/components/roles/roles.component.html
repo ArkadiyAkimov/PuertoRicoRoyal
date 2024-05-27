@@ -2,7 +2,9 @@
     
     <div *ngFor="let role of this.roles; let i = index"  
     class="role-card {{getRoleSelectionClass(role) 
-    + ((this.gs.players.length == 3)?' role-card-3-players':'') }}"
+    + ((this.gs.players.length == 3)?' role-card-3-players ':' ') +
+      ((this.gs.players.length == 4)?' role-card-4-players ':' ') }}"
+    
     [ngClass]="getRoleNameString(role)"  
     (click)="onClick(role.id)">
 
@@ -16,7 +18,7 @@
     </div>
     
     <div *ngIf="this.roles.length == 9"  
-    class="role-card" style="opacity: 30%; pointer-events: none;"> 
+    class="role-card only-mobile" style=" pointer-events: none;"> 
     </div>
 
 </div>

@@ -8,12 +8,14 @@ import { StylingService } from '../../services/styling.service';
   selector: 'app-opponent-boards',
   templateUrl: './opponent-boards.component.html',
   styleUrls: [
-    './opponent-boards.component.scss',
-    './opponent-board-part2.scss',
     '../../../../styles/colors.scss',
     '../../../../styles/plantations.scss',
     '../../../../styles/barrels.scss',
-    '../../../../styles/buildings.scss'
+    '../../../../styles/buildings.scss',
+    '../full-size/full-size.component.scss',
+    '../full-size/full-size.component-part2.scss',
+    '../my-controls/my-controls.component.scss',
+    './opponent-boards.component.scss',
   ]
 })
 export class OpponentBoardsComponent implements OnInit {

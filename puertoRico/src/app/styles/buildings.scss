@@ -1,3 +1,4 @@
+@import './variables.scss';
 
 .isDrafted{
     filter: grayscale(100%) sepia(50%) hue-rotate(90deg);
@@ -12,40 +13,110 @@
 }
 
 
+.building{
+    box-sizing: border-box;
+    width: calc(($base-unit + $base-margin)*2);
+    height: calc($base-unit);
+    font-size: calc($base-font);
+    border: calc($base-border) black solid;
+    margin: calc($base-margin);
+    z-index: 2;
+}
 
-.market{
-    background-image: url(../../assets/svgs/weights.svg);
-    background-size: contain;
+.building-size-2{
+    height: calc(($base-unit + $base-margin)*2);    
+}
+
+.top-building-card{
+    box-sizing: border-box;
+    @extend #center-content;
+    justify-content: flex-start;
+    width: calc($base-unit*2);
+    height: calc($base-unit/3);
+}
+
+.building-name{
+    box-sizing: border-box;
+    width: calc($base-unit*2);
+    font-size: calc($base-font);
+    margin-left: $base-margin*4;  
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.building-victory-score{
+    box-sizing: border-box;
+    width: calc($base-unit/4);
+    font-size: $base-font*1.5;
+    position: relative;
+    font-weight: 900;
+    right: 5px;
+    top: 2px;
+    color: $building-vp-color;
+    text-shadow: $building-vp-shadow;
+}
+
+
+.bottom-building-card{
+    @extend #center-content ;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    height: calc($base-unit*2/3);
+}
+
+.building-art{
+    position: absolute;
+    box-sizing: border-box;
+    width: calc(($base-unit + $base-margin)*2 - $base-margin);
+    height: calc($base-unit - $base-margin);
+    font-size: calc($base-font);
+    opacity: 1 ;
+    z-index: -2;
+
+    background-size: 70%;
     background-repeat: no-repeat;
-    background-position: center;
+    border-radius: 50%;
+}
+
+.building-art-size-2{
+    height: calc($base-unit * 2 + $base-margin) ;
+}
+
+.small-indigo-plant{
+    background-image: url(../../assets/svgs/buildings/Small-indigo-plant.svg);
+    background-position: 30px 0px;
+}
+
+.small-sugar-mill{
+    background-image: url(../../assets/svgs/buildings/Small-sugar-mill.svg);
+    background-position: 25px 8px;
+}
+
+.small-market{
+    background-image: url(../../assets/svgs/buildings/Small-market.svg);
+    background-position: 37px 8px;
+}
+
+.hacienda{
+    background-image: url(../../assets/svgs/buildings/hacienda.svg);
+    background-position: 25px 8px;
+}
+
+.construction-hut{
+    background-image: url(../../assets/svgs/buildings/Construction-hut.svg);
+    background-position: 20px 5px;
+    
 }
 
 .small-warehouse{
-    background-image: url(../../assets/svgs/smallWarehouse.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url(../../assets/svgs/buildings/smallWarehouse.svg);
+    background-position: 45px 20px;
+    background-size: 50%;
 }
 
 .large-warehouse{
-    background-image: url(../../assets/svgs/largeWarehouseTigth.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url(../../assets/svgs/buildings/largeWarehouseTigth.svg);
+    background-position: 45px 20px;
+    background-size: 50%;
 }
 
-
-.office{
-    background-image: url(../../assets/svgs/office.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-
-.hospice{
-    background-image: url(../../assets/svgs/hospice.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}

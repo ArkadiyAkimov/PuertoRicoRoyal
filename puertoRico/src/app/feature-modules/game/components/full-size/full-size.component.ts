@@ -3,7 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot } from '../../classes/general';
+import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 
 @Component({
@@ -64,6 +64,20 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     });
   }
 
+  toggleBuildingEffect(building:DataPlayerBuilding){
+
+    if(!building.slots[0].isOccupied) return;
+
+    let buildingType = this.gameService.getBuildingType(building);
+
+
+    switch(buildingType?.name){
+      case BuildingName.ForestHouse:
+        this.gameService.takingForest = !this.gameService.takingForest;
+        break;    
+    }
+  }
+
   dropPlantation(event: CdkDragDrop<DataPlayerPlantation[]>){
 
     if(event.item.data == 5){
@@ -82,8 +96,18 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       });
       return;
     } 
-
     if (event.previousContainer === event.container) return;
+    else if(this.gameService.takingForest){
+      this.roleHttp.postForest(event.item.data.id, this.gameService.gs.value.id, this.gameService.playerIndex)
+    .subscribe({
+      next: (result:GameStateJson) => {
+        this.gameService.gs.next(result);
+      },
+      error: (response:any)=> {
+        console.log("error:",response.error.text);
+      }
+    });
+    }
     else this.roleHttp.postPlantation(event.item.data.id, this.gameService.gs.value.id, this.gameService.playerIndex)
     .subscribe({
       next: (result:GameStateJson) => {

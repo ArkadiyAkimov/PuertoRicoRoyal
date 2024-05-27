@@ -78,8 +78,10 @@ namespace PuertoRicoAPI.Model.deployables
             int basePrice = this.Type.Price;
             int quarryDiscountLimit = Math.Min(this.Type.VictoryScore,4);
             int activeQuarries = player.countActiveQuarries();
+            int forests = player.countForests();
             int quarryDiscount = Math.Min(quarryDiscountLimit, activeQuarries);
             basePrice -= quarryDiscount;
+            basePrice -= (int)Math.Floor((double)forests/2);
 
             if (player.CheckForPriviledge())
             {   

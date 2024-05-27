@@ -14,11 +14,11 @@
 
 <div class="goods-display">
 
-  <div class="vertical-pair">
+  <div class="vertical-pair {{this.gameService.gs.value.isNoblesExpansion ?'':'offline'}}">
     <div class="button-label">nobles</div>
     <div class="good-and-number">
       <div class="noble-chip">
-        <div class="chip-number colonist-number">1</div>
+        <div class="chip-number colonist-number">0</div>
       </div>
     </div>
   </div>
@@ -66,13 +66,18 @@
 
 
   
-  <div class="governor-or-turn-button "  [ngStyle]="{'background-color': this.gameService.playerIndex == this.gameService.gs.value.governorIndex ? (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : 'rgb(198, 56, 56)') : (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? 'rgb(42, 113, 21)' : '')}">
-    {{this.gameService.playerIndex == this.gameService.gs.value.governorIndex ? "Governor": (this.gameService.playerIndex == this.gameService.gs.value.currentPlayerIndex ? "Your Turn":"Not Your Turn")}}
+  <div class="vertical-pair">
+  <div class="governor-or-turn-button purple {{this.stylingService.getGovernorOrTurnClassesAndText(this.player.index)[0]}}" >
+    {{this.stylingService.getGovernorOrTurnClassesAndText(this.gameService.playerIndex)[1]}}
   </div>
+</div>
 
-  <div class="end-turn-button {{this.getEndTurnHighlightRule()}}" (click)="endTurn()">
+  
+  <div class="vertical-pair">
+  <div class="end-turn-button purple {{this.getEndTurnHighlightRule()}}" (click)="endTurn()">
     <div > End Turn </div>
   </div>
+</div>
 
 </div>
 

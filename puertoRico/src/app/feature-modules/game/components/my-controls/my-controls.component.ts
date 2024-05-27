@@ -2,7 +2,8 @@ import { SoundService } from './../../services/sound.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { BuildingName, DataPlayerGood, GameStateJson, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import { StylingService } from '../../services/styling.service';
 
 @Component({
   selector: 'app-my-controls',
@@ -13,6 +14,7 @@ export class MyControlsComponent implements OnInit {
 
   hideVictoryPoints:boolean = true;
 
+  player:DataPlayer = new DataPlayer()
   myDoubloons:number = 0;
   myColonists:number = 0;
   myVictoryPoints:number = 0;
@@ -21,7 +23,8 @@ export class MyControlsComponent implements OnInit {
   constructor(
     public gameService:GameService,
     public soundService:SoundService,
-    private roleHttp:RoleHttpService
+    private roleHttp:RoleHttpService,
+    public stylingService:StylingService,
     ){}
 
 
@@ -34,6 +37,7 @@ export class MyControlsComponent implements OnInit {
           this.myColonists = player.colonists;
           this.myVictoryPoints = player.victoryPoints;
           this.myGoods = player.goods;
+          this.player = player;
           
           this.gameService.storedGoodTypes= [6,6,6,6];
           this.gameService.targetStorageIndex = 0;

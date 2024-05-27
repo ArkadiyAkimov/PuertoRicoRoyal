@@ -15,8 +15,91 @@ $highlight-shadow2: 1px 1px  rgb(12, 6, 51);
 $highlight-shadow3: 1px 1px  rgb(121, 1, 1);
 
 $building-vp-color: rgba(255, 59, 59, 0.893);
-$building-vp-shadow: 1px 0.5px black;
+$building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
 
+
+
+
+.purple{
+  background-color: rgb(98, 118, 216);
+  box-shadow: $base-shadow;
+  color: white;
+}
+
+
+.red{
+  background-color: $highlight-color3;
+  box-shadow: $highlight-shadow3;
+  color: white;
+}
+
+.red:active{
+  background-color: rgb(150, 9, 9);
+}
+
+.yellow{
+  background-color: rgb(214, 214, 0);
+  box-shadow: 1px 1px rgb(165, 165, 0);
+  color: white;
+}
+.yellow:active{
+  background-color: rgb(182, 182, 1);
+}
+
+.green{
+  background-color: $highlight-color;
+  box-shadow: $highlight-shadow;
+  color: white;
+}
+
+.green:active{
+  background-color: rgb(0, 93, 0);
+}
+
+
+.blue{
+  background-color: rgb(24, 13, 95);
+  box-shadow: 1px 1px rgb(12, 6, 51);
+}
+
+.blue:active{
+  background-color: rgb(18, 10, 74);
+}
+
+
+
+.highlight-button{
+  background-color: $highlight-color;
+  box-shadow: $highlight-shadow;
+}
+
+.highlight-colonist{
+  background-color: $highlight-color;
+  box-shadow: $highlight-shadow;
+}
+
+.highlight-green{
+  box-sizing: border-box;
+  border: solid 3px $highlight-color;
+  box-shadow: $highlight-shadow;
+}
+
+
+.highlight-yellow{
+  box-sizing: border-box;
+  border: solid 3px $highlight-color2;
+  box-shadow: $highlight-shadow2;
+}
+
+.highlight-red{
+  box-sizing: border-box;
+  border: solid 3px $highlight-color3;
+  box-shadow: $highlight-shadow3;
+}
+
+.offline{
+  filter: saturate(0);  
+}
 
 
 
@@ -58,4 +141,26 @@ $building-vp-shadow: 1px 0.5px black;
       border-radius: $base-radius;
       background-color: $test-color;
   }
+
+  
+  .only-desktop{
+    display: flex;
+  }
+  
+  
+  .only-mobile{
+    display:none;
+  }
+
+  @media only screen and (max-width: 600px) {
+
+
+    .only-mobile{
+      display:flex;
+    }
+
+    .only-desktop{
+      display: none;
+    }
+}
 

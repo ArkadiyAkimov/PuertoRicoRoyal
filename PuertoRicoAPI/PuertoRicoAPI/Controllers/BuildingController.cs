@@ -20,6 +20,19 @@ namespace PuertoRicoAPI.Controllers
         public int PlayerIndex { get; set; }
     }
 
+    public class BuildingBlackMarketInput
+    {
+        public int BuildingId { get; set; }
+        public int DataGameId { get; set; }
+        public int PlayerIndex { get; set; }
+        public bool SellColonist { get; set; }
+        public int SlotId { get; set; }
+        public bool SellGood { get; set; }
+        public int GoodType { get; set; }
+        public bool SellVictoryPoint { get; set; }
+
+    }
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -37,15 +50,20 @@ namespace PuertoRicoAPI.Controllers
         public async Task<ActionResult<DataGameState>> PostBuilding(BuildingInput buildingInput)
         {
 
+
+
             DataBuilding dataBuilding = await DataFetcher
                 .getDataBuilding(_context, buildingInput.BuildingId);
 
-            GameState gs = await ModelFetcher
-                .getGameState(_context, buildingInput.DataGameId);
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, dataBuilding.DataGameStateId);
 
-            var currentRole = gs.getCurrentRole();
+            GameState gs = await ModelFetcher
+                .getGameState(_context, dataGameState.Id);
 
             if (buildingInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+
+            var currentRole = gs.getCurrentRole();
 
             Building building = gs.getBuilding(dataBuilding.Name);
 
@@ -60,8 +78,6 @@ namespace PuertoRicoAPI.Controllers
                 if (!(currentRole as Builder).tryBuyBuilding(building)) return Ok("can't buy building");
             }
 
-            var dataGameState = await DataFetcher
-                .getDataGameState(_context, dataBuilding.DataGameStateId);
             
             await DataFetcher.Update(dataGameState, gs);
 
@@ -72,6 +88,44 @@ namespace PuertoRicoAPI.Controllers
             return Ok("Succes");
         }
 
-      
+        [HttpPost("blackMarket")]
+        public async Task<ActionResult<DataGameState>> PostBlackMarketBuilding(BuildingBlackMarketInput buildingBlackMarketInput)
+        {
+
+
+
+            DataBuilding dataBuilding = await DataFetcher
+                .getDataBuilding(_context, buildingBlackMarketInput.BuildingId);
+
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, dataBuilding.DataGameStateId);
+
+            GameState gs = await ModelFetcher
+                .getGameState(_context, dataGameState.Id);
+
+            if (buildingBlackMarketInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+
+            var currentRole = gs.getCurrentRole();
+
+            Building building = gs.getBuilding(dataBuilding.Name);
+
+            
+            {
+                if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
+                Console.WriteLine(gs.Buildings.Count);
+                if (!(currentRole as Builder).tryBuyBuilding(building)) return Ok("can't buy building");
+            }
+
+
+            await DataFetcher.Update(dataGameState, gs);
+
+            await _context.SaveChangesAsync();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+
     }
 }

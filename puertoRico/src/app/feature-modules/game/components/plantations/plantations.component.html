@@ -16,6 +16,8 @@
       [cdkDragData]="plantation"
       [cdkDragDisabled]="this.disablePlantationInteractionCheck()"
       cdkDrag >
+      
+      <div class="forrest-overlay forest" *ngIf="this.gameService.takingForest"></div>
     
       <div class="top-plantation-card"> 
         <div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div>
@@ -24,6 +26,7 @@
         <div class="{{this.stylingService.getPlantationSlotClasses(plantation)}}"></div>
         <div class="plantation-art" [ngClass]="this.gameService.getPlantationType(plantation)?.displayName"></div>
       </div>  
+
       
     </div>
 
@@ -50,7 +53,7 @@
 
   <div
   *ngIf="this.gs.plantations.length - this.exposedPlantations.length > 0"
-  class="plantation color{{this.gameService.goodTypes[6].color}}"
+  class="plantation color{{this.gameService.goodTypes[7].color}}"
   [cdkDragData]="6"
   [cdkDragDisabled]="this.disableUpSideDownInteractionCheck()"
   cdkDrag >
@@ -67,7 +70,24 @@
     </div>
 
   </div>
+
+  
+  <!-- <div
+  *ngIf="true"
+  class="plantation color{{this.gameService.goodTypes[7].color}} forrest"
+  [cdkDragData]="8"
+  [cdkDragDisabled]="this.disablePlantationInteractionCheck()"
+  cdkDrag >
+
+  <div class="top-plantation-card"> 
+    <div class="plantation-name">{{this.gameService.goodTypes[7].displayName}}</div>
+  </div>  
+  <div class="bottom-plantation-card">
+  </div>  
+</div> -->
     
   </div>
+
+
 </div>
 

@@ -1,92 +1,63 @@
 
-<!-- <div style="
-background: rgb(255,255,255);
-background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);">
-
-</div>
-</div> -->
-
-<div  >
-<div style="
-display: flex;
-align-items: start;
-justify-content: center;
-flex-direction: row;
-    flex-wrap: wrap;">
-<div class="test-2" >
 
 
 
-<!-- <app-login-page></app-login-page> -->
-<div *ngIf="this.gameService.gs.value.lastGovernor">LAST GOVERNOR</div>
-
-<div style="
-background: rgb(255,255,255);
-background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);">
-
-<app-roles id="roles">
-</app-roles> 
-
-<app-cargo-ships 
-id="cargo-ships">
-</app-cargo-ships>
 
 
+
+
+
+
+
+
+
+
+
+<div class="width-limiter">
+
+<!-- <div *ngIf="this.gameService.gs.value.lastGovernor">LAST GOVERNOR</div> -->
+
+<div class="sky-decoration only-mobile">
+<app-roles id="roles" class="only-mobile"/>
+<app-cargo-ships id="cargo-ships" class="only-mobile"/>
 <div class="land-transition-decoration"></div>
 </div>
 
+<div class="sky-decoration only-desktop">
+<div class="ships-and-roles only-desktop">
+<app-cargo-ships id="cargo-ships" class="only-desktop"/>
+<app-roles id="roles" class="only-desktop"/>
+</div>
+<div class="land-transition-decoration"></div>
+</div>
 
-<app-supply-display
-id="supply">
-</app-supply-display>
+<app-my-controls class="only-mobile" *ngIf="checkForCaptainOrPostCaptain()" />
 
-<app-my-controls 
-id="" 
-class="only-mobile controls-drop">
-</app-my-controls>  
+<app-progress-bar/>
 
-<app-plantations 
-id="plantations" >
-</app-plantations>
+<app-supply-display id="supply" class="only-mobile"/>
+<app-plantations id="plantations" class="only-mobile"/>
 
 
-<div class="board-separator own" *ngIf="displayPlayerBoard"
+<div class="board-separator {{this.displayPlayerBoard ? 'own':'opponents'}}"
  (click)="switchBoards()">
-  Click to see all boards 
+  Click to switch Boards
 </div>
 
-<app-full-size id="player-board" *ngIf="displayPlayerBoard">
-</app-full-size>
+<div *ngIf="displayPlayerBoard">
+<app-plantations id="plantations" class="only-desktop"/>
+<app-supply-display id="supply" class="only-desktop"/>
+<app-full-size id="player-board"/>
+</div>
 
-<div class="board-separator opponents" *ngIf="!displayPlayerBoard" 
-(click)="switchBoards()"> Click to go back to your board </div>
+<app-buildings id="buildings" *ngIf="displayPlayerBoard"/> 
 
-<app-opponent-boards *ngIf="!displayPlayerBoard">
-</app-opponent-boards>
+<app-opponent-boards *ngIf="!displayPlayerBoard" class="only-desktop"/>
+<app-opponent-boards *ngIf="!displayPlayerBoard" class="only-mobile"/>
 
 
 </div>
-<div class="test-2">
 
 
-<app-utility-drop 
-id="utility-drop"  
-class="utility-drop">
-</app-utility-drop>
 
-
-<app-scroll-asist 
-class="scroll-asist">
-</app-scroll-asist>
-
-<app-buildings 
-id="buildings">
-</app-buildings>
-
-</div>
-</div>
-</div>
-
-<div class="score-board">
-  <app-score-board></app-score-board>
-</div>
+<div class="score-board"><app-score-board/></div>

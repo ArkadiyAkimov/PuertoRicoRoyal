@@ -141,5 +141,8 @@
     pointer-events: none;
   }
   
+  .build-order-2{
+      transform: translateY($base-unit) translateX(10px);
+  }
 
  

@@ -22,3 +22,11 @@
     .quarry{
         background-image: url(../../assets/goods-icons/quarry.svg);
     }
+
+    .forest{
+        background-image: url(../../assets/goods-icons/forest.svg);
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 5;
+    }
