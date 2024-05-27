@@ -13,17 +13,27 @@ $test-color:transparent;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: calc($max-width*2);
+    
+    width: 100%;
+    max-width: $max-width*2;
+}
+
+.sky-decoration{
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
+  flex-direction: column;
 }
 
 
 .width-limiter{
-  max-width: calc($max-width*2);
+  
+  width: 100%;
+  max-width: $max-width*2;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: start;
-  justify-content: start;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .ports-of-rico{
@@ -35,9 +45,11 @@ $test-color:transparent;
     height: 100px;
 }
 
-
-
-
+.ships-and-roles{
+  flex-direction: row;
+   flex-wrap: wrap;
+    max-width: 1280px;
+}
 
 .scroll-asist{
   
@@ -56,8 +68,8 @@ $test-color:transparent;
     background-repeat: repeat-x;
   
     margin-bottom: -1px;
-    width: $max-width*2;
-    max-width: 100%;
+    width: 100%;
+    max-width: $max-width*2;
     }
   
     .board-separator{
@@ -127,18 +139,18 @@ $test-color:transparent;
  
 
   //mobile 
-  @media only screen and (max-width: 480px) {
+  @media only screen and (max-width: 600px) and (orientation: portrait) {
 
     .land-transition-decoration{
-      width: $max-width/2;
+      width: calc($max-width/2);
     }
 
    :host{
-    max-width: $max-width/2;
+    max-width: calc($max-width/2);
    }
 
     .width-limiter{
-      max-width: $max-width/2;
+      max-width: calc($max-width/2);
     }
 
     .board-separator{
@@ -148,3 +160,27 @@ $test-color:transparent;
   }
 
 
+  @media only screen and (min-width:600px) and (max-width: 1260px) {
+
+    .land-transition-decoration{
+      width: $max-width;
+    }
+
+   :host{
+    max-width: $max-width;
+   }
+
+    .width-limiter{
+      max-width: $max-width;
+    }
+
+    .board-separator{
+      width: calc(($max-width) - $base-margin * 3);
+    }
+
+    .ships-and-roles{
+      flex-direction: row;
+       flex-wrap: wrap-reverse;
+        max-width: 1280px;
+    }
+  }

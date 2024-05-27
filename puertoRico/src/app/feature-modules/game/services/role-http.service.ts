@@ -21,6 +21,10 @@ export class RoleHttpService {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Building`,{buildingId ,dataGameId ,playerIndex});
   } 
 
+  public postBlackMarketBuilding(buildingId:number, dataGameId:number, playerIndex:number, sellColonist:boolean, slotId:number, sellGood:boolean, goodType:number, sellVictoryPoint:boolean): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/Building/blackMarket`,{buildingId ,dataGameId ,playerIndex, sellColonist, slotId, sellGood, goodType, sellVictoryPoint});
+  } 
+
   public postPlantation(plantationId:number, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation`,{plantationId ,dataGameId, playerIndex});
   } 

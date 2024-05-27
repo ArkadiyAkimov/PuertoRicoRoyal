@@ -17,22 +17,14 @@
 
 <!-- <div *ngIf="this.gameService.gs.value.lastGovernor">LAST GOVERNOR</div> -->
 
-<div style="
-background: rgb(255,255,255);
-background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
-flex-direction: column;"
-class="only-mobile">
+<div class="sky-decoration only-mobile">
 <app-roles id="roles" class="only-mobile"/>
 <app-cargo-ships id="cargo-ships" class="only-mobile"/>
 <div class="land-transition-decoration"></div>
 </div>
 
-<div style="
-background: rgb(255,255,255);
-background: linear-gradient(180deg, rgb(194, 237, 255) 0%, rgb(45, 170, 220) 100%);
-flex-direction: column; width: 1280px;"
-class="only-desktop">
-<div style="flex-direction: row; width: 1280px;" class="only-desktop">
+<div class="sky-decoration only-desktop">
+<div class="ships-and-roles only-desktop">
 <app-cargo-ships id="cargo-ships" class="only-desktop"/>
 <app-roles id="roles" class="only-desktop"/>
 </div>

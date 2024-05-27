@@ -13,6 +13,7 @@
 
     <div *ngFor="let plantation of player.plantations">
       <div class="{{this.stylingService.getPlantationClasses(plantation)}}" *ngIf="plantation.good != 7"> 
+        
           <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
         <div class="bottom-plantation-card">
           <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
@@ -127,7 +128,7 @@
    class="building-list">
 
   <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list">
-      
+    <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
         <div class="top-building-card"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
           <div class="building-victory-score">

@@ -30,7 +30,7 @@
           >
 
           <div class="building-card-frame">
-            <div class="building-art {{this.gameService.getBuildingType(building)?.displayName?.split(' ')?.join('-')}}"></div>
+            <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
             <div class="top-building-card"> 
               <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
               <div class="building-victory-score">{{this.gameService.getBuildingType(building)?.victoryScore}}</div> 

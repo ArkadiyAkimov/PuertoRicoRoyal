@@ -29,9 +29,11 @@ export class StylingService {
     let plantationClasses = "plantation"
     
     if(plantation != null){
-    plantationClasses += " color" + plantation.good
+    if(plantation.good != 5)
+      plantationClasses += " color" + plantation.good;
     }
-    if(plantation?.good == 7) plantationClasses += " forest"
+    if(plantation?.good == 5) plantationClasses += " color7";
+    if(plantation?.good == 7) plantationClasses += " forest";
 
     return plantationClasses;
   }
@@ -55,6 +57,18 @@ export class StylingService {
     if(building as DataBuilding) buildingClassString += " "+ this.getBuildingHighlight(building as DataBuilding);
     buildingClassString += " building-size-" + buildingType.size;
     return buildingClassString;
+  }
+
+  getBuildingArtClasses(building:DataBuilding|DataPlayerBuilding):string{
+    let buildingType = this.gameService.getBuildingType(building);
+
+    if(buildingType == null) return "";
+
+    let buildingArtClassString = "building-art ";
+    buildingArtClassString += buildingType.displayName.split(' ').join('-') +  " ";
+    buildingArtClassString += " building-art-size-" + buildingType.size;
+
+    return buildingArtClassString;
   }
 
   getBuildingHighlight(building:DataBuilding){        //defines building highlights

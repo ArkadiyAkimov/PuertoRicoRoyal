@@ -24,15 +24,36 @@
   transform: translateX(-2px) ;
 }
 
+  
 
-//mobile query
-@media only screen and (max-width: 480px) { 
+  //mobile 
+  @media only screen and (max-width: 600px) {
 
-  .end-turn-button{
-    height: $base-unit/2;
-    width: ($max-width/4 - $base-margin*2);
+    .end-turn-button{
+      height: $base-unit/2;
+      width: ($max-width/4 - $base-margin*2);
+    }
+
   }
 
-}
 
-  
+  @media only screen and (min-width:600px) and (max-width: 1260px) {
+
+    .end-turn-button{
+      height: $base-unit/2;
+      width: ($max-width/5 - $base-margin*2);
+    }
+
+    .goods-display{
+      flex-direction: column;
+    }
+    
+    .left{
+      border-radius: $base-radius  $base-radius 0px 0px ;
+      transform: translateY(2px) ;
+    }
+    .right{
+      border-radius: 0px 0px $base-radius  $base-radius  ;
+      transform: translateY(-2px) ;
+    }
+  }
