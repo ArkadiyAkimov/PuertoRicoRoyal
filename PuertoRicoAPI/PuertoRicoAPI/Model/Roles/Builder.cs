@@ -131,8 +131,7 @@ namespace PuertoRicoAPI.Model.Roles
                 {
                     foreach (Building building in player.Buildings)
                     {
-                        if((building.BuildOrder == buildOrderAndIndex[0])
-                         && (building.Type.Name != BuildingName.BlackMarket))
+                        if(building.BuildOrder == buildOrderAndIndex[0])
                         {
                             if (building.Slots[buildOrderAndIndex[1]]) discount++;
                         }
@@ -178,8 +177,7 @@ namespace PuertoRicoAPI.Model.Roles
                 {
                     foreach (Building building in player.Buildings)
                     {
-                        if ((building.BuildOrder == buildOrderAndIndex[0])
-                            && (building.Type.Name != BuildingName.BlackMarket))
+                        if (building.BuildOrder == buildOrderAndIndex[0])
                         {
                             if (building.Slots[buildOrderAndIndex[1]])
                             {

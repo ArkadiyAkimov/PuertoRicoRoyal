@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, DataPlayer, DataPlayerBuilding, DataPlayerGood, GoodName, GoodType, PlayerUtility, RoleName } from '../classes/general';
+import { BuildingName, DataPlayerBuilding, DataPlayerGood, GoodName, GoodType, PlayerUtility, RoleName } from '../classes/general';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +29,7 @@ export class SelectionService {
   selectedGoodType:GoodName = GoodName.NoType;
   sellVictoryPoint:boolean = false;
 
-  finishedInitialStorage:boolean = false;
-  targetTypeStorageIndex = 0;
+ 
   takingForest: boolean = false;
 
   constructor(private gameService:GameService){ 
@@ -93,7 +92,7 @@ export class SelectionService {
       });
       player.buildings.forEach(building => {
         building.slots.forEach(slot => {
-          if(slot.id == slotId && slot.isOccupied && building.name != BuildingName.BlackMarket){
+          if(slot.id == slotId && slot.isOccupied){
             slotIsEmpty = false;
           }
           if(slotIsEmpty) return;

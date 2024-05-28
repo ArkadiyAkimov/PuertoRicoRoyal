@@ -50,15 +50,15 @@ export class StylingService {
     return plantationSlotClasses;
   }
 
-  getBuildingClasses(building:DataBuilding|DataPlayerBuilding):string{    //defines building visual style
+  getBuildingClasses(building:DataBuilding|DataPlayerBuilding,isPlayer:boolean):string{    //defines building visual style
     let buildingType = this.gameService.getBuildingType(building);
 
     if(buildingType == null) return "";
     let buildingClassString = "building";
     buildingClassString += " color" + buildingType.color;
-    if(building as DataBuilding) buildingClassString += " "+ this.getBuildingHighlight(building as DataBuilding);
+    if(!isPlayer) buildingClassString += " "+ this.getBuildingHighlight(building as DataBuilding);
     buildingClassString += " building-size-" + buildingType.size;
-    buildingClassString += " " + this.highlightService.getBuildingEffectHighlight(buildingType);
+    if(isPlayer) buildingClassString += " " + this.highlightService.getBuildingEffectHighlight(buildingType);
     return buildingClassString;
   }
 

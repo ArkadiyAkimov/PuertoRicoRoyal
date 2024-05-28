@@ -127,7 +127,7 @@
   <div id="myBuildingsDisabled"  *ngFor="let list of this.buildingsMatrixes[i]"
    class="building-list">
 
-  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list">
+  <div class="{{this.stylingService.getBuildingClasses(building,false)}}" *ngFor="let building of list">
     <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
         <div class="top-building-card"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
