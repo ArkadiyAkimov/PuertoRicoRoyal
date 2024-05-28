@@ -1,7 +1,6 @@
-@import url(../../../../styles/colors.scss);
-@import url(../../../../styles/plantations.scss);
-@import url(../../../../styles/barrels.scss);
-
+@import '../../../../styles/colors.scss';
+@import '../../../../styles/plantations.scss';
+@import '../../../../styles/barrels.scss';
 @import '../../../../styles/variables.scss';
 
 :host{
@@ -177,6 +176,11 @@
 .noble-chip{
   @extend .doubloon;
   background-image: url(../../../../../assets/svgs/noble.svg);
+}
+
+.building-point{
+  @extend .doubloon;
+  background-image: url(../../../../../assets/svgs/hammer-green.svg)
 }
 
 .chip-number{

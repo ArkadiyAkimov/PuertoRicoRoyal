@@ -2,11 +2,12 @@
 
   <div class="vertical-pair"  *ngFor="let good of getSortedGoodButtons(this.myGoods)">
     <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
-  <div class="good-and-number {{getGoodButtonHighlightRule(good)}}"
-  (click)="this.onClickGood(good)">
+  <div class="good-and-number {{this.highlightService.getPlayerGoodHighlightClass(good)}}"
+  (click)="this.onClickGood(good); this.selectionService.selectGoodForBlackMarket(good.type)">
 
   <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
-    <div class="good-count">{{(this.gameService.storedGoodTypes[0]==good.type)?1:good.quantity}}</div>
+    <div class="good-count {{this.highlightService.getPlayerGoodCountHighlightRule(good)}}">{{good.quantity}}</div>
+    <div class="good-count bubble {{this.highlightService.getPlayerGoodBubbleHighlightRule()}}" *ngIf="this.selectionService.getGoodBubbleCount(good) > 0">{{this.selectionService.getGoodBubbleCount(good)}}</div>
   </div>
   </div>
 </div>
@@ -25,7 +26,7 @@
           
   <div class="vertical-pair">
     <div class="button-label">colonists</div>
-    <div class="good-and-number">
+    <div class="good-and-number {{this.highlightService.getColonistSupplyHighlight()}}" (click)="this.selectionService.toggleSupplyColonistForBlackMarket()">
       <div class="colonist-chip">
         <div class="chip-number colonist-number">{{this.myColonists}}</div>
       </div>
@@ -44,17 +45,18 @@
     <div class="vertical-pair">
       <div class="button-label">building points</div>
     <div class="good-and-number">
-      <div class="">
-        <div class="chip-number">{{ 0 }}</div>
+      <div class="building-point">
+        <div class="chip-number">{{ this.gameService.calculateBuildingPoints(player) }}</div>
       </div>
     </div>
   </div>
    
   <div class="vertical-pair">
     <div class="button-label">victory chips</div>
-  <div class="good-and-number" (click)="this.hideVictoryPoints = !this.hideVictoryPoints">
+  <div class="good-and-number {{this.highlightService.getVictoryPointsHighlight()}}" (click)=" this.selectionService.toggleVictoryPointSellForBlackMarket()">
     <div class="victory-point-chip">
-      <div class="chip-number victory-number">{{this.hideVictoryPoints? "": this.myVictoryPoints}}</div>
+      <div class="chip-number victory-number">{{ this.myVictoryPoints}}</div>
+      <div class="chip-number bubble {{this.highlightService.getPlayerVPBubbleHighlightRule()}}" *ngIf="this.selectionService.getVictoryPointBubbleCount() > 0">{{this.selectionService.getVictoryPointBubbleCount()}}</div>
     </div>
   </div>
 </div>

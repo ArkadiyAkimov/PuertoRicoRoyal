@@ -95,19 +95,19 @@
   box-sizing: border-box;
   @extend #center-content;
   position: relative;
-  bottom: $base-unit/1.5;
-  left: $base-margin*2;
+  bottom: calc($base-unit/1.5);
+  left: calc($base-margin*2);
 
   height: calc($base-unit/3);
 
   max-width: fit-content;
 
-  bottom: $base-unit/1.5;
-  left: $base-margin*2;
+  bottom: calc($base-unit/1.5);
+  left: calc($base-margin*2);
   float: right;
-  border-radius: $base-radius*4 0px 0px $base-radius*4;
+  border-radius: calc($base-radius*4) 0px 0px calc($base-radius*4);
 
-  padding-left: $base-margin*2;
+  padding-left: calc($base-margin*2);
 
   border: $base-border solid rgb(0, 0, 0);
   background-color: burlywood;

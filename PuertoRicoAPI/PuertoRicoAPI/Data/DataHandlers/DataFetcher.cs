@@ -25,6 +25,15 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 .SingleOrDefaultAsync(game => game.Id == gameStateId);
         }
 
+        public static async Task<DataPlayer> getDataPlayer(DataContext _context, int playerId)
+        {
+            return await _context.Players.Include(player => player.Buildings.OrderBy(x => x.BuildOrder)).ThenInclude(building => building.Slots)
+                                         .Include(player => player.Plantations.OrderBy(x => x.BuildOrder)).ThenInclude(plantation => plantation.Slot)
+                                         .Include(player => player.Goods)
+                                         .AsSplitQuery()
+                                         .SingleOrDefaultAsync(player => player.Id == playerId);
+        }
+
         public static async Task<DataRole> getDataRole(DataContext _context, int roleId)
         {
             return await _context.Roles
@@ -54,6 +63,26 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             return await _context.Goods
                 .SingleOrDefaultAsync(good => good.Id == goodId);
+        }
+
+        public static async Task<int[]> getDataPlantationOrBuildingBySlotID(DataContext _context, int slotId, int playerId)
+        {
+            DataSlot dataSlot = await getDataSlot(_context, slotId);
+            DataPlayer dataPlayer = await getDataPlayer(_context, playerId);
+
+            foreach (DataPlayerBuilding dataPlayerBuilding in dataPlayer.Buildings)
+            {
+                for(int i = 0; i < dataPlayerBuilding.Slots.Count; i++) {
+                    if (dataPlayerBuilding.Slots[i].Id == slotId) return new int[2] { dataPlayerBuilding.BuildOrder, i };
+                }
+            }
+
+            foreach (DataPlayerPlantation dataPlayerPlantation in dataPlayer.Plantations)
+            {
+                    if (dataPlayerPlantation.Slot.Id == slotId) return new int[2] { dataPlayerPlantation.BuildOrder, 0 };
+            }
+
+            return null;
         }
 
         public static async Task<DataGameState> Update(DataGameState dataGameState, GameState gs)

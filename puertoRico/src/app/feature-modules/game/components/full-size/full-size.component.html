@@ -22,7 +22,7 @@
       <div class="bottom-plantation-card">
         <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
         <div class="{{this.stylingService.getPlantationSlotClasses(plantation)}}" (click)="this.onSlotClick(plantation.slot)">  
-          <div class="colonist" *ngIf="plantation.slot?.isOccupied"></div>
+          <div class="colonist {{this.highlightService.getColonistHighlight(plantation.slot.id)}}" *ngIf="plantation.slot?.isOccupied"></div>
         </div>
         <div  class="build-order" *ngIf="this.gameService.debugOptions">{{plantation.buildOrder}}</div>
       </div>
@@ -56,18 +56,18 @@
    cdkDropListOrientation="vertical"
    [cdkDropListData]="list">
 
-  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list" (click)="this.toggleBuildingEffect(building)">
+  <div class="{{this.stylingService.getBuildingClasses(building,true)}} " *ngFor="let building of list">
     <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
-        <div class="top-building-card"> 
+        <div class="top-building-card" (click)="this.selectionService.toggleBuildingEffect(building)"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>
           <div class="building-victory-score">
             {{this.gameService.getBuildingType(building)?.victoryScore}}
           </div> 
         </div>  
         <div class="bottom-building-card">
-          <div class="{{this.stylingService.getBuildingSlotClasses(building)}}" *ngFor="let slot of this.sortSlots(building?.slots!); let i=index" (click)="this.onSlotClick(slot)">
+          <div class="{{this.stylingService.getBuildingSlotClasses(building)}}" *ngFor="let slot of this.sortSlots(building?.slots!); let i=index" (click)="this.onSlotClick(slot);">
             <!-- {{slot.id.toString().charAt(slot.id.toString().length - 1)}} -->
-             <div class="colonist" *ngIf="slot.isOccupied"></div>
+             <div class="colonist {{this.highlightService.getColonistHighlight(slot.id)}}" *ngIf="slot.isOccupied"></div>
             <!-- <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div> -->
           </div>
           <div *ngIf="this.gameService.debugOptions" class="build-order build-order-{{this.gameService.getBuildingType(building)?.size}}" >{{building.buildOrder}}</div>

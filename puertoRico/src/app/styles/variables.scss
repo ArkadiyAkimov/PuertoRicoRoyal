@@ -40,7 +40,7 @@ $building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
 .yellow{
   background-color: rgb(214, 214, 0);
   box-shadow: 1px 1px rgb(165, 165, 0);
-  color: white;
+  color: rgb(0, 0, 0);
 }
 .yellow:active{
   background-color: rgb(182, 182, 1);
@@ -84,11 +84,22 @@ $building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
   box-shadow: $highlight-shadow;
 }
 
+.colonist-highlight-green{
+  background-color: rgb(7, 110, 9);
+  outline: solid 2px rgb(5, 70, 5);
+  border-radius: 50%;
+}
 
 .highlight-yellow{
   box-sizing: border-box;
-  border: solid 3px $highlight-color2;
-  box-shadow: $highlight-shadow2;
+  border: solid 3px rgb(244, 244, 3);
+  box-shadow: 1px 1px rgb(165, 165, 0);
+}
+
+.highlight-blue{
+  box-sizing: border-box;
+  border: solid 3px rgb(24, 13, 95);
+  box-shadow: 1px 1px rgb(12, 6, 51);
 }
 
 .highlight-red{
@@ -101,6 +112,10 @@ $building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
   filter: saturate(0);  
 }
 
+.bubble{
+  position: absolute;
+   transform: translateY(-10px) translateX(-15px);
+}
 
 
 #center-content{

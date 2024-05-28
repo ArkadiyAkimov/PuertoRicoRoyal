@@ -1,4 +1,3 @@
-import { User } from './../../user/models/user';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Injectable } from '@angular/core';

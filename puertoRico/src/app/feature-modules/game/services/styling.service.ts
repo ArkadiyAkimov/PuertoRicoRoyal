@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerPlantation, GoodType, RoleName } from '../classes/general';
+import { BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerPlantation, GoodType, RoleName } from '../classes/general';
+import { HighlightService } from './highlight.service';
+import { SelectionService } from './selection.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StylingService {
 
-
-  constructor(private gameService:GameService) { }
+  constructor(private gameService:GameService,
+    private highlightService:HighlightService,
+    private selectionService:SelectionService,
+  ) { }
 
   getGovernorOrTurnClassesAndText(playerIndex:number):string[]{
     let classesAndText = ["",""];
@@ -48,14 +52,15 @@ export class StylingService {
     return plantationSlotClasses;
   }
 
-  getBuildingClasses(building:DataBuilding|DataPlayerBuilding):string{    //defines building visual style
+  getBuildingClasses(building:DataBuilding|DataPlayerBuilding,isPlayer:boolean):string{    //defines building visual style
     let buildingType = this.gameService.getBuildingType(building);
 
     if(buildingType == null) return "";
     let buildingClassString = "building";
     buildingClassString += " color" + buildingType.color;
-    if(building as DataBuilding) buildingClassString += " "+ this.getBuildingHighlight(building as DataBuilding);
+    if(!isPlayer) buildingClassString += " "+ this.getBuildingHighlight(building as DataBuilding);
     buildingClassString += " building-size-" + buildingType.size;
+    if(isPlayer) buildingClassString += " " + this.highlightService.getBuildingEffectHighlight(buildingType);
     return buildingClassString;
   }
 
@@ -113,5 +118,25 @@ export class StylingService {
       default:
         return " corn-ring";
     }
+  }
+
+  getCargoShipClasses(shipIndex:number):string{
+    let shipClasses = "";
+
+    switch(shipIndex){
+      case 3: 
+      shipClasses += "cargo-ship-card wharf";
+        break;
+      case 4: 
+      shipClasses += "cargo-ship-card wharf";
+        break;
+      default:
+      shipClasses += "cargo-ship-card ";
+        break;
+    }
+
+    if( this.selectionService.selectedShip == shipIndex) shipClasses += " ship-highlighted";
+
+    return shipClasses;
   }
 }

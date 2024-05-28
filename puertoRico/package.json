@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
     "@angular/service-worker": "^15.0.0",
-    "@aspnet/signalr": "^1.0.27",
+    "@microsoft/signalr": "^8.0.0",
     "pre-commit": "^1.2.2",
     "rxjs": "~7.5.0",
     "swiper": "^9.1.1",

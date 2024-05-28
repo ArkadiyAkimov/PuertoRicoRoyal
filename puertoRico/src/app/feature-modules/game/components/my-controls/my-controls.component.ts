@@ -2,13 +2,18 @@ import { SoundService } from './../../services/sound.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
+import { SelectionService } from '../../services/selection.service';
+import { HighlightService } from '../../services/highlight.service';
+import { observeOn } from 'rxjs';
 
 @Component({
   selector: 'app-my-controls',
   templateUrl: './my-controls.component.html',
-  styleUrls: ['./my-controls.component.scss']
+  styleUrls: ['./my-controls.component.scss',
+    '../../../../styles/variables.scss'
+  ]
 })
 export class MyControlsComponent implements OnInit {
 
@@ -24,6 +29,8 @@ export class MyControlsComponent implements OnInit {
     public gameService:GameService,
     public soundService:SoundService,
     private roleHttp:RoleHttpService,
+    public selectionService : SelectionService,
+    public highlightService : HighlightService,
     public stylingService:StylingService,
     ){}
 
@@ -38,10 +45,6 @@ export class MyControlsComponent implements OnInit {
           this.myVictoryPoints = player.victoryPoints;
           this.myGoods = player.goods;
           this.player = player;
-          
-          this.gameService.storedGoodTypes= [6,6,6,6];
-          this.gameService.targetStorageIndex = 0;
-          this.gameService.finishedInitialStorage=false
         }
       })
     }
@@ -51,14 +54,17 @@ export class MyControlsComponent implements OnInit {
     }
 
     onClickGood(good:DataPlayerGood){
-      if(this.gameService.selectedShip == 4 && this.gameService.gs.value.currentRole == 5) return;
-      if(this.gameService.gs.value.currentRole == 7)
-      { 
-        this.gameService.changeTargetStorageGood(good);// NEW SSHIT
-        return;
-      }
+      let gs = this.gameService.gs.value;
+      let player = gs.players[this.gameService.playerIndex];
 
-      this.roleHttp.postGood(good.id , this.gameService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+      switch(gs.currentRole){
+        case RoleName.PostCaptain:
+          this.selectionService.selectGoodToStore(good);// NEW SSHIT
+          break;
+        case RoleName.Captain:
+          if(this.selectionService.selectedShip == 4) this.selectionService.selectSmallWharfGoods(good.type);
+          else
+          this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
               .subscribe({
                 next: (result:GameStateJson) => {
                   console.log('success:',result);
@@ -68,15 +74,13 @@ export class MyControlsComponent implements OnInit {
                   console.log("error:",response.error.text);
                 }
               });
-      this.gameService.selectedShip = 4;
+          break;
+        default:
+              break;
+      }
     }
 
-    getGoodButtonHighlightRule(good:DataPlayerGood):string{
-      if(this.gameService.storedGoodTypes[0] == good.type) return 'highlight-red';
-      else if(this.gameService.storedGoodTypes.includes(good.type)) return 'highlight-yellow';
-      else if(good.quantity > 0 && this.gameService.gs.value.currentRole == RoleName.PostCaptain) return 'highlight-green';
-      else return '';
-    }
+   
 
     getEndTurnHighlightRule():string{
       let canEndTurn:boolean = false;
@@ -109,51 +113,90 @@ export class MyControlsComponent implements OnInit {
         case RoleName.Craftsman:
           break;
         case RoleName.Captain:
+          if(this.selectionService.selectedShip == 4 && this.selectionService.selectedGoodsSmallWharf.length > 0) canEndTurn = true;
           break;
         case RoleName.PostCaptain:
-          if(this.canEndTurnPostCptain(this.gameService.storedGoodTypes)) canEndTurn = true;
+          if(this.selectionService.canEndTurnPostCptain())canEndTurn = true; 
           break;
         default:
           canEndTurn = true;
           break;
       }
 
-      return canEndTurn ? 'highlight-yellow' : '';
+      return canEndTurn ? 'highlight-blue' : '';
     }
 
-    canEndTurnPostCptain(storageGoods:number[]):boolean{
-      let player = this.gameService.gs.value.players[this.gameService.playerIndex];
-      let playerUtility = new PlayerUtility()
-      let playerGoodTypes = 0;
-      let playerAvailableStorageSpace = 1;
-      let playerStoredGoodTypes = 0;
-      let canEndTurn = false;
-      if (playerUtility.hasActiveBuilding(BuildingName.SmallWarehouse, player)) playerAvailableStorageSpace += 1;
-      if (playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse, player)) playerAvailableStorageSpace += 2;
-      
-      player.goods.forEach(good => {
-        if(good.quantity > 0) playerGoodTypes++;
-      });
-      
-      storageGoods.forEach(goodType => {
-        if(goodType != 6) playerStoredGoodTypes++;
-      });
-
-      let totalGoodTypesMustStore = Math.min(playerGoodTypes, playerAvailableStorageSpace);
-      if(totalGoodTypesMustStore == playerStoredGoodTypes) canEndTurn = true;
-      return canEndTurn;
-  }
+    
 
     endTurn(){
-      this.roleHttp.postEndTurn(this.gameService.gs.value.id, this.gameService.storedGoodTypes, this.gameService.playerIndex)
-      .subscribe({
-        next: (result:GameStateJson) => {
-          console.log('success:',result);
-          this.gameService.gs.next(result);
-        },
-        error: (response:any)=> {
-          console.log("error:",response.error.text);
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    if(gs.currentPlayerIndex != player.index) return;
+
+      switch(gs.currentRole){
+        case RoleName.PostCaptain:
+          this.roleHttp.postEndTurnPostCaptain(
+            this.gameService.gs.value.id,
+            this.selectionService.windroseStoredGood,
+            this.selectionService.storeHouseStoredGoods,
+            this.selectionService.smallWarehouseStoredType,
+            this.selectionService.smallWarehouseStoredQuantity,
+            this.selectionService.largeWarehouseStoredTypes,
+            this.selectionService.largeWarehouseStoredQuantities,
+            this.gameService.playerIndex) //temp
+          .subscribe({
+            next: (result:GameStateJson) => {
+              console.log('success:',result);
+              this.gameService.gs.next(result);
+            },
+            error: (response:any)=> {
+              console.log("error:",response.error.text);
+            }
+          });
+          break;
+        case RoleName.Captain:
+          if(this.selectionService.selectedShip == 4){
+          this.roleHttp.postEndTurnSmallWharf(
+            this.gameService.gs.value.id, this.selectionService.selectedGoodsSmallWharf, this.gameService.playerIndex) //temp
+          .subscribe({
+            next: (result:GameStateJson) => {
+              console.log('success:',result);
+              this.gameService.gs.next(result);
+            },
+            error: (response:any)=> {
+              console.log("error:",response.error.text);
+            }
+          });
+        }else{
+          this.roleHttp.postEndTurn(
+            this.gameService.gs.value.id,this.gameService.playerIndex) //temp
+          .subscribe({
+            next: (result:GameStateJson) => {
+              console.log('success:',result);
+              this.gameService.gs.next(result);
+            },
+            error: (response:any)=> {
+              console.log("error:",response.error.text);
+            }
+          });
         }
-      });
+          break;
+          default:
+            this.roleHttp.postEndTurn(
+              this.gameService.gs.value.id,this.gameService.playerIndex) //temp
+            .subscribe({
+              next: (result:GameStateJson) => {
+                console.log('success:',result);
+                this.gameService.gs.next(result);
+              },
+              error: (response:any)=> {
+                console.log("error:",response.error.text);
+              }
+            });
+            break;
+      }
+
     }
+  
 }

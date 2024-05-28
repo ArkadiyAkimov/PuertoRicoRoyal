@@ -3,6 +3,8 @@ import { GameService } from './../../services/game.service';
 import { Component, Input } from '@angular/core';
 import { RoleHttpService } from '../../services/role-http.service';
 import { DataShip, GameStateJson } from '../../classes/general';
+import { SelectionService } from '../../services/selection.service';
+import { StylingService } from '../../services/styling.service';
 
 @Component({
   selector: 'app-cargo-ship',
@@ -17,22 +19,33 @@ import { DataShip, GameStateJson } from '../../classes/general';
 export class CargoShipComponent{
    @Input() cargoShip:DataShip = new DataShip();
    @Input() shipIndex:number = 0;
-   @Input() showShip:boolean = true;
 
   constructor(
     public gameService:GameService,
+    public selectionService : SelectionService,
+    public stylingService : StylingService,
     public roleHttp:RoleHttpService,
     ){}
+    
+    showShip():boolean{
+      if(this.shipIndex < 3) return true;
+      if(this.shipIndex == 3) return this.gameService.wharfDisplayCheck();
+      if(this.shipIndex == 4) return this.gameService.smallWharfDisplayCheck();
+      return false;
+    }
 
     selectShip(){
-      if(this.cargoShip.load == this.cargoShip.capacity) return;
-      if(this.gameService.selectedShip == this.shipIndex) this.gameService.selectedShip = 5;
-      else this.gameService.selectedShip = this.shipIndex;
+      if(this.shipIndex == 4) this.selectionService.toggleSmallWharf();
+      if(this.shipIndex == 4)  return;
+      
+      if(this.selectionService.selectedShip == this.shipIndex) this.selectionService.selectedShip = 5;
+      else this.selectionService.selectedShip = this.shipIndex;
+
 
       if(this.cargoShip.type != 6){
         let player = this.gameService.gs.value.players[this.gameService.gs.value.currentPlayerIndex];
         
-        this.roleHttp.postGood(player.goods[this.cargoShip.type].id , this.gameService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+        this.roleHttp.postGood(player.goods[this.cargoShip.type].id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
         .subscribe({
           next: (result:GameStateJson) => {
             console.log('success:',result);
@@ -42,7 +55,6 @@ export class CargoShipComponent{
             console.log("error:",response.error.text);
           }
         });
-        this.gameService.selectedShip = 4;
       }
     }
 
@@ -54,6 +66,8 @@ export class CargoShipComponent{
     }
 
     getShipName(){
-      return `${(this.shipIndex == 3)?"Wharf":`Ship of ${this.cargoShip.capacity}`}`;
+      if(this.shipIndex < 3) return "Ship of " + this.cargoShip.capacity;
+      else if(this.shipIndex == 3) return "Wharf";
+      else return "Small Wharf";
     }
 }

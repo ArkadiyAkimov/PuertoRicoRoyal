@@ -4,6 +4,7 @@ import { SoundService } from '../../services/sound.service';
 import { HighlightService } from '../../services/highlight.service';
 import { GameService } from '../../services/game.service';
 import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, PlayerUtility, RoleName } from '../../classes/general';
+import { SelectionService } from '../../services/selection.service';
 
 @Component({
   selector: 'app-supply-display',
@@ -21,6 +22,7 @@ export class SupplyDisplayComponent {
     public gameService:GameService,
     public highlightService: HighlightService,
     public soundService:SoundService,
+    public selectionService : SelectionService,
     private roleHttp:RoleHttpService
     ){
       this.myGoods = [];
@@ -43,8 +45,7 @@ export class SupplyDisplayComponent {
           this.supplyGoods[3] = this.gameService.gs.value.tobaccoSupply
           this.supplyGoods[4] = this.gameService.gs.value.coffeeSupply
           
-          this.gameService.storedGoodTypes= [6,6,6,6];
-          this.gameService.targetStorageIndex = 0;
+          
         }
       })
     }
@@ -54,14 +55,14 @@ export class SupplyDisplayComponent {
     }
 
     onClickGood(good:DataPlayerGood){
-      if(this.gameService.selectedShip == 4 && this.gameService.gs.value.currentRole == 5) return;
+      if(this.selectionService.selectedShip == 4 && this.gameService.gs.value.currentRole == 5) return;
       if(this.gameService.gs.value.currentRole == 7)
       { 
-        this.gameService.changeTargetStorageGood(good);// NEW SSHIT
+
         return;
       }
 
-      this.roleHttp.postGood(good.id , this.gameService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+      this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
               .subscribe({
                 next: (result:GameStateJson) => {
                   console.log('success:',result);
@@ -71,30 +72,16 @@ export class SupplyDisplayComponent {
                   console.log("error:",response.error.text);
                 }
               });
-      this.gameService.selectedShip = 4;
+      this.selectionService.selectedShip = 4;
     }
 
 
 
     getGoodButtonHighlightRule(good:DataPlayerGood):string{
-      if(this.gameService.storedGoodTypes[0] == good.type) return 'highlight-red';
-      else if(this.gameService.storedGoodTypes.includes(good.type)) return 'highlight-yellow';
+      if(false) return 'highlight-red';
+      else if(false) return 'highlight-yellow';
       else if(good.quantity > 0 && this.gameService.gs.value.currentRole == RoleName.PostCaptain) return 'highlight-green';
       else return '';
-    }
-
-
-    endTurn(){
-      this.roleHttp.postEndTurn(this.gameService.gs.value.id, this.gameService.storedGoodTypes, this.gameService.playerIndex)
-      .subscribe({
-        next: (result:GameStateJson) => {
-          console.log('success:',result);
-          this.gameService.gs.next(result);
-        },
-        error: (response:any)=> {
-          console.log("error:",response.error.text);
-        }
-      });
     }
 
     

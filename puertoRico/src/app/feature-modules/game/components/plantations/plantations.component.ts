@@ -3,6 +3,7 @@ import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
 import { BuildingName, DataPlantation, DataPlayer, GameStateJson, PlayerUtility, RoleName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
+import { SelectionService } from '../../services/selection.service';
 
 @Component({
   selector: 'app-plantations',
@@ -18,6 +19,7 @@ export class PlantationsComponent implements OnInit{
 
   constructor(
     public gameService:GameService,
+    public selectionService : SelectionService,
     public stylingService:StylingService,
     ){
       this.player = new DataPlayer();

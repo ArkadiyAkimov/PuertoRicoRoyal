@@ -8,6 +8,7 @@ using PuertoRicoAPI.Model;
 using PuertoRicoAPI.Model.deployables;
 using PuertoRicoAPI.Model.ModelHandlers;
 using PuertoRicoAPI.Model.Roles;
+using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Sockets;
 using PuertoRicoAPI.Types;
 
@@ -67,6 +68,7 @@ namespace PuertoRicoAPI.Controllers
 
             Building building = gs.getBuilding(dataBuilding.Name);
 
+
             if (gs.CurrentRole == RoleName.Draft && !building.isDrafted && !building.isBlocked)
             {
                 (currentRole as Draft).draftBuilding(building);
@@ -75,7 +77,7 @@ namespace PuertoRicoAPI.Controllers
             {
                 if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
                 Console.WriteLine(gs.Buildings.Count);
-                if (!(currentRole as Builder).tryBuyBuilding(building)) return Ok("can't buy building");
+                if (!(currentRole as Builder).tryBuyBuilding(building,0)) return Ok("can't buy building");
             }
 
             
@@ -92,8 +94,6 @@ namespace PuertoRicoAPI.Controllers
         public async Task<ActionResult<DataGameState>> PostBlackMarketBuilding(BuildingBlackMarketInput buildingBlackMarketInput)
         {
 
-
-
             DataBuilding dataBuilding = await DataFetcher
                 .getDataBuilding(_context, buildingBlackMarketInput.BuildingId);
 
@@ -105,17 +105,26 @@ namespace PuertoRicoAPI.Controllers
 
             if (buildingBlackMarketInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
 
+            int playerID = dataGameState.Players[buildingBlackMarketInput.PlayerIndex].Id;
+
             var currentRole = gs.getCurrentRole();
+
+            Player player = gs.Players[buildingBlackMarketInput.PlayerIndex];
 
             Building building = gs.getBuilding(dataBuilding.Name);
 
-            
-            {
-                if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
-                Console.WriteLine(gs.Buildings.Count);
-                if (!(currentRole as Builder).tryBuyBuilding(building)) return Ok("can't buy building");
-            }
+            if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
 
+            if (!player.hasBuilding(BuildingName.BlackMarket, true)) return Ok("You don't have black market hacker");
+
+            int[] buildOrderAndIndex = await DataFetcher.getDataPlantationOrBuildingBySlotID(_context, buildingBlackMarketInput.SlotId, playerID);
+
+            if ((currentRole as Builder).canBuyBuilding(building)) return Ok("can't use discount");
+
+            int discount = (currentRole as Builder).calculateTotalBlackMarketDiscount(buildingBlackMarketInput, buildOrderAndIndex);
+            if (!(currentRole as Builder).tryBuyBuilding(building,discount)) return Ok("can't buy building");
+            (currentRole as Builder).ChargeForBlackMarketUse(buildingBlackMarketInput,buildOrderAndIndex);
+            (currentRole as Builder).mainLoop();
 
             await DataFetcher.Update(dataGameState, gs);
 

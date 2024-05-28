@@ -1,4 +1,7 @@
-﻿using PuertoRicoAPI.Data.DataClasses;
+﻿using PuertoRicoAPI.Controllers;
+using PuertoRicoAPI.Data;
+using PuertoRicoAPI.Data.DataClasses;
+using PuertoRicoAPI.Data.DataHandlers;
 using PuertoRicoAPI.Model.deployables;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
@@ -33,7 +36,7 @@ namespace PuertoRicoAPI.Model.Roles
           
             foreach (Building building in gs.Buildings)
             {
-                if (canBuyBuilding(building)) return;
+                if (canBuyBuilding(building,calculateMaxBlackMarketDiscount())) return;
             }
 
             Console.WriteLine("player {0} can't build anything skipping turn", gs.getCurrPlayer().Index);
@@ -42,13 +45,13 @@ namespace PuertoRicoAPI.Model.Roles
 
       
 
-        public bool tryBuyBuilding(Building building)
+        public bool tryBuyBuilding(Building building,int blackMarketDiscount=0)
         {
             int buildingPrice = building.getBuildingPrice();
 
-            if (!canBuyBuilding(building)) return false;
+            if (!canBuyBuilding(building,blackMarketDiscount)) return false;
             building.Quantity--;
-            gs.getCurrPlayer().chargePlayer(buildingPrice);
+            gs.getCurrPlayer().chargePlayer(buildingPrice - blackMarketDiscount);
 
 
             if (building is ProdBuilding) gs.getCurrPlayer().Buildings.Add(new ProdBuilding(building as ProdBuilding));
@@ -68,12 +71,12 @@ namespace PuertoRicoAPI.Model.Roles
                 if (building.Type.VictoryScore > 3) gs.getCurrPlayer().VictoryPoints += 2;
             }
 
-            gs.getCurrentRole().mainLoop();
+            if(blackMarketDiscount == 0) gs.getCurrentRole().mainLoop();
 
             return true;
         }
 
-        public bool canBuyBuilding(Building building)
+        public bool canBuyBuilding(Building building,int blackMarketDiscount = 0)
         {
             Player player = gs.getCurrPlayer();
 
@@ -85,16 +88,15 @@ namespace PuertoRicoAPI.Model.Roles
 
             int buildingPrice = building.getBuildingPrice();
 
-            buildingPrice += calculateBlackMarketDiscount();
+            buildingPrice -= blackMarketDiscount;
 
             if (buildingPrice > player.Doubloons) return false;
-
 
 
             return true;
         }
 
-        public int calculateBlackMarketDiscount()
+        public int calculateMaxBlackMarketDiscount()
         {
             Player player = gs.getCurrPlayer();
 
@@ -111,6 +113,110 @@ namespace PuertoRicoAPI.Model.Roles
                 return discount;
             }
             else return 0;
+        }
+
+        public int calculateTotalBlackMarketDiscount(BuildingBlackMarketInput blackMarketInput, int[] buildOrderAndIndex)
+        {
+            Player player = gs.getCurrPlayer();
+
+            int discount = 0;
+
+            if (blackMarketInput.SellColonist)
+            {
+                if(blackMarketInput.SlotId == 0)
+                {
+                    if (player.Colonists > 0) discount++;
+                }
+                else if(buildOrderAndIndex != null)
+                {
+                    foreach (Building building in player.Buildings)
+                    {
+                        if(building.BuildOrder == buildOrderAndIndex[0])
+                        {
+                            if (building.Slots[buildOrderAndIndex[1]]) discount++;
+                        }
+                    }
+
+                    foreach (Plantation plantation in player.Plantations)
+                    {
+                        if (plantation.BuildOrder == buildOrderAndIndex[0])
+                        {
+                            if (plantation.IsOccupied) discount++;
+                        }
+                    }
+                }
+            }
+            if (blackMarketInput.SellVictoryPoint)
+            {
+                if (player.VictoryPoints > 0) discount++;
+            }
+            if (blackMarketInput.SellGood)
+            {
+                if (player.Goods[blackMarketInput.GoodType].Quantity > 0) discount++;
+            }
+            
+            return discount;
+        }
+
+        public void ChargeForBlackMarketUse(BuildingBlackMarketInput blackMarketInput, int[] buildOrderAndIndex)
+        {
+            Player player = gs.getCurrPlayer();
+
+
+            if (blackMarketInput.SellColonist)
+            {
+                if (blackMarketInput.SlotId == 0)
+                {
+                    if (player.Colonists > 0)
+                    {
+                        player.Colonists--;
+                        gs.ColonistsSupply++;
+                    }
+                }
+                else if (buildOrderAndIndex != null)
+                {
+                    foreach (Building building in player.Buildings)
+                    {
+                        if (building.BuildOrder == buildOrderAndIndex[0])
+                        {
+                            if (building.Slots[buildOrderAndIndex[1]])
+                            {
+                                building.Slots[buildOrderAndIndex[1]] = false;
+                                gs.ColonistsSupply++;
+                            }
+                        }
+                    }
+
+                    foreach (Plantation plantation in player.Plantations)
+                    {
+                        if (plantation.BuildOrder == buildOrderAndIndex[0])
+                        {
+                            if (plantation.IsOccupied)
+                            {
+                                plantation.IsOccupied = false;
+                                gs.ColonistsSupply++;
+                            }
+                        }
+                    }
+                }
+            }
+            if (blackMarketInput.SellVictoryPoint)
+            {
+                if (player.VictoryPoints > 0)
+                {
+                    player.VictoryPoints--;
+                    gs.VictoryPointSupply++;
+                }
+            }
+            if (blackMarketInput.SellGood)
+            {
+                if (player.Goods[blackMarketInput.GoodType].Quantity > 0)
+                {
+                    player.Goods[blackMarketInput.GoodType].Quantity--;
+                    gs.GetGoodCount(player.Goods[blackMarketInput.GoodType].Type, -1);
+                }
+            }
+
         }
 
         public int colonistForBlackMarket()

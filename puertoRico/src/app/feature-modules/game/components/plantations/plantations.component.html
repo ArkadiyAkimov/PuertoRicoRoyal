@@ -17,7 +17,7 @@
       [cdkDragDisabled]="this.disablePlantationInteractionCheck()"
       cdkDrag >
       
-      <div class="forrest-overlay forest" *ngIf="this.gameService.takingForest"></div>
+      <div class="forrest-overlay forest" *ngIf="this.selectionService.takingForest"></div>
     
       <div class="top-plantation-card"> 
         <div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div>

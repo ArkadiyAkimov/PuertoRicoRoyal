@@ -5,6 +5,8 @@ import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
+import { SelectionService } from '../../services/selection.service';
+import { HighlightService } from '../../services/highlight.service';
 
 @Component({
   selector: 'app-full-size',
@@ -14,7 +16,8 @@ import { StylingService } from '../../services/styling.service';
     './full-size.component-part2.scss',
     '../../../../styles/colors.scss',
     '../../../../styles/plantations.scss',
-    '../../../../styles/buildings.scss'
+    '../../../../styles/buildings.scss',
+    '../../../../styles/variables.scss',
   ]
 })
 export class FullSizeComponent implements OnInit {
@@ -29,7 +32,9 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
   constructor(
     public gameService: GameService,
     public roleHttp: RoleHttpService,
+    public selectionService : SelectionService,
     public stylingService:StylingService,
+    public highlightService:HighlightService,
   ){}
 
   ngOnInit(): void {
@@ -51,6 +56,7 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
   }
 
   onSlotClick(slot:DataSlot){
+    this.selectionService.selectColonistForBlackMarket(slot.id);
     this.roleHttp.postSlot(slot.id, this.gameService.gs.value.id, this.gameService.playerIndex)
     .subscribe({
       next: (result:GameStateJson) => {
@@ -64,19 +70,7 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     });
   }
 
-  toggleBuildingEffect(building:DataPlayerBuilding){
-
-    if(!building.slots[0].isOccupied) return;
-
-    let buildingType = this.gameService.getBuildingType(building);
-
-
-    switch(buildingType?.name){
-      case BuildingName.ForestHouse:
-        this.gameService.takingForest = !this.gameService.takingForest;
-        break;    
-    }
-  }
+  
 
   dropPlantation(event: CdkDragDrop<DataPlayerPlantation[]>){
 
@@ -97,7 +91,7 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       return;
     } 
     if (event.previousContainer === event.container) return;
-    else if(this.gameService.takingForest){
+    else if(this.selectionService.takingForest){
       this.roleHttp.postForest(event.item.data.id, this.gameService.gs.value.id, this.gameService.playerIndex)
     .subscribe({
       next: (result:GameStateJson) => {

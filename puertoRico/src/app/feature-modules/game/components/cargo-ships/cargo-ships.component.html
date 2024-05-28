@@ -15,53 +15,8 @@
 
     <app-cargo-ship 
     *ngFor="let ship of this.cargoShips; 
-    let i=index" [shipIndex]="i" [cargoShip]="ship" [showShip]="wharfDisplayCheck()">
-
+    let i=index" [shipIndex]="i" [cargoShip]="ship">
     </app-cargo-ship>
 
 
-<!-- <div class="cargo-ship-card wharf" *ngIf="false">
-    <div class="ship-name"> Wharf </div>
-    <div class="good-buttons-collection">
-
-        <div *ngFor="let good of this.gameService.getCurrentPlayer().goods">
-            <div class="good-button good-on-board-wharf"
-            *ngIf="good.name == this.gameService.getCurrentPlayer().wharfGoodType;" 
-            class="{{good.name+'-barrel'}}" (click)="this.roleService.onWharfGoodClick(good)"> </div>
-        </div>
-    </div>
-
-</div> -->
-
-<div class="cargo-ship-card small-warehouse" 
-*ngIf="this.showSmallWarehouse()">
-
-        <div class="good-in-small-warehouse"
-        *ngIf="this.gameService.storedGoodTypes[1] != 6;" 
-        class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[1]].displayName+'-barrel'}}"> 
-    </div>
 </div>
-
-
-<div class="cargo-ship-card large-warehouse"
-*ngIf="this.showLargeWarehouse()" >
-        
-        <div class="good-in-large-warehouse1"
-        *ngIf="this.gameService.storedGoodTypes[2] != 6;" 
-        class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[2]].displayName+'-barrel'}}">
-    </div>
-
-       <div class="good-in-large-warehouse2"
-       *ngIf="this.gameService.storedGoodTypes[3] != 6;" 
-       class="{{this.gameService.goodTypes[this.gameService.storedGoodTypes[3]].displayName+'-barrel'}}"> 
-      </div>
-</div>
-
-
-
-</div>
-
-<!-- 
-<div class="" style="background-color: white; color: black;" (click)="this.roleService.endTurn()" >
-    <div > End Turn </div>
-</div> -->

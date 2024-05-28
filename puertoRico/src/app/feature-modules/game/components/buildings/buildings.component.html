@@ -21,7 +21,7 @@
         </div>
           
         <div  
-        class="{{this.stylingService.getBuildingClasses(building)}}"
+        class="{{this.stylingService.getBuildingClasses(building,false)}}"
           *ngFor="let building of buildingList"
           [cdkDragData]="building"
           [cdkDragStartDelay]="this.buildingDragDelay"

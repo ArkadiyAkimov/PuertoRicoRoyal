@@ -46,7 +46,7 @@
     <div class="good-and-number">
   
     <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
-      <div class="good-count">{{(this.gameService.storedGoodTypes[0]==good.type)?1:good.quantity}}</div>
+      <div class="good-count">{{good.quantity}}</div>
     </div>
     </div>
   </div>
@@ -84,8 +84,8 @@
       <div class="vertical-pair">
         <div class="button-label">building points</div>
       <div class="good-and-number">
-        <div class="">
-          <div class="chip-number">{{ 0 }}</div>
+        <div class="building-point">
+          <div class="chip-number">{{ this.gameService.calculateBuildingPoints(player) }}</div>
         </div>
       </div>
     </div>
@@ -127,7 +127,7 @@
   <div id="myBuildingsDisabled"  *ngFor="let list of this.buildingsMatrixes[i]"
    class="building-list">
 
-  <div class="{{this.stylingService.getBuildingClasses(building)}}" *ngFor="let building of list">
+  <div class="{{this.stylingService.getBuildingClasses(building,false)}}" *ngFor="let building of list">
     <div class="{{this.stylingService.getBuildingArtClasses(building)}}"></div>
         <div class="top-building-card"> 
           <div class="building-name">{{this.gameService.getBuildingType(building)?.displayName}}</div>

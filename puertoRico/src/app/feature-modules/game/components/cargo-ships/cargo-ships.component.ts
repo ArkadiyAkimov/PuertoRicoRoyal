@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { DataShip, DataTradeHouse, GameStateJson, DataPlayer, GoodType, BuildingName, RoleName, PlayerUtility } from '../../classes/general';
+import { SelectionService } from '../../services/selection.service';
 
 @Component({
   selector: 'app-cargo-ships',
@@ -16,6 +17,7 @@ export class CargoShipsComponent implements OnInit{
 
   constructor(
     public gameService:GameService,
+    public selectionService : SelectionService,
     ){
       this.cargoShips = [];
       this.tradeHouse = new DataTradeHouse();
@@ -36,10 +38,7 @@ export class CargoShipsComponent implements OnInit{
       })
     }
 
-    removeGoodFromWarehouse(warehouseIndex:number){
-      this.gameService.targetStorageIndex = warehouseIndex-1;
-      this.gameService.storedGoodTypes[warehouseIndex] = 6;
-    }
+    
 
     public deserializeTradeHouse(goodString:string):GoodType[]
     {
@@ -54,14 +53,6 @@ export class CargoShipsComponent implements OnInit{
     }
 
     
-
-    wharfDisplayCheck():boolean{
-      let temp = (BuildingName.Wharf) 
-      && this.playerUtility.getBuilding(BuildingName.Wharf,this.player)?.effectAvailable 
-      && this.gs.currentRole == RoleName.Captain
-      if(temp != undefined) return temp;
-      else return false
-    }
 
     showSmallWarehouse():boolean{
       return this.gs.currentRole == RoleName.PostCaptain 

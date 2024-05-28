@@ -3,6 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import { GameStateJson, DataPlayerBuilding, DataPlayer } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
+import { SelectionService } from '../../services/selection.service';
 
 @Component({
   selector: 'app-opponent-boards',
@@ -30,6 +31,7 @@ export class OpponentBoardsComponent implements OnInit {
   constructor(
     public gameService:GameService,
     public stylingService:StylingService,
+    public selectionService : SelectionService,
   ){}
 
   getSortedPlayerGoodButtons(player:DataPlayer){

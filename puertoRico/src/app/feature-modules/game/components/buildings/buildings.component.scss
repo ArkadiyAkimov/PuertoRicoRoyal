@@ -49,7 +49,7 @@
 // }
 
 .bank-text{
-  transform: translateY($base-unit/1.7) translateX(- $base-unit/2.5);
+  transform: translateY(calc($base-unit/1.7)) translateX(- calc( $base-unit/2.5));
 }
 
 .building-price{
@@ -61,10 +61,10 @@
   @extend #center-content;
   position: relative;
 
-  bottom: $base-unit/1.5;
-  left: $base-margin*2;
+  bottom: calc($base-unit/1.5);
+  left: calc($base-margin*2);
   float: right;
-  border-radius: $base-radius*4 0px 0px $base-radius*4;
+  border-radius: calc($base-radius*4) 0px 0px calc($base-radius*4);
 
   width: calc($base-unit/2);
   height: calc($base-unit/2.5);
@@ -103,7 +103,7 @@
   background-color: white;
 
   color: rgba(161, 161, 161, 0.443);
-  font-size: $base-font*1.5;
+  font-size: calc($base-font*1.5);
   font-weight: 900;
   z-index: 2;
 }
