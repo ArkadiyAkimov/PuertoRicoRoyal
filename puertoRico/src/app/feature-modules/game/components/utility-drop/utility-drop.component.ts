@@ -43,28 +43,25 @@ export class UtilityDropComponent implements OnInit{
 
         else if(this.selectionService.isBlackMarketActive){
           this.roleHttpService.postBlackMarketBuilding(event.item.data.id, this.gameService.gs.value.id, this.gameService.playerIndex, this.selectionService.sellColonist, this.selectionService.selectedSlotId, this.selectionService.sellGood,
-            this.selectionService.selectedGoodType,this.selectionService.sellVictoryPoint
-          )
-        .subscribe({
-          next: (result:GameStateJson) => {
-            this.gameService.gs.next(result);
-          },
-          error: (response:any)=> {
-            console.log("error:",response.error.text);
-          }
-        });
-        this.selectionService.toggleBlackMarket();
-        }
+            this.selectionService.selectedGoodType,this.selectionService.sellVictoryPoint)
+            .subscribe({
+              next: (result:GameStateJson) => {
+                this.gameService.gs.next(result);
+              },
+              error: (response:any)=> {
+                console.log("error:",response.error.text);
+              }
+            });}
         else this.roleHttpService.postBuilding(event.item.data.id, this.gameService.gs.value.id, this.gameService.playerIndex)
-        .subscribe({
-          next: (result:GameStateJson) => {
-            this.gameService.gs.next(result);
-          },
-          error: (response:any)=> {
-            console.log("error:",response.error.text);
-          }
-        });
+            .subscribe({
+              next: (result:GameStateJson) => {
+                this.gameService.gs.next(result);
+              },
+              error: (response:any)=> {
+                console.log("error:",response.error.text);
+              }
+            });
         
-        event.container.data.splice(event.currentIndex, 1);
+        //event.container.data.splice(event.currentIndex, 1);
       }
 }

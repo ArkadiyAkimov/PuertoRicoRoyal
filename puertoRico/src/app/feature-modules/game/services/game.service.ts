@@ -1,7 +1,7 @@
 
 import { Injectable, OnInit } from '@angular/core';
  import { BehaviorSubject } from 'rxjs';
- import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment.development';
 import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
@@ -38,7 +38,7 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 18;
+    this.startGameInput.gameId = 33;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;

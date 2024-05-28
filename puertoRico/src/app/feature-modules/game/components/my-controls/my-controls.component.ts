@@ -10,7 +10,9 @@ import { HighlightService } from '../../services/highlight.service';
 @Component({
   selector: 'app-my-controls',
   templateUrl: './my-controls.component.html',
-  styleUrls: ['./my-controls.component.scss']
+  styleUrls: ['./my-controls.component.scss',
+    '../../../../styles/variables.scss'
+  ]
 })
 export class MyControlsComponent implements OnInit {
 
@@ -152,6 +154,7 @@ export class MyControlsComponent implements OnInit {
         }
       });
     }
+
     }
   
 }

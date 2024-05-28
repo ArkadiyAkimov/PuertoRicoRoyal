@@ -2,6 +2,7 @@
 using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
+using System.Numerics;
 
 namespace PuertoRicoAPI.Model.Roles
 {
@@ -32,25 +33,44 @@ namespace PuertoRicoAPI.Model.Roles
             base.endRole();
         }
 
+        public bool isPlayerTotalGoodsZero(List<Good> playerGoods)
+        {
+            int playerTotalGoods = playerGoods.Sum(good => good.Quantity);
+            if (playerTotalGoods == 0) return true;
+            return false;
+        }
         public bool canEndTurn(EndTurnPostCaptainInput endTurnPostCaptainInput)
         {
 
             Player player = gs.getCurrPlayer();
-            int playerTotalGoods = player.Goods.Sum(good => good.Quantity);
+            if(isPlayerTotalGoodsZero(player.Goods)) return true;
 
-            if (playerTotalGoods == 0) return true;
+            List<Good> playerGoodsCopy = player.Goods.ToList();
+
 
             if (player.hasBuilding(BuildingName.LargeWarehouse, true))
             {
-                if (endTurnPostCaptainInput.LargeWarehouseStoredTypes.Contains(GoodType.NoType)) return false;
+                for (int i = 0; i < endTurnPostCaptainInput.LargeWarehouseStoredTypes.Count(); i++)
+                {
+                    if (endTurnPostCaptainInput.LargeWarehouseStoredTypes[i] == (GoodType.NoType)) return false;
+                    playerGoodsCopy[(int)endTurnPostCaptainInput.LargeWarehouseStoredTypes[i]].Quantity = 0;
+                    if (isPlayerTotalGoodsZero(playerGoodsCopy)) return true;
+                }
             }
             if (player.hasBuilding(BuildingName.SmallWarehouse, true))
             {
                 if (endTurnPostCaptainInput.SmallWarehouseStoredType == GoodType.NoType) return false;
+                playerGoodsCopy[(int)endTurnPostCaptainInput.SmallWarehouseStoredType].Quantity = 0;
+                if (isPlayerTotalGoodsZero(playerGoodsCopy)) return true;
             }
             if (player.hasBuilding(BuildingName.Storehouse, true))
             {
-                if (endTurnPostCaptainInput.StorehouseStoredGoods.Contains(GoodType.NoType)) return false;
+                for (int i = 0; i < endTurnPostCaptainInput.StorehouseStoredGoods.Count(); i++)
+                {
+                    if (endTurnPostCaptainInput.StorehouseStoredGoods[i] == GoodType.NoType) return false;
+                    playerGoodsCopy[(int)endTurnPostCaptainInput.StorehouseStoredGoods[0]].Quantity--;
+                    if (isPlayerTotalGoodsZero(playerGoodsCopy)) return true;
+                }
             }
             if (endTurnPostCaptainInput.WindroseStoredGood == GoodType.NoType) return false;
 

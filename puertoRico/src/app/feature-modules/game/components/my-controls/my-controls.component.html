@@ -2,11 +2,12 @@
 
   <div class="vertical-pair"  *ngFor="let good of getSortedGoodButtons(this.myGoods)">
     <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
-  <div class="good-and-number {{this.highlightService.getGoodHighlight(good.type)}}"
+  <div class="good-and-number {{this.highlightService.getPlayerGoodHighlightClass(good)}}"
   (click)="this.onClickGood(good); this.selectionService.selectGoodForBlackMarket(good.type)">
 
   <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
-    <div class="good-count">{{good.quantity}}</div>
+    <div class="good-count {{this.highlightService.getPlayerGoodCountHighlightRule(good)}}">{{good.quantity}}</div>
+    <div class="good-count" style="position: absolute; transform: translateY(-10px) translateX(-15px);" *ngIf="this.selectionService.showGoodToStoreCount(good)">{{this.selectionService.getStoredGoodQuantity(good)}}</div>
   </div>
   </div>
 </div>

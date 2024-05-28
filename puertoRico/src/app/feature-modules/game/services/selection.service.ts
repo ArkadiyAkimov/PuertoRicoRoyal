@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, DataPlayerBuilding, DataPlayerGood, GoodName, GoodType, PlayerUtility, RoleName } from '../classes/general';
+import { BuildingName, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../classes/general';
 
 @Injectable({
   providedIn: 'root'
@@ -33,11 +33,18 @@ export class SelectionService {
   takingForest: boolean = false;
 
   constructor(private gameService:GameService){ 
+    this.gameService.gs.subscribe({
+      next: (gs:GameStateJson) => {
+        if(gs.players.length <= 0) return;
+        this.selectionCleanUp();
+      }
+    })
   }
+
 
   toggleBlackMarket(){
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
 
     if( gs.currentPlayerIndex != player.index || gs.currentRole != RoleName.Builder) return; //check black market activated
 
@@ -52,9 +59,32 @@ export class SelectionService {
     else this.isBlackMarketActive = true;
   }
 
+  selectionCleanUp(){
+    this.isBlackMarketActive = false;
+    this.sellColonist = false;
+    this.selectedSlotId = 0;
+    this.sellGood = false;
+    this.selectedGoodType = GoodName.NoType;
+    this.sellVictoryPoint = false;
+    this.windroseStoredGood = GoodName.NoType;
+    this.storeHouseStoredGoods = [
+    GoodName.NoType,
+    GoodName.NoType,
+    GoodName.NoType,
+    ];
+    this.smallWarehouseStoredType = GoodName.NoType;
+    this.smallWarehouseStoredQuantity = 0;
+    this.largeWarehouseStoredTypes = [
+      GoodName.NoType,
+      GoodName.NoType,
+    ]
+    this.largeWarehouseStoredQuantities = [0,0];
+    this.takingForest = false;
+  }
+
   toggleSupplyColonistForBlackMarket(){
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
 
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return; //check black market activated
 
@@ -73,7 +103,7 @@ export class SelectionService {
 
   selectColonistForBlackMarket(slotId:number){
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
 
 
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return; //check black market activated
@@ -107,7 +137,7 @@ export class SelectionService {
 
   selectGoodForBlackMarket(good:GoodName){
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
     
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return;
 
@@ -124,7 +154,7 @@ export class SelectionService {
 
   toggleVictoryPointSellForBlackMarket(){
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
 
     
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return;
@@ -135,18 +165,21 @@ export class SelectionService {
 
   selectGoodToStore(good:DataPlayerGood){
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
 
-    if(good.quantity <= 0 || gs.currentRole != RoleName.PostCaptain || gs.currentPlayerIndex != player.index) return;
+    if(good.quantity <= 0 
+      || gs.currentRole != RoleName.PostCaptain 
+      || gs.currentPlayerIndex != player.index) return;
 
-    if(this.canEndTurnPostCptain()){
+    if(this.canEndTurnPostCptain() || good.type == this.windroseStoredGood){
       this.resetGoodSelection();
       return;
     } 
 
     if(this.playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse,player)
       && this.largeWarehouseStoredTypes.includes(GoodName.NoType)
-      && !this.largeWarehouseStoredTypes.includes(good.type)){
+      && !this.largeWarehouseStoredTypes.includes(good.type)
+      && this.smallWarehouseStoredType != good.type){
       if(this.largeWarehouseStoredTypes[0] == GoodName.NoType){
         this.largeWarehouseStoredTypes[0] = good.type;
         this.largeWarehouseStoredQuantities[0] = good.quantity;
@@ -166,7 +199,9 @@ export class SelectionService {
           player.goods[good.type].quantity = 0;
     }
     else if(this.playerUtility.hasActiveBuilding(BuildingName.Storehouse,player)
-     && this.storeHouseStoredGoods.includes(GoodName.NoType)){
+     && this.storeHouseStoredGoods.includes(GoodName.NoType)
+     && this.smallWarehouseStoredType != good.type
+     && !this.largeWarehouseStoredTypes.includes(good.type)){
       if(this.storeHouseStoredGoods[0] == GoodName.NoType){
         this.storeHouseStoredGoods[0] = good.type;
         player.goods[good.type].quantity--;
@@ -180,16 +215,30 @@ export class SelectionService {
             player.goods[good.type].quantity--;
           }
     }
-    else if(this.windroseStoredGood == GoodName.NoType){
+    else if(this.windroseStoredGood == GoodName.NoType
+            && this.smallWarehouseStoredType != good.type
+             && !this.largeWarehouseStoredTypes.includes(good.type))
+            {
             this.windroseStoredGood = good.type;
             player.goods[good.type].quantity--;
-    }
+            }
   }
 
+  getStoredGoodQuantity(good:DataPlayerGood):number{
+    if(this.largeWarehouseStoredTypes.includes(good.type)) return this.largeWarehouseStoredQuantities[this.largeWarehouseStoredTypes.indexOf(good.type)];
+    if(this.smallWarehouseStoredType == good.type) return this.smallWarehouseStoredQuantity;
+    
+    let quantity = 0;
+    for(let i=0; i<3; i++) if(this.storeHouseStoredGoods[i] == good.type) quantity++;
+    if(this.windroseStoredGood == good.type) quantity++;
+    return quantity;
+  }
 
   resetGoodSelection(){
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
+  
+    if(gs.currentPlayerIndex != player.index) return;
 
     if(this.playerUtility.hasActiveBuilding(BuildingName.LargeWarehouse,player)){
       for(let i= 0; i< 2; i++){
@@ -223,8 +272,10 @@ export class SelectionService {
 
   canEndTurnPostCptain():boolean{
     let gs = this.gameService.gs.value;
-    let player = gs.players[gs.currentPlayerIndex];
+    let player = gs.players[this.gameService.playerIndex];
     let playerTotalGoods = 0;
+  
+    if(gs.currentPlayerIndex != player.index) return false;
 
     player.goods.forEach(good => {
       playerTotalGoods += good.quantity;
@@ -249,7 +300,10 @@ export class SelectionService {
 }
 
 toggleBuildingEffect(building:DataPlayerBuilding){
+  let gs = this.gameService.gs.value;
+  let player = gs.players[this.gameService.playerIndex];
 
+  if(gs.currentPlayerIndex != player.index) return;
   if(!building.slots[0].isOccupied) return;
 
   let buildingType = this.gameService.getBuildingType(building);
@@ -257,14 +311,22 @@ toggleBuildingEffect(building:DataPlayerBuilding){
 
   switch(buildingType?.name){
     case BuildingName.ForestHouse:
-      this.takingForest = !this.takingForest;
+      if(gs.currentRole == RoleName.Settler) this.takingForest = !this.takingForest;
       break;
     case BuildingName.BlackMarket:
-        this.toggleBlackMarket();
+        if(gs.currentRole == RoleName.Builder)this.toggleBlackMarket();
       break;    
   }
 }
 
+showGoodToStoreCount(good:DataPlayerGood){
+  let gs = this.gameService.gs.value;
+  let player = gs.players[this.gameService.playerIndex];
+
+  if(gs.currentPlayerIndex != player.index) return false;
+
+  return this.getStoredGoodQuantity(good) > 0 ;
+}
 
 
 }
