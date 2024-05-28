@@ -46,6 +46,7 @@ export class SelectionService {
   toggleBlackMarket(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if( gs.currentPlayerIndex != player.index || gs.currentRole != RoleName.Builder) return; //check black market activated
 
@@ -88,6 +89,7 @@ export class SelectionService {
   toggleSmallWharf(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if(this.selectedShip == 4){
       this.selectedShip = 5;
@@ -102,6 +104,7 @@ export class SelectionService {
   selectSmallWharfGoods(goodType:GoodName){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if(player.goods[goodType].quantity > 0){
       player.goods[goodType].quantity--;
@@ -112,6 +115,7 @@ export class SelectionService {
   toggleSupplyColonistForBlackMarket(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return; //check black market activated
 
@@ -131,6 +135,7 @@ export class SelectionService {
   selectColonistForBlackMarket(slotId:number){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
 
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return; //check black market activated
@@ -165,6 +170,7 @@ export class SelectionService {
   selectGoodForBlackMarket(good:GoodName){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
     
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return;
 
@@ -182,6 +188,7 @@ export class SelectionService {
   toggleVictoryPointSellForBlackMarket(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return;
@@ -271,6 +278,7 @@ export class SelectionService {
   resetGoodSelection(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
   
     if(gs.currentPlayerIndex != player.index) return;
 
@@ -307,6 +315,7 @@ export class SelectionService {
   canEndTurnPostCptain():boolean{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return false;
     let playerTotalGoods = 0;
   
     if(gs.currentPlayerIndex != player.index) return false;
@@ -333,9 +342,12 @@ export class SelectionService {
     return true;
 }
 
+
+
 toggleBuildingEffect(building:DataPlayerBuilding){
   let gs = this.gameService.gs.value;
   let player = gs.players[this.gameService.playerIndex];
+  if(player == undefined) return;
 
   if(gs.currentPlayerIndex != player.index) return;
   if(!building.slots[0].isOccupied) return;
@@ -356,6 +368,7 @@ toggleBuildingEffect(building:DataPlayerBuilding){
 getGoodBubbleCount(good:DataPlayerGood):number{
   let gs = this.gameService.gs.value;
   let player = gs.players[this.gameService.playerIndex];
+  if(player == undefined) return 0;
 
   if(gs.currentPlayerIndex != player.index) return 0;
 
@@ -372,6 +385,7 @@ getGoodBubbleCount(good:DataPlayerGood):number{
 getVictoryPointBubbleCount():number{
   let gs = this.gameService.gs.value;
   let player = gs.players[this.gameService.playerIndex];
+  if(player == undefined) return 0;
 
   if(gs.currentPlayerIndex != player.index) return 0;
   switch(gs.currentRole){
@@ -382,6 +396,15 @@ getVictoryPointBubbleCount():number{
   return 0;
 }
 
+getSmallWharfGoodTypeArray():any{
+  let array: any[] = [];
+
+  this.selectedGoodsSmallWharf.forEach(GoodType => {
+    array.push(this.gameService.goodTypes[GoodType]);
+  });
+
+  return array;
+}
 
 
 }

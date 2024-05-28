@@ -56,8 +56,22 @@
     transform: translateX(60px) translateY(-30px);
   }
 
-.ship-highlighted{
-    outline: solid 2px $highlight-color;
+.ship-highlight{
+    position: absolute;
+    @extend #center-content,#ship-card ;
+    flex-direction: column;
+
+    background-image: url('../../../../../assets/svgs/ship-highlight.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    animation: hover 0.5s linear infinite alternate;
+}
+
+@keyframes hover {
+    0%{transform: translateY(10px)}
+    100%{transform: translateY(0px)}
 }
 
 
@@ -110,13 +124,6 @@
     flex-direction: row-reverse;
 }
 
-.good-buttons-collection-wharf{
-    @extend #center-content, #wrap-row, #fit-content ;
-    position: relative;
-    top: 32px;
-    flex-direction: row-reverse;
-}
-
 .trading-house-slot{
     //border-color: black;
     //background-color: rgba(0, 0, 0, 0.39);
@@ -144,6 +151,12 @@
     overflow: visible;
 }
 
+.shipped-goods-collection-wharf{
+    @extend .shipped-goods-collection ;
+    height: 20px;
+    width: 160px;
+}
+
 .good-on-board{
     position: relative;
     width: calc($base-unit/3)+3px;
@@ -157,7 +170,7 @@
     position: relative;
     width: calc($base-unit/3)+3px;
     height: calc($base-unit/2.5)+3px;
-    bottom: 23px;
+    bottom: 30px;
     margin: -4px;
     transform: scale(0.9);
 }

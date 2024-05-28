@@ -15,6 +15,7 @@ export class HighlightService {
   getBuildingEffectHighlight(buildingType:BuildingType):string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
     
@@ -39,6 +40,7 @@ export class HighlightService {
   getVictoryPointsHighlight():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -53,6 +55,7 @@ export class HighlightService {
   getColonistSupplyHighlight():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -66,6 +69,7 @@ export class HighlightService {
   getColonistHighlight(slotId:number){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -77,6 +81,7 @@ export class HighlightService {
   getPlayerGoodHighlightClass(good:DataPlayerGood){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -101,6 +106,7 @@ export class HighlightService {
   getPlayerGoodCountHighlightRule(good:DataPlayerGood):string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentRole == RoleName.PostCaptain && gs.currentPlayerIndex == player.index) return "red";
 
@@ -120,9 +126,15 @@ export class HighlightService {
   getPlayerVPBubbleHighlightRule():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentRole == RoleName.Captain && gs.currentPlayerIndex == player.index) return "green";
 
+    return "";
+  }
+
+  getCargoShipHighlights(shipIndex:number):string{
+    if( this.selectionService.selectedShip == shipIndex) return "ship-highlight";
     return "";
   }
 }

@@ -1,15 +1,41 @@
 
-<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip()">
-
-    <div class="ship-capacity">{{ cargoShip.capacity }}</div>
-    <div class="ship-count">{{ cargoShip.load }}</div>
+<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex != 4 && shipIndex != 3" >
+    <div class="{{this.highlightService.getCargoShipHighlights(shipIndex)}}"></div>
+    <div class="ship-capacity" >{{ cargoShip.capacity }}</div>
+    <div class="ship-count" >{{ cargoShip.load }}</div>
     <div [ngClass]="(canShipFlag() ?'ship-ladder-green-flag':'ship-ladder-red-flag')"></div>
 
     <div class="cargo-ship-button"  (click)="selectShip()"></div>
 
-    <div class="good-buttons-collection  {{shipIndex==3?'good-on-board-wharf':'shipped-goods-collection'}}">
+    <div class="good-buttons-collection shipped-goods-collection" >
         <div class="empty-good-slot" *ngFor="let good of this.gameService.numSequence(cargoShip.load);">
         <div class="good-button  good-on-board" class="{{this.gameService.goodTypes[cargoShip.type].displayName+'-barrel'}}"></div>
+        </div>
+</div>
+</div>
+
+<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex == 3">
+    <div class="{{this.highlightService.getCargoShipHighlights(shipIndex)}}"></div>
+    <div class="ship-count" style="transform: translateX(+85px) translateY(-40px);">{{ cargoShip.load }}</div>
+
+    <div class="cargo-ship-button"  (click)="selectShip()"></div>
+
+    <div class="good-buttons-collection shipped-goods-collection-wharf" >
+        <div class="empty-good-slot" *ngFor="let good of this.gameService.numSequence(cargoShip.load);">
+            <div class="good-button  good-on-board-wharf" class="{{this.gameService.goodTypes[cargoShip.type].displayName+'-barrel'}}"></div>
+        </div>
+</div>
+</div>
+
+<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex == 4">
+    <div class="{{this.highlightService.getCargoShipHighlights(shipIndex)}}"></div>
+    <div class="ship-count" style="transform: translateX(+85px) translateY(-40px);">{{ this.selectionService.selectedGoodsSmallWharf.length }}</div>
+
+    <div class="cargo-ship-button"  (click)="selectShip()"></div>
+
+    <div class="good-buttons-collection shipped-goods-collection-wharf">
+        <div class="empty-good-slot" *ngFor="let good of this.selectionService.getSmallWharfGoodTypeArray();">
+        <div class="good-button  good-on-board-wharf" class="{{good.displayName+'-barrel'}}"></div>
         </div>
 </div>
 </div>

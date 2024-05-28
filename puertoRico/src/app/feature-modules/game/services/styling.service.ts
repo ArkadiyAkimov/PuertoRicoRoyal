@@ -135,8 +135,8 @@ export class StylingService {
         break;
     }
 
-    if( this.selectionService.selectedShip == shipIndex) shipClasses += " ship-highlighted";
-
     return shipClasses;
   }
+
+  
 }
