@@ -49,6 +49,10 @@ export class RoleHttpService {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn`,{ dataGameId ,playerIndex});
   } 
 
+  public postEndTurnSmallWharf( dataGameId:number,goodsToShip:GoodName[], playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn/smallWharf`,{ dataGameId ,goodsToShip ,playerIndex});
+  } 
+
   public postEndTurnPostCaptain( dataGameId:number, windroseStoredGood:GoodName, storehouseStoredGoods:GoodName[], smallWarehouseStoredType:GoodName, smallWarehouseStoredQuantity:number, largeWarehouseStoredTypes:GoodName[], largeWarehouseStoredQuantities:number[], playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn/postCaptain`,{ dataGameId, windroseStoredGood, storehouseStoredGoods, smallWarehouseStoredType, smallWarehouseStoredQuantity, largeWarehouseStoredTypes, largeWarehouseStoredQuantities ,playerIndex});
   } 

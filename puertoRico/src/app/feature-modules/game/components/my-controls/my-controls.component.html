@@ -7,7 +7,7 @@
 
   <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
     <div class="good-count {{this.highlightService.getPlayerGoodCountHighlightRule(good)}}">{{good.quantity}}</div>
-    <div class="good-count" style="position: absolute; transform: translateY(-10px) translateX(-15px);" *ngIf="this.selectionService.showGoodToStoreCount(good)">{{this.selectionService.getStoredGoodQuantity(good)}}</div>
+    <div class="good-count bubble {{this.highlightService.getPlayerGoodBubbleHighlightRule()}}" *ngIf="this.selectionService.getGoodBubbleCount(good) > 0">{{this.selectionService.getGoodBubbleCount(good)}}</div>
   </div>
   </div>
 </div>
@@ -56,6 +56,7 @@
   <div class="good-and-number {{this.highlightService.getVictoryPointsHighlight()}}" (click)=" this.selectionService.toggleVictoryPointSellForBlackMarket()">
     <div class="victory-point-chip">
       <div class="chip-number victory-number">{{ this.myVictoryPoints}}</div>
+      <div class="chip-number bubble {{this.highlightService.getPlayerVPBubbleHighlightRule()}}" *ngIf="this.selectionService.getVictoryPointBubbleCount() > 0">{{this.selectionService.getVictoryPointBubbleCount()}}</div>
     </div>
   </div>
 </div>

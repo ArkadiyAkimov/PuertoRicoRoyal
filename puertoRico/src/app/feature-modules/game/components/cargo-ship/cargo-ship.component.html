@@ -1,9 +1,9 @@
 
-<div class="cargo-ship-card {{(shipIndex==3?'wharf ':'') + (((this.selectionService.selectedShip == shipIndex)&&this.gameService.gs.value.currentRole==5) ?'ship-highlighted':'')}}" *ngIf="showShip || shipIndex != 3">
+<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip()">
 
     <div class="ship-capacity">{{ cargoShip.capacity }}</div>
     <div class="ship-count">{{ cargoShip.load }}</div>
-    <div [ngClass]="(canShipFlag() ?'ship-ladder-green-flag':'ship-ladder-red-flag')" *ngIf="shipIndex != 3"></div>
+    <div [ngClass]="(canShipFlag() ?'ship-ladder-green-flag':'ship-ladder-red-flag')"></div>
 
     <div class="cargo-ship-button"  (click)="selectShip()"></div>
 

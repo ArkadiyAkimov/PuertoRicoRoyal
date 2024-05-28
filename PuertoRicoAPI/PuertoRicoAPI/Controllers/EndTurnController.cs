@@ -32,6 +32,13 @@ namespace PuertoRicoAPI.Controllers
         public int PlayerIndex { get; set; }
     }
 
+    public class EndTurnSmallWharf
+    {
+        public int DataGameId { get; set; }
+        public GoodType[] goodsToShip { get; set; }
+        public int PlayerIndex { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class EndTurnController : ControllerBase
@@ -57,6 +64,7 @@ namespace PuertoRicoAPI.Controllers
             if (endTurnInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
 
             var currentRole = gs.getCurrentRole();
+            Player player = gs.getCurrPlayer();
             //if(gs.CurrentRole == RoleName.NoRole) { return Ok("No turn to end here"); }
 
             switch (gs.CurrentRole)
@@ -69,10 +77,16 @@ namespace PuertoRicoAPI.Controllers
                     (currentRole as Builder).mainLoop();
                     break;
                 case RoleName.Settler:
-                    Player player = gs.getCurrPlayer();
                     if (player.hasBuilding(BuildingName.Hospice, true)) 
                         player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
                     (currentRole as Settler).mainLoop();
+                    break;
+                case RoleName.Captain:
+                    if(!(currentRole as Captain).checkIfHasValidGoods())
+                    {
+                        gs.CaptainPlayableIndexes[player.Index] = false;
+                        (currentRole as Captain).mainLoop();
+                    }
                     break;
                 case RoleName.Trader:
                     (currentRole as Trader).mainLoop(); 
@@ -110,6 +124,39 @@ namespace PuertoRicoAPI.Controllers
                 if (!(currentRole as PostCaptain).canEndTurn(endTurnPostCaptainInput)) return Ok("Must use all windrose and warehouse storage");
                 (currentRole as PostCaptain).KeepLegalGoods(endTurnPostCaptainInput);
                 (currentRole as PostCaptain).mainLoop();
+            }
+
+            await DataFetcher.Update(dataGameState, gs);
+
+            await _context.SaveChangesAsync();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+        [HttpPost("smallWharf")]
+        public async Task<ActionResult<DataGameState>> PostEndTurnSmallWharf(EndTurnSmallWharf endTurnSmallWharf)
+        {
+
+            DataGameState dataGameState = await DataFetcher
+            .getDataGameState(_context, endTurnSmallWharf.DataGameId);
+
+            GameState gs = await ModelFetcher
+             .getGameState(_context, endTurnSmallWharf.DataGameId);
+
+            if (endTurnSmallWharf.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+
+            var currentRole = gs.getCurrentRole();
+            //if(gs.CurrentRole == RoleName.NoRole) { return Ok("No turn to end here"); }
+
+            if (gs.CurrentRole == RoleName.Captain)
+            {
+                if((currentRole as Captain).canUseSmallWharf())
+                {
+                    (currentRole as Captain).shipGoodsSmallWharf(endTurnSmallWharf.goodsToShip);
+                    (currentRole as Captain).mainLoop();
+                }
             }
 
             await DataFetcher.Update(dataGameState, gs);

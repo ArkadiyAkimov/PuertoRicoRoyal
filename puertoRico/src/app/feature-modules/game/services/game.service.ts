@@ -1,5 +1,5 @@
 
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
  import { BehaviorSubject } from 'rxjs';
  import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment.development';
@@ -12,6 +12,7 @@ import { ScrollService } from './scroll.service';
 })
 export class GameService{
   
+  playerUtility:PlayerUtility = new PlayerUtility();
   debugOptions:boolean = true;
   isHotSeat:boolean = true;
   startGameOutput!:StartGameOutput;
@@ -38,7 +39,7 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 33;
+    this.startGameInput.gameId = 40;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
@@ -176,6 +177,28 @@ export class GameService{
     return buildingsMatrix;
   }
 
+  wharfDisplayCheck():boolean{
+    let gs = this.gs.value;
+    let player = gs.players[this.playerIndex];
+
+    let temp = (BuildingName.Wharf) 
+    && this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable 
+    && gs.currentRole == RoleName.Captain
+    if(temp != undefined) return temp;
+    else return false
+  }
+  
+  smallWharfDisplayCheck():boolean{
+    let gs = this.gs.value;
+    let player = gs.players[this.playerIndex];
+
+    let temp = (BuildingName.SmallWharf) 
+    && this.playerUtility.getBuilding(BuildingName.SmallWharf,player)?.effectAvailable 
+    && gs.currentRole == RoleName.Captain
+    if(temp != undefined) return temp;
+    else return false
+  }
+
   sortBuildings(myBuildings:DataPlayerBuilding[]){
     myBuildings.sort((a,b)=> ( a.buildOrder - b.buildOrder));
     let buildingsMatrix = this.initMatrix();
@@ -223,6 +246,10 @@ export class GameService{
     }
     const randomIndex = Math.floor(Math.random() * arr.length);
     return arr.splice(randomIndex, 1)[0];
+  }
+
+  floor(number:number):number{
+    return Math.floor(number);
   }
 }
 

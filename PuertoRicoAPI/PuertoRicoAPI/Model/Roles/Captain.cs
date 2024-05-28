@@ -17,14 +17,20 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if (IsFirstIteration)
             {
-                foreach(Player player in gs.Players)   // reset playable wharfs
+                foreach(Player player in gs.Players)   // reset building effects
                 {
                     if (player.hasBuilding(BuildingName.Wharf, true))
                     {
                         player.getBuilding(BuildingName.Wharf).EffectAvailable = true;
                     }
 
-                    if(player.hasBuilding(BuildingName.Lighthouse, true))
+                    if (player.hasBuilding(BuildingName.SmallWharf, true))
+                    {
+                        player.getBuilding(BuildingName.SmallWharf).EffectAvailable = true;
+
+                    }
+
+                    if (player.hasBuilding(BuildingName.Lighthouse, true))
                     {
                         player.chargePlayer(-1);
                     }
@@ -46,7 +52,10 @@ namespace PuertoRicoAPI.Model.Roles
                 return;
             }
 
-            if (!gs.CaptainPlayableIndexes[gs.CurrentPlayerIndex] || !this.checkIfHasValidGoods())
+            if (!gs.CaptainPlayableIndexes[gs.CurrentPlayerIndex] 
+                || (!this.checkIfHasValidGoods()
+                && !this.canUseSmallWharf()
+                && !this.canUseWharf()))
             {
                 gs.CaptainPlayableIndexes[gs.CurrentPlayerIndex] = false;
                 this.mainLoop();
@@ -85,15 +94,22 @@ namespace PuertoRicoAPI.Model.Roles
             return player.hasBuilding(BuildingName.Wharf, true)
                    && player.getBuilding(BuildingName.Wharf).EffectAvailable;
         }
+
+        public bool canUseSmallWharf()
+        {
+            var player = gs.getCurrPlayer();
+
+            return player.hasBuilding(BuildingName.SmallWharf, true)
+                && player.getBuilding(BuildingName.SmallWharf).EffectAvailable;
+        }
         public bool checkIfHasValidGoods()
         {
             var player = gs.getCurrPlayer();
             if(player.Goods.Sum(x=> x.Quantity) == 0) return false;
-            if (canUseWharf()) return true;
 
             var playerTypes = player.GetUniqueGoodTypes();
 
-            for(int i=0; i < gs.Ships.Count - 1; i++)
+            for(int i=0; i < gs.Ships.Count - 2; i++)
             {
                 var ship = gs.Ships[i];
 
@@ -107,7 +123,7 @@ namespace PuertoRicoAPI.Model.Roles
                 }
             }
             bool anyShipEmpty = false;
-            for(int i=0; i<gs.Ships.Count -1; i++)
+            for(int i=0; i<gs.Ships.Count -2; i++)
             {
                 if (gs.Ships[i].IsEmpty()) anyShipEmpty = true;
             }
@@ -127,6 +143,28 @@ namespace PuertoRicoAPI.Model.Roles
             });
         }
 
+
+        public void shipGoodsSmallWharf(GoodType[] goodsToShip)
+        {
+            Player player = gs.getCurrPlayer();
+
+            int totalGoodsShipped = 0;
+
+            foreach(GoodType goodType in goodsToShip)
+            {
+                if (player.Goods[(int)goodType].Quantity > 0)
+                {
+                    player.Goods[(int)goodType].Quantity--;
+                    totalGoodsShipped++;
+                }
+            }
+
+            player.getBuilding(BuildingName.SmallWharf).EffectAvailable = false;
+
+            int totalVP = (int)Math.Floor((double)totalGoodsShipped/2);
+
+            GivePlayerVictoryPoints(player, totalVP);
+        }
         public bool TryAddGoodsToShip(int shipIndex, GoodType type)
         {
             Player player = gs.getCurrPlayer();
@@ -134,6 +172,7 @@ namespace PuertoRicoAPI.Model.Roles
             Console.WriteLine("ship index: " +  shipIndex + " can use wharf: " + canUseWharf());
             if (shipIndex == 3 && !canUseWharf()) return false;
             var ship = gs.Ships[shipIndex];
+
 
             if (!ship.IsEmpty() && ship.Type != type) return false;
             if(ship.IsEmpty() && gs.Ships.Any(x=>x.Type == type) && shipIndex != 3) return false;

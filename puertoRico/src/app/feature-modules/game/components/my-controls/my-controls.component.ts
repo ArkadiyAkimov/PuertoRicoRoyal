@@ -6,6 +6,7 @@ import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, GoodName, Good
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
+import { observeOn } from 'rxjs';
 
 @Component({
   selector: 'app-my-controls',
@@ -53,14 +54,17 @@ export class MyControlsComponent implements OnInit {
     }
 
     onClickGood(good:DataPlayerGood){
-      if(this.selectionService.selectedShip == 4 && this.gameService.gs.value.currentRole == RoleName.Captain) return;
-      if(this.gameService.gs.value.currentRole == RoleName.PostCaptain)
-      { 
-        this.selectionService.selectGoodToStore(good);// NEW SSHIT
-        return;
-      }
+      let gs = this.gameService.gs.value;
+      let player = gs.players[this.gameService.playerIndex];
 
-      this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+      switch(gs.currentRole){
+        case RoleName.PostCaptain:
+          this.selectionService.selectGoodToStore(good);// NEW SSHIT
+          break;
+        case RoleName.Captain:
+          if(this.selectionService.selectedShip == 4) this.selectionService.selectSmallWharfGoods(good.type);
+          else
+          this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
               .subscribe({
                 next: (result:GameStateJson) => {
                   console.log('success:',result);
@@ -70,7 +74,10 @@ export class MyControlsComponent implements OnInit {
                   console.log("error:",response.error.text);
                 }
               });
-      this.selectionService.selectedShip = 4;
+          break;
+        default:
+              break;
+      }
     }
 
    
@@ -106,6 +113,7 @@ export class MyControlsComponent implements OnInit {
         case RoleName.Craftsman:
           break;
         case RoleName.Captain:
+          if(this.selectionService.selectedShip == 4 && this.selectionService.selectedGoodsSmallWharf.length > 0) canEndTurn = true;
           break;
         case RoleName.PostCaptain:
           if(this.selectionService.canEndTurnPostCptain())canEndTurn = true; 
@@ -115,45 +123,79 @@ export class MyControlsComponent implements OnInit {
           break;
       }
 
-      return canEndTurn ? 'highlight-yellow' : '';
+      return canEndTurn ? 'highlight-blue' : '';
     }
 
     
 
     endTurn(){
-      if(this.gameService.gs.value.currentRole != RoleName.PostCaptain){
-      this.roleHttp.postEndTurn(
-        this.gameService.gs.value.id,this.gameService.playerIndex) //temp
-      .subscribe({
-        next: (result:GameStateJson) => {
-          console.log('success:',result);
-          this.gameService.gs.next(result);
-        },
-        error: (response:any)=> {
-          console.log("error:",response.error.text);
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    if(gs.currentPlayerIndex != player.index) return;
+
+      switch(gs.currentRole){
+        case RoleName.PostCaptain:
+          this.roleHttp.postEndTurnPostCaptain(
+            this.gameService.gs.value.id,
+            this.selectionService.windroseStoredGood,
+            this.selectionService.storeHouseStoredGoods,
+            this.selectionService.smallWarehouseStoredType,
+            this.selectionService.smallWarehouseStoredQuantity,
+            this.selectionService.largeWarehouseStoredTypes,
+            this.selectionService.largeWarehouseStoredQuantities,
+            this.gameService.playerIndex) //temp
+          .subscribe({
+            next: (result:GameStateJson) => {
+              console.log('success:',result);
+              this.gameService.gs.next(result);
+            },
+            error: (response:any)=> {
+              console.log("error:",response.error.text);
+            }
+          });
+          break;
+        case RoleName.Captain:
+          if(this.selectionService.selectedShip == 4){
+          this.roleHttp.postEndTurnSmallWharf(
+            this.gameService.gs.value.id, this.selectionService.selectedGoodsSmallWharf, this.gameService.playerIndex) //temp
+          .subscribe({
+            next: (result:GameStateJson) => {
+              console.log('success:',result);
+              this.gameService.gs.next(result);
+            },
+            error: (response:any)=> {
+              console.log("error:",response.error.text);
+            }
+          });
+        }else{
+          this.roleHttp.postEndTurn(
+            this.gameService.gs.value.id,this.gameService.playerIndex) //temp
+          .subscribe({
+            next: (result:GameStateJson) => {
+              console.log('success:',result);
+              this.gameService.gs.next(result);
+            },
+            error: (response:any)=> {
+              console.log("error:",response.error.text);
+            }
+          });
         }
-      });
-    }
-    else{
-      this.roleHttp.postEndTurnPostCaptain(
-        this.gameService.gs.value.id,
-        this.selectionService.windroseStoredGood,
-        this.selectionService.storeHouseStoredGoods,
-        this.selectionService.smallWarehouseStoredType,
-        this.selectionService.smallWarehouseStoredQuantity,
-        this.selectionService.largeWarehouseStoredTypes,
-        this.selectionService.largeWarehouseStoredQuantities,
-        this.gameService.playerIndex) //temp
-      .subscribe({
-        next: (result:GameStateJson) => {
-          console.log('success:',result);
-          this.gameService.gs.next(result);
-        },
-        error: (response:any)=> {
-          console.log("error:",response.error.text);
-        }
-      });
-    }
+          break;
+          default:
+            this.roleHttp.postEndTurn(
+              this.gameService.gs.value.id,this.gameService.playerIndex) //temp
+            .subscribe({
+              next: (result:GameStateJson) => {
+                console.log('success:',result);
+                this.gameService.gs.next(result);
+              },
+              error: (response:any)=> {
+                console.log("error:",response.error.text);
+              }
+            });
+            break;
+      }
 
     }
   

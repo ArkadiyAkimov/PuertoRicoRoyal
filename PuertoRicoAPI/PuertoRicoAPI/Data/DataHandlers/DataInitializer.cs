@@ -263,6 +263,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             }
 
             newShips.Add(initShip(11));
+            newShips.Add(initShip(30)); //need to change to sum of all possible goods
 
             return newShips;
         }

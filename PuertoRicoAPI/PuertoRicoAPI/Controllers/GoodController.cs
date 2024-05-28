@@ -63,7 +63,8 @@ namespace PuertoRicoAPI.Controllers
                     break;
                 case RoleName.Captain:
                     var captain = (currentRole as Captain);
-                    if (captain.TryAddGoodsToShip(goodInput.ShipIndex, good.Type))
+                    if (goodInput.ShipIndex == 4) return Ok("something went wrong small wharf input");
+                    else if (captain.TryAddGoodsToShip(goodInput.ShipIndex, good.Type))
                     {
                         captain.mainLoop();
                     }

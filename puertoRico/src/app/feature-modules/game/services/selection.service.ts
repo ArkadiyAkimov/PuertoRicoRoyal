@@ -7,7 +7,8 @@ import { BuildingName, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodNa
 })
 export class SelectionService {
   playerUtility:PlayerUtility = new PlayerUtility()
-  selectedShip: number = 4;
+  selectedShip: number = 5;
+  selectedGoodsSmallWharf: GoodName[] = [];
   windroseStoredGood:GoodName = GoodName.NoType;
   storeHouseStoredGoods:GoodName[] = [
     GoodName.NoType,
@@ -80,6 +81,32 @@ export class SelectionService {
     ]
     this.largeWarehouseStoredQuantities = [0,0];
     this.takingForest = false;
+    this.selectedShip = 5;
+    this.selectedGoodsSmallWharf = [];
+  }
+
+  toggleSmallWharf(){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    if(this.selectedShip == 4){
+      this.selectedShip = 5;
+      this.selectedGoodsSmallWharf.forEach(goodType => {
+        player.goods[goodType].quantity++;
+      });
+      this.selectedGoodsSmallWharf = [];
+    }
+    else this.selectedShip = 4;
+  }
+
+  selectSmallWharfGoods(goodType:GoodName){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    if(player.goods[goodType].quantity > 0){
+      player.goods[goodType].quantity--;
+      this.selectedGoodsSmallWharf.push(goodType);
+    }
   }
 
   toggleSupplyColonistForBlackMarket(){
@@ -234,6 +261,13 @@ export class SelectionService {
     return quantity;
   }
 
+  getSmallWharfGoodQuantity(good:DataPlayerGood):number{
+    if(this.selectedGoodsSmallWharf.length <= 0) return 0;
+
+    let goodsOfTypeOnSmallWharf = this.selectedGoodsSmallWharf.filter(x => x == good.type);
+    return goodsOfTypeOnSmallWharf.length;
+  }
+
   resetGoodSelection(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
@@ -319,14 +353,35 @@ toggleBuildingEffect(building:DataPlayerBuilding){
   }
 }
 
-showGoodToStoreCount(good:DataPlayerGood){
+getGoodBubbleCount(good:DataPlayerGood):number{
   let gs = this.gameService.gs.value;
   let player = gs.players[this.gameService.playerIndex];
 
-  if(gs.currentPlayerIndex != player.index) return false;
+  if(gs.currentPlayerIndex != player.index) return 0;
 
-  return this.getStoredGoodQuantity(good) > 0 ;
+  switch(gs.currentRole){
+    case RoleName.PostCaptain:
+        return this.getStoredGoodQuantity(good);
+    case RoleName.Captain:
+        return this.getSmallWharfGoodQuantity(good);
+  }
+
+  return 0;
 }
+
+getVictoryPointBubbleCount():number{
+  let gs = this.gameService.gs.value;
+  let player = gs.players[this.gameService.playerIndex];
+
+  if(gs.currentPlayerIndex != player.index) return 0;
+  switch(gs.currentRole){
+    case RoleName.Captain:
+        return Math.floor(this.selectedGoodsSmallWharf.length/2);
+  }
+
+  return 0;
+}
+
 
 
 }

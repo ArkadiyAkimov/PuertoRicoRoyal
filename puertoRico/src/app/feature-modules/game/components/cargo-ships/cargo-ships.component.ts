@@ -54,14 +54,6 @@ export class CargoShipsComponent implements OnInit{
 
     
 
-    wharfDisplayCheck():boolean{
-      let temp = (BuildingName.Wharf) 
-      && this.playerUtility.getBuilding(BuildingName.Wharf,this.player)?.effectAvailable 
-      && this.gs.currentRole == RoleName.Captain
-      if(temp != undefined) return temp;
-      else return false
-    }
-
     showSmallWarehouse():boolean{
       return this.gs.currentRole == RoleName.PostCaptain 
           && this.playerUtility.hasActiveBuilding(BuildingName.SmallWarehouse,this.player);

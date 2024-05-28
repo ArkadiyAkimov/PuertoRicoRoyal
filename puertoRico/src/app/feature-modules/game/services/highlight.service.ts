@@ -20,10 +20,14 @@ export class HighlightService {
     
     switch(buildingType?.name){
       case BuildingName.ForestHouse:
+         if(gs.currentRole != RoleName.Settler) return "";
          if(this.selectionService.takingForest) return "highlight-green";
+         else return "highlight-yellow";
         break;
       case BuildingName.BlackMarket:
+        if(gs.currentRole != RoleName.Builder) return "";
         if(this.selectionService.isBlackMarketActive)  return "highlight-green";
+        else return "highlight-yellow";
         break;
       default:  
         return "";
@@ -99,6 +103,25 @@ export class HighlightService {
     let player = gs.players[this.gameService.playerIndex];
 
     if(gs.currentRole == RoleName.PostCaptain && gs.currentPlayerIndex == player.index) return "red";
+
+    return "";
+  }
+
+  getPlayerGoodBubbleHighlightRule():string{
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    if(gs.currentRole == RoleName.Captain && gs.currentPlayerIndex == player.index) return "yellow";
+
+    return "";
+  }
+
+  
+  getPlayerVPBubbleHighlightRule():string{
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    if(gs.currentRole == RoleName.Captain && gs.currentPlayerIndex == player.index) return "green";
 
     return "";
   }
