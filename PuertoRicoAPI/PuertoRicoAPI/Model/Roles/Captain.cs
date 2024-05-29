@@ -46,10 +46,11 @@ namespace PuertoRicoAPI.Model.Roles
                 return;
             }
 
+
             if (!gs.CaptainPlayableIndexes[gs.CurrentPlayerIndex] 
-                || (!this.checkIfHasValidGoods()
-                && !this.canUseSmallWharf()
-                && !this.canUseWharf()))
+                || (gs.getCurrPlayer().Goods.Sum(x => x.Quantity) == 0)
+                || (!this.checkIfCanShipAnyGoods() && !this.canUseSmallWharf()
+                && !this.canUseWharf() && !this.canUseGuestHouse()))
             {
                 gs.CaptainPlayableIndexes[gs.CurrentPlayerIndex] = false;
                 this.mainLoop();
@@ -81,6 +82,16 @@ namespace PuertoRicoAPI.Model.Roles
             gs.VictoryPointSupply -= totalVp;
         }
 
+        public bool canUseGuestHouse()
+        {
+            Player player = gs.getCurrPlayer();
+
+            if (player.hasBuilding(BuildingName.GuestHouse, true)
+            && (player.hasBuilding(BuildingName.Wharf, false) || player.hasBuilding(BuildingName.SmallWharf, false))){
+                return true;
+            } else return false;
+        }
+
         public bool canUseWharf()
         {
             var player = gs.getCurrPlayer();
@@ -96,7 +107,7 @@ namespace PuertoRicoAPI.Model.Roles
             return player.hasBuilding(BuildingName.SmallWharf, true)
                 && player.getBuilding(BuildingName.SmallWharf).EffectAvailable;
         }
-        public bool checkIfHasValidGoods()
+        public bool checkIfCanShipAnyGoods()
         {
             var player = gs.getCurrPlayer();
             if(player.Goods.Sum(x=> x.Quantity) == 0) return false;

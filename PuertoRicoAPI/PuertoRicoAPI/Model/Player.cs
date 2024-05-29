@@ -101,13 +101,13 @@ namespace PuertoRicoAPI.Models
             return Buildings.FirstOrDefault(building => building.Type.Name == name);
         }
 
-        public bool hasBuilding(BuildingName name, bool checkOccupied = false)
+        public bool hasBuilding(BuildingName name, bool isOccupied = false) //changed to check if building has colonist(true) vs has free slot(false)
         { 
             Building building = getBuilding(name);
             if (building == null) return false;
-            if(checkOccupied) return building.Slots.Contains(true);
-            else return true;
+            return building.Slots.Contains(isOccupied);
         }
+
 
         public int freeBuildingTiles()
         {

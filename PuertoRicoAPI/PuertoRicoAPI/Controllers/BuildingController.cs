@@ -117,7 +117,7 @@ namespace PuertoRicoAPI.Controllers
 
             if (!player.hasBuilding(BuildingName.BlackMarket, true)) return Ok("You don't have black market hacker");
 
-            int[] buildOrderAndIndex = await DataFetcher.getDataPlantationOrBuildingBySlotID(_context, buildingBlackMarketInput.SlotId, playerID);
+            int[] buildOrderAndIndex = await DataFetcher.getBuildOrderAndIndexOfDataSlot(_context, buildingBlackMarketInput.SlotId, playerID);
 
             if ((currentRole as Builder).canBuyBuilding(building)) return Ok("can't use discount");
 

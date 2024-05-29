@@ -82,7 +82,7 @@ namespace PuertoRicoAPI.Controllers
                     (currentRole as Settler).mainLoop();
                     break;
                 case RoleName.Captain:
-                    if(!(currentRole as Captain).checkIfHasValidGoods())
+                    if(!(currentRole as Captain).checkIfCanShipAnyGoods())
                     {
                         gs.CaptainPlayableIndexes[player.Index] = false;
                         (currentRole as Captain).mainLoop();

@@ -58,27 +58,32 @@ namespace PuertoRicoAPI.Controllers
                 }
                 else
                 {
+
                     Player player = gs.getCurrPlayer();
-                    
                     Building guestHouseBuilding = player.getBuilding(BuildingName.GuestHouse);
 
-                    if (player.hasBuilding(BuildingName.GuestHouse, true)) { 
-                    for (int i = 0; i < 2; i++)
+                    if (player.hasBuilding(BuildingName.GuestHouse, true)) {
+
+                        int playerId = dataGameState.Players[slotInput.PlayerIndex].Id;
+                        int[] buildOrderAndIndex = await DataFetcher.getBuildOrderAndIndexOfDataSlot(_context, slotInput.SlotId, playerId);
+                        GuestHouse guestHouseRole = (GuestHouse)gs.getRole(RoleName.GuestHouse);
+                        var targetBuildingOrPlantation = guestHouseRole.getTargetFromBuildOrderAndIndex(buildOrderAndIndex);
+
+                        for (int i = 0; i < 2; i++)
                     {
                         if (guestHouseBuilding.Slots[i] == true)
                         {
                             guestHouseBuilding.Slots[i] = false;
-                            if ((i == 1) && gs.CurrentRole == RoleName.GuestHouse)
+                            guestHouseRole.occupyTargetAndactivateBuildingEffect(targetBuildingOrPlantation, buildOrderAndIndex[1]);
+                              if ((i == 1) && gs.CurrentRole == RoleName.GuestHouse)
                             {
-                                    GuestHouse role = (GuestHouse)gs.getRole(RoleName.GuestHouse);
-                                    role.mainLoop();
+                                    guestHouseRole.mainLoop();
                             }
                             break;
                         }
                     }
-                        await DataFetcher.Update(dataGameState, gs);
 
-                        dataSlot.IsOccupied = true;
+                        await DataFetcher.Update(dataGameState, gs);
                     }
                 }
             }
