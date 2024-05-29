@@ -82,7 +82,8 @@ namespace PuertoRicoAPI.Model.Roles
 
             if (gs.CurrentRole != RoleName.Builder) return false;
 
-            if (player.hasBuilding(building.Type.Name)) return false;
+            if (player.hasBuilding(building.Type.Name,true)) return false;
+            if (player.hasBuilding(building.Type.Name, false)) return false;
 
             if (player.freeBuildingTiles() < building.Type.size) return false;
 

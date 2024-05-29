@@ -3,6 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import {  DataBuilding, GameStateJson, GoodType, PlayerUtility, RoleName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
+import { HighlightService } from '../../services/highlight.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class BuildingsComponent implements OnInit {
   constructor(
     public gameService:GameService,
     public stylingService:StylingService,
+    public highlightService:HighlightService,
     ){
       this.buildingCols = [
         this.buildings1,

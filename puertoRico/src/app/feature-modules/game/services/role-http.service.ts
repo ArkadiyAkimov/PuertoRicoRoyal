@@ -61,7 +61,9 @@ export class RoleHttpService {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Good`,{GoodId ,ShipIndex,DataGameId ,playerIndex});
   } 
 
-
+  public postGoodTradingPost(GoodId:number, ShipIndex:number, DataGameId:number, playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/Good/tradingPost`,{GoodId ,ShipIndex,DataGameId ,playerIndex});
+  } 
 
   public postColonist(DataGameId:number, playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Chip/colonist`,{DataGameId ,playerIndex});

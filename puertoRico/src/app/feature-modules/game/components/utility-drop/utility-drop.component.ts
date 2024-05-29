@@ -4,6 +4,7 @@ import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
 import { GameStateJson, DataPlayerBuilding } from '../../classes/general';
 import { SelectionService } from '../../services/selection.service';
+import { HighlightService } from '../../services/highlight.service';
 
 @Component({
   selector: 'app-utility-drop',
@@ -18,7 +19,8 @@ export class UtilityDropComponent implements OnInit{
     constructor(
       public gameService:GameService,
       private selectionService:SelectionService,
-      public roleHttpService:RoleHttpService
+      public roleHttpService:RoleHttpService,
+      public highlightService:HighlightService,
       ){}
 
       ngOnInit(): void {

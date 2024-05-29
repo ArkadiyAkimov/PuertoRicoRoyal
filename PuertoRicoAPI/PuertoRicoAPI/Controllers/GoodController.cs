@@ -63,7 +63,7 @@ namespace PuertoRicoAPI.Controllers
                     break;
                 case RoleName.Captain:
                     var captain = (currentRole as Captain);
-                    if (goodInput.ShipIndex == 4) return Ok("something went wrong small wharf input");
+                    if (goodInput.ShipIndex >= 4) return Ok("something went wrong");
                     else if (captain.TryAddGoodsToShip(goodInput.ShipIndex, good.Type))
                     {
                         captain.mainLoop();
@@ -122,8 +122,8 @@ namespace PuertoRicoAPI.Controllers
             return Ok("Succes");
         }
 
-        [HttpPost("tradingPostGood")]
-        public async Task<ActionResult<DataGameState>> PostTradingPostGood(GoodInput goodInput)
+        [HttpPost("tradingPost")]
+        public async Task<ActionResult<DataGameState>> PostGoodTradingPost(GoodInput goodInput)
         {
             DataPlayerGood dataGood = await DataFetcher
                 .getDataGood(_context, goodInput.GoodId);
@@ -155,5 +155,7 @@ namespace PuertoRicoAPI.Controllers
 
             return Ok("Succes");
         }
+
+
     }
 }

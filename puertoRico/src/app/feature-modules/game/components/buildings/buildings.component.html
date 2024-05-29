@@ -2,7 +2,7 @@
 <app-scroll-asist class="scroll-asist" class="only-mobile"/>
 
 <div class="buildings-four-plus-one-at-bottom">
-  <div class="four-columns-layout">
+  <div class="four-columns-layout {{this.highlightService.getCursorClasses()}}">
 
 
       <div  *ngFor="let buildingList of [this.buildings1, this.buildings2, this.buildings3, this.buildings4],let i = index"

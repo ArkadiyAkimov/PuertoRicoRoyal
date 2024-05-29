@@ -33,6 +33,7 @@ namespace PuertoRicoAPI.Data.DataClasses
         public bool CaptainFirstShipment { get; set; }
         public bool MayorTookPrivilige { get; set; }
         public bool LastGovernor { get; set; }
+        public RoleName GuestHouseNextRole { get; set; }
         public bool GameOver { get; set; }
     }
 }

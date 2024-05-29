@@ -2,7 +2,7 @@ import { SoundService } from './../../services/sound.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { BuildingName, DataPlayer, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import { BuildingName, DataPlayer, DataPlayerGood, DataShip, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -16,7 +16,6 @@ import { observeOn } from 'rxjs';
   ]
 })
 export class MyControlsComponent implements OnInit {
-
   hideVictoryPoints:boolean = true;
 
   player:DataPlayer = new DataPlayer()
@@ -63,21 +62,40 @@ export class MyControlsComponent implements OnInit {
           break;
         case RoleName.Captain:
           if(this.selectionService.selectedShip == 4) this.selectionService.selectSmallWharfGoods(good.type);
-          else
-          this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
-              .subscribe({
-                next: (result:GameStateJson) => {
-                  console.log('success:',result);
-                  this.gameService.gs.next(result);
-                },
-                error: (response:any)=> {
-                  console.log("error:",response.error.text);
-                }
-              });
+          else this.postGood(good);
+          break;
+        case RoleName.Trader:
+          if(this.selectionService.sellingToTradingPost){
+            this.roleHttp.postGoodTradingPost(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+            .subscribe({
+              next: (result:GameStateJson) => {
+                console.log('success:',result);
+                this.gameService.gs.next(result);
+              },
+              error: (response:any)=> {
+                console.log("error:",response.error.text);
+              }
+            });
+          }
+          else this.postGood(good);
           break;
         default:
+          this.postGood(good);
               break;
       }
+    }
+
+    postGood(good:DataPlayerGood){
+      this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+      .subscribe({
+        next: (result:GameStateJson) => {
+          console.log('success:',result);
+          this.gameService.gs.next(result);
+        },
+        error: (response:any)=> {
+          console.log("error:",response.error.text);
+        }
+      });
     }
 
    
@@ -86,6 +104,7 @@ export class MyControlsComponent implements OnInit {
       let canEndTurn:boolean = false;
       let gs = this.gameService.gs.value;
       let player = gs.players[this.gameService.playerIndex];
+      if(player == undefined) return "";
 
       if(gs.currentPlayerIndex != this.gameService.playerIndex) return '';
 
@@ -113,7 +132,7 @@ export class MyControlsComponent implements OnInit {
         case RoleName.Craftsman:
           break;
         case RoleName.Captain:
-          if(this.selectionService.selectedShip == 4 && this.selectionService.selectedGoodsSmallWharf.length > 0) canEndTurn = true;
+          if(this.canEndTurnCaptain()) canEndTurn = true;
           break;
         case RoleName.PostCaptain:
           if(this.selectionService.canEndTurnPostCptain())canEndTurn = true; 
@@ -126,11 +145,38 @@ export class MyControlsComponent implements OnInit {
       return canEndTurn ? 'highlight-blue' : '';
     }
 
+    canEndTurnCaptain(){
+      let gs = this.gameService.gs.value;
+      let player = gs.players[this.gameService.playerIndex];
+      if(player == undefined) return 0;
+
+      if(gs.currentPlayerIndex != player.index) return;
     
+      let playerTotalGoods = 0;
+      player.goods.forEach(goodType => {
+        playerTotalGoods += goodType.quantity;
+      });
+      let canEndTurn = true;
+
+      if(playerTotalGoods == 0) return true;
+    
+      for(let s=0; s<3; s++){
+        let ship:DataShip = gs.ships[s];
+        if(ship.type == 6) return false;
+        else if(ship.type != 6){
+          if((player.goods[ship.type].quantity > 0) && (ship.capacity > ship.load)){
+            canEndTurn = false;
+          } 
+        }
+      }
+
+      return canEndTurn;
+    }
 
     endTurn(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if(gs.currentPlayerIndex != player.index) return;
 
@@ -156,6 +202,7 @@ export class MyControlsComponent implements OnInit {
           });
           break;
         case RoleName.Captain:
+          if(!this.canEndTurnCaptain()) return;
           if(this.selectionService.selectedShip == 4){
           this.roleHttp.postEndTurnSmallWharf(
             this.gameService.gs.value.id, this.selectionService.selectedGoodsSmallWharf, this.gameService.playerIndex) //temp

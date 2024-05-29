@@ -9,26 +9,43 @@
 <g id="Layer-1" vectornator:layerName="Layer 1" visibility="hidden">
 <use opacity="1" transform="matrix(1 0 0 1 0 0)" vectornator:layerName="Image 1" xlink:href="#Image"/>
 </g>
-<clipPath id="ArtboardFrame">
-<rect height="2429" width="3388" x="0" y="0"/>
-</clipPath>
-<g clip-path="url(#ArtboardFrame)" id="Layer-2" vectornator:layerName="Layer 2">
-<path d="M3022.89 1198.15L2883.34 923.034L2634.14 711.71L2191.55 576.143L1996.18 761.55C1990.19 789.461 1910.45 964.9 1910.45 964.9L2414.84 1196.16L2947.13 1305.81L3058.78 1273.91" fill="#9f9f9f" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 6"/>
-<path d="M739.229 1559.57L1072.23 1501.43" fill="none" opacity="1" stroke="#b69170" stroke-linecap="butt" stroke-linejoin="round" stroke-width="60.9447" vectornator:layerName="Line 9"/>
-<path d="M786.801 1633.57L1119.8 1522.57" fill="none" opacity="1" stroke="#54402e" stroke-linecap="butt" stroke-linejoin="round" stroke-width="60.9447" vectornator:layerName="Line 8"/>
-<path d="M1801.66 1593.93L1392.02 1472.36L1394.66 1112.93L1812.23 1094.43L1801.66 1593.93Z" fill="#000120" fill-opacity="0.756757" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 9"/>
-<path d="M1571.86 1535.45L1322.39 1480.37L1348.31 1098.07L1882.88 947.424L2466.04 1107.79L2432.03 1559.75L1847.24 1618.06L1699.83 1564.61L1730.61 1260.06L1576.72 1227.67L1571.86 1535.45Z" fill="#54402e" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 2"/>
-<path d="M1568.62 1661.8L1567 1175.83" fill="#e8ddd3" fill-rule="nonzero" opacity="1" stroke="#e8ddd3" stroke-linecap="butt" stroke-linejoin="round" stroke-width="53.1447" vectornator:layerName="Line 1"/>
-<path d="M1047.01 1592.14L1045.39 1106.17" fill="#e8ddd3" fill-rule="nonzero" opacity="1" stroke="#e8ddd3" stroke-linecap="butt" stroke-linejoin="round" stroke-width="53.1447" vectornator:layerName="Line 2"/>
-<path d="M1082.88 1594.66L1079.93 1132.06" fill="none" opacity="1" stroke="#54402e" stroke-linecap="butt" stroke-linejoin="round" stroke-width="22.3229" vectornator:layerName="Line 3"/>
-<path d="M1592.63 1663.91L1589.69 1201.3" fill="none" opacity="1" stroke="#54402e" stroke-linecap="butt" stroke-linejoin="round" stroke-width="22.3229" vectornator:layerName="Line 4"/>
-<path d="M982.216 1138.57L1071.31 1154.77L1296.48 1170.97L1405.01 1172.59L1594.54 1247.1L1894.22 974.962L2545.42 1135.33L2657.19 1154.77C2666.91 1141.81 1602.64 840.51 1602.64 840.51L1320.77 812.972L1063.21 1025.18L982.216 1138.57Z" fill="#dccdbf" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 1"/>
-<path d="M2323.13 1509.16L2374.96 1246L2554.39 1074.55L2759.73 1034.68L2895.3 1220.08L2927.2 1319.77L2679.99 1555.01L2616.19 1610.84L2466.67 1632.77L2333.1 1598.87L2323.13 1509.16Z" fill="#d5d5d5" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 5"/>
-<path d="M1700.18 1706.63L1641.25 1613.82L1526.34 1569.62L1424.68 1606.45L1367.22 1662.43L1396.69 1728.73L1496.87 1756.72L1600 1734.62L1700.18 1706.63Z" fill="#d5d5d5" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 4"/>
-<path d="M3247.31 1712.86L3308.1 1469.71L3181.24 1237.14L2919.6 1311.14L2668.52 1612.43L2351.38 1665.29L2163.74 1736.64L2010.45 1895.22L2026.31 2061.72L2570.74 1979.79L2993.6 2003.57L3202.38 1937.5C3220.88 1932.22 3247.31 1712.86 3247.31 1712.86Z" fill="#fdfcfa" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 7"/>
-<path d="M1315.37 1649.43L977.088 1726.07" fill="none" opacity="1" stroke="#7c5e43" stroke-linecap="butt" stroke-linejoin="round" stroke-width="45.4056" vectornator:layerName="Line 5"/>
-<path d="M1183.23 1623L879.302 1697" fill="none" opacity="1" stroke="#a67a53" stroke-linecap="butt" stroke-linejoin="round" stroke-width="45.4056" vectornator:layerName="Line 6"/>
-<path d="M1158.33 1578.21L877.289 1747.07" fill="none" opacity="1" stroke="#eab98d" stroke-linecap="butt" stroke-linejoin="round" stroke-width="44.8451" vectornator:layerName="Line 7"/>
-<path d="M1772.59 2751.51L2906.38 3013.15L1077.52 2878.36" fill="#000120" fill-opacity="0.756757" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 10"/>
+<g id="Layer-2" vectornator:layerName="Layer 2">
+<path d="M1782.77 534.722L1430.28 391.379L933.125 357.086L615.105 587.55L493.732 905.69L525.082 1200.6L737.935 1303.68L970.171 1280.94L1644.33 1022.35L1782.77 553.318" fill="#817a7a" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 15"/>
+<path d="M2865.24 1031.39L2701.53 708.643L2409.18 460.733L2018.27 333.769L1628.7 495.147C1621.68 527.89 1480.02 747.066 1480.02 747.066L2151.92 1029.05L2776.37 1157.69L2907.34 1120.27" fill="#9f9f9f" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 6"/>
+<path d="M264.528 1482.72L655.181 1414.51" fill="none" opacity="1" stroke="#b69170" stroke-linecap="butt" stroke-linejoin="round" stroke-width="71.4957" vectornator:layerName="Line 9"/>
+<path d="M320.336 1569.53L710.988 1439.31" fill="none" opacity="1" stroke="#54402e" stroke-linecap="butt" stroke-linejoin="round" stroke-width="71.4957" vectornator:layerName="Line 8"/>
+<path d="M1510.9 1523.03L1030.33 1380.41L1033.43 958.749L1523.3 937.047L1510.9 1523.03Z" fill="#000120" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 9"/>
+<path d="M1241.31 1454.42L948.654 1389.81L979.06 941.325L1606.17 764.593L2290.3 952.727L2250.39 1482.92L1564.37 1551.34L1391.43 1488.62L1427.54 1131.36L1247.01 1093.35L1241.31 1454.42Z" fill="#9d8166" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 2"/>
+<g opacity="1" vectornator:layerName="Group 8">
+<path d="M1517.95 1161.45L1413.84 1126.1L1399.58 1496.1L1500.12 1545.76L1517.95 1161.45Z" fill="#fef1e1" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 2"/>
+<path d="M1501.95 1188.12L1431.49 1164.15L1418.13 1477.09L1478.25 1506.05L1501.95 1188.12Z" fill="#ddcfc0" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 4"/>
+</g>
+<g opacity="1" vectornator:layerName="Group 9">
+<path d="M1164.26 1082.53L1044.92 1064.73L1042.44 1210.23L1158.27 1233.55L1164.26 1082.53Z" fill="#fef1e1" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 2"/>
+<path d="M1147.11 1092.47L1066.33 1080.4L1062.77 1203.41L1132 1217.07L1147.11 1092.47Z" fill="#ddcfc0" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 4"/>
+</g>
+<path d="M1237.51 1602.65L1235.61 1032.54" fill="#e8ddd3" fill-rule="nonzero" opacity="1" stroke="#e8ddd3" stroke-linecap="butt" stroke-linejoin="round" stroke-width="62.3454" vectornator:layerName="Line 1"/>
+<path d="M625.596 1520.93L623.695 950.827" fill="#e8ddd3" fill-rule="nonzero" opacity="1" stroke="#e8ddd3" stroke-linecap="butt" stroke-linejoin="round" stroke-width="62.3454" vectornator:layerName="Line 2"/>
+<path d="M667.675 1523.89L664.218 981.19" fill="none" opacity="1" stroke="#54402e" stroke-linecap="butt" stroke-linejoin="round" stroke-width="26.1875" vectornator:layerName="Line 3"/>
+<path d="M1265.68 1605.12L1262.22 1062.42" fill="none" opacity="1" stroke="#54402e" stroke-linecap="butt" stroke-linejoin="round" stroke-width="26.1875" vectornator:layerName="Line 4"/>
+<path d="M1614.22 1538.75L1631.43 796.559L2306.36 963.013L2316.75 1486.79L1632.93 1544.99" fill="#000120" fill-opacity="0.175676" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 11"/>
+<path d="M549.582 988.834L654.101 1007.84L918.249 1026.84L1045.57 1028.74L1267.91 1116.16L1619.48 796.899L2383.41 985.033L2514.54 1007.84C2525.94 992.635 1277.41 639.171 1277.41 639.171L946.754 606.865L644.599 855.81L549.582 988.834Z" fill="#dccdbf" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 1"/>
+<path d="M2122.64 1423.58L2183.45 1114.86L2393.94 913.728L2634.83 866.953L2794.99 971.027L2831.29 1201.4L2541.28 1477.37L2466.44 1542.86L2291.03 1568.59L2134.34 1528.83L2122.64 1423.58Z" fill="#d5d5d5" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 5"/>
+<path d="M1381.69 1679.36L1312.56 1570.48L1177.75 1518.63L1058.49 1561.84L991.085 1627.51L1025.65 1705.29L1143.18 1738.13L1264.16 1712.2L1381.69 1679.36Z" fill="#d5d5d5" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 4"/>
+<path d="M1290.27 2018.38L1221.14 1909.49L1086.33 1857.64L967.07 1900.85L899.665 1966.53L934.232 2044.3L1051.76 2077.14L1172.74 2051.22L1290.27 2018.38Z" fill="#d5d5d5" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 12"/>
+<g opacity="1" vectornator:layerName="Group 5">
+<path d="M1802.93 1155.11L1914 1149.1L1896.06 1317.75L1788.85 1323.13L1802.93 1155.11Z" fill="#fef1e1" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 2"/>
+<path d="M1819.76 1168.44L1895.71 1163.44L1880.2 1300.08L1811 1302.48L1819.76 1168.44Z" fill="#ddcfc0" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 4"/>
+</g>
+<g opacity="1" vectornator:layerName="Group 6">
+<path d="M1911.16 1149.85L2026.47 1144.32L2008.57 1312.97L1897.27 1317.89L1911.16 1149.85Z" fill="#fef1e1" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 2"/>
+<path d="M1928.69 1163.26L2007.54 1158.59L1992.02 1295.23L1920.18 1297.33L1928.69 1163.26Z" fill="#ddcfc0" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Rectangle 4"/>
+</g>
+<path d="M3189.19 1489.9L3135.79 1237.92L2980.73 1014.96L2696.66 1008.24L2522.67 1178.78L2408.35 1278.2L2360.74 1457.53L2351.35 1604.06L2401.13 1757.82L2692.71 1863.32L2945.59 1849.65L3163.5 1745.12C3185.21 1738.92 3189.19 1489.9 3189.19 1489.9Z" fill="#fdfcfa" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 7"/>
+<path d="M940.419 1588.13L543.566 1678.05" fill="none" opacity="1" stroke="#7c5e43" stroke-linecap="butt" stroke-linejoin="round" stroke-width="53.2665" vectornator:layerName="Line 5"/>
+<path d="M785.398 1557.13L428.85 1643.94" fill="none" opacity="1" stroke="#a67a53" stroke-linecap="butt" stroke-linejoin="round" stroke-width="53.2665" vectornator:layerName="Line 6"/>
+<path d="M756.181 1504.59L426.49 1702.68" fill="none" opacity="1" stroke="#eab98d" stroke-linecap="butt" stroke-linejoin="round" stroke-width="52.6089" vectornator:layerName="Line 7"/>
+<path d="M1628.64 1567.36L1634.45 1394.75L1880.77 1382.14L1974.84 1466.51L1958.36 1633.31L1698.46 1678.89L1628.64 1567.36Z" fill="#5e4732" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 13"/>
+<path d="M1640.27 1407.35L1732.4 1506.27L1960.29 1475.24L1871.08 1391.84L1647.06 1411.23" fill="#3b2c1f" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="Curve 14"/>
 </g>
 </svg>

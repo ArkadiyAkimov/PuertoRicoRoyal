@@ -15,6 +15,7 @@ export class HighlightService {
   getBuildingEffectHighlight(buildingType:BuildingType):string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
     
@@ -23,14 +24,14 @@ export class HighlightService {
          if(gs.currentRole != RoleName.Settler) return "";
          if(this.selectionService.takingForest) return "highlight-green";
          else return "highlight-yellow";
-        break;
       case BuildingName.BlackMarket:
         if(gs.currentRole != RoleName.Builder) return "";
         if(this.selectionService.isBlackMarketActive)  return "highlight-green";
         else return "highlight-yellow";
-        break;
-      default:  
-        return "";
+      case BuildingName.TradingPost:
+        if(gs.currentRole != RoleName.Trader) return "";
+        if(this.selectionService.sellingToTradingPost) return "highlight-green";
+        else return "highlight-yellow";
     }
   
     return "";
@@ -39,6 +40,7 @@ export class HighlightService {
   getVictoryPointsHighlight():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -53,6 +55,7 @@ export class HighlightService {
   getColonistSupplyHighlight():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -66,6 +69,7 @@ export class HighlightService {
   getColonistHighlight(slotId:number){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -77,6 +81,7 @@ export class HighlightService {
   getPlayerGoodHighlightClass(good:DataPlayerGood){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
 
@@ -101,6 +106,7 @@ export class HighlightService {
   getPlayerGoodCountHighlightRule(good:DataPlayerGood):string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentRole == RoleName.PostCaptain && gs.currentPlayerIndex == player.index) return "red";
 
@@ -120,9 +126,35 @@ export class HighlightService {
   getPlayerVPBubbleHighlightRule():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
 
     if(gs.currentRole == RoleName.Captain && gs.currentPlayerIndex == player.index) return "green";
 
     return "";
   }
+
+  getCargoShipHighlights(shipIndex:number):string{
+    if( this.selectionService.selectedShip == shipIndex) return "ship-highlight";
+    return "";
+  }
+
+
+  getCursorClasses():string{
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
+
+    switch(gs.currentRole){
+      case RoleName.Trader:
+        return "coin-cursor";
+        break;
+      case RoleName.Builder:
+      case RoleName.Settler:
+        return "grab-cursor";
+        break;
+    }
+
+    return "";
+  }
+  
 }

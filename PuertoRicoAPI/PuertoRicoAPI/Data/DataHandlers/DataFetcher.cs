@@ -65,7 +65,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                 .SingleOrDefaultAsync(good => good.Id == goodId);
         }
 
-        public static async Task<int[]> getDataPlantationOrBuildingBySlotID(DataContext _context, int slotId, int playerId)
+        public static async Task<int[]> getBuildOrderAndIndexOfDataSlot(DataContext _context, int slotId, int playerId)
         {
             DataSlot dataSlot = await getDataSlot(_context, slotId);
             DataPlayer dataPlayer = await getDataPlayer(_context, playerId);
@@ -109,6 +109,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             dataGameState.CaptainFirstShipment = gs.CaptainFirstShipment;
             dataGameState.MayorTookPrivilige = gs.MayorTookPrivilige;
             dataGameState.LastGovernor = gs.LastGovernor;
+            dataGameState.GuestHouseNextRole = gs.GuestHouseNextRole;
             dataGameState.GameOver = gs.GameOver;
 
             foreach (var (dataRole,role) in dataGameState.Roles.Zip(gs.Roles)) //roles

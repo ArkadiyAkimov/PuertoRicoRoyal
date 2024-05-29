@@ -7,8 +7,7 @@ import { BuildingName, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodNa
 })
 export class SelectionService {
   playerUtility:PlayerUtility = new PlayerUtility()
-  selectedShip: number = 5;
-  selectedGoodsSmallWharf: GoodName[] = [];
+  
   windroseStoredGood:GoodName = GoodName.NoType;
   storeHouseStoredGoods:GoodName[] = [
     GoodName.NoType,
@@ -30,8 +29,11 @@ export class SelectionService {
   selectedGoodType:GoodName = GoodName.NoType;
   sellVictoryPoint:boolean = false;
 
+  selectedShip: number = 5;
+  selectedGoodsSmallWharf: GoodName[] = [];
  
   takingForest: boolean = false;
+  sellingToTradingPost:boolean = false;
 
   constructor(private gameService:GameService){ 
     this.gameService.gs.subscribe({
@@ -46,6 +48,7 @@ export class SelectionService {
   toggleBlackMarket(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if( gs.currentPlayerIndex != player.index || gs.currentRole != RoleName.Builder) return; //check black market activated
 
@@ -61,12 +64,6 @@ export class SelectionService {
   }
 
   selectionCleanUp(){
-    this.isBlackMarketActive = false;
-    this.sellColonist = false;
-    this.selectedSlotId = 0;
-    this.sellGood = false;
-    this.selectedGoodType = GoodName.NoType;
-    this.sellVictoryPoint = false;
     this.windroseStoredGood = GoodName.NoType;
     this.storeHouseStoredGoods = [
     GoodName.NoType,
@@ -80,14 +77,27 @@ export class SelectionService {
       GoodName.NoType,
     ]
     this.largeWarehouseStoredQuantities = [0,0];
-    this.takingForest = false;
+
+    this.isBlackMarketActive = false;
+    this.sellColonist = false;
+    this.selectedSlotId = 0;
+    this.sellGood = false;
+    this.selectedGoodType = GoodName.NoType;
+    this.sellVictoryPoint = false;
+
+
     this.selectedShip = 5;
     this.selectedGoodsSmallWharf = [];
+
+    this.takingForest = false;
+
+    this.sellingToTradingPost = false;
   }
 
   toggleSmallWharf(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if(this.selectedShip == 4){
       this.selectedShip = 5;
@@ -102,6 +112,7 @@ export class SelectionService {
   selectSmallWharfGoods(goodType:GoodName){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if(player.goods[goodType].quantity > 0){
       player.goods[goodType].quantity--;
@@ -112,6 +123,7 @@ export class SelectionService {
   toggleSupplyColonistForBlackMarket(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return; //check black market activated
 
@@ -131,6 +143,7 @@ export class SelectionService {
   selectColonistForBlackMarket(slotId:number){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
 
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return; //check black market activated
@@ -165,6 +178,7 @@ export class SelectionService {
   selectGoodForBlackMarket(good:GoodName){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
     
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return;
 
@@ -182,6 +196,7 @@ export class SelectionService {
   toggleVictoryPointSellForBlackMarket(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
 
     
     if(!this.isBlackMarketActive || gs.currentPlayerIndex != player.index) return;
@@ -271,6 +286,7 @@ export class SelectionService {
   resetGoodSelection(){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
   
     if(gs.currentPlayerIndex != player.index) return;
 
@@ -307,6 +323,7 @@ export class SelectionService {
   canEndTurnPostCptain():boolean{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return false;
     let playerTotalGoods = 0;
   
     if(gs.currentPlayerIndex != player.index) return false;
@@ -333,9 +350,12 @@ export class SelectionService {
     return true;
 }
 
+
+
 toggleBuildingEffect(building:DataPlayerBuilding){
   let gs = this.gameService.gs.value;
   let player = gs.players[this.gameService.playerIndex];
+  if(player == undefined) return;
 
   if(gs.currentPlayerIndex != player.index) return;
   if(!building.slots[0].isOccupied) return;
@@ -350,12 +370,16 @@ toggleBuildingEffect(building:DataPlayerBuilding){
     case BuildingName.BlackMarket:
         if(gs.currentRole == RoleName.Builder)this.toggleBlackMarket();
       break;    
+    case BuildingName.TradingPost:
+      if(gs.currentRole == RoleName.Trader) this.sellingToTradingPost = !this.sellingToTradingPost;
+      break;
   }
 }
 
 getGoodBubbleCount(good:DataPlayerGood):number{
   let gs = this.gameService.gs.value;
   let player = gs.players[this.gameService.playerIndex];
+  if(player == undefined) return 0;
 
   if(gs.currentPlayerIndex != player.index) return 0;
 
@@ -372,6 +396,7 @@ getGoodBubbleCount(good:DataPlayerGood):number{
 getVictoryPointBubbleCount():number{
   let gs = this.gameService.gs.value;
   let player = gs.players[this.gameService.playerIndex];
+  if(player == undefined) return 0;
 
   if(gs.currentPlayerIndex != player.index) return 0;
   switch(gs.currentRole){
@@ -382,6 +407,15 @@ getVictoryPointBubbleCount():number{
   return 0;
 }
 
+getSmallWharfGoodTypeArray():any{
+  let array: any[] = [];
+
+  this.selectedGoodsSmallWharf.forEach(GoodType => {
+    array.push(this.gameService.goodTypes[GoodType]);
+  });
+
+  return array;
+}
 
 
 }

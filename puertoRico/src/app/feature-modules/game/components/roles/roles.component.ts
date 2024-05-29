@@ -65,6 +65,8 @@ export class RolesComponent implements OnInit{
             return 'PostCaptain';
         case 9:
             return 'Draft';
+        case 10:
+            return 'GuestHouse';
         default:
             return '';
     }
@@ -72,7 +74,8 @@ export class RolesComponent implements OnInit{
 
 getRoleSelectionClass(role:DataRole):string{
   if(role.name == RoleName.Captain && this.gs.currentRole == RoleName.PostCaptain) return 'role-alternate';
-  else if(this.gs.currentRole == role.name && role.name != RoleName.Draft) return 'role-selected';
+  else if(this.gs.currentRole == role.name && role.name != RoleName.Draft && role.name != RoleName.GuestHouse) return 'role-selected';
+  else if(this.gs.currentRole == RoleName.GuestHouse && role.name == this.gs.guestHouseNextRole) return 'highlight-yellow';
   return '';
 }
 

@@ -5,6 +5,11 @@ using PuertoRicoAPI.Data;
 using PuertoRicoAPI.Types;
 using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
+using PuertoRicoAPI.Model.ModelHandlers;
+using PuertoRicoAPI.Model;
+using PuertoRicoAPI.Models;
+using PuertoRicoAPI.Model.deployables;
+using PuertoRicoAPI.Model.Roles;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -39,11 +44,51 @@ namespace PuertoRicoAPI.Controllers
             DataGameState dataGameState = await DataFetcher
             .getDataGameState(_context, slotInput.DataGameId);
 
+            GameState gs = await ModelFetcher
+             .getGameState(_context, slotInput.DataGameId);
 
             //if (slotInput.PlayerIndex != dataGameState.CurrentPlayerIndex) return Ok("wait your turn, bitch");
 
+            if ((gs.CurrentRole != RoleName.Mayor) 
+             && (gs.CurrentPlayerIndex == slotInput.PlayerIndex))
+            {
+                if (dataSlot.IsOccupied)
+                {
+                    return Ok("Go home!");
+                }
+                else
+                {
 
-            if (dataGameState.CurrentRole != Types.RoleName.Mayor) return Ok("Succes");
+                    Player player = gs.getCurrPlayer();
+                    Building guestHouseBuilding = player.getBuilding(BuildingName.GuestHouse);
+
+                    if (player.hasBuilding(BuildingName.GuestHouse, true)) {
+
+                        int playerId = dataGameState.Players[slotInput.PlayerIndex].Id;
+                        int[] buildOrderAndIndex = await DataFetcher.getBuildOrderAndIndexOfDataSlot(_context, slotInput.SlotId, playerId);
+                        GuestHouse guestHouseRole = (GuestHouse)gs.getRole(RoleName.GuestHouse);
+                        var targetBuildingOrPlantation = guestHouseRole.getTargetFromBuildOrderAndIndex(buildOrderAndIndex);
+
+                        for (int i = 0; i < 2; i++)
+                    {
+                        if (guestHouseBuilding.Slots[i] == true)
+                        {
+                            guestHouseBuilding.Slots[i] = false;
+                            guestHouseRole.occupyTargetAndactivateBuildingEffect(targetBuildingOrPlantation, buildOrderAndIndex[1]);
+                              if ((i == 1) && gs.CurrentRole == RoleName.GuestHouse)
+                            {
+                                    guestHouseRole.mainLoop();
+                            }
+                            break;
+                        }
+                    }
+
+                        await DataFetcher.Update(dataGameState, gs);
+                    }
+                }
+            }
+
+            if (dataGameState.CurrentRole == Types.RoleName.Mayor) {
             
             if(dataSlot.IsOccupied)
             {
@@ -54,6 +99,7 @@ namespace PuertoRicoAPI.Controllers
             {
                 dataSlot.IsOccupied = true;
                 dataGameState.Players[slotInput.PlayerIndex].Colonists--;
+            }
             }
 
             await _context.SaveChangesAsync();
