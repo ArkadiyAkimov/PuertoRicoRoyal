@@ -109,6 +109,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             dataGameState.CaptainFirstShipment = gs.CaptainFirstShipment;
             dataGameState.MayorTookPrivilige = gs.MayorTookPrivilige;
             dataGameState.LastGovernor = gs.LastGovernor;
+            dataGameState.GuestHouseNextRole = gs.GuestHouseNextRole;
             dataGameState.GameOver = gs.GameOver;
 
             foreach (var (dataRole,role) in dataGameState.Roles.Zip(gs.Roles)) //roles

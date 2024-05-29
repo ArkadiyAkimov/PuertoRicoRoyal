@@ -4,7 +4,7 @@ cdkDropList
 cdkDropListSortingDisabled
 [cdkDropListData]="this.myBuildings"
 (cdkDropListDropped)="dropBuilding($event)"
-class="example-list {{this.largeBuildingDragging()}}">
+class="example-list {{this.highlightService.getCursorClasses()}}">
 
 <div class="drop-prompt-building ">
 

@@ -1,11 +1,11 @@
-<div class="goods-display">
+<div class="goods-display {{this.highlightService.getCursorClasses()}}">
 
   <div class="vertical-pair"  *ngFor="let good of getSortedGoodButtons(this.myGoods)">
     <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
   <div class="good-and-number {{this.highlightService.getPlayerGoodHighlightClass(good)}}"
   (click)="this.onClickGood(good); this.selectionService.selectGoodForBlackMarket(good.type)">
 
-  <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
+  <div class="good-button {{this.stylingService.getGoodBarrelClass(good)}}">
     <div class="good-count {{this.highlightService.getPlayerGoodCountHighlightRule(good)}}">{{good.quantity}}</div>
     <div class="good-count bubble {{this.highlightService.getPlayerGoodBubbleHighlightRule()}}" *ngIf="this.selectionService.getGoodBubbleCount(good) > 0">{{this.selectionService.getGoodBubbleCount(good)}}</div>
   </div>

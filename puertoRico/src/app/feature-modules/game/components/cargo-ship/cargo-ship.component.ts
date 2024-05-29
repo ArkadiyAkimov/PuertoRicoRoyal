@@ -2,7 +2,7 @@
 import { GameService } from './../../services/game.service';
 import { Component, Input } from '@angular/core';
 import { RoleHttpService } from '../../services/role-http.service';
-import { DataShip, GameStateJson } from '../../classes/general';
+import { DataShip, GameStateJson, RoleName } from '../../classes/general';
 import { SelectionService } from '../../services/selection.service';
 import { StylingService } from '../../services/styling.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -37,6 +37,10 @@ export class CargoShipComponent{
     }
 
     selectShip(){
+      let gs = this.gameService.gs.value;
+      let player = gs.players[this.gameService.playerIndex];
+
+      if(gs.currentRole != RoleName.Captain) return;
       if(this.shipIndex == 4) this.selectionService.toggleSmallWharf();
       if(this.shipIndex == 4)  return;
       if(this.cargoShip.capacity == this.cargoShip.load) return;

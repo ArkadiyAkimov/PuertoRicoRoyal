@@ -105,7 +105,7 @@ namespace PuertoRicoAPI.Models
         { 
             Building building = getBuilding(name);
             if (building == null) return false;
-            if(checkOccupied) return building.Slots[0];
+            if(checkOccupied) return building.Slots.Contains(true);
             else return true;
         }
 

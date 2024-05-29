@@ -30,6 +30,7 @@ export class GameStateJson{
     captainFirstShipment:boolean = true;
     mayorTookPrivilige:boolean = false;
     lastGovernor:boolean = false;
+    guestHouseNextRole:RoleName = RoleName.NoRole;
     gameOver:boolean = false;
   }
   
@@ -243,7 +244,8 @@ export class GameStateJson{
       Prospector,
       PostCaptain,
       NoRole,
-      Draft
+      Draft,
+      GuestHouse,
   }
 
   export enum GoodName

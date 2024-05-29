@@ -38,6 +38,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newGameState.CaptainFirstShipment = true;
             newGameState.MayorTookPrivilige = false;
             newGameState.LastGovernor = false;
+            newGameState.GuestHouseNextRole = RoleName.NoRole;
             newGameState.GameOver = false;
 
             switch (numOfPlayers)
@@ -71,7 +72,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
         static List<DataRole> initializeRoles(int numOfPlayers)
         {
-            RoleName[] roleNames = { RoleName.Settler, RoleName.Builder, RoleName.Mayor, RoleName.Trader, RoleName.Craftsman, RoleName.Captain ,RoleName.PostCaptain, RoleName.Draft};
+            RoleName[] roleNames = { RoleName.Settler, RoleName.Builder, RoleName.Mayor, RoleName.Trader, RoleName.Craftsman, RoleName.Captain ,RoleName.PostCaptain, RoleName.Draft, RoleName.GuestHouse};
             List<DataRole> roles = new List<DataRole>();
 
             foreach (RoleName roleName in roleNames)

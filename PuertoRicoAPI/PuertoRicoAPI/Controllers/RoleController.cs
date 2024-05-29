@@ -5,7 +5,9 @@ using PuertoRicoAPI.Data.DataClasses;
 using PuertoRicoAPI.Data.DataHandlers;
 using PuertoRicoAPI.Model;
 using PuertoRicoAPI.Model.ModelHandlers;
+using PuertoRicoAPI.Model.Roles;
 using PuertoRicoAPI.Sockets;
+using PuertoRicoAPI.Types;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -46,7 +48,19 @@ namespace PuertoRicoAPI.Controllers
 
             if (!currentRole.IsPlayable || gs.IsRoleInProgress) return Ok("either role in progress or this role unavailable");
 
-            currentRole.mainLoop();
+            switch (currentRole.Name)
+            {
+                case RoleName.Captain:
+                case RoleName.Mayor:
+                case RoleName.Craftsman:
+                    GuestHouse guestHouseRole = (GuestHouse)gs.getRole(RoleName.GuestHouse);
+                    gs.GuestHouseNextRole = currentRole.Name;
+                    guestHouseRole.mainLoop();
+                    break;
+                default:
+                    currentRole.mainLoop();
+                    break;
+            }
 
             await DataFetcher.Update(dataGameState, gs);
 

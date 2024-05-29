@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerPlantation, GoodType, RoleName } from '../classes/general';
+import { BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GoodName, GoodType, RoleName } from '../classes/general';
 import { HighlightService } from './highlight.service';
 import { SelectionService } from './selection.service';
 
@@ -77,13 +77,16 @@ export class StylingService {
   }
 
   getBuildingHighlight(building:DataBuilding){        //defines building highlights
+    let buildingClasses = "";
+
     if(this.gameService.gs.value.currentRole == RoleName.Draft){
-    if(building.isDrafted) return "isDrafted";
-    if(building.isBlocked) return "isBlocked";
+    if(building.isDrafted) buildingClasses += " isDrafted ";
+    if(building.isBlocked) buildingClasses += " isBlocked ";
     };
     
-    if(building.quantity == 0) return "soldOut";
-    return "";
+
+    if(building.quantity == 0) buildingClasses += "soldOut";
+    return buildingClasses;
   }
 
   getBuildingSlotClasses(building:DataBuilding|DataPlayerBuilding){
@@ -138,5 +141,10 @@ export class StylingService {
     return shipClasses;
   }
 
+  getGoodBarrelClass(good:DataPlayerGood){
+    let goodClasses = this.gameService.getPlayerGoodType(good)?.displayName + "-barrel";
+
+    return goodClasses;
+  }
   
 }

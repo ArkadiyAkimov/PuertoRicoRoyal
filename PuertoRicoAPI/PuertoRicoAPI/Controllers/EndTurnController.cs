@@ -91,6 +91,9 @@ namespace PuertoRicoAPI.Controllers
                 case RoleName.Trader:
                     (currentRole as Trader).mainLoop(); 
                     break;
+                case RoleName.GuestHouse:
+                    (currentRole as GuestHouse).mainLoop();
+                    break;
                 default:
                     return Ok("No turn to end here");
             }

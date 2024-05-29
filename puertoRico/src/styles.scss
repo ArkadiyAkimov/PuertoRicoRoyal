@@ -6,17 +6,24 @@ body{
     user-select: none; /* Standard syntax */
     margin: 0px; 
     background-color: rgb(233, 234, 196);
+
     
 }
+
+
 
 html, body {
     max-width: 100%;
     scrollbar-width: none;
     scroll-behavior: smooth;
 
-    
+    cursor: url("../src/assets/svgs/cursors/Cur-new.png") 5 9, auto;
     
     width: 100; display: flex; align-items: center; justify-content: center;
+}
+
+body:active{
+    cursor: url("../src/assets/svgs/cursors/cur-new2-click.png") 5 9, auto;
 }
 
 
@@ -25,4 +32,6 @@ html, body {
     src: url('../src/app/styles/fonts/MayflowerAntique.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+
+   
   }

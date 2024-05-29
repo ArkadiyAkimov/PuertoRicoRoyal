@@ -6,7 +6,7 @@
     cdkDropListSortingDisabled
     [cdkDropListData]="this.exposedPlantations"
     cdkDropListConnectedTo="myPlantations"
-    class="example-list"
+    class="example-list {{this.highlightService.getCursorClasses()}}"
     *ngIf="this.exposedPlantations.length != 0"
     >
 

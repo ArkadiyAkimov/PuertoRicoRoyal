@@ -62,21 +62,40 @@ export class MyControlsComponent implements OnInit {
           break;
         case RoleName.Captain:
           if(this.selectionService.selectedShip == 4) this.selectionService.selectSmallWharfGoods(good.type);
-          else
-          this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
-              .subscribe({
-                next: (result:GameStateJson) => {
-                  console.log('success:',result);
-                  this.gameService.gs.next(result);
-                },
-                error: (response:any)=> {
-                  console.log("error:",response.error.text);
-                }
-              });
+          else this.postGood(good);
+          break;
+        case RoleName.Trader:
+          if(this.selectionService.sellingToTradingPost){
+            this.roleHttp.postGoodTradingPost(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+            .subscribe({
+              next: (result:GameStateJson) => {
+                console.log('success:',result);
+                this.gameService.gs.next(result);
+              },
+              error: (response:any)=> {
+                console.log("error:",response.error.text);
+              }
+            });
+          }
+          else this.postGood(good);
           break;
         default:
+          this.postGood(good);
               break;
       }
+    }
+
+    postGood(good:DataPlayerGood){
+      this.roleHttp.postGood(good.id , this.selectionService.selectedShip, this.gameService.gs.value.id, this.gameService.playerIndex)   
+      .subscribe({
+        next: (result:GameStateJson) => {
+          console.log('success:',result);
+          this.gameService.gs.next(result);
+        },
+        error: (response:any)=> {
+          console.log("error:",response.error.text);
+        }
+      });
     }
 
    

@@ -35,6 +35,7 @@ namespace PuertoRicoAPI.Model
             this.CaptainFirstShipment = dataGameState.CaptainFirstShipment;
             this.MayorTookPrivilige = dataGameState.MayorTookPrivilige;
             this.LastGovernor = dataGameState.LastGovernor;
+            this.GuestHouseNextRole = dataGameState.GuestHouseNextRole;
             this.GameOver = dataGameState.GameOver;
 
             this.Roles = new List<Role>();
@@ -96,6 +97,7 @@ namespace PuertoRicoAPI.Model
         public bool CaptainFirstShipment { get; set; }
         public bool MayorTookPrivilige { get; set; }
         public bool LastGovernor { get; set; }
+        public RoleName GuestHouseNextRole { get; set; }
         public bool GameOver { get; set; }
         public Player getCurrPlayer()
         {

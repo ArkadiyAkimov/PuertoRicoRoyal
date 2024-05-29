@@ -17,23 +17,17 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if (IsFirstIteration)
             {
-                foreach(Player player in gs.Players)   // reset building effects
+                initializeBuildingEffects(BuildingName.Wharf, true);
+                initializeBuildingEffects(BuildingName.SmallWharf, true);
+
+                if (gs.getCurrPlayer().hasBuilding(BuildingName.Lighthouse, true) // lighthouse 1 coint for privilege
+                        && gs.getCurrPlayer().CheckForPriviledge())
                 {
-                    if (player.hasBuilding(BuildingName.Wharf, true))
-                    {
-                        player.getBuilding(BuildingName.Wharf).EffectAvailable = true;
-                    }
+                    gs.getCurrPlayer().chargePlayer(-1);
+                }
 
-                    if (player.hasBuilding(BuildingName.SmallWharf, true))
-                    {
-                        player.getBuilding(BuildingName.SmallWharf).EffectAvailable = true;
-
-                    }
-
-                    if (player.hasBuilding(BuildingName.Lighthouse, true))
-                    {
-                        player.chargePlayer(-1);
-                    }
+                foreach (Player player in gs.Players)   // reset building effects
+                {
 
                     if (player.hasBuilding(BuildingName.UnionHall, true))
                     {

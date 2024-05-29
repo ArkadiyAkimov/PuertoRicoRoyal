@@ -7,8 +7,7 @@ import { BuildingName, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodNa
 })
 export class SelectionService {
   playerUtility:PlayerUtility = new PlayerUtility()
-  selectedShip: number = 5;
-  selectedGoodsSmallWharf: GoodName[] = [];
+  
   windroseStoredGood:GoodName = GoodName.NoType;
   storeHouseStoredGoods:GoodName[] = [
     GoodName.NoType,
@@ -30,8 +29,11 @@ export class SelectionService {
   selectedGoodType:GoodName = GoodName.NoType;
   sellVictoryPoint:boolean = false;
 
+  selectedShip: number = 5;
+  selectedGoodsSmallWharf: GoodName[] = [];
  
   takingForest: boolean = false;
+  sellingToTradingPost:boolean = false;
 
   constructor(private gameService:GameService){ 
     this.gameService.gs.subscribe({
@@ -62,12 +64,6 @@ export class SelectionService {
   }
 
   selectionCleanUp(){
-    this.isBlackMarketActive = false;
-    this.sellColonist = false;
-    this.selectedSlotId = 0;
-    this.sellGood = false;
-    this.selectedGoodType = GoodName.NoType;
-    this.sellVictoryPoint = false;
     this.windroseStoredGood = GoodName.NoType;
     this.storeHouseStoredGoods = [
     GoodName.NoType,
@@ -81,9 +77,21 @@ export class SelectionService {
       GoodName.NoType,
     ]
     this.largeWarehouseStoredQuantities = [0,0];
-    this.takingForest = false;
+
+    this.isBlackMarketActive = false;
+    this.sellColonist = false;
+    this.selectedSlotId = 0;
+    this.sellGood = false;
+    this.selectedGoodType = GoodName.NoType;
+    this.sellVictoryPoint = false;
+
+
     this.selectedShip = 5;
     this.selectedGoodsSmallWharf = [];
+
+    this.takingForest = false;
+
+    this.sellingToTradingPost = false;
   }
 
   toggleSmallWharf(){
@@ -362,6 +370,9 @@ toggleBuildingEffect(building:DataPlayerBuilding){
     case BuildingName.BlackMarket:
         if(gs.currentRole == RoleName.Builder)this.toggleBlackMarket();
       break;    
+    case BuildingName.TradingPost:
+      if(gs.currentRole == RoleName.Trader) this.sellingToTradingPost = !this.sellingToTradingPost;
+      break;
   }
 }
 
