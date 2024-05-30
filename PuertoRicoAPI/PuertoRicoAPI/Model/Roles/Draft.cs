@@ -35,7 +35,6 @@ namespace PuertoRicoAPI.Model.Roles
 
         public void draftRandom()
         {
-            
             List<Building> availableBuildings = gs.Buildings.Where(building => !building.isDrafted && !building.isBlocked).ToList();
             if (gs.IsBuildingsExpansion == false)
             {
@@ -68,6 +67,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if (IsFirstIteration) mainLoop();
 
+            if (building.isBlocked) return;
             Console.WriteLine("drafting building {0}",building.Type.DisplayName);
             building.isDrafted = true;
 

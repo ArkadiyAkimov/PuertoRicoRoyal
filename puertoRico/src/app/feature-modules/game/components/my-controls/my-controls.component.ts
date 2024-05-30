@@ -48,9 +48,6 @@ export class MyControlsComponent implements OnInit {
       })
     }
 
-    getSortedGoodButtons(goods:DataPlayerGood[]){
-      return goods.sort((a,b) => a.type - b.type );
-    }
 
     onClickGood(good:DataPlayerGood){
       let gs = this.gameService.gs.value;
@@ -62,6 +59,10 @@ export class MyControlsComponent implements OnInit {
           break;
         case RoleName.Captain:
           if(this.selectionService.selectedShip == 4) this.selectionService.selectSmallWharfGoods(good.type);
+          else if(this.selectionService.selectedShip == 3){
+            this.selectionService.fillWharf(good);
+            setTimeout(()=>this.postGood(good),300);
+          }
           else this.postGood(good);
           break;
         case RoleName.Trader:

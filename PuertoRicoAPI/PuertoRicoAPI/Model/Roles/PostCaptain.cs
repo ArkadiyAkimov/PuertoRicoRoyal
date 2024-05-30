@@ -83,12 +83,16 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach (Good good in player.Goods)
             {
+                int originalQuantity = good.Quantity;
                 good.Quantity = 0;
                 if (good.Type == endTurnPostCaptainInput.WindroseStoredGood) good.Quantity++;
                 good.Quantity += endTurnPostCaptainInput.StorehouseStoredGoods.Count(x => x == good.Type);
+
                 if (endTurnPostCaptainInput.SmallWarehouseStoredType == good.Type) good.Quantity = endTurnPostCaptainInput.SmallWarehouseStoredQuantity;
                 if (endTurnPostCaptainInput.LargeWarehouseStoredTypes[0] == good.Type) good.Quantity = endTurnPostCaptainInput.LargeWarehouseStoredQuantities[0];
                 if (endTurnPostCaptainInput.LargeWarehouseStoredTypes[1] == good.Type) good.Quantity = endTurnPostCaptainInput.LargeWarehouseStoredQuantities[1];
+
+                gs.GetGoodCount(good.Type, - (originalQuantity -  good.Quantity));
             }
 
         }

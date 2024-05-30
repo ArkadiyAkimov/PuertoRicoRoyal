@@ -1,109 +1,145 @@
 
 
    <div class="board-nest" *ngFor="let player of this.players">
-<!--   
-    <div class="goods-display">
-  
-      <div class="vertical-pair"  *ngFor="let good of this.getSortedPlayerGoodButtons(player)">
-        <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
-      <div class="good-and-number">
-    
-      <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
-        <div class="good-count">{{(this.gameService.storedGoodTypes[0]==good.type)?1:good.quantity}}</div>
-      </div>
-      </div>
-    </div>
-    </div>   
-    
+
     <div class="goods-display">
     
-      <div class="vertical-pair">
-        <div class="button-label">nobles</div>
-        <div class="good-and-number">
-          <div class="noble-chip">
-            <div class="chip-number colonist-number">1</div>
-          </div>
-        </div>
-      </div>
-              
-      <div class="vertical-pair">
-        <div class="button-label">colonists</div>
-        <div class="good-and-number">
-          <div class="colonist-chip">
-            <div class="chip-number colonist-number">{{player.colonists}}</div>
-          </div>
-        </div>
-      </div>
-    
-        <div class="vertical-pair">
-          <div class="button-label">doubloons</div>
-        <div class="good-and-number">
-          <div class="doubloon">
-            <div class="chip-number">{{player.doubloons}}</div>
-          </div>
-        </div>
-      </div>
-    
-        <div class="vertical-pair">
-          <div class="button-label">building points</div>
-        <div class="good-and-number">
-          <div class="">
-            <div class="chip-number">{{ 0 }}</div>
-          </div>
-        </div>
-      </div>
-       
-      <div class="vertical-pair">
-        <div class="button-label">victory chips</div>
-      <div class="good-and-number">
-        <div class="victory-point-chip">
-          <div class="chip-number victory-number">{{player.victoryPoints}}</div>
-        </div>
-      </div>
-    </div>
-    
-    </div>
-     -->
-    <div class="goods-display">
-    
-    
-    
-      <div class="vertical-pair">
+      
       <div class="end-turn-button left purple {{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[0]}}"  >
         <div>{{this.stylingService.getGovernorOrTurnClassesAndText(player.index)[1]}}</div>
         </div>
-      </div>
+      
     
-        <div class="vertical-pair">
+        
       <div class="end-turn-button right blue">
         <div > {{ player.index == this.gameService.playerIndex ? "You": ("player " + (player.index+1 )) }}</div>
       </div>
-    </div>
     
+    
+  </div>
+
+  <div class="goods-display purple" style=" justify-content: center; align-items: center;">
+
+    <div class="good-button {{this.stylingService.getGoodBarrelClass(good)}}" *ngFor="let good of this.player.goods">
+      <div class="good-count">{{good.quantity}}</div>
+      <div class="good-count bubble {{(this.rawAndfinalProductionArrays[0][player.index][good.type] == this.rawAndfinalProductionArrays[1][player.index][good.type])? 'green':'red'}}"
+       *ngIf="this.rawAndfinalProductionArrays[0][player.index][good.type] > 0">
+       {{ this.rawAndfinalProductionArrays[1][player.index][good.type]}}
+      </div>
     </div>
   
+       <div class="good-button">
+      <div class="noble-chip good-button {{this.gameService.gs.value.isNoblesExpansion ?'':'offline'}}">
+        <div class="chip-number colonist-number">0</div>
+      </div>
+    </div>
+  
+    <div class="good-button">
+      <div class="colonist-chip good-button">
+        <div class="chip-number colonist-number">{{player.colonists}}</div>
+      </div>
+    </div>
+   
+      <div class="good-button">
+      <div class="doubloon good-button">
+          <div class="chip-number">{{player.doubloons}}</div>
+          <div class="good-count bubble 
+          {{(this.rawAndfinalProductionArrays[0][player.index][5] == this.rawAndfinalProductionArrays[1][player.index][5])? 'green':'red'}}"
+          *ngIf="this.rawAndfinalProductionArrays[0][player.index][5] > 0">
+          {{this.rawAndfinalProductionArrays[0][player.index][5]}}
+          </div>
+      </div>
+    </div>
+  
+    <div class="good-button">
+      <div class="building-point good-button">
+        <div class="chip-number">{{ this.gameService.calculateBuildingPoints(player) }}</div>
+      </div>
+    </div>
+  
+    <div class="good-button">
+      <div class="victory-point-chip good-button">
+        <div class="chip-number">{{player.victoryPoints}}</div>
+      </div>
+    </div>
+  
+    
+  
+  </div>   
   </div>  
   
   
-
-  <div class="board-nest offline only-desktop" *ngFor="let index of this.gameService.numSequence(5 - players.length)">
+  <div class="board-nest offline only-desktop" *ngFor="let index of this.gameService.numSequence(5 - players.length)" style="flex-direction: column;">
   
-        <div class="goods-display">
+    <div class="goods-display">
         
-        
-        
-          <div class="vertical-pair">
+          
           <div class="end-turn-button left purple">
             </div>
-          </div>
+         
         
-            <div class="vertical-pair">
+         
           <div class="end-turn-button right blue">
           </div>
-        </div>
-        
-        </div>
+       
+
+    </div>
+
+    <div class="goods-display purple" style=" justify-content: center; align-items: center;">
+  
+      <div class="good-button" *ngFor="let good of this.gameService.numSequence(10)">
+       
+    </div>
+    </div> 
+    
       
-      </div>  
+</div>  
       
-      
+
+<!-- 
+<div class="board-nest" *ngFor="let player of this.players">
+<div class="goods-display purple" style="margin: 1px; justify-content: center; align-items: center;">
+
+  <div class="good-button {{this.stylingService.getGoodBarrelClass(good)}}" *ngFor="let good of this.player.goods">
+    <div class="good-count">{{good.quantity}}</div>
+  </div>
+
+     <div class="good-button">
+    <div class="noble-chip good-button {{this.gameService.gs.value.isNoblesExpansion ?'':'offline'}}">
+      <div class="chip-number colonist-number">0</div>
+    </div>
+  </div>
+
+  <div class="good-button">
+    <div class="colonist-chip good-button">
+      <div class="chip-number colonist-number">{{player.colonists}}</div>
+    </div>
+  </div>
+ 
+    <div class="good-button">
+    <div class="doubloon good-button">
+      <div class="chip-number">{{player.doubloons}}</div>
+    </div>
+  </div>
+
+  <div class="good-button">
+    <div class="building-point good-button">
+      <div class="chip-number">{{ this.gameService.calculateBuildingPoints(player) }}</div>
+    </div>
+  </div>
+
+  <div class="good-button">
+    <div class="victory-point-chip good-button">
+      <div class="chip-number">{{player.victoryPoints}}</div>
+    </div>
+  </div>
+
+  
+
+</div>   
+</div>   -->
+
+
+<!-- <div class="board-nest only-desktop offline" *ngFor="let player of this.gameService.numSequence(5 - players.length)">
+   
+  </div>   -->

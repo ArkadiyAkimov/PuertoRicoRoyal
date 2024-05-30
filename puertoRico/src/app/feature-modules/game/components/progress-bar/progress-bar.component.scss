@@ -3,35 +3,66 @@
 
 :host{
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
   width: calc($max-width*2);
 }
 
+.board-nest{
+  width: calc(($max-width*2)/5);
+}
+
+.goods-display{
+  margin: $base-margin;
+}
 
 .end-turn-button{
   height: calc($base-unit/2);
+  width: calc($max-width/5 - $base-margin);
 }
 
 .left{
   border-radius: $base-radius 0px 0px $base-radius ;
-  transform: translateX(2px) ;
 }
 .right{
   border-radius: 0px $base-radius  $base-radius 0px  ;
-  transform: translateX(-2px) ;
 }
 
-  
+.good-button{
+  width: calc($base-unit/1.7);
+  height: calc($base-unit/1.7);
+}
+
 
   //mobile 
   @media only screen and (max-width: 600px) {
 
     .end-turn-button{
       height: calc($base-unit/2);
-      width: calc($max-width/4 - $base-margin*2);
+      width: calc(($max-width/2 - $base-margin*3)/2);
+    }
+
+    .board-nest{
+      width: calc(($max-width*2)/4);
+    }
+
+    .goods-display{
+      width: calc($max-width/2 - $base-margin*3);
+    }
+
+    .good-button{
+      width: calc($base-unit/2.65);
+      height: calc($base-unit/2.65);
+    }
+
+    .good-count{
+      scale: 0.6;
+    }
+
+    .chip-number{
+      scale: 0.6;
     }
 
   }
@@ -46,6 +77,12 @@
 
     .goods-display{
       flex-direction: column;
+      width: calc($max-width/5 - $base-margin*2);
+      max-height: calc($max-width/2.5 - $base-margin*2);
+    }
+
+    .board-nest{
+      width: calc(($max-width)/5);
     }
     
     .left{

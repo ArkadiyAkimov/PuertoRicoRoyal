@@ -82,6 +82,7 @@ export class GameStateJson{
   export class PlayerUtility{
     hasActiveBuilding(name:BuildingName,player:DataPlayer):boolean{
 
+      if(player == undefined) return false;
       let temp = player.buildings.find(building => building.name == name)
       if(temp == undefined) return false;
       else return temp.slots[0].isOccupied;

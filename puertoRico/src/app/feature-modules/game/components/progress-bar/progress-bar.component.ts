@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { GameStateJson, DataPlayerBuilding, DataPlayer } from '../../classes/general';
 import { GameService } from '../../services/game.service';
 import { StylingService } from '../../services/styling.service';
+import { HighlightService } from '../../services/highlight.service';
+import { SelectionService } from '../../services/selection.service';
 
 @Component({
   selector: 'app-progress-bar',
@@ -15,15 +17,14 @@ import { StylingService } from '../../services/styling.service';
 export class ProgressBarComponent {
   gs:GameStateJson = new GameStateJson();
   subscription: Subscription = new Subscription();
-  buildingsMatrixes:DataPlayerBuilding[][][] = [];
-
+  rawAndfinalProductionArrays:number[][][] = this.gameService.getRawAndFinalProductionArrays();
   players:DataPlayer[] = [];
-
-  desktopPattern:boolean[] = [true,false,false,true,true]
 
   constructor(
     public gameService:GameService,
     public stylingService:StylingService,
+    public highlightService:HighlightService,
+    public selectionService:SelectionService,
   ){}
 
   getSortedPlayerGoodButtons(player:DataPlayer){
@@ -33,15 +34,14 @@ export class ProgressBarComponent {
   ngOnInit(): void {
     this.subscription = this.gameService.gs.subscribe((gs:GameStateJson)=>{
       this.gs = gs;
-      
       this.players = gs.players.slice(this.gameService.playerIndex).concat(gs.players.slice(0,this.gameService.playerIndex));
+    })
 
-      this.buildingsMatrixes = []; 
-      for(let i=0; i<this.players.length; i++){
-        this.buildingsMatrixes.push(this.gameService.sortBuildings(this.players[i].buildings));
+    this.gameService.rawAndfinalProductionArrays.subscribe({
+      next:(prodArr:number[][][]) => {
+        this.rawAndfinalProductionArrays = prodArr;
       }
-      
-    });
+    })
   }
 
   ngOnDestroy(): void {
