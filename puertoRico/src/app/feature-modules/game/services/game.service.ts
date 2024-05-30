@@ -18,11 +18,13 @@ export class GameService{
   startGameOutput!:StartGameOutput;
   errorToUI:string = 'error to ui';
 
+
   playerIndex:number = 0;
   gs = new BehaviorSubject<GameStateJson>(new GameStateJson()); 
   buildingTypes: BuildingType[] = [];
   goodTypes: GoodType[] = [];
   rawAndfinalProductionArrays = new BehaviorSubject<number[][][]>([]);
+  supplyGoods:Number[] = [0,0,0,0,0];
 
   private hubConnection: HubConnection;
 
@@ -48,6 +50,7 @@ export class GameService{
     this.startGameInput.isDraft = false;
     this.startGameInput.isBuildingsExpansion = true;
     this.startGameInput.isNoblesExpansion = false;
+    
 
     this.gameStartHttp.postNewGame(this.startGameInput)
     .subscribe({

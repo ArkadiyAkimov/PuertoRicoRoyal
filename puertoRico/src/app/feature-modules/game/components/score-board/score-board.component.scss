@@ -3,12 +3,12 @@
 :host{ 
     @extend #center-content ;
     color: white;
-    max-width: 100%;
 
     position: fixed;
     width: 100%;
     height: 100%;
     left: 0;
+    top: 0;
 
     pointer-events: none;
 }
@@ -16,15 +16,109 @@
 .score-bg{
     @extend #center-content ;
     flex-direction: column;
-    padding: calc($base-unit/3) ;
+    padding: $base-margin ;
     border-radius: $base-radius;
+
     background-color: black;
 
-    animation: drop 300ms linear ;
+    animation: drop 2000ms linear ;
+}
+
+.score{
+    font-size: x-large;
+    border-radius: $base-radius;
+    margin: $base-margin;
+    padding: $base-margin;
+    padding-left: calc($base-margin*5);
+    padding-right:  calc($base-margin);
+    font-weight: 700;
+    width: calc($max-width/1.5);
+    height: calc($base-unit/1.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    text-align: left;
+}
+
+.score-text{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: calc($max-width/1.8);
+    height: calc($base-unit/2);
+
+    background-color: red;
 }
 
 @keyframes drop {
-    0%{transform: translateY(-100%);}
+    0%{transform: translateY(-100vh);}
     100%{transform: translateY(0%);}
 }
 
+
+.achievment{
+    display: flex;
+    width: calc($base-unit/2);
+    height: calc($base-unit/2);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.achievment-display{
+    position: absolute;
+    width: calc($max-width/1.5);
+    height: calc($base-unit/1.5);
+    display: flex;
+    flex-direction: row ;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+
+.prospector{
+    background-image: url(../../../../../assets/svgs/pickaxeNew.svg);
+    transform: scale(1.7) translateY(2px) translateX(-5px) ;
+}
+
+.builder{
+    
+}
+
+.settler{
+    background-image: url(../../../../../assets/svgs/stickbag.svg);
+}
+
+.trader{
+    background-image: url(../../../../../assets/svgs/moneyBagNew.svg);
+    transform: scale(1.7) translateY(-2px) translateX(0px) ;
+}
+
+.mayor{
+    background-image: url(../../../../../assets/svgs/mayor.svg);
+    transform: scale(1.7) translateY(1px) translateX(-5px) ;
+}
+
+
+.craftsman{
+    background-image: url(../../../../../assets/svgs/artisantool.svg);
+    transform: scale(1.7) translateY(2px) translateX(-5px) ;
+}
+
+.captain{
+    background-image: url(../../../../../assets/svgs/shipNew.svg);
+    transform: scale(1.8) translateY(-2px) translateX(-5px) ;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+
+    .score-bg{
+        scale: 0.7;
+    }
+}

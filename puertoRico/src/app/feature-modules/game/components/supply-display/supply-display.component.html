@@ -6,7 +6,7 @@
         <div class="good-and-number"
         (click)="this.onClickGood(good)">
         <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
-        <div class="good-count">{{this.supplyGoods[i]}}</div>
+        <div class="good-count">{{this.gameService.supplyGoods[good.type]}}</div>
         </div>
         
         </div>

@@ -26,7 +26,7 @@ export class OpponentBoardsComponent implements OnInit {
 
   players:DataPlayer[] = [];
 
-  desktopPattern:boolean[] = [true,false,false,true,true]
+  desktopPattern:boolean[] = [false,true,true,false,false]
 
   constructor(
     public gameService:GameService,

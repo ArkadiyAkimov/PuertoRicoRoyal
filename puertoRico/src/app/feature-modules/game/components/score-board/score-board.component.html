@@ -1,8 +1,8 @@
 <div *ngIf="gs.gameOver">
     <div class="score-bg">
-<h1>SCORE BOARD</h1>
-<div *ngFor="let player of gs.players">
-    player:{{(player.index+1)}} score:{{ floor(player.score)}} breaker:{{ breaker(player.score)}}
-</div>
+<div *ngFor="let player of gs.players; let i=index;" class="score purple {{i==0?'green':((i==gs.players.length-1)?'red':(gs.players[0].score == player.score?'green':'yellow'))}}">
+     <div class="scroe-text">player: {{(player.index+1)}} score: {{ floor(player.score)}} breaker: {{ breaker(player.score)}}</div>
+    <div class="achievment-display"><div class="achievment {{getAchievments(player)[i]}}"></div></div>
+    </div>
 </div>
 </div>

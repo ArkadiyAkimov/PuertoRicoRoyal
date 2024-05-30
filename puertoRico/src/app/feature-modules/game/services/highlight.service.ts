@@ -97,6 +97,7 @@ export class HighlightService {
         if(this.selectionService.largeWarehouseStoredTypes.includes(good.type)) return "green";
         break;
       case RoleName.Craftsman:
+        if(this.gameService.rawAndfinalProductionArrays.value[1][player.index][good.type] > 0 && this.gameService.supplyGoods[good.type]) return "green";
         break;
     }
 

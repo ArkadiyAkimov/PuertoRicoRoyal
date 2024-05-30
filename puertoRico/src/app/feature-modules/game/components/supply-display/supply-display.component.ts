@@ -14,7 +14,7 @@ import { SelectionService } from '../../services/selection.service';
 export class SupplyDisplayComponent {
 
   myGoods:DataPlayerGood[]
-  supplyGoods:Number[]
+ 
   player:DataPlayer
   playerUtility:PlayerUtility
 
@@ -26,7 +26,6 @@ export class SupplyDisplayComponent {
     private roleHttp:RoleHttpService
     ){
       this.myGoods = [];
-      this.supplyGoods = [0,0,0,0,0];
       this.player = new DataPlayer();
       this.playerUtility = new PlayerUtility();
     }
@@ -39,13 +38,11 @@ export class SupplyDisplayComponent {
           this.player = gs.players[this.gameService.playerIndex];
           this.myGoods = this.player.goods;
 
-          this.supplyGoods[0] = this.gameService.gs.value.cornSupply
-          this.supplyGoods[1] = this.gameService.gs.value.indigoSupply
-          this.supplyGoods[2] = this.gameService.gs.value.sugarSupply
-          this.supplyGoods[3] = this.gameService.gs.value.tobaccoSupply
-          this.supplyGoods[4] = this.gameService.gs.value.coffeeSupply
-          
-          
+          this.gameService.supplyGoods[0] = this.gameService.gs.value.cornSupply
+          this.gameService.supplyGoods[1] = this.gameService.gs.value.indigoSupply
+          this.gameService.supplyGoods[2] = this.gameService.gs.value.sugarSupply
+          this.gameService.supplyGoods[3] = this.gameService.gs.value.tobaccoSupply
+          this.gameService.supplyGoods[4] = this.gameService.gs.value.coffeeSupply
         }
       })
     }
