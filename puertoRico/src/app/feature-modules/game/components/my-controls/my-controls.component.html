@@ -1,6 +1,6 @@
 <div class="goods-display {{this.highlightService.getCursorClasses()}}">
 
-  <div class="vertical-pair"  *ngFor="let good of getSortedGoodButtons(this.myGoods)">
+  <div class="vertical-pair"  *ngFor="let good of this.gameService.getSortedGoodButtons(this.myGoods)">
     <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>
   <div class="good-and-number {{this.highlightService.getPlayerGoodHighlightClass(good)}}"
   (click)="this.onClickGood(good); this.selectionService.selectGoodForBlackMarket(good.type)">

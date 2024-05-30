@@ -177,8 +177,11 @@ namespace PuertoRicoAPI.Model.Roles
             bool didProduce = false;
             for (int i = 0; i < goodCt; i++)
             {
-                if(this.CheckSupplyGood(goodType)) this.GiveSupplyGood(goodType);
-                didProduce = true;
+                if (this.CheckSupplyGood(goodType))
+                {
+                    this.GiveSupplyGood(goodType);
+                    didProduce = true;
+                }
             }
             if (didProduce) return 1;
             return 0;

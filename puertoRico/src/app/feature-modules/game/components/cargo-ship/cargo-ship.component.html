@@ -5,13 +5,15 @@
     <div class="ship-count" >{{ cargoShip.load }}</div>
     <div [ngClass]="(canShipFlag() ?'ship-ladder-green-flag':'ship-ladder-red-flag')"></div>
 
+
     <div class="cargo-ship-button"  (click)="selectShip()"></div>
 
     <div class="good-buttons-collection shipped-goods-collection" >
         <div class="empty-good-slot" *ngFor="let good of this.gameService.numSequence(cargoShip.load);">
         <div class="good-button  good-on-board" class="{{this.gameService.goodTypes[cargoShip.type].displayName+'-barrel'}}"></div>
         </div>
-</div>
+        </div>
+
 </div>
 
 <div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex == 3">
@@ -24,7 +26,9 @@
         <div class="empty-good-slot" *ngFor="let good of this.gameService.numSequence(cargoShip.load);">
             <div class="good-button  good-on-board-wharf" class="{{this.gameService.goodTypes[cargoShip.type].displayName+'-barrel'}}"></div>
         </div>
-</div>
+    </div>
+
+    <div class="ship-name">wharf</div>
 </div>
 
 <div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex == 4">
@@ -37,5 +41,7 @@
         <div class="empty-good-slot" *ngFor="let good of this.selectionService.getSmallWharfGoodTypeArray();">
         <div class="good-button  good-on-board-wharf" class="{{good.displayName+'-barrel'}}"></div>
         </div>
-</div>
+    </div>
+
+    <div class="ship-name">small wharf</div>
 </div>

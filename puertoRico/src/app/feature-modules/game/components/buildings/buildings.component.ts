@@ -80,6 +80,8 @@ export class BuildingsComponent implements OnInit {
     checkBuildingDraggable(building:DataBuilding){
       let disableDragging = false;
 
+      if(this.gs.currentPlayerIndex != this.gameService.playerIndex) return true;
+
       switch(this.gs.currentRole){
         case RoleName.Builder:
           if(building.quantity == 0 ) disableDragging = true;

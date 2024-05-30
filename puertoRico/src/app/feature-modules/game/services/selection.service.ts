@@ -109,6 +109,15 @@ export class SelectionService {
     else this.selectedShip = 4;
   }
 
+  fillWharf(good:DataPlayerGood){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    gs.ships[3].load = good.quantity;
+    good.quantity = 0;
+  }
+
+
   selectSmallWharfGoods(goodType:GoodName){
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];

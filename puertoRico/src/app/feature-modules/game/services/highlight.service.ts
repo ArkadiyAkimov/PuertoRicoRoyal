@@ -134,7 +134,12 @@ export class HighlightService {
   }
 
   getCargoShipHighlights(shipIndex:number):string{
-    if( this.selectionService.selectedShip == shipIndex) return "ship-highlight";
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
+
+    if((this.selectionService.selectedShip == shipIndex)
+      && (gs.currentPlayerIndex == player.index)) return "ship-highlight";
     return "";
   }
 

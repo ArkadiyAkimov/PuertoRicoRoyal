@@ -1,4 +1,5 @@
 ﻿using PuertoRicoAPI.Data.DataClasses;
+using PuertoRicoAPI.Model.Containers;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
 using System.Numerics;
@@ -160,6 +161,7 @@ namespace PuertoRicoAPI.Model.Roles
                 if (player.Goods[(int)goodType].Quantity > 0)
                 {
                     player.Goods[(int)goodType].Quantity--;
+                    gs.GetGoodCount(goodType, -1 );
                     totalGoodsShipped++;
                 }
             }
@@ -195,6 +197,7 @@ namespace PuertoRicoAPI.Model.Roles
                 {
                     if(player.hasBuilding(BuildingName.Wharf,true))
                         player.getBuilding(BuildingName.Wharf).EffectAvailable = false;
+                    gs.GetGoodCount(ship.Type, -ship.Goods.Count);
                     ship.ResetShip();
                 }
                 else ship.Type = type;

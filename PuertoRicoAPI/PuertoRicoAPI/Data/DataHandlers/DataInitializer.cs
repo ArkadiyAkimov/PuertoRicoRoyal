@@ -145,7 +145,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             DataPlayer newPlayer = new DataPlayer();
             newPlayer.Index = index;
-            newPlayer.Doubloons = 30; //doubloons
+            newPlayer.Doubloons = doubloons; //doubloons
             newPlayer.Colonists = 0;
             newPlayer.VictoryPoints = 0;
             newPlayer.TookTurn = false;
@@ -158,7 +158,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             {
                 DataPlayerGood good = new DataPlayerGood();
                 good.Type = (GoodType)i;
-                good.Quantity = 5;  // change to 0
+                good.Quantity = 0;  // change to 0
 
                 newPlayer.Goods.Add(good);
             }
@@ -187,11 +187,13 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newBuilding.Name = type.Name;
             newBuilding.Slots = new List<DataSlot>();
             newBuilding.Quantity = type.StartingQuantity;
-            
+
+            Console.WriteLine("nobles: {0}", gsInput.IsNoblesExpansion);
+
             if(type.IsProduction)newBuilding.isDrafted = true;
             if(gsInput.IsNoblesExpansion && type.Expansion == 2)newBuilding.isDrafted=true;
-
-            newBuilding.isBlocked = false;
+            if(!gsInput.IsNoblesExpansion && type.Expansion == 2)newBuilding.isBlocked = true;
+            else newBuilding.isBlocked = false;
 
             for (int i = 0; i < type.Slots; i++)
             {

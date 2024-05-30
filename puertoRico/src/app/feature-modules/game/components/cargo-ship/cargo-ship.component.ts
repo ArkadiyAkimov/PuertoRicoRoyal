@@ -48,7 +48,6 @@ export class CargoShipComponent{
       if(this.selectionService.selectedShip == this.shipIndex) this.selectionService.selectedShip = 5;
       else this.selectionService.selectedShip = this.shipIndex;
 
-
       if(this.cargoShip.type != 6){
         let player = this.gameService.gs.value.players[this.gameService.gs.value.currentPlayerIndex];
         
