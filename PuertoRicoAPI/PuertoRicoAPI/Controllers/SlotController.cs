@@ -62,7 +62,7 @@ namespace PuertoRicoAPI.Controllers
                     Player player = gs.getCurrPlayer();
                     Building guestHouseBuilding = player.getBuilding(BuildingName.GuestHouse);
 
-                    if (player.hasBuilding(BuildingName.GuestHouse, true)) {
+                    if (player.hasActiveBuilding(BuildingName.GuestHouse)) {
 
                         int playerId = dataGameState.Players[slotInput.PlayerIndex].Id;
                         int[] buildOrderAndIndex = await DataFetcher.getBuildOrderAndIndexOfDataSlot(_context, slotInput.SlotId, playerId);

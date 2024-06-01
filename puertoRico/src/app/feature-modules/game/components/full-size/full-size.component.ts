@@ -3,7 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName } from '../../classes/general';
+import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName, RoleName, DataBuilding } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -55,8 +55,32 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       return slots.sort((a,b) => a.id - b.id);
   }
 
-  onSlotClick(slot:DataSlot){
-    this.selectionService.selectColonistForBlackMarket(slot.id);
+  onSlotClick(slot:DataSlot, building:DataPlayerBuilding|null = null){ 
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
+    if((building != null) && (building.name == BuildingName.GuestHouse) && (gs.currentRole == RoleName.GuestHouse)) return;
+
+    if(this.selectionService.isBlackMarketActive) this.selectionService.selectColonistForBlackMarket(slot.id);
+    else if(gs.currentRole == RoleName.Mayor && player.index == gs.privilegeIndex && player.colonists == 0 && !gs.mayorTookPrivilige){
+      this.roleHttp.postColonist(this.gameService.gs.value.id, this.gameService.playerIndex)
+      .subscribe({
+        next: (result:GameStateJson) => {
+          console.log('success:',result);
+          this.gameService.gs.next(result);
+        },
+        error: (response:any)=> {
+          console.log("error:",response.error.text);
+        }
+      });
+      setTimeout(() => this.postSlot(slot), 100);
+    } 
+    else{  
+    this.postSlot(slot);
+    }
+  }
+
+  postSlot(slot:DataSlot){
     this.roleHttp.postSlot(slot.id, this.gameService.gs.value.id, this.gameService.playerIndex)
     .subscribe({
       next: (result:GameStateJson) => {
@@ -69,7 +93,6 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       }
     });
   }
-
   
 
   dropPlantation(event: CdkDragDrop<DataPlayerPlantation[]>){

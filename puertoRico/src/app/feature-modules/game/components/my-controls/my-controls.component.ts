@@ -61,7 +61,7 @@ export class MyControlsComponent implements OnInit {
           if(this.selectionService.selectedShip == 4) this.selectionService.selectSmallWharfGoods(good.type);
           else if(this.selectionService.selectedShip == 3){
             this.selectionService.fillWharf(good);
-            setTimeout(()=>this.postGood(good),300);
+            setTimeout(()=>this.postGood(good),100);
           }
           else this.postGood(good);
           break;

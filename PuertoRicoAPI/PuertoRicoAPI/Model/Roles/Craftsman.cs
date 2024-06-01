@@ -135,12 +135,10 @@ namespace PuertoRicoAPI.Model.Roles
             int totalTobacco = Math.Min(tobaccoCt[0], tobaccoCt[1]);
             int totalCoffee = Math.Min(coffeeCt[0], coffeeCt[1]);
 
-            if (totalIndigo > 0 && player.hasBuilding(BuildingName.Aqueduct, true) && player.hasBuilding(BuildingName.LargeIndigoPlant, true)) totalIndigo++;
-            if (totalSugar > 0 && player.hasBuilding(BuildingName.Aqueduct, true) && player.hasBuilding(BuildingName.LargeSugarMill, true)) totalSugar++;
+            if (totalIndigo > 0 && player.hasActiveBuilding(BuildingName.Aqueduct) && player.hasActiveBuilding(BuildingName.LargeIndigoPlant)) totalIndigo++;
+            if (totalSugar > 0 && player.hasActiveBuilding(BuildingName.Aqueduct) && player.hasActiveBuilding(BuildingName.LargeSugarMill)) totalSugar++;
 
             int[] productionArray = { totalCorn, totalIndigo, totalSugar, totalTobacco, totalCoffee };
-
-            Console.WriteLine("production queue {0} exported",productionArray);
 
             return productionArray;
         }
@@ -156,13 +154,13 @@ namespace PuertoRicoAPI.Model.Roles
             this.GiveGoodsOfType(GoodType.Tobacco, productionArray[3]) +
             this.GiveGoodsOfType(GoodType.Coffee, productionArray[4]);
 
-            if (player.hasBuilding(BuildingName.Factory, true))
+            if (player.hasActiveBuilding(BuildingName.Factory))
             {
                 if (uniqueGoodsProduced == 5) player.chargePlayer(-5);
                 else if (uniqueGoodsProduced > 0) player.chargePlayer(uniqueGoodsProduced - 1);
             }
 
-            if (player.hasBuilding(BuildingName.SpecialtyFactory, true))
+            if (player.hasActiveBuilding(BuildingName.SpecialtyFactory))
             {
                 player.chargePlayer(-(productionArray.Skip(1).Max() - 1));
             }

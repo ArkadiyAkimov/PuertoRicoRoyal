@@ -122,6 +122,8 @@
     @extend #ship-card ;
     position: absolute ;
     z-index: 5 ;
+
+    scale: 1.02;
 }
 
 .good-buttons-collection{
@@ -187,10 +189,14 @@
 .wharf{
     width: calc(($base-unit + $base-margin)*4);
     background-image: url(../../../../../assets/svgs/wharf.svg);
-    -webkit-animation:slide-in-left .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-left .5s cubic-bezier(.25,.46,.45,.94) both
+    -webkit-animation:slide-in-left 2s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-left 2s cubic-bezier(.25,.46,.45,.94) both
 }
-@-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
+@-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(100vw);transform:translateX(100vw);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(100vw);transform:translateX(100vw);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
 
+.sailed{
+    -webkit-animation:slide-out-right 2s cubic-bezier(.25,.46,.45,.94) both;animation:slide-out-right 2s cubic-bezier(.25,.46,.45,.94) both
+}
+@-webkit-keyframes slide-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(-100vw);transform:translateX(-100vw);opacity:0}}@keyframes slide-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(-100vw);transform:translateX(-100vw);opacity:0}}
 
 .small-warehouse{
     background-image: url(../../../../../assets/svgs/smallWarehouse.svg);
@@ -279,3 +285,13 @@ $highlight-color2:  rgb(203, 3, 3);
     height: inherit;
 }
 
+
+@media screen and (max-width: 600px){
+    .cargo-ship-button{
+        @extend #ship-card ;
+        position: absolute ;
+        z-index: 5 ;
+    
+        scale: 1;
+    }
+}

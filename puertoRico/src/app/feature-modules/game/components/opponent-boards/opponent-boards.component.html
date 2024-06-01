@@ -8,7 +8,7 @@
   <!-- {{player.index == this.gameService.playerIndex?'only-mobile':''}} -->
 <div class="player-board" *ngIf="player.index != this.gameService.playerIndex || this.players.length%2 == 0">
 
-<div class="plantation-list-bg">
+<div class="plantation-list-bg {{((i%2 != 0)?' mobile-pattern ':'') + ((this.desktopPattern[i])? ' desktop-pattern ':' ')}}">
   <div id="myPlantations" class="plantation-list">
 
     <div *ngFor="let plantation of player.plantations">
@@ -123,7 +123,7 @@
 
 
 
-<div class="building-list-bg">
+<div class="building-list-bg {{((i%2 != 0)?' mobile-pattern ':'') + ((this.desktopPattern[i])? ' desktop-pattern ':' ')}}">
   <div id="myBuildingsDisabled"  *ngFor="let list of this.buildingsMatrixes[i]"
    class="building-list">
 

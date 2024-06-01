@@ -48,7 +48,7 @@ namespace PuertoRicoAPI.Model.Roles
             List<Good> playerGoodsCopy = player.Goods.ToList();
 
 
-            if (player.hasBuilding(BuildingName.LargeWarehouse, true))
+            if (player.hasActiveBuilding(BuildingName.LargeWarehouse))
             {
                 for (int i = 0; i < endTurnPostCaptainInput.LargeWarehouseStoredTypes.Count(); i++)
                 {
@@ -57,13 +57,13 @@ namespace PuertoRicoAPI.Model.Roles
                     if (isPlayerTotalGoodsZero(playerGoodsCopy)) return true;
                 }
             }
-            if (player.hasBuilding(BuildingName.SmallWarehouse, true))
+            if (player.hasActiveBuilding(BuildingName.SmallWarehouse))
             {
                 if (endTurnPostCaptainInput.SmallWarehouseStoredType == GoodType.NoType) return false;
                 playerGoodsCopy[(int)endTurnPostCaptainInput.SmallWarehouseStoredType].Quantity = 0;
                 if (isPlayerTotalGoodsZero(playerGoodsCopy)) return true;
             }
-            if (player.hasBuilding(BuildingName.Storehouse, true))
+            if (player.hasActiveBuilding(BuildingName.Storehouse))
             {
                 for (int i = 0; i < endTurnPostCaptainInput.StorehouseStoredGoods.Count(); i++)
                 {

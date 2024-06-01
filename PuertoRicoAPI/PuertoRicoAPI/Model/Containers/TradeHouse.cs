@@ -14,7 +14,7 @@ namespace PuertoRicoAPI.Model.Containers
         {
            if(player.GetGoodCount(goodType) == 0) return false;
            if(this.IsFull()) return false;
-           if(player.hasBuilding(BuildingName.Office, true)) return true;
+           if(player.hasActiveBuilding(BuildingName.Office)) return true;
            
            return !this.HasGood(goodType);
         }
@@ -26,8 +26,8 @@ namespace PuertoRicoAPI.Model.Containers
             good.Quantity--;
 
             player.chargePlayer(-good.GetPrice());
-            if (player.hasBuilding(BuildingName.SmallMarket, true)) player.chargePlayer(-1);
-            if (player.hasBuilding(BuildingName.LargeMarket, true)) player.chargePlayer(-2);
+            if (player.hasActiveBuilding(BuildingName.SmallMarket)) player.chargePlayer(-1);
+            if (player.hasActiveBuilding(BuildingName.LargeMarket)) player.chargePlayer(-2);
         }
     }
 }

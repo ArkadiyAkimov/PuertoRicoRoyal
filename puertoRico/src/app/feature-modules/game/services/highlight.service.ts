@@ -97,6 +97,7 @@ export class HighlightService {
         if(this.selectionService.largeWarehouseStoredTypes.includes(good.type)) return "green";
         break;
       case RoleName.Craftsman:
+        if(this.gameService.rawAndfinalProductionArrays.value[1][player.index][good.type] > 0 && this.gameService.supplyGoods[good.type]) return "green";
         break;
     }
 
@@ -152,11 +153,9 @@ export class HighlightService {
     switch(gs.currentRole){
       case RoleName.Trader:
         return "coin-cursor";
-        break;
       case RoleName.Builder:
       case RoleName.Settler:
         return "grab-cursor";
-        break;
     }
 
     return "";

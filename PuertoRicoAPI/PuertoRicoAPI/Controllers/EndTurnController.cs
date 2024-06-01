@@ -77,7 +77,7 @@ namespace PuertoRicoAPI.Controllers
                     (currentRole as Builder).mainLoop();
                     break;
                 case RoleName.Settler:
-                    if (player.hasBuilding(BuildingName.Hospice, true)) 
+                    if (player.hasActiveBuilding(BuildingName.Hospice)) 
                         player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
                     (currentRole as Settler).mainLoop();
                     break;

@@ -19,7 +19,7 @@ namespace PuertoRicoAPI.Model.Roles
             Player player = this.gs.getCurrPlayer();
 
             player.chargePlayer(-1);
-            if(player.hasBuilding(BuildingName.Library,true)) player.chargePlayer(-1);
+            if(player.hasActiveBuilding(BuildingName.Library)) player.chargePlayer(-1);
             this.endRole();
         }
 

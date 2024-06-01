@@ -12,6 +12,17 @@
     filter: saturate(0);
 }
 
+.affordable{
+    color: rgba(0, 128, 0, 0.642);
+}
+
+.black-market-affordable{
+    color: rgba(145, 38, 188, 0.518);
+}
+
+.unaffordable{
+    color: rgba(255, 0, 0, 0.591);
+}
 
 .building{
     box-sizing: border-box;

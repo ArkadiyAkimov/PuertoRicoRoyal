@@ -17,13 +17,14 @@ html, body {
     scrollbar-width: none;
     scroll-behavior: smooth;
 
-    cursor: url("../src/assets/svgs/cursors/Cur-new.png") 5 9, auto;
+    //cursor: url("../src/assets/svgs/cursors/Cur-new.png") 5 9, auto;
+    cursor: url("../src/assets/svgs/cursors/cur-open-hand.png") 35 15, auto;
     
     width: 100; display: flex; align-items: center; justify-content: center;
 }
 
 body:active{
-    cursor: url("../src/assets/svgs/cursors/cur-new2-click.png") 5 9, auto;
+    //cursor: url("../src/assets/svgs/cursors/cur-new2-click.png") 5 9, auto;
 }
 
 

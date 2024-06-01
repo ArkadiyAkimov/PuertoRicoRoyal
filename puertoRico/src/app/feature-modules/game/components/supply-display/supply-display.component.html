@@ -1,12 +1,12 @@
 
-<div class="goods-display {{this.highlightService.getCursorClasses()}}">
+<div class="goods-display">
 
         <div class="vertical-pair" *ngFor="let good of getSortedGoodButtons(this.myGoods); let i = index">
         <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}} supply</div>
         <div class="good-and-number"
         (click)="this.onClickGood(good)">
         <div class="good-button {{this.gameService.getPlayerGoodType(good)?.displayName}}-barrel">
-        <div class="good-count">{{this.supplyGoods[i]}}</div>
+        <div class="good-count">{{this.gameService.supplyGoods[good.type]}}</div>
         </div>
         
         </div>

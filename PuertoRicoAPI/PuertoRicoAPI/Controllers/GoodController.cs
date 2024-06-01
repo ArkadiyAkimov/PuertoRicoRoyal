@@ -92,7 +92,7 @@ namespace PuertoRicoAPI.Controllers
                         if (canProduceChosenGood) { 
                         craftsman.GiveSupplyGood(good.Type);
 
-                            bool hasLibrary = player.hasBuilding(BuildingName.Library,true);
+                            bool hasLibrary = player.hasActiveBuilding(BuildingName.Library);
 
                             if (hasLibrary && player.getBuilding(BuildingName.Library).EffectAvailable)
                             {
@@ -145,7 +145,7 @@ namespace PuertoRicoAPI.Controllers
 
             if (player.GetGoodCount(good.Type) == 0) return Ok("You don't have haha");
 
-            if (player.hasBuilding(BuildingName.TradingPost, true)) (currentRole as Trader).SellToTradingPost(good);
+            if (player.hasActiveBuilding(BuildingName.TradingPost)) (currentRole as Trader).SellToTradingPost(good);
 
             await DataFetcher.Update(dataGameState, gs);
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GoodName, GoodType, RoleName } from '../classes/general';
+import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GoodName, GoodType, PlayerUtility, RoleName, isAffordable } from '../classes/general';
 import { HighlightService } from './highlight.service';
 import { SelectionService } from './selection.service';
 
@@ -8,6 +8,7 @@ import { SelectionService } from './selection.service';
   providedIn: 'root'
 })
 export class StylingService {
+  playerUtility:PlayerUtility = new PlayerUtility();
 
   constructor(private gameService:GameService,
     private highlightService:HighlightService,
@@ -48,7 +49,7 @@ export class StylingService {
       plantationSlotClasses += this.getGoodTypeRingClass(5)
     }else
       plantationSlotClasses += this.getGoodTypeRingClass(plantation.good)
-    
+
     return plantationSlotClasses;
   }
 
@@ -83,10 +84,24 @@ export class StylingService {
     if(building.isDrafted) buildingClasses += " isDrafted ";
     if(building.isBlocked) buildingClasses += " isBlocked ";
     };
-    
 
     if(building.quantity == 0) buildingClasses += "soldOut";
     return buildingClasses;
+  }
+
+  getBuildingPriceHighlight(building:DataBuilding){
+    let priceClasses = "";
+
+    let buildingAffordable = this.gameService.checkPlayerBuildingAffordabilityState(building);
+    if(buildingAffordable[0] == isAffordable.Yes) priceClasses += " affordable ";
+    else if(buildingAffordable[0] == isAffordable.WithBlackMarket){
+      if(buildingAffordable[1] <= this.selectionService.getSelectedBlackMarketDiscountValue()) priceClasses += " affordable "; 
+      else priceClasses += " black-market-affordable ";
+    } 
+    else if(buildingAffordable[0] == isAffordable.Not) priceClasses += " unaffordable ";
+    
+
+    return priceClasses;
   }
 
   getBuildingSlotClasses(building:DataBuilding|DataPlayerBuilding){
@@ -124,17 +139,26 @@ export class StylingService {
   }
 
   getCargoShipClasses(shipIndex:number):string{
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+
     let shipClasses = "";
 
     switch(shipIndex){
       case 3: 
-      shipClasses += "cargo-ship-card wharf";
+      shipClasses += " cargo-ship-card wharf ";
+      if(this.playerUtility.hasActiveBuilding(BuildingName.Wharf,player) && !this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable){
+      shipClasses += " sailed"
+      }
         break;
       case 4: 
-      shipClasses += "cargo-ship-card wharf";
+      shipClasses += " cargo-ship-card wharf ";
+      if(this.playerUtility.hasActiveBuilding(BuildingName.Wharf,player) && !this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable){
+        shipClasses += " sailed"
+      }
         break;
       default:
-      shipClasses += "cargo-ship-card ";
+      shipClasses += " cargo-ship-card ";
         break;
     }
 

@@ -48,25 +48,25 @@ export class RolesComponent implements OnInit{
   getRoleNameString(role:DataRole):string{
     switch(role.name){
         case 0:
-            return 'Settler';
+            return 'Settler ';
         case 1:
-            return 'Builder';
+            return 'Builder ';
         case 2:
-            return 'Mayor';
+            return 'Mayor ';
         case 3:
-            return 'Trader';
+            return 'Trader ';
         case 4:
-            return 'Craftsman';
+            return 'Craftsman ';
         case 5:
-            return 'Captain';
+            return 'Captain ';
         case 6:
-            return 'Prospector';
+            return 'Prospector ';
         case 7:
-            return 'PostCaptain';
+            return 'PostCaptain ';
         case 9:
-            return 'Draft';
+            return 'Draft ';
         case 10:
-            return 'GuestHouse';
+            return 'GuestHouse ';
         default:
             return '';
     }

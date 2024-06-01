@@ -166,11 +166,19 @@ $building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
   }
 
   .grab-cursor{
-    cursor: url("../../assets/svgs/cursors/cur-open-hand.png") 35 0, auto;
+    cursor: url("../../assets/svgs/cursors/cur-open-hand.png") 35 15, auto;
   }
 
   .grab-cursor:active{
-    cursor: url("../../assets/svgs/cursors/cur-grabbing.png") 35 0, auto;
+    cursor: url("../../assets/svgs/cursors/cur-grabbing.png") 35 15, auto;
+  }
+
+  .click-cursor{
+    cursor: url("../../assets/svgs/cursors/Cur-new.png") 5 9, auto;
+  }
+  
+  .click-cursor:active{
+    cursor: url("../../assets/svgs/cursors/cur-new2-click.png") 5 9, auto;
   }
   
   .only-desktop{

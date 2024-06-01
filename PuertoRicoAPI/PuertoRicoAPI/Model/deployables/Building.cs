@@ -72,12 +72,12 @@ namespace PuertoRicoAPI.Model.deployables
             return freeSlots;
         }
 
-        public int getBuildingPrice()
+        public int getBuildingPrice(int guestHouseBonusQuarries = 0)
         {
             Player player = gs.getCurrPlayer();
             int basePrice = this.Type.Price;
             int quarryDiscountLimit = Math.Min(this.Type.VictoryScore,4);
-            int activeQuarries = player.countActiveQuarries();
+            int activeQuarries = player.countActiveQuarries() + guestHouseBonusQuarries;  //guesthouse bonus is 0 by default but that one time we need to calculate skip builder we need to consider guesthouse quarry activation 
             int forests = player.countForests();
             int quarryDiscount = Math.Min(quarryDiscountLimit, activeQuarries);
             basePrice -= quarryDiscount;
@@ -86,7 +86,7 @@ namespace PuertoRicoAPI.Model.deployables
             if (player.CheckForPriviledge())
             {   
                 basePrice--;
-                if (player.hasBuilding(BuildingName.Library, true)) basePrice--;
+                if (player.hasActiveBuilding(BuildingName.Library)) basePrice--;
             }
 
             return basePrice;
