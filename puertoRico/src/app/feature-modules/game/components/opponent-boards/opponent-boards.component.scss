@@ -8,6 +8,16 @@
  flex-direction: row;
  flex-wrap: wrap;
  width: calc($max-width*2);
+
+ pointer-events: none;
+}
+
+.end-turn-button{
+  pointer-events: none;
+}
+
+.governor-or-turn-button{
+  pointer-events: none;
 }
 
 

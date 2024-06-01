@@ -233,6 +233,13 @@ export class GameStateJson{
       Cloister,//1
       RoyalGarden,//2
   }
+
+  export enum isAffordable
+  {
+      Not,
+      WithBlackMarket,
+      Yes,
+  }
   
   export enum RoleName
   {

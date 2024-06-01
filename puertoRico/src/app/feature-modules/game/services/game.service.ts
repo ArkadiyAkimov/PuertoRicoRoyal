@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
  import { BehaviorSubject } from 'rxjs';
  import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment.development';
-import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer } from '../classes/general';
+import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer, isAffordable, GoodName } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
 import { ScrollService } from './scroll.service';
+import { PlantationsComponent } from '../components/plantations/plantations.component';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 89;
+    this.startGameInput.gameId = 94;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
@@ -117,6 +118,53 @@ export class GameService{
     let goodType = this.goodTypes.find(gd => gd.good == dataGood.type);
     if(goodType) return goodType;
     else return null;
+  }
+
+  checkPlayerBuildingAffordabilityState(building:DataBuilding):[isAffordable,number]{
+    let player = this.gs.value.players[this.playerIndex];
+    let gs = this.gs.value;
+    let type = this.getBuildingType(building);
+    if(type == null || type == undefined) return [isAffordable.Not,0];
+
+    let playerDoubloons = player.doubloons;
+    if((player.index == gs.privilegeIndex) 
+      && (gs.currentPlayerIndex == player.index)
+      && (gs.currentRole == RoleName.Builder)){
+        playerDoubloons++; //privilege during builder
+        if(this.playerUtility.hasActiveBuilding(BuildingName.Library,player)) playerDoubloons++;
+      }
+    let quarryMaxDiscount = 0;
+    let forestFinalDiscount = 0;
+
+    player.plantations.forEach(plantation => {
+      if(plantation.good == GoodName.Quarry && plantation.slot.isOccupied) quarryMaxDiscount++;
+    });
+
+    player.plantations.forEach(plantation => {
+      if(plantation.good == GoodName.Forest) forestFinalDiscount++;
+    });
+
+    forestFinalDiscount = Math.floor(forestFinalDiscount/2);
+    let quarryFinalDiscount = Math.min(type.victoryScore, quarryMaxDiscount);
+    
+    let blackMarketMaxDiscount = 0;
+
+    if(this.playerUtility.hasActiveBuilding(BuildingName.BlackMarket, player)){
+      let sumOfPlayerGoods = 0;
+      player.goods.forEach(good => {
+        sumOfPlayerGoods += good.quantity;
+      });
+
+      if(sumOfPlayerGoods > 0) blackMarketMaxDiscount++;
+      if(player.victoryPoints > 0) blackMarketMaxDiscount++;
+      blackMarketMaxDiscount++ //has a colonist on black market dont need to calculate shit.
+    }
+
+    let totalBudget = playerDoubloons + quarryFinalDiscount + forestFinalDiscount;
+
+    if(type.price <= totalBudget) return [isAffordable.Yes,0];
+    else if (type.price <= totalBudget + blackMarketMaxDiscount) return [isAffordable.WithBlackMarket, type.price - totalBudget];
+    else return [isAffordable.Not,0];
   }
 
   initializeGoodTypes(){      // move to back end same as building types
@@ -315,7 +363,7 @@ export class GameService{
     let player = gs.players[this.playerIndex];
 
     let temp = (BuildingName.Wharf) 
-    && this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable 
+    && this.playerUtility.hasActiveBuilding(BuildingName.Wharf,player)
     && gs.currentRole == RoleName.Captain
     if(temp != undefined) return temp;
     else return false
@@ -326,7 +374,7 @@ export class GameService{
     let player = gs.players[this.playerIndex];
 
     let temp = (BuildingName.SmallWharf) 
-    && this.playerUtility.getBuilding(BuildingName.SmallWharf,player)?.effectAvailable 
+    && this.playerUtility.hasActiveBuilding(BuildingName.SmallWharf,player)
     && gs.currentRole == RoleName.Captain
     if(temp != undefined) return temp;
     else return false

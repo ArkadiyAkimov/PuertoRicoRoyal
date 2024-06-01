@@ -2,7 +2,7 @@
 <app-scroll-asist class="scroll-asist" class="only-mobile"/>
 
 <div class="buildings-four-plus-one-at-bottom">
-  <div class="four-columns-layout {{this.highlightService.getCursorClasses()}}">
+  <div class="four-columns-layout">
 
 
       <div  *ngFor="let buildingList of [this.buildings1, this.buildings2, this.buildings3, this.buildings4],let i = index"
@@ -37,7 +37,7 @@
             </div>  
             <div class="bottom-building-card">
               <div class="{{this.stylingService.getBuildingSlotClasses(building)}}" *ngFor="let slot of building?.slots; let i=index">
-                <div class="building-price" *ngIf="i == 0 && !slot.isOccupied">{{this.gameService.getBuildingType(building)?.price}}</div>
+                <div class="building-price {{this.stylingService.getBuildingPriceHighlight(building)}}" *ngIf="i == 0">{{this.gameService.getBuildingType(building)?.price}}</div>
               </div>
             </div>
           </div>

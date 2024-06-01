@@ -59,7 +59,7 @@ namespace PuertoRicoAPI.Controllers
                         gs.ColonistsSupply--;
                         gs.MayorTookPrivilige = true;
 
-                        if (!player.hasBuilding(BuildingName.Library, true))
+                        if (!player.hasActiveBuilding(BuildingName.Library))
                         {
                             (currentRole as Mayor).uselessTurnSkip(player);
                         }
@@ -68,7 +68,7 @@ namespace PuertoRicoAPI.Controllers
                         gs.MayorTookPrivilige
                         && player.CheckForPriviledge()
                         && (gs.ColonistsSupply > 0)
-                        && player.hasBuilding(BuildingName.Library, true)
+                        && player.hasActiveBuilding(BuildingName.Library)
                         && player.getBuilding(BuildingName.Library).EffectAvailable
                         )
                     {
@@ -81,7 +81,7 @@ namespace PuertoRicoAPI.Controllers
                 break;
 
                 case RoleName.Settler:
-                    if (player.hasBuilding(BuildingName.Hospice,true)
+                    if (player.hasActiveBuilding(BuildingName.Hospice)
                         && player.getBuilding(BuildingName.Hospice).EffectAvailable)
                         {
                             player.getBuilding(BuildingName.Hospice).EffectAvailable = false;
@@ -99,7 +99,7 @@ namespace PuertoRicoAPI.Controllers
                 break;
 
                 case RoleName.Builder:
-                    if (player.hasBuilding(BuildingName.Univercity, true)
+                    if (player.hasActiveBuilding(BuildingName.Univercity)
                        && player.TookTurn)
                     {
                         if (gs.ColonistsSupply > 0) gs.ColonistsSupply--;

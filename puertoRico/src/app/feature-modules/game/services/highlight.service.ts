@@ -153,11 +153,9 @@ export class HighlightService {
     switch(gs.currentRole){
       case RoleName.Trader:
         return "coin-cursor";
-        break;
       case RoleName.Builder:
       case RoleName.Settler:
         return "grab-cursor";
-        break;
     }
 
     return "";

@@ -46,7 +46,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             if (this.Name != RoleName.Craftsman) gs.nextPlayer();
 
-            if(!(gs.getCurrPlayer().hasBuilding(BuildingName.Library,true)
+            if(!(gs.getCurrPlayer().hasActiveBuilding(BuildingName.Library)
                 && gs.getCurrPlayer().CheckForPriviledge()))
             {
                 gs.getCurrPlayer().TookTurn = false;
@@ -77,7 +77,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             foreach (Player player in gs.Players)
             {
-                if (player.hasBuilding(buildingName, true))
+                if (player.hasActiveBuilding(buildingName))
                 {
                     Console.WriteLine("player {0} {1} enabled.", player.Index, buildingName);
                     player.getBuilding(buildingName).EffectAvailable = isTrue;

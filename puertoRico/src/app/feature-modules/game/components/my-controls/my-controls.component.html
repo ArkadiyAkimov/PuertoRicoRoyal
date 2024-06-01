@@ -1,4 +1,4 @@
-<div class="goods-display {{this.highlightService.getCursorClasses()}}">
+<div class="goods-display">
 
   <div class="vertical-pair"  *ngFor="let good of this.gameService.getSortedGoodButtons(this.myGoods)">
     <div class="button-label">{{this.gameService.getPlayerGoodType(good)?.displayName}}</div>

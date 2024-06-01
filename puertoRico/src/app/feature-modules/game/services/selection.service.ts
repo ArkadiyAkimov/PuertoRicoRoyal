@@ -35,6 +35,8 @@ export class SelectionService {
   takingForest: boolean = false;
   sellingToTradingPost:boolean = false;
 
+  goodsOnWharf: GoodName[] = [];
+
   constructor(private gameService:GameService){ 
     this.gameService.gs.subscribe({
       next: (gs:GameStateJson) => {
@@ -92,6 +94,8 @@ export class SelectionService {
     this.takingForest = false;
 
     this.sellingToTradingPost = false;
+    
+    this.goodsOnWharf = [];
   }
 
   toggleSmallWharf(){
@@ -113,8 +117,22 @@ export class SelectionService {
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
 
-    gs.ships[3].load = good.quantity;
+    for(let i =0; i<good.quantity;i++){
+      this.goodsOnWharf.push(good.type);
+    }
+    
     good.quantity = 0;
+  }
+
+  getSelectedBlackMarketDiscountValue():number{
+    let discount = 0;
+
+    if(!this.isBlackMarketActive) return 0;
+    if(this.sellColonist) discount++;
+    if(this.sellGood) discount++;
+    if(this.sellVictoryPoint) discount++
+
+    return discount;
   }
 
 
@@ -425,6 +443,17 @@ getSmallWharfGoodTypeArray():any{
 
   return array;
 }
+
+getWharfGoodTypeArray():any{
+  let array: any[] = [];
+
+  this.goodsOnWharf.forEach(GoodType => {
+    array.push(this.gameService.goodTypes[GoodType]);
+  });
+
+  return array;
+}
+
 
 
 }

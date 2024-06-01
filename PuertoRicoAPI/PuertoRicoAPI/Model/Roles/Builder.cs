@@ -33,17 +33,55 @@ namespace PuertoRicoAPI.Model.Roles
 
         public void checkBuilderSkip()
         {
-          
+            Player player = gs.getCurrPlayer();
+
+            int guestHouseQuarryBonus = 0;
+
+            if ((player.hasActiveBuilding(BuildingName.GuestHouse) && hasUnoccupiedPlantationsOfType(GoodType.Quarry)))      // occupied guesthouse and vacant quarries (possible discount)
+            {
+                int unoccupiedQuarries = 0;
+                int guests = player.getBuilding(BuildingName.GuestHouse).Slots.Count(slot => slot);
+
+                foreach(Plantation plantation in player.Plantations)
+                {
+                    if(plantation.Good == GoodType.Quarry && !plantation.IsOccupied) unoccupiedQuarries++;
+                }
+
+                guestHouseQuarryBonus += Math.Min(guests, unoccupiedQuarries);   //added max number of quarries that can be occupied
+            } 
+
             foreach (Building building in gs.Buildings)
             {
-                if (canBuyBuilding(building,calculateMaxBlackMarketDiscount())) return;
+                if (canBuyBuilding(building, calculateMaxBlackMarketDiscount(), guestHouseQuarryBonus) && !inPossesionOfBuilding(building)) return; // can buy building
             }
 
-            Console.WriteLine("player {0} can't build anything skipping turn", gs.getCurrPlayer().Index);
+            
+
+            Console.WriteLine("player {0} can't build anything skipping turn", player.Index);
             this.mainLoop();
         }
 
-      
+        public bool inPossesionOfBuilding(Building building)
+        {
+            Player player = this.gs.getCurrPlayer();
+
+            if (player.hasVacancyAtBuilding(building.Type.Name) || player.hasActiveBuilding(building.Type.Name)) return true;
+           
+            return false;
+        }
+
+        public bool hasUnoccupiedPlantationsOfType(GoodType goodType)
+        {
+            Player player = gs.getCurrPlayer();
+
+            foreach (Plantation plantation in player.Plantations)
+            {
+                if (plantation.Good == goodType) return (plantation.IsOccupied == false);
+            }
+
+            return false;
+        }
+
 
         public bool tryBuyBuilding(Building building,int blackMarketDiscount=0)
         {
@@ -59,13 +97,13 @@ namespace PuertoRicoAPI.Model.Roles
 
             if (gs.getCurrPlayer().freeBuildingTiles() == 0) gs.LastGovernor = true;
 
-            if (gs.getCurrPlayer().hasBuilding(BuildingName.Univercity, true))
+            if (gs.getCurrPlayer().hasActiveBuilding(BuildingName.Univercity))
             {
                 gs.getCurrPlayer().TookTurn = true;
                 return true;
             }
 
-            if (gs.getCurrPlayer().hasBuilding(BuildingName.Church, true))
+            if (gs.getCurrPlayer().hasActiveBuilding(BuildingName.Church))
             {
                 if (building.Type.VictoryScore == 2 || building.Type.VictoryScore == 3) gs.getCurrPlayer().VictoryPoints++;
                 if (building.Type.VictoryScore > 3) gs.getCurrPlayer().VictoryPoints += 2;
@@ -76,18 +114,20 @@ namespace PuertoRicoAPI.Model.Roles
             return true;
         }
 
-        public bool canBuyBuilding(Building building,int blackMarketDiscount = 0)
+        public bool canBuyBuilding(Building building,int blackMarketDiscount = 0, int guestHouseQuarryBonus = 0)
         {
             Player player = gs.getCurrPlayer();
 
             if (gs.CurrentRole != RoleName.Builder) return false;
 
-            if (player.hasBuilding(building.Type.Name,true)) return false;
-            if (player.hasBuilding(building.Type.Name, false)) return false;
+            foreach(Building ownedBuilding in player.Buildings)
+            {
+                if (ownedBuilding.Type.Name == building.Type.Name) return false;
+            }
 
             if (player.freeBuildingTiles() < building.Type.size) return false;
 
-            int buildingPrice = building.getBuildingPrice();
+            int buildingPrice = building.getBuildingPrice(guestHouseQuarryBonus);  // defaults to 0 but on one occation is used
 
             buildingPrice -= blackMarketDiscount;
 
@@ -101,7 +141,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             Player player = gs.getCurrPlayer();
 
-            if (player.hasBuilding(BuildingName.BlackMarket, true))
+            if (player.hasActiveBuilding(BuildingName.BlackMarket))
             {
                 int discount = 0;
 
@@ -231,12 +271,8 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach (Building building in player.Buildings)
             {
-                if (building.Type.Name != BuildingName.BlackMarket)
-                {
                     foreach (bool slot in building.Slots) if (slot) return 1;
-                }
             }
-            
             return 0;
         }
 

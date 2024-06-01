@@ -57,7 +57,7 @@ namespace PuertoRicoAPI.Controllers
             Player player = gs.getCurrPlayer();
 
             if (player.TookTurn
-                && !(player.hasBuilding(BuildingName.Library,true)
+                && !(player.hasActiveBuilding(BuildingName.Library)
                 && !player.getBuilding(BuildingName.Library).EffectAvailable)) return Ok("Can't take another plantation");
 
             if (gs.CurrentRole == Types.RoleName.Settler)
@@ -178,7 +178,7 @@ namespace PuertoRicoAPI.Controllers
             Player player = gs.getCurrPlayer();
 
             if (player.TookTurn
-                && !(player.hasBuilding(BuildingName.Library, true)
+                && !(player.hasActiveBuilding(BuildingName.Library)
                 && !player.getBuilding(BuildingName.Library).EffectAvailable)) return Ok("Can't take another plantation");
 
             if (gs.CurrentRole == Types.RoleName.Settler)

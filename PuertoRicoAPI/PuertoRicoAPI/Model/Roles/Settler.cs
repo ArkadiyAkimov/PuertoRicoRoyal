@@ -34,7 +34,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             Player player = gs.getCurrPlayer();
 
-            if (player.hasBuilding(BuildingName.Library, true)
+            if (player.hasActiveBuilding(BuildingName.Library)
                 && player.getBuilding(BuildingName.Library).EffectAvailable)
             {
                 player.getBuilding(BuildingName.Library).EffectAvailable = false;
@@ -86,7 +86,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             Player player = gs.getCurrPlayer();
 
-            return player.hasBuilding(BuildingName.Hacienda,true)
+            return player.hasActiveBuilding(BuildingName.Hacienda)
                 && player.getBuilding(BuildingName.Hacienda).EffectAvailable
                 && CanTakePlantation();
         }
@@ -95,7 +95,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             Player player = gs.getCurrPlayer();
 
-            return (player.hasBuilding(BuildingName.ConstructionHut,true)
+            return (player.hasActiveBuilding(BuildingName.ConstructionHut)
                  || player.CheckForPriviledge())
                  && CanTakePlantation();
         }
@@ -104,7 +104,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             Player player = gs.getCurrPlayer();
 
-            return player.hasBuilding(BuildingName.ForestHouse, true)
+            return player.hasActiveBuilding(BuildingName.ForestHouse)
                 && CanTakePlantation();
         }
 
@@ -118,14 +118,14 @@ namespace PuertoRicoAPI.Model.Roles
         public bool CheckUsedHacienda()
         {
             Player player = this.gs.getCurrPlayer();
-            return player.hasBuilding(BuildingName.Hacienda, true)
+            return player.hasActiveBuilding(BuildingName.Hacienda)
                     && !player.getBuilding(BuildingName.Hacienda).EffectAvailable;
         }
 
         public bool CheckUsedHospice()
         {
             Player player = this.gs.getCurrPlayer();
-            return player.hasBuilding(BuildingName.Hospice, true)
+            return player.hasActiveBuilding(BuildingName.Hospice)
                    && !player.getBuilding(BuildingName.Hospice).EffectAvailable;
         }
 
@@ -148,7 +148,7 @@ namespace PuertoRicoAPI.Model.Roles
 
                 player.TookTurn = true;
 
-                if (player.hasBuilding(BuildingName.Library, true)
+                if (player.hasActiveBuilding(BuildingName.Library)
                   && !player.getBuilding(BuildingName.Library).EffectAvailable)
                 {
                     Console.WriteLine("nigger sex 2");
@@ -156,9 +156,9 @@ namespace PuertoRicoAPI.Model.Roles
                     return;
                 }
 
-                if (player.hasBuilding(BuildingName.Hospice, true))
+                if (player.hasActiveBuilding(BuildingName.Hospice))
                 {
-                    if (player.hasBuilding(BuildingName.Hacienda, true)
+                    if (player.hasActiveBuilding(BuildingName.Hacienda)
                         && !player.getBuilding(BuildingName.Hacienda).EffectAvailable) this.mainLoop();
                     Console.WriteLine("player {0} hospice enabled.", player.Index);
                     player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
@@ -182,16 +182,16 @@ namespace PuertoRicoAPI.Model.Roles
 
                 player.TookTurn = true;
 
-                if (player.hasBuilding(BuildingName.Library, true)
+                if (player.hasActiveBuilding(BuildingName.Library)
                   && !player.getBuilding(BuildingName.Library).EffectAvailable)
                 {
                     this.endRole();
                     return;
                 }
 
-                if (player.hasBuilding(BuildingName.Hospice, true))
+                if (player.hasActiveBuilding(BuildingName.Hospice))
                 {
-                    if (player.hasBuilding(BuildingName.Hacienda, true)
+                    if (player.hasActiveBuilding(BuildingName.Hacienda)
                         && !player.getBuilding(BuildingName.Hacienda).EffectAvailable) this.mainLoop();
                     Console.WriteLine("player {0} hospice enabled.", player.Index);
                     player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
@@ -213,7 +213,7 @@ namespace PuertoRicoAPI.Model.Roles
 
                 player.getBuilding(BuildingName.Hacienda).EffectAvailable = false;
 
-                if (player.hasBuilding(BuildingName.Hospice, true))
+                if (player.hasActiveBuilding(BuildingName.Hospice))
                 {
                     Console.WriteLine("player {0} hospice enabled.", player.Index);
                     player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
@@ -228,9 +228,9 @@ namespace PuertoRicoAPI.Model.Roles
 
                 player.TookTurn = true;
                 
-                if (player.hasBuilding(BuildingName.Hospice, true))
+                if (player.hasActiveBuilding(BuildingName.Hospice))
                 {
-                    if (player.hasBuilding(BuildingName.Hacienda, true)
+                    if (player.hasActiveBuilding(BuildingName.Hacienda)
                         && !player.getBuilding(BuildingName.Hacienda).EffectAvailable) this.mainLoop();
                     Console.WriteLine("player {0} hospice enabled.", player.Index);
                     player.getBuilding(BuildingName.Hospice).EffectAvailable = true;

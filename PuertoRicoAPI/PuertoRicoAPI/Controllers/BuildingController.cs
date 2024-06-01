@@ -115,7 +115,7 @@ namespace PuertoRicoAPI.Controllers
 
             if (gs.getCurrPlayer().TookTurn) return Ok("can't build twice dummy");
 
-            if (!player.hasBuilding(BuildingName.BlackMarket, true)) return Ok("You don't have black market hacker");
+            if (!player.hasActiveBuilding(BuildingName.BlackMarket)) return Ok("You don't have black market hacker");
 
             int[] buildOrderAndIndex = await DataFetcher.getBuildOrderAndIndexOfDataSlot(_context, buildingBlackMarketInput.SlotId, playerID);
 

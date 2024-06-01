@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
-import {  DataBuilding, GameStateJson, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import {  DataBuilding, GameStateJson, GoodType, PlayerUtility, RoleName, isAffordable } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { HighlightService } from '../../services/highlight.service';
+import { SelectionService } from '../../services/selection.service';
 
 
 @Component({
@@ -12,8 +13,8 @@ import { HighlightService } from '../../services/highlight.service';
   styleUrls: 
   [
     './buildings.component.scss',
-    '../../../../styles/buildings.scss',
-    '../../../../styles/colors.scss'
+    '../../../../styles/colors.scss',
+    '../../../../styles/buildings.scss'
   ]
 })
 export class BuildingsComponent implements OnInit {
@@ -32,6 +33,7 @@ export class BuildingsComponent implements OnInit {
     public gameService:GameService,
     public stylingService:StylingService,
     public highlightService:HighlightService,
+    public selectionService:SelectionService,
     ){
       this.buildingCols = [
         this.buildings1,
@@ -85,6 +87,16 @@ export class BuildingsComponent implements OnInit {
       switch(this.gs.currentRole){
         case RoleName.Builder:
           if(building.quantity == 0 ) disableDragging = true;
+          else{
+          let buildingAffordability = this.gameService.checkPlayerBuildingAffordabilityState(building);
+
+          if(buildingAffordability[0] == isAffordable.Yes) disableDragging = false;
+          else if(buildingAffordability[0] == isAffordable.WithBlackMarket){
+            if(buildingAffordability[1] <= this.selectionService.getSelectedBlackMarketDiscountValue()) disableDragging = false;
+            else disableDragging = true;
+          } 
+          if(buildingAffordability[0] == isAffordable.Not) disableDragging = true;
+          }
           break;
         case RoleName.Draft:
           if(building.isDrafted || building.isBlocked) disableDragging = true;

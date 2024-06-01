@@ -21,7 +21,7 @@ namespace PuertoRicoAPI.Model.Roles
                 initializeBuildingEffects(BuildingName.Wharf, true);
                 initializeBuildingEffects(BuildingName.SmallWharf, true);
 
-                if (gs.getCurrPlayer().hasBuilding(BuildingName.Lighthouse, true) // lighthouse 1 coint for privilege
+                if (gs.getCurrPlayer().hasActiveBuilding(BuildingName.Lighthouse) // lighthouse 1 coint for privilege
                         && gs.getCurrPlayer().CheckForPriviledge())
                 {
                     gs.getCurrPlayer().chargePlayer(-1);
@@ -30,7 +30,7 @@ namespace PuertoRicoAPI.Model.Roles
                 foreach (Player player in gs.Players)   // reset building effects
                 {
 
-                    if (player.hasBuilding(BuildingName.UnionHall, true))
+                    if (player.hasActiveBuilding(BuildingName.UnionHall))
                     {
                         this.scoreUnionHall(player);
                     }
@@ -87,8 +87,8 @@ namespace PuertoRicoAPI.Model.Roles
         {
             Player player = gs.getCurrPlayer();
 
-            if (player.hasBuilding(BuildingName.GuestHouse, true)
-            && (player.hasBuilding(BuildingName.Wharf, false) || player.hasBuilding(BuildingName.SmallWharf, false))){
+            if (player.hasActiveBuilding(BuildingName.GuestHouse)
+            && (player.hasVacancyAtBuilding(BuildingName.Wharf) || player.hasVacancyAtBuilding(BuildingName.SmallWharf))){
                 return true;
             } else return false;
         }
@@ -97,7 +97,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             var player = gs.getCurrPlayer();
 
-            return player.hasBuilding(BuildingName.Wharf, true)
+            return player.hasActiveBuilding(BuildingName.Wharf)
                    && player.getBuilding(BuildingName.Wharf).EffectAvailable;
         }
 
@@ -105,7 +105,7 @@ namespace PuertoRicoAPI.Model.Roles
         {
             var player = gs.getCurrPlayer();
 
-            return player.hasBuilding(BuildingName.SmallWharf, true)
+            return player.hasActiveBuilding(BuildingName.SmallWharf)
                 && player.getBuilding(BuildingName.SmallWharf).EffectAvailable;
         }
         public bool checkIfCanShipAnyGoods()
@@ -195,7 +195,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 if (shipIndex == 3)
                 {
-                    if(player.hasBuilding(BuildingName.Wharf,true))
+                    if(player.hasActiveBuilding(BuildingName.Wharf))
                         player.getBuilding(BuildingName.Wharf).EffectAvailable = false;
                     gs.GetGoodCount(ship.Type, -ship.Goods.Count);
                     ship.ResetShip();
@@ -210,12 +210,12 @@ namespace PuertoRicoAPI.Model.Roles
         {
             int totalVp = goodsShipped;
 
-            if (player.hasBuilding(BuildingName.Harbor,true))
+            if (player.hasActiveBuilding(BuildingName.Harbor))
             {
                 totalVp++;
             }
 
-            if (player.hasBuilding(BuildingName.Lighthouse, true))
+            if (player.hasActiveBuilding(BuildingName.Lighthouse))
             {
                 player.chargePlayer(-1);
             }
@@ -225,7 +225,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 gs.CaptainFirstShipment = false;
                 totalVp++;
-                if (player.hasBuilding(BuildingName.Library, true)) totalVp++;
+                if (player.hasActiveBuilding(BuildingName.Library)) totalVp++;
             }
 
             player.VictoryPoints += totalVp;

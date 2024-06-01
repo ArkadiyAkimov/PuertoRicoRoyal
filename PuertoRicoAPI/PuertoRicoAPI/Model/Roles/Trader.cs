@@ -41,9 +41,11 @@ namespace PuertoRicoAPI.Model.Roles
             bool canSellAnything = false;
             Player player = gs.getCurrPlayer();
 
+            int totalGoods = player.Goods.Sum(x => x.Quantity);
+
             foreach(Good good in player.Goods)
             {
-                if (gs.TradeHouse.CanSellGood(good.Type, player) || player.hasBuilding(BuildingName.TradingPost, true))
+                if (gs.TradeHouse.CanSellGood(good.Type, player) || (player.hasActiveBuilding(BuildingName.TradingPost) && (totalGoods > 0)))
                 {
                     canSellAnything = true;
                 }
@@ -62,7 +64,7 @@ namespace PuertoRicoAPI.Model.Roles
             if (player.CheckForPriviledge())
             {
                 player.chargePlayer(-1);
-                if (player.hasBuilding(BuildingName.Library, true)) player.chargePlayer(-1);
+                if (player.hasActiveBuilding(BuildingName.Library)) player.chargePlayer(-1);
             }
 
             this.mainLoop();
@@ -79,7 +81,7 @@ namespace PuertoRicoAPI.Model.Roles
                 if (player.CheckForPriviledge())
                 {
                     player.chargePlayer(-1);
-                    if(player.hasBuilding(BuildingName.Library, true)) player.chargePlayer(-1);
+                    if(player.hasActiveBuilding(BuildingName.Library)) player.chargePlayer(-1);
                 }
                 return true;
             }

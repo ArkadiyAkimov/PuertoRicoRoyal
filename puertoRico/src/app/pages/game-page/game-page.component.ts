@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs';
 import { GameService } from './../../feature-modules/game/services/game.service';
 import { Component } from '@angular/core'; 
 import { GameStateJson, RoleName } from 'src/app/feature-modules/game/classes/general';
+import { HighlightService } from 'src/app/feature-modules/game/services/highlight.service';
 
 
 @Component({
@@ -13,7 +14,9 @@ export class GamePageComponent {
   displayPlayerBoard = true;
   subscription: Subscription = new Subscription();
 
-  constructor(public gameService:GameService){
+  constructor(public gameService:GameService,
+    public highlightService:HighlightService,
+  ){
     
   }
 

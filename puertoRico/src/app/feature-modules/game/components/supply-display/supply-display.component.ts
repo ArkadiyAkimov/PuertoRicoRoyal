@@ -83,6 +83,11 @@ export class SupplyDisplayComponent {
 
     
     onClickColonistSupply(){
+      let gs = this.gameService.gs.value;
+      let player = gs.players[this.gameService.playerIndex];
+
+      if(gs.currentPlayerIndex != player.index || gs.currentRole != RoleName.Mayor) return;
+
       this.roleHttp.postColonist(this.gameService.gs.value.id, this.gameService.playerIndex)
       .subscribe({
         next: (result:GameStateJson) => {
