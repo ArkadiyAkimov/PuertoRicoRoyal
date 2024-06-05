@@ -55,7 +55,7 @@ namespace PuertoRicoAPI.Model.Roles
                     (CheckSupplyGood(GoodType.Tobacco) ? (productionArrayGoods[3] > 0 ? 1 : 0) : 0) +
                     (CheckSupplyGood(GoodType.Coffee) ? (productionArrayGoods[4] > 0 ? 1 : 0) : 0);
 
-                if ( privilidgeUniqueGoods > 0) return;
+                if (privilidgeUniqueGoods > 0) return;
             }
 
             this.endRole();

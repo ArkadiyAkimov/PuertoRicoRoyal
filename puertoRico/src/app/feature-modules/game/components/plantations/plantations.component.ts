@@ -64,7 +64,8 @@ export class PlantationsComponent implements OnInit{
 
    disableUpSideDownInteractionCheck(){
     let haciendaCheck =  (this.playerUtility.hasActiveBuilding(BuildingName.Hacienda,this.player)
-    && this.playerUtility.getBuilding(BuildingName.Hacienda,this.player)?.effectAvailable);
+    && this.playerUtility.getBuilding(BuildingName.Hacienda,this.player)?.effectAvailable)
+    && !this.player.tookTurn;
 
     let canUseHacienda = false;
     if(haciendaCheck != undefined){

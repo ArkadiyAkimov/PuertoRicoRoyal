@@ -128,11 +128,17 @@ namespace PuertoRicoAPI.Model.Roles
             var currentPlayer = this.gs.getCurrPlayer();
 
             if(currentPlayer.Colonists == 0) return true;
+
             bool cantEndTurn = false;
 
             currentPlayer.Buildings.ForEach(building =>
             {
-                if(building.freeSlots() > 0) { cantEndTurn = true; }
+                if(building.freeSlots() > 0) cantEndTurn = true;
+            });
+
+            currentPlayer.Plantations.ForEach(plantation =>  //fixed
+            {
+                if (!plantation.IsOccupied) cantEndTurn = true;
             });
 
             return !cantEndTurn;

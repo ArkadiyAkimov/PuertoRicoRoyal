@@ -12,6 +12,8 @@ export class GameStateJson{
     victoryPointSupply:number =0;
     colonistsSupply:number = 0;
     colonistsOnShip:number = 0;
+    noblesSupply:number = 0;
+    noblesOnShip:number = 0;
     quarryCount:number = 0;
     cornSupply:number = 0;
     indigoSupply:number = 0;

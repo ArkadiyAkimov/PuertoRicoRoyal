@@ -22,6 +22,8 @@ namespace PuertoRicoAPI.Model
             this.VictoryPointSupply = dataGameState.VictoryPointSupply;
             this.ColonistsSupply = dataGameState.ColonistsSupply;
             this.ColonistsOnShip = dataGameState.ColonistsOnShip;
+            this.NoblesSupply = dataGameState.NoblesSupply;
+            this.NoblesOnShip = dataGameState.NoblesOnShip;
             this.QuarryCount = dataGameState.QuarryCount;
             this.CornSupply = dataGameState.CornSupply;
             this.IndigoSupply = dataGameState.IndigoSupply;
@@ -80,6 +82,8 @@ namespace PuertoRicoAPI.Model
         public int VictoryPointSupply { get; set; }
         public int ColonistsSupply { get; set; }
         public int ColonistsOnShip { get; set; }
+        public int NoblesSupply { get; set; }
+        public int NoblesOnShip { get; set; }
         public int QuarryCount { get; set; }
         public int CornSupply { get; set; }
         public int IndigoSupply { get; set; }

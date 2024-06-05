@@ -90,18 +90,21 @@ namespace PuertoRicoAPI.Controllers
                         if (good.Type == GoodType.Coffee && prodArray[4] > 0) canProduceChosenGood = true;
 
                         if (canProduceChosenGood) { 
-                        craftsman.GiveSupplyGood(good.Type);
+                            craftsman.GiveSupplyGood(good.Type);
+                            Console.WriteLine("can produce chosen good: {0}", canProduceChosenGood);
 
                             bool hasLibrary = player.hasActiveBuilding(BuildingName.Library);
+
+                            if (hasLibrary && (player.getBuilding(BuildingName.Library).EffectAvailable == false))
+                            {
+                                craftsman.endRole();
+                                Console.WriteLine("library out of charge");
+                            }
 
                             if (hasLibrary && player.getBuilding(BuildingName.Library).EffectAvailable)
                             {
                                 player.getBuilding(BuildingName.Library).EffectAvailable = false;
-                            }
-
-                            if(hasLibrary && (player.getBuilding(BuildingName.Library).EffectAvailable == false))
-                            {
-                                craftsman.endRole();
+                                Console.WriteLine("used library");
                             }
 
                             if(!hasLibrary) craftsman.endRole();

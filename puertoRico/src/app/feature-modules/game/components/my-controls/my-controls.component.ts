@@ -2,11 +2,10 @@ import { SoundService } from './../../services/sound.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { BuildingName, DataPlayer, DataPlayerGood, DataShip, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../../classes/general';
+import { DataPlayer, DataPlayerGood, DataShip, GameStateJson, RoleName } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
-import { observeOn } from 'rxjs';
 
 @Component({
   selector: 'app-my-controls',
@@ -99,8 +98,6 @@ export class MyControlsComponent implements OnInit {
       });
     }
 
-   
-
     getEndTurnHighlightRule():string{
       let canEndTurn:boolean = false;
       let gs = this.gameService.gs.value;
@@ -149,29 +146,12 @@ export class MyControlsComponent implements OnInit {
     canEndTurnCaptain(){
       let gs = this.gameService.gs.value;
       let player = gs.players[this.gameService.playerIndex];
-      if(player == undefined) return 0;
+      if(player == undefined) return false;
 
-      if(gs.currentPlayerIndex != player.index) return;
+      if(gs.currentPlayerIndex != player.index) return false;
+      if(this.selectionService.selectedShip == 4 && this.selectionService.selectedGoodsSmallWharf.length > 0) return true;
     
-      let playerTotalGoods = 0;
-      player.goods.forEach(goodType => {
-        playerTotalGoods += goodType.quantity;
-      });
-      let canEndTurn = true;
-
-      if(playerTotalGoods == 0) return true;
-    
-      for(let s=0; s<3; s++){
-        let ship:DataShip = gs.ships[s];
-        if(ship.type == 6) return false;
-        else if(ship.type != 6){
-          if((player.goods[ship.type].quantity > 0) && (ship.capacity > ship.load)){
-            canEndTurn = false;
-          } 
-        }
-      }
-
-      return canEndTurn;
+      return true;
     }
 
     endTurn(){

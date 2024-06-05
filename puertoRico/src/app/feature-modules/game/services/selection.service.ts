@@ -425,13 +425,19 @@ getVictoryPointBubbleCount():number{
   let player = gs.players[this.gameService.playerIndex];
   if(player == undefined) return 0;
 
+  let victoryPoints = 0;
+
   if(gs.currentPlayerIndex != player.index) return 0;
   switch(gs.currentRole){
     case RoleName.Captain:
-        return Math.floor(this.selectedGoodsSmallWharf.length/2);
+        victoryPoints += Math.floor(this.selectedGoodsSmallWharf.length/2); 
+        if(this.playerUtility.hasActiveBuilding(BuildingName.Harbor, player) && (this.selectedGoodsSmallWharf.length)) victoryPoints++;
+        break;
   }
 
-  return 0;
+  
+
+  return victoryPoints;
 }
 
 getSmallWharfGoodTypeArray():any{

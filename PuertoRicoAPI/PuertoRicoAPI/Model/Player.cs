@@ -153,7 +153,7 @@ namespace PuertoRicoAPI.Models
                 
                 if(building.Type.size == 2)
                 {
-                    if (building.Slots[0])
+                    if (building.Slots.Contains(true))
                     {
                         Score += CalculateLargeBuildingBonus(building.Type);
                     }

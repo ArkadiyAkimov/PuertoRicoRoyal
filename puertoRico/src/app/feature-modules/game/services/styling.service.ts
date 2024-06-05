@@ -153,7 +153,7 @@ export class StylingService {
         break;
       case 4: 
       shipClasses += " cargo-ship-card wharf ";
-      if(this.playerUtility.hasActiveBuilding(BuildingName.Wharf,player) && !this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable){
+      if(this.playerUtility.hasActiveBuilding(BuildingName.SmallWharf,player) && !this.playerUtility.getBuilding(BuildingName.SmallWharf,player)?.effectAvailable){
         shipClasses += " sailed"
       }
         break;

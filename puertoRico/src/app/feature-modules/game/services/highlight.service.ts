@@ -33,7 +33,6 @@ export class HighlightService {
         if(this.selectionService.sellingToTradingPost) return "highlight-green";
         else return "highlight-yellow";
     }
-  
     return "";
   }
 
@@ -47,12 +46,10 @@ export class HighlightService {
     if(gs.currentRole == RoleName.Builder){
       if(this.selectionService.sellVictoryPoint) return "highlight-green";
     }
-
     return "";
   }
 
-
-  getColonistSupplyHighlight():string{
+  getPlayerColonistsHighlight():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
     if(player == undefined) return "";
@@ -62,7 +59,6 @@ export class HighlightService {
     if(gs.currentRole == RoleName.Builder){
       if(this.selectionService.sellColonist && this.selectionService.selectedSlotId == 0) return "highlight-green";
     }
-
     return "";
   }
 
@@ -97,7 +93,11 @@ export class HighlightService {
         if(this.selectionService.largeWarehouseStoredTypes.includes(good.type)) return "green";
         break;
       case RoleName.Craftsman:
-        if(this.gameService.rawAndfinalProductionArrays.value[1][player.index][good.type] > 0 && this.gameService.supplyGoods[good.type]) return "green";
+        if((this.gameService.rawAndfinalProductionArrays.value[0][player.index][good.type] > 0) 
+          && this.gameService.supplyGoods[good.type]) return "green";
+        break;
+      case RoleName.Captain:
+        if(good.quantity > 0) return "green";
         break;
     }
 
@@ -123,7 +123,6 @@ export class HighlightService {
     return "";
   }
 
-  
   getPlayerVPBubbleHighlightRule():string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
@@ -144,21 +143,5 @@ export class HighlightService {
     return "";
   }
 
-
-  getCursorClasses():string{
-    let gs = this.gameService.gs.value;
-    let player = gs.players[this.gameService.playerIndex];
-    if(player == undefined) return "";
-
-    switch(gs.currentRole){
-      case RoleName.Trader:
-        return "coin-cursor";
-      case RoleName.Builder:
-      case RoleName.Settler:
-        return "grab-cursor";
-    }
-
-    return "";
-  }
   
 }
