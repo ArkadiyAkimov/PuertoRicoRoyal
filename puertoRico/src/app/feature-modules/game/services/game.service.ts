@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment.development';
 import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer, isAffordable, GoodName } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
 import { ScrollService } from './scroll.service';
-import { PlantationsComponent } from '../components/plantations/plantations.component';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +44,13 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 94;
+    this.startGameInput.gameId = 107
+    
+    
+    
+    
+    
+    ;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
@@ -295,9 +300,9 @@ export class GameService{
     
     let nextPotentialCraftsman = 0;
 
-    console.log("last privilege: "+ (lastPrivilege +1))
-    console.log("next governor: "+ (nextGovernor +1))
-    console.log("next privilege: "+ (nextPrivilege +1))
+    // console.log("last privilege: "+ (lastPrivilege +1))
+    // console.log("next governor: "+ (nextGovernor +1))
+    // console.log("next privilege: "+ (nextPrivilege +1))
     
     if(gs.roles[RoleName.Craftsman].isPlayable && (gs.currentRole != RoleName.Craftsman)){
       if(gs.currentRole == RoleName.NoRole){
@@ -310,10 +315,9 @@ export class GameService{
       nextPotentialCraftsman = nextGovernor;
     }
 
-    console.log("craftsman playable: " + gs.roles[RoleName.Craftsman].isPlayable)
-    console.log("current role: " + gs.currentRole)
-
-     console.log("next craftsman: " + (nextPotentialCraftsman +1));
+    // console.log("craftsman playable: " + gs.roles[RoleName.Craftsman].isPlayable)
+    // console.log("current role: " + gs.currentRole)
+    //  console.log("next craftsman: " + (nextPotentialCraftsman +1));
 
     finalSupplyArrays = this.reorderArray(finalSupplyArrays, nextPotentialCraftsman);
 

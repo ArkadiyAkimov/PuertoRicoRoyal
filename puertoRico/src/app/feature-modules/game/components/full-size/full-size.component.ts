@@ -3,7 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName, RoleName, DataBuilding } from '../../classes/general';
+import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName, RoleName, DataBuilding, PlayerUtility } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -58,22 +58,30 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
   onSlotClick(slot:DataSlot, building:DataPlayerBuilding|null = null){ 
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    let playerUtility = new PlayerUtility();
 
-    if((building != null) && (building.name == BuildingName.GuestHouse) && (gs.currentRole == RoleName.GuestHouse)) return;
+    if(((building != null) && (building.name == BuildingName.GuestHouse)) && (gs.currentRole != RoleName.Mayor)) return;
 
     if(this.selectionService.isBlackMarketActive) this.selectionService.selectColonistForBlackMarket(slot.id);
-    else if(gs.currentRole == RoleName.Mayor && player.index == gs.privilegeIndex && player.colonists == 0 && !gs.mayorTookPrivilige){
+    else if(gs.currentRole == RoleName.Mayor 
+         && (((building != null) && (building.name != BuildingName.GuestHouse)) || building == null) 
+         && !slot.isOccupied 
+         && player.index == gs.privilegeIndex 
+         && player.colonists == 0 
+         && (!gs.mayorTookPrivilige || (playerUtility.hasActiveBuilding(BuildingName.Library,player) 
+                                     && playerUtility.getBuilding(BuildingName.Library,player)?.effectAvailable))){
       this.roleHttp.postColonist(this.gameService.gs.value.id, this.gameService.playerIndex)
       .subscribe({
         next: (result:GameStateJson) => {
-          console.log('success:',result);
+          console.log('success: Took mayor privilege.');
+          this.postSlot(slot)
           this.gameService.gs.next(result);
         },
-        error: (response:any)=> {
-          console.log("error:",response.error.text);
+        error: (error:any)=> {
+          console.log("error: postColonist");
         }
       });
-      setTimeout(() => this.postSlot(slot), 100);
+      // setTimeout(() => this.postSlot(slot), 200);
     } 
     else{  
     this.postSlot(slot);
@@ -81,15 +89,14 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
   }
 
   postSlot(slot:DataSlot){
-    this.roleHttp.postSlot(slot.id, this.gameService.gs.value.id, this.gameService.playerIndex)
+    let subscription = this.roleHttp.postSlot(slot.id, this.gameService.gs.value.id, this.gameService.playerIndex)
     .subscribe({
       next: (result:GameStateJson) => {
-        console.log('success: ',result);
-        
+        console.log('success: postSlot');
         this.gameService.gs.next(result);
       },
-      error: (response:any)=> {
-        console.log("error:",response.error.text);
+      error: (error:any)=> {
+        console.log("error: postSlot");
       }
     });
   }

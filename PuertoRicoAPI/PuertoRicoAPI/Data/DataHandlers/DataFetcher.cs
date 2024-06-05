@@ -97,6 +97,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
             dataGameState.VictoryPointSupply = gs.VictoryPointSupply;
             dataGameState.ColonistsSupply = gs.ColonistsSupply;
             dataGameState.ColonistsOnShip = gs.ColonistsOnShip;
+            dataGameState.NoblesSupply = gs.NoblesSupply;
+            dataGameState.NoblesOnShip = gs.NoblesOnShip;
             dataGameState.QuarryCount = gs.QuarryCount;
             dataGameState.CornSupply = gs.CornSupply;
             dataGameState.IndigoSupply = gs.IndigoSupply;

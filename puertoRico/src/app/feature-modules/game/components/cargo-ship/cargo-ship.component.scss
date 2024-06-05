@@ -187,16 +187,18 @@
 
 
 .wharf{
+
+    z-index: 1000;
     width: calc(($base-unit + $base-margin)*4);
     background-image: url(../../../../../assets/svgs/wharf.svg);
     -webkit-animation:slide-in-left 2s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-left 2s cubic-bezier(.25,.46,.45,.94) both
 }
-@-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(100vw);transform:translateX(100vw);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(100vw);transform:translateX(100vw);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
+@-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(100vw);transform:translateX(100vw);opacity:1}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(100vw);transform:translateX(100vw);opacity:1}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
 
 .sailed{
     -webkit-animation:slide-out-right 2s cubic-bezier(.25,.46,.45,.94) both;animation:slide-out-right 2s cubic-bezier(.25,.46,.45,.94) both
 }
-@-webkit-keyframes slide-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(-100vw);transform:translateX(-100vw);opacity:0}}@keyframes slide-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(-100vw);transform:translateX(-100vw);opacity:0}}
+@-webkit-keyframes slide-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(-100vw);transform:translateX(-100vw);opacity:1}}@keyframes slide-out-right{0%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}100%{-webkit-transform:translateX(-100vw);transform:translateX(-100vw);opacity:1}}
 
 .small-warehouse{
     background-image: url(../../../../../assets/svgs/smallWarehouse.svg);

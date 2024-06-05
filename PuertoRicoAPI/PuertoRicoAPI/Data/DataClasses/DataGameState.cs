@@ -15,6 +15,8 @@ namespace PuertoRicoAPI.Data.DataClasses
         public int VictoryPointSupply { get; set; }
         public int ColonistsSupply { get; set; }
         public int ColonistsOnShip { get; set; }
+        public int NoblesSupply { get; set; }
+        public int NoblesOnShip { get; set; }
         public int QuarryCount { get; set; }
         public int CornSupply { get; set; }
         public int IndigoSupply { get; set; }

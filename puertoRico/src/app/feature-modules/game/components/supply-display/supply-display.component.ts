@@ -101,17 +101,32 @@ export class SupplyDisplayComponent {
     }
 
     getColonistSupplyButtonHighlightRule():string{
-      if(!this.gameService.gs.value.mayorTookPrivilige 
-        && (this.gameService.gs.value.privilegeIndex == this.player.index)
-        && (this.gameService.gs.value.currentRole == RoleName.Mayor)) 
-        return 'highlight-yellow';
-      else if (this.gameService.gs.value.currentRole == RoleName.Settler
-              && this.playerUtility.hasActiveBuilding(BuildingName.Hospice,this.player) 
-              && this.playerUtility.getBuilding(BuildingName.Hospice,this.player)?.effectAvailable) return 'highlight-yellow';
-      else if (this.gameService.gs.value.currentRole == RoleName.Builder
-              && this.player.tookTurn 
-              && this.player.index == this.gameService.gs.value.currentPlayerIndex) return 'highlight-yellow';  
-      else return '';
+      let gs = this.gameService.gs.value;
+      let player = gs.players[this.gameService.playerIndex]
+
+      switch(gs.currentRole){
+        case RoleName.Mayor:
+          if( (gs.currentRole == RoleName.Mayor)
+               && (gs.privilegeIndex == player.index)
+               && (!gs.mayorTookPrivilige 
+                || (this.playerUtility.hasActiveBuilding(BuildingName.Library,player) 
+                && this.playerUtility.getBuilding(BuildingName.Library,player)?.effectAvailable)))
+            return 'highlight-yellow';
+          break;
+        case RoleName.Builder:
+          if (gs.currentRole == RoleName.Builder
+              && player.tookTurn 
+              && player.index == gs.currentPlayerIndex) return 'highlight-yellow';  
+          break;
+        case RoleName.Settler:
+          if ( this.playerUtility.hasActiveBuilding(BuildingName.Hospice,player) 
+               && this.playerUtility.getBuilding(BuildingName.Hospice,player)?.effectAvailable) return 'highlight-yellow';
+          break;
+        default:
+          break;
+      }
+
+      return "";
     }
 
     getHotseatHighlight():string{

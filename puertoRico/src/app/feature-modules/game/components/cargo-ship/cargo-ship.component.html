@@ -18,7 +18,7 @@
 
 <div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex == 3">
     <div class="{{this.highlightService.getCargoShipHighlights(shipIndex)}}"></div>
-    <div class="ship-count" style="transform: translateX(+85px) translateY(-40px);">{{ this.selectionService.goodsOnWharf.length }}</div>
+    <!-- <div class="ship-count" style="transform: translateX(+85px) translateY(-40px);">{{ this.selectionService.goodsOnWharf.length }}</div> -->
 
     <div class="cargo-ship-button click-cursor"  (click)="selectShip()"></div>
 
@@ -33,7 +33,7 @@
 
 <div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex == 4">
     <div class="{{this.highlightService.getCargoShipHighlights(shipIndex)}}"></div>
-    <div class="ship-count" style="transform: translateX(+85px) translateY(-40px);">{{ this.selectionService.selectedGoodsSmallWharf.length }}</div>
+    <!-- <div class="ship-count" style="transform: translateX(+85px) translateY(-40px);">{{ this.selectionService.selectedGoodsSmallWharf.length }}</div> -->
 
     <div class="cargo-ship-button click-cursor"  (click)="selectShip()"></div>
 

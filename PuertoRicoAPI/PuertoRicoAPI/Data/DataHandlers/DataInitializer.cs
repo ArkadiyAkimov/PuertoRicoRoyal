@@ -21,6 +21,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newGameState.IsRoleInProgress = false; 
             newGameState.VictoryPointSupply = new int[]{ 75, 100, 122}[numOfPlayers - 3];
             newGameState.ColonistsOnShip = numOfPlayers;
+            newGameState.NoblesSupply = 20;
+            newGameState.NoblesOnShip = 1;
             newGameState.QuarryCount = 9;
             newGameState.CornSupply = 10;
             newGameState.IndigoSupply = 11;
@@ -145,7 +147,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             DataPlayer newPlayer = new DataPlayer();
             newPlayer.Index = index;
-            newPlayer.Doubloons = doubloons; //doubloons
+            newPlayer.Doubloons = 30; //doubloons
             newPlayer.Colonists = 0;
             newPlayer.VictoryPoints = 0;
             newPlayer.TookTurn = false;
@@ -158,7 +160,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             {
                 DataPlayerGood good = new DataPlayerGood();
                 good.Type = (GoodType)i;
-                good.Quantity = 0;  // change to 0
+                good.Quantity = 5;  // change to 0
 
                 newPlayer.Goods.Add(good);
             }
@@ -188,7 +190,6 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newBuilding.Slots = new List<DataSlot>();
             newBuilding.Quantity = type.StartingQuantity;
 
-            Console.WriteLine("nobles: {0}", gsInput.IsNoblesExpansion);
 
             if(type.IsProduction)newBuilding.isDrafted = true;
             if(gsInput.IsNoblesExpansion && type.Expansion == 2)newBuilding.isDrafted=true;

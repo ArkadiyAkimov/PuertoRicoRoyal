@@ -54,7 +54,7 @@ namespace PuertoRicoAPI.Controllers
             {
                 if (dataSlot.IsOccupied)
                 {
-                    return Ok("Go home!");
+                    return BadRequest("Can't use guesthouse on Occupied slot.");
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace PuertoRicoAPI.Controllers
 
             await UpdateHub.SendUpdate(dataGameState, _hubContext);
 
-            return Ok("Succes");
+            return Ok(dataGameState);
         }
     }
 }
