@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
  import { BehaviorSubject } from 'rxjs';
  import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment.development';
-import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer, isAffordable, GoodName } from '../classes/general';
+import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer, isAffordable, GoodName, SlotEnum } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
 import { ScrollService } from './scroll.service';
 
@@ -44,18 +44,12 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 107
-    
-    
-    
-    
-    
-    ;
+    this.startGameInput.gameId = 112;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
     this.startGameInput.isBuildingsExpansion = true;
-    this.startGameInput.isNoblesExpansion = false;
+    this.startGameInput.isNoblesExpansion = true;
     
 
     this.gameStartHttp.postNewGame(this.startGameInput)
@@ -142,7 +136,7 @@ export class GameService{
     let forestFinalDiscount = 0;
 
     player.plantations.forEach(plantation => {
-      if(plantation.good == GoodName.Quarry && plantation.slot.isOccupied) quarryMaxDiscount++;
+      if(plantation.good == GoodName.Quarry && (plantation.slot.state != SlotEnum.Vacant)) quarryMaxDiscount++;
     });
 
     player.plantations.forEach(plantation => {
@@ -235,7 +229,7 @@ export class GameService{
     let buildsArray = [0,0,0,0,0];
 
     player.plantations.forEach(plant => {
-      if(plant.slot.isOccupied) plantsArray[plant.good]++;
+      if(plant.slot.state != SlotEnum.Vacant) plantsArray[plant.good]++;
     });
 
     player.buildings.forEach(building =>{
@@ -243,7 +237,7 @@ export class GameService{
 
       if(buildingType?.isProduction){
         building.slots.forEach(slot => {
-        if(slot.isOccupied && buildingType != null){
+        if((slot.state != SlotEnum.Vacant) && buildingType != null){
           buildsArray[buildingType.good]++;
         } 
       });

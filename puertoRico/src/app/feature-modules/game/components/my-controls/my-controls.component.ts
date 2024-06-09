@@ -2,7 +2,7 @@ import { SoundService } from './../../services/sound.service';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { DataPlayer, DataPlayerGood, DataShip, GameStateJson, RoleName } from '../../classes/general';
+import { DataPlayer, DataPlayerGood, DataShip, GameStateJson, RoleName, SlotEnum } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -117,12 +117,12 @@ export class MyControlsComponent implements OnInit {
 
           player.buildings.forEach(building => {
             building.slots.forEach(slot => {
-              if(!slot.isOccupied) emptySlots++;
+              if(slot.state == SlotEnum.Vacant) emptySlots++;
             });
           });
 
           player.plantations.forEach(plantation => {
-            if(!plantation.slot.isOccupied) emptySlots++;
+            if(plantation.slot.state == SlotEnum.Vacant) emptySlots++;
           });
 
           if(player.colonists == 0 || emptySlots == 0) canEndTurn = true;

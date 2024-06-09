@@ -9,6 +9,7 @@ namespace PuertoRicoAPI.Data.DataClasses
         public int Index { get; set; }
         public int Doubloons { get; set; }
         public int Colonists { get; set; }
+        public int Nobles { get; set; }
         public int VictoryPoints { get; set; }
         public bool TookTurn {  get; set; } 
         public List<DataPlayerBuilding> Buildings { get; set; }

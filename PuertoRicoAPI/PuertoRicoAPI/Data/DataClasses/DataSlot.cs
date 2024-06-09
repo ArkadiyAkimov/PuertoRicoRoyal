@@ -1,8 +1,11 @@
-﻿namespace PuertoRicoAPI.Data.DataClasses
+﻿using PuertoRicoAPI.Types;
+
+namespace PuertoRicoAPI.Data.DataClasses
 {
     public class DataSlot
     {
         public int Id { get; set; }
-        public bool IsOccupied { get; set; } = false;
+        public SlotEnum State { get; set; } = SlotEnum.Vacant;
+
     }
 }

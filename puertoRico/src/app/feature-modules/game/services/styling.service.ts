@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GoodName, GoodType, PlayerUtility, RoleName, isAffordable } from '../classes/general';
+import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, DataSlot, GoodName, GoodType, PlayerUtility, RoleName, SlotEnum, isAffordable } from '../classes/general';
 import { HighlightService } from './highlight.service';
 import { SelectionService } from './selection.service';
 
@@ -119,6 +119,17 @@ export class StylingService {
     if(buildingType.size == 2) buildingSlotClasses += " large-building-ring";
 
     return buildingSlotClasses;
+  }
+
+  getColonistClass(slot:DataSlot){
+    switch(slot.state){
+    case SlotEnum.Colonist:
+    return " colonist ";
+    case SlotEnum.Noble:
+    return " noble ";   
+    default:
+    return " display-none ";
+    }
   }
 
   getGoodTypeRingClass(good:number){

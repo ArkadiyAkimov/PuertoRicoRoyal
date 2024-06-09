@@ -32,6 +32,24 @@ namespace PuertoRicoAPI.Model.Roles
 
                 Console.WriteLine("player {0} produced goods", player.Index);
 
+                if (player.hasActiveBuilding(BuildingName.Jeweler))
+                {
+                    player.chargePlayer(-player.CountNobles());
+                }
+
+                if (player.hasActiveBuilding(BuildingName.Chapel))
+                {
+                    if (player.getBuilding(BuildingName.Chapel).isNobleOccupied())
+                    {
+                        player.VictoryPoints++;
+                        gs.VictoryPointSupply--;
+                    }
+                    else
+                    {
+                        player.Doubloons++;
+                    }
+                }
+
                 if (player.CheckForPriviledge())
                 {
                     privilidgeUniqueGoods = this.AddGoodsToPlayer(prodQueue);
@@ -77,7 +95,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach(Plantation plantation in player.Plantations)
             {
-                if (plantation.IsOccupied)
+                if (plantation.SlotState != SlotEnum.Vacant)
                 switch(plantation.Good)
                 {
                     case Types.GoodType.Corn: 
@@ -102,9 +120,9 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach(Building building in player.Buildings)
             {
-                foreach(bool slot in building.Slots)
+                foreach(SlotEnum slot in building.Slots)
                 {
-                    if(slot && BuildingTypes.ProdBuildings
+                    if((slot != SlotEnum.Vacant) && BuildingTypes.ProdBuildings
                                             .Contains(building.Type.Name))
                     { 
                         switch(building.Type.Good)

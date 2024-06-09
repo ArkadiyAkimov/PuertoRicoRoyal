@@ -59,6 +59,25 @@ export class HighlightService {
     if(gs.currentRole == RoleName.Builder){
       if(this.selectionService.sellColonist && this.selectionService.selectedSlotId == 0) return "highlight-green";
     }
+    if(gs.currentRole == RoleName.Mayor){
+      if(this.selectionService.noblesSelected == false) return "highlight-blue";
+    }
+    return "";
+  }
+
+  getPlayerNoblesHighlight():string{
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
+
+    if(gs.currentPlayerIndex != player.index) return "";
+
+    if(gs.currentRole == RoleName.Builder){
+      if(this.selectionService.sellColonist && this.selectionService.selectedSlotId == 0) return "highlight-green";
+    }
+    if(gs.currentRole == RoleName.Mayor){
+      if(this.selectionService.noblesSelected == true) return "highlight-blue";
+    }
     return "";
   }
 

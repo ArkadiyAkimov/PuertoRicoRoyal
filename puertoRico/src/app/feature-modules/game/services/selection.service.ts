@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../classes/general';
+import { BuildingName, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName, SlotEnum } from '../classes/general';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,8 @@ export class SelectionService {
   sellingToTradingPost:boolean = false;
 
   goodsOnWharf: GoodName[] = [];
+
+  noblesSelected: boolean = false;
 
   constructor(private gameService:GameService){ 
     this.gameService.gs.subscribe({
@@ -96,6 +98,17 @@ export class SelectionService {
     this.sellingToTradingPost = false;
     
     this.goodsOnWharf = [];
+
+    this.noblesSelected = false;
+  }
+
+
+  selectNobles(){
+    if(this.gameService.gs.value.isNoblesExpansion) this.noblesSelected = true;
+  }
+
+  selectColonists(){
+    this.noblesSelected = false;
   }
 
   toggleSmallWharf(){
@@ -182,14 +195,14 @@ export class SelectionService {
     else{                //check slot is not empty
       let slotIsEmpty = true;
       player.plantations.forEach(plantation => {
-        if(plantation.slot.id == slotId && plantation.slot.isOccupied){
+        if(plantation.slot.id == slotId && (plantation.slot.state != SlotEnum.Vacant)){
           slotIsEmpty = false;
         }
         if(slotIsEmpty) return;
       });
       player.buildings.forEach(building => {
         building.slots.forEach(slot => {
-          if(slot.id == slotId && slot.isOccupied){
+          if(slot.id == slotId && (slot.state != SlotEnum.Vacant)){
             slotIsEmpty = false;
           }
           if(slotIsEmpty) return;
@@ -385,7 +398,7 @@ toggleBuildingEffect(building:DataPlayerBuilding){
   if(player == undefined) return;
 
   if(gs.currentPlayerIndex != player.index) return;
-  if(!building.slots[0].isOccupied) return;
+  if(building.slots[0].state == SlotEnum.Vacant) return;
 
   let buildingType = this.gameService.getBuildingType(building);
 

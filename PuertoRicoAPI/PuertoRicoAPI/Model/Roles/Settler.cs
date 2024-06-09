@@ -171,7 +171,7 @@ namespace PuertoRicoAPI.Model.Roles
 
                 newPlantation = new Plantation();
                 newPlantation.Good = GoodType.Forest;
-                newPlantation.IsOccupied = true;
+                newPlantation.SlotState = SlotEnum.Colonist;
 
                 Plantation removedPlantation = this.gs.Plantations
                     .FirstOrDefault(plantation => plantation.IsExposed

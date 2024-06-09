@@ -17,16 +17,16 @@
 
   <div class="vertical-pair {{this.gameService.gs.value.isNoblesExpansion ?'':'offline'}}">
     <div class="button-label">nobles</div>
-    <div class="good-and-number">
+    <div class="good-and-number {{this.highlightService.getPlayerNoblesHighlight()}}" (click)="this.selectionService.selectNobles()">
       <div class="noble-chip">
-        <div class="chip-number colonist-number">0</div>
+        <div class="chip-number colonist-number">{{ this.player.nobles }}</div>
       </div>
     </div>
   </div>
           
   <div class="vertical-pair">
     <div class="button-label">colonists</div>
-    <div class="good-and-number {{this.highlightService.getPlayerColonistsHighlight()}}" (click)="this.selectionService.toggleSupplyColonistForBlackMarket()">
+    <div class="good-and-number {{this.highlightService.getPlayerColonistsHighlight()}}" (click)="this.selectionService.toggleSupplyColonistForBlackMarket(); this.selectionService.selectColonists()">
       <div class="colonist-chip">
         <div class="chip-number colonist-number">{{this.myColonists}}</div>
       </div>

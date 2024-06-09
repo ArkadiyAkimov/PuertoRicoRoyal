@@ -3,7 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName, RoleName, DataBuilding, PlayerUtility } from '../../classes/general';
+import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName, RoleName, DataBuilding, PlayerUtility, SlotEnum } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -65,7 +65,7 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     if(this.selectionService.isBlackMarketActive) this.selectionService.selectColonistForBlackMarket(slot.id);
     else if(gs.currentRole == RoleName.Mayor 
          && (((building != null) && (building.name != BuildingName.GuestHouse)) || building == null) 
-         && !slot.isOccupied 
+         && (slot.state == SlotEnum.Vacant)
          && player.index == gs.privilegeIndex 
          && player.colonists == 0 
          && (!gs.mayorTookPrivilige || (playerUtility.hasActiveBuilding(BuildingName.Library,player) 
@@ -79,9 +79,10 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
         },
         error: (error:any)=> {
           console.log("error: postColonist");
+          this.postSlot(slot)
         }
       });
-      // setTimeout(() => this.postSlot(slot), 200);
+      //setTimeout(() => this.postSlot(slot), 200);
     } 
     else{  
     this.postSlot(slot);
@@ -89,7 +90,7 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
   }
 
   postSlot(slot:DataSlot){
-    let subscription = this.roleHttp.postSlot(slot.id, this.gameService.gs.value.id, this.gameService.playerIndex)
+    let subscription = this.roleHttp.postSlot(slot.id, this.selectionService.noblesSelected, this.gameService.gs.value.id, this.gameService.playerIndex)
     .subscribe({
       next: (result:GameStateJson) => {
         console.log('success: postSlot');
@@ -149,5 +150,6 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       event.container.data.length,
     );
   }
+
 
 }

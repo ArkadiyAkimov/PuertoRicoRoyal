@@ -123,6 +123,10 @@
     background-repeat: no-repeat;
   }
   
+  .noble{
+    @extend .colonist ;
+    background-image: url(../../../../../assets/svgs/noble.svg);
+  }
   
   .build-order{
     color: rgb(104, 124, 255);

@@ -46,7 +46,7 @@ export class GameStateJson{
   
   export class DataSlot {
     id:number = 0;
-    isOccupied:boolean = false;
+    state:SlotEnum = SlotEnum.Vacant;
   }
   
   export class DataRole {
@@ -72,6 +72,7 @@ export class GameStateJson{
     index:number = 0;
     doubloons:number = 0;
     colonists:number = 0;
+    nobles:number = 0;
     victoryPoints:number = 0;
     tookTurn:boolean = false;  
     buildings:DataPlayerBuilding[] = [];
@@ -87,7 +88,7 @@ export class GameStateJson{
       if(player == undefined) return false;
       let temp = player.buildings.find(building => building.name == name)
       if(temp == undefined) return false;
-      else return temp.slots[0].isOccupied;
+      else return temp.slots[0].state != SlotEnum.Vacant;
     }
   
     getBuilding(name:BuildingName,player:DataPlayer):DataPlayerBuilding|undefined{
@@ -268,4 +269,10 @@ export class GameStateJson{
       Quarry,
       NoType,
       Forest,
+  }
+
+  export enum SlotEnum{
+    Vacant,
+    Colonist,
+    Noble,
   }

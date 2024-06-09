@@ -125,6 +125,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             {
                 dataPlayer.Doubloons = player.Doubloons;
                 dataPlayer.Colonists = player.Colonists;
+                dataPlayer.Nobles = player.Nobles;
                 dataPlayer.VictoryPoints = player.VictoryPoints;
                 dataPlayer.TookTurn = player.TookTurn;
                 dataPlayer.BuildOrder = player.BuildOrder;
@@ -142,7 +143,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                     dataBuilding.EffectAvailable = building.EffectAvailable;
                     foreach(var (dataSlot,slot) in dataBuilding.Slots.Zip(building.Slots))
                     {
-                        dataSlot.IsOccupied = slot;
+                        dataSlot.State = slot;
                     }
                 }
 
@@ -166,14 +167,14 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
                     foreach (var (dataSlot, slot) in dataPlayerBuilding.Slots.Zip(building.Slots)) //new player building slots
                     {
-                        dataSlot.IsOccupied = slot;
+                        dataSlot.State = slot;
                     }
                     dataPlayer.Buildings.Add(dataPlayerBuilding);
                 }
 
                 foreach (var (dataPlantation, plantation) in dataPlayer.Plantations.Zip(player.Plantations)) //player-plantations
                 {
-                    dataPlantation.Slot.IsOccupied = plantation.IsOccupied;
+                    dataPlantation.Slot.State = plantation.SlotState;
                     dataPlantation.BuildOrder = plantation.BuildOrder;
                 }
 
@@ -183,7 +184,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
                     Plantation plantation = player.Plantations[i];
                     dataPlayerPlantation.Good = plantation.Good;
                     dataPlayerPlantation.Slot = new DataSlot();
-                    dataPlayerPlantation.Slot.IsOccupied = plantation.IsOccupied;
+                    dataPlayerPlantation.Slot.State = plantation.SlotState;
                     dataPlayerPlantation.BuildOrder = player.BuildOrder;
                     Console.WriteLine("build++");
                     dataPlayer.BuildOrder++;
@@ -213,7 +214,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
                 foreach (var (dataSlot, slot) in dataBuilding.Slots.Zip(building.Slots))
                 {
-                    dataSlot.IsOccupied = slot;
+                    dataSlot.State = slot;
                 }
 
                // if(dataBuilding.Quantity > 0)
@@ -231,7 +232,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
 
                 dataPlantation.Good = plantation.Good;
                 dataPlantation.Slot = new DataSlot();
-                dataPlantation.Slot.IsOccupied = plantation.IsOccupied;
+                dataPlantation.Slot.State = plantation.SlotState;
                 dataPlantation.IsExposed = plantation.IsExposed;
                 dataPlantation.IsDiscarded = plantation.IsDiscarded;
 

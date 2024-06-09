@@ -41,8 +41,8 @@ export class RoleHttpService {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/upSideDown`,{ dataGameId ,playerIndex});
   } 
 
-  public postSlot(slotId:number, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
-    return this.http.post<GameStateJson>(`${environment.apiUrl}/Slot`,{slotId ,dataGameId ,playerIndex});
+  public postSlot(slotId:number, isNoble:boolean, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/Slot`,{slotId , isNoble ,dataGameId ,playerIndex});
   } 
 
   public postEndTurn( dataGameId:number, playerIndex:number): Observable<GameStateJson> {
