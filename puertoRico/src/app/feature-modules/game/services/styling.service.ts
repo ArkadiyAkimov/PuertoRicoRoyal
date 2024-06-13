@@ -158,13 +158,19 @@ export class StylingService {
     switch(shipIndex){
       case 3: 
       shipClasses += " cargo-ship-card wharf ";
-      if(this.playerUtility.hasActiveBuilding(BuildingName.Wharf,player) && !this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable){
+      if(this.playerUtility.hasActiveBuilding(BuildingName.Wharf, player) && !this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable){
       shipClasses += " sailed"
       }
         break;
       case 4: 
       shipClasses += " cargo-ship-card wharf ";
-      if(this.playerUtility.hasActiveBuilding(BuildingName.SmallWharf,player) && !this.playerUtility.getBuilding(BuildingName.SmallWharf,player)?.effectAvailable){
+      if(this.playerUtility.hasActiveBuilding(BuildingName.SmallWharf, player) && !this.playerUtility.getBuilding(BuildingName.SmallWharf,player)?.effectAvailable){
+        shipClasses += " sailed"
+      }
+        break;
+        case 5: 
+      shipClasses += " cargo-ship-card wharf ";
+      if(this.playerUtility.hasActiveBuilding(BuildingName.RoyalSupplier, player) && !this.playerUtility.getBuilding(BuildingName.RoyalSupplier,player)?.effectAvailable){
         shipClasses += " sailed"
       }
         break;

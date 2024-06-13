@@ -29,13 +29,13 @@ export class SelectionService {
   selectedGoodType:GoodName = GoodName.NoType;
   sellVictoryPoint:boolean = false;
 
-  selectedShip: number = 5;
+  selectedShip: number = 6;
+  goodsOnWharf: GoodName[] = [];
   selectedGoodsSmallWharf: GoodName[] = [];
- 
+  selectedGoodsRoyalSupplier: GoodName[] = [];
+
   takingForest: boolean = false;
   sellingToTradingPost:boolean = false;
-
-  goodsOnWharf: GoodName[] = [];
 
   noblesSelected: boolean = false;
 
@@ -89,15 +89,15 @@ export class SelectionService {
     this.selectedGoodType = GoodName.NoType;
     this.sellVictoryPoint = false;
 
-
-    this.selectedShip = 5;
+    this.selectedShip = 6;
+    this.goodsOnWharf = [];
     this.selectedGoodsSmallWharf = [];
+    this.selectedGoodsRoyalSupplier = [];
 
     this.takingForest = false;
 
     this.sellingToTradingPost = false;
     
-    this.goodsOnWharf = [];
 
     this.noblesSelected = false;
   }

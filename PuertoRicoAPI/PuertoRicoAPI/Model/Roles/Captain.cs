@@ -20,6 +20,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 initializeBuildingEffects(BuildingName.Wharf, true);
                 initializeBuildingEffects(BuildingName.SmallWharf, true);
+                initializeBuildingEffects(BuildingName.RoyalSupplier, true);
 
                 if (gs.getCurrPlayer().hasActiveBuilding(BuildingName.Lighthouse) // lighthouse 1 coint for privilege
                         && gs.getCurrPlayer().CheckForPriviledge())

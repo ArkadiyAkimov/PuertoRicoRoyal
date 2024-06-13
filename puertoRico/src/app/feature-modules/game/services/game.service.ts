@@ -378,6 +378,17 @@ export class GameService{
     else return false
   }
 
+  royalSupplierDisplayCheck():boolean{
+    let gs = this.gs.value;
+    let player = gs.players[this.playerIndex];
+
+    let temp = (BuildingName.RoyalSupplier) 
+    && this.playerUtility.hasActiveBuilding(BuildingName.RoyalSupplier, player)
+    && gs.currentRole == RoleName.Captain
+    if(temp != undefined) return temp;
+    else return false
+  }
+
   sortBuildings(myBuildings:DataPlayerBuilding[]){
     myBuildings.sort((a,b)=> ( a.buildOrder - b.buildOrder));
     let buildingsMatrix = this.initMatrix();
