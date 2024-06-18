@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { RoleHttpService } from '../../services/role-http.service';
-import { BuildingName, DataPlantation, DataPlayer, GameStateJson, PlayerUtility, RoleName } from '../../classes/general';
+import { BuildingName, DataPlantation, DataPlayer, GameStateJson, PlayerUtility, RoleName, SlotEnum } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -67,11 +67,36 @@ export class PlantationsComponent implements OnInit{
     && this.playerUtility.getBuilding(BuildingName.Hacienda,this.player)?.effectAvailable)
     && !this.player.tookTurn;
 
+    if(this.selectionService.isLandOfficeActive
+      && (this.playerUtility.getBuilding(BuildingName.LandOffice,this.player)?.slots[0].state == SlotEnum.Colonist)
+      && (this.player.doubloons > 0)){
+      return false;
+    }
+
     let canUseHacienda = false;
     if(haciendaCheck != undefined){
       canUseHacienda = haciendaCheck
     }
 
     return !canUseHacienda || this.disablePlantationInteractionCheck();
+   }
+
+   showForestOverlay(isUpsideDown:boolean = false){
+
+    if(this.gs.currentRole == RoleName.Trader 
+      && this.selectionService.isLandOfficeActive 
+      && this.selectionService.takingForest 
+      && isUpsideDown) return true;
+    return this.selectionService.takingForest && !isUpsideDown && (this.gs.currentRole == RoleName.Settler);
+   }
+
+   showPlantationsList(){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    let playerUtility = new PlayerUtility();
+    
+    if(playerUtility.hasActiveBuilding(BuildingName.LandOffice, player)) return true;
+
+    return this.exposedPlantations.length != 0
    }
 }

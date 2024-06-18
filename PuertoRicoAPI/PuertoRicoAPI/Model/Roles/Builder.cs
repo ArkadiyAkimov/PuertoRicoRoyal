@@ -40,11 +40,11 @@ namespace PuertoRicoAPI.Model.Roles
             if ((player.hasActiveBuilding(BuildingName.GuestHouse) && hasUnoccupiedPlantationsOfType(GoodType.Quarry)))      // occupied guesthouse and vacant quarries (possible discount)
             {
                 int unoccupiedQuarries = 0;
-                int guests = player.getBuilding(BuildingName.GuestHouse).Slots.Count(slot => slot);
+                int guests = player.getBuilding(BuildingName.GuestHouse).Slots.Count(slot => slot != SlotEnum.Vacant);
 
                 foreach(Plantation plantation in player.Plantations)
                 {
-                    if(plantation.Good == GoodType.Quarry && !plantation.IsOccupied) unoccupiedQuarries++;
+                    if(plantation.Good == GoodType.Quarry && (plantation.SlotState == SlotEnum.Vacant)) unoccupiedQuarries++;
                 }
 
                 guestHouseQuarryBonus += Math.Min(guests, unoccupiedQuarries);   //added max number of quarries that can be occupied
@@ -76,7 +76,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach (Plantation plantation in player.Plantations)
             {
-                if (plantation.Good == goodType) return (plantation.IsOccupied == false);
+                if (plantation.Good == goodType) return (plantation.SlotState == SlotEnum.Vacant);
             }
 
             return false;
@@ -131,8 +131,13 @@ namespace PuertoRicoAPI.Model.Roles
 
             buildingPrice -= blackMarketDiscount;
 
-            if (buildingPrice > player.Doubloons) return false;
-
+            if (blackMarketDiscount == 0)
+            {
+                if (buildingPrice > player.Doubloons) return false; //without black market you need more money than the discount
+            }
+            else {
+            if (buildingPrice != player.Doubloons) return false; //with black market using the black market discount you must have the exact amount of money or else can't use that much discount
+            }
 
             return true;
         }
@@ -174,7 +179,7 @@ namespace PuertoRicoAPI.Model.Roles
                     {
                         if(building.BuildOrder == buildOrderAndIndex[0])
                         {
-                            if (building.Slots[buildOrderAndIndex[1]]) discount++;
+                            if (building.Slots[buildOrderAndIndex[1]] != SlotEnum.Vacant) discount++;
                         }
                     }
 
@@ -182,7 +187,7 @@ namespace PuertoRicoAPI.Model.Roles
                     {
                         if (plantation.BuildOrder == buildOrderAndIndex[0])
                         {
-                            if (plantation.IsOccupied) discount++;
+                            if (plantation.SlotState != SlotEnum.Vacant) discount++;
                         }
                     }
                 }
@@ -220,10 +225,12 @@ namespace PuertoRicoAPI.Model.Roles
                     {
                         if (building.BuildOrder == buildOrderAndIndex[0])
                         {
-                            if (building.Slots[buildOrderAndIndex[1]])
+                            if (building.Slots[buildOrderAndIndex[1]] != SlotEnum.Vacant)
                             {
-                                building.Slots[buildOrderAndIndex[1]] = false;
-                                gs.ColonistsSupply++;
+                                if(building.Slots[buildOrderAndIndex[1]] == SlotEnum.Colonist) gs.ColonistsSupply++;
+                                else gs.NoblesSupply++;
+                                building.Slots[buildOrderAndIndex[1]] = SlotEnum.Vacant;
+                               
                             }
                         }
                     }
@@ -232,10 +239,11 @@ namespace PuertoRicoAPI.Model.Roles
                     {
                         if (plantation.BuildOrder == buildOrderAndIndex[0])
                         {
-                            if (plantation.IsOccupied)
+                            if (plantation.SlotState != SlotEnum.Vacant)
                             {
-                                plantation.IsOccupied = false;
-                                gs.ColonistsSupply++;
+                                if (plantation.SlotState == SlotEnum.Colonist) gs.ColonistsSupply++;
+                                else gs.NoblesSupply++;
+                                plantation.SlotState = SlotEnum.Vacant;
                             }
                         }
                     }
@@ -266,12 +274,12 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach (Plantation plantation in player.Plantations)
             {
-                if (plantation.IsOccupied && plantation.Good != GoodType.Forest) return 1;
+                if ((plantation.SlotState != SlotEnum.Vacant) && plantation.Good != GoodType.Forest) return 1;
             }
 
             foreach (Building building in player.Buildings)
             {
-                    foreach (bool slot in building.Slots) if (slot) return 1;
+                    foreach (SlotEnum slot in building.Slots) if (slot != SlotEnum.Vacant) return 1;
             }
             return 0;
         }

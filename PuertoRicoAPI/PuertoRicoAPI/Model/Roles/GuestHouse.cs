@@ -42,7 +42,7 @@ namespace PuertoRicoAPI.Model.Roles
             int guests = 0;
 
             if (player.hasActiveBuilding(BuildingName.GuestHouse)){                // count guests
-                guests = player.getBuilding(BuildingName.GuestHouse).Slots.Count(x => x);
+                guests = player.getBuilding(BuildingName.GuestHouse).Slots.Count(x => (x != SlotEnum.Vacant));
             }
             
             BuildingName[] checkUnoccupiedBuildingNames = new BuildingName[] { };
@@ -78,7 +78,6 @@ namespace PuertoRicoAPI.Model.Roles
                     {
                             if (canUpGoodProductionUsingGuesthouse(GoodType.Coffee, guests)) return true;
                     }
-                    
                     checkUnoccupiedBuildingNames.Append(BuildingName.Factory);
                     checkUnoccupiedBuildingNames.Append(BuildingName.SpecialtyFactory);
                     break;
@@ -101,7 +100,7 @@ namespace PuertoRicoAPI.Model.Roles
                 if (building.Type.Good == goodType)
                 {
                     totalBuildingSlots += building.Slots.Count();
-                    vacantBuildingSlots += building.Slots.Count(slot => slot == false);
+                    vacantBuildingSlots += building.Slots.Count(slot => slot == SlotEnum.Vacant);
                 }
             }
 
@@ -110,7 +109,7 @@ namespace PuertoRicoAPI.Model.Roles
                 if (plantation.Good == goodType)
                 {
                     totalPlantationSlots++;
-                    if (plantation.IsOccupied == false) vacantPlantationSlots++;
+                    if (plantation.SlotState == SlotEnum.Vacant) vacantPlantationSlots++;
                 }
             }
 
@@ -138,7 +137,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 if (plantation.Good == goodType)
                 {
-                    if (andIsOccupied) return plantation.IsOccupied;
+                    if (andIsOccupied) return (plantation.SlotState != SlotEnum.Vacant);
                     else return true;
                 }
             }
@@ -164,7 +163,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach (Plantation plantation in player.Plantations)
             {
-                if (plantation.Good == goodType) return (plantation.IsOccupied == false);
+                if (plantation.Good == goodType) return (plantation.SlotState == SlotEnum.Vacant);
             }
 
             return false;
@@ -208,7 +207,7 @@ namespace PuertoRicoAPI.Model.Roles
             return null;
         }
 
-        public void occupyTargetAndactivateBuildingEffect(dynamic target,int index)
+        public void occupyTargetAndactivateBuildingEffect(dynamic target,int index,SlotEnum slotState)
         {
             Player player = gs.getCurrPlayer();
 
@@ -216,13 +215,13 @@ namespace PuertoRicoAPI.Model.Roles
 
             if(target is Building)
             {
-                target.Slots[index] = true;
+                target.Slots[index] = slotState;
                 player.getBuilding(target.Type.Name).EffectAvailable = true;
                 Console.WriteLine("guesthouse activated {0}", target.Type.DisplayName);
             }
             if(target is Plantation)
             {
-                target.IsOccupied = true;
+                target.SlotState = slotState;
                 Console.WriteLine("guesthouse occupied {0} plantation", target.Good);
             }
            

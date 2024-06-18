@@ -10,6 +10,8 @@ using PuertoRicoAPI.Sockets;
 using Microsoft.AspNetCore.SignalR;
 using PuertoRicoAPI.Models;
 using PuertoRicoAPI.Types;
+using System.Xml.Linq;
+using PuertoRicoAPI.Model.deployables;
 
 namespace PuertoRicoAPI.Controllers
 {
@@ -25,6 +27,21 @@ namespace PuertoRicoAPI.Controllers
         public int DataGameId { get; set; }
         public int PlayerIndex { get; set; }
     }
+
+    public class RemoveSellPlantationInput
+    {   
+        public int BuildOrder { get; set; }
+        public int DataGameId { get; set; }
+        public int PlayerIndex { get; set; }
+    }
+
+    public class BuyRandomPlantationInput
+    {
+        public bool isForest { get; set; }
+        public int DataGameId { get; set; }
+        public int PlayerIndex { get; set; }
+    }
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -189,6 +206,125 @@ namespace PuertoRicoAPI.Controllers
                 }
             }
             else return Ok("it's not settler phase");
+
+            await DataFetcher.Update(dataGameState, gs);
+
+            _context.SaveChanges();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+        [HttpPost("buyRandomPlantation")]
+        public async Task<ActionResult<DataGameState>> PostBuyRandomPlantation(BuyRandomPlantationInput plantationInput)
+        {
+
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, plantationInput.DataGameId);
+
+            GameState gs = await ModelFetcher
+               .getGameState(_context, plantationInput.DataGameId);
+
+            if (plantationInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("Not Your Turn.");
+
+            Role currentRole = gs.getCurrentRole();
+
+            Player player = gs.getCurrPlayer();
+
+            if (gs.CurrentRole == Types.RoleName.Trader)
+            {
+                if (player.hasActiveBuilding(BuildingName.LandOffice)
+                    && player.getBuilding(BuildingName.LandOffice).EffectAvailable
+                    && (player.getBuilding(BuildingName.LandOffice).Slots[0] == SlotEnum.Colonist))
+                {
+                    Random rnd = new Random();
+                    var randomPlant = dataGameState.Plantations
+                                               .Where(x => x.IsExposed == false && !x.IsDiscarded)
+                                               .OrderBy(x => rnd.Next())
+                                               .Take(1).ToList()[0];
+
+                    (gs.getRole(RoleName.Settler) as Settler).TakePlantation(randomPlant, plantationInput.isForest);
+                   
+                    player.getBuilding(BuildingName.LandOffice).EffectAvailable = false;
+                    player.Doubloons--;
+                }
+            }
+            else return Ok("it's not trader phase");
+
+            await DataFetcher.Update(dataGameState, gs);
+
+            _context.SaveChanges();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+        [HttpPost("removeSell")]
+        public async Task<ActionResult<DataGameState>> PostRemoveSell(RemoveSellPlantationInput plantationInput)
+        {
+            DataGameState dataGameState = await DataFetcher
+               .getDataGameState(_context, plantationInput.DataGameId);
+
+            GameState gs = await ModelFetcher
+               .getGameState(_context, plantationInput.DataGameId);
+
+            if (plantationInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("Not Your Turn.");
+
+            Role currentRole = gs.getCurrentRole();
+
+            Player player = gs.getCurrPlayer();
+
+            if(gs.CurrentRole == RoleName.Trader) { 
+            if ( player.hasActiveBuilding(BuildingName.LandOffice)
+                && !player.getBuilding(BuildingName.LandOffice).EffectAvailable) return Ok("Can't sell another plantation");
+            }
+            if(gs.CurrentRole == RoleName.Settler)
+            {
+                if (player.hasActiveBuilding(BuildingName.HuntingLodge)
+                && !player.getBuilding(BuildingName.HuntingLodge).EffectAvailable) return Ok("Can't remove another plantation");
+            }
+
+            Plantation targetPlantation = player.Plantations.First(x => x.BuildOrder == plantationInput.BuildOrder);
+            if (targetPlantation == null) return Ok("Fatal Failure");
+
+            DataPlayer dataPlayer = dataGameState.Players[plantationInput.PlayerIndex];
+            DataPlayerPlantation targetDataPlantation = dataPlayer.Plantations.First(x => x.BuildOrder == plantationInput.BuildOrder);
+
+            
+
+            if (targetPlantation.Good != GoodType.Forest)
+            {
+                switch (targetPlantation.SlotState)
+                {
+                    case SlotEnum.Colonist:
+                        player.Colonists++;
+                        break;
+                    case SlotEnum.Noble:
+                        player.Nobles++;
+                        break;
+                    default:
+                        break;
+                }
+                targetPlantation.SlotState = SlotEnum.Vacant;
+                targetPlantation.IsExposed = false;
+                targetPlantation.IsDiscarded = true;
+                gs.Plantations.Add(targetPlantation);
+            }
+           
+            player.Plantations.Remove(targetPlantation);
+            dataPlayer.Plantations.Remove(targetDataPlantation);
+
+            if (gs.CurrentRole == RoleName.Trader)
+            {
+                player.Doubloons++;
+                player.getBuilding(BuildingName.LandOffice).EffectAvailable = false;
+            }
+            if (gs.CurrentRole == RoleName.Settler)
+            {
+                player.getBuilding(BuildingName.HuntingLodge).EffectAvailable = false;
+            }
 
             await DataFetcher.Update(dataGameState, gs);
 

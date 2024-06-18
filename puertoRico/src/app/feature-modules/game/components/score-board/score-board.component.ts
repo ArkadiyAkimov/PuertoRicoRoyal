@@ -1,4 +1,4 @@
-import { GameStateJson, DataPlayer } from '../../classes/general';
+import { GameStateJson, DataPlayer, SlotEnum } from '../../classes/general';
 import { GameService } from './../../services/game.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -93,12 +93,12 @@ export class ScoreBoardComponent implements OnInit{
 
     player.buildings.forEach(building => {
       building.slots.forEach(slot => {
-        if(slot.isOccupied) count++;
+        if(slot.state != SlotEnum.Vacant) count++;
       });
     });
 
     player.plantations.forEach(plantation => {
-      if(plantation.slot.isOccupied) count++
+      if(plantation.slot.state != SlotEnum.Vacant) count++
     })
 
     return count;

@@ -1,5 +1,5 @@
 
-<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex != 4 && shipIndex != 3" >
+<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex != 4 && shipIndex != 3 && shipIndex != 5" >
     <div class="{{this.highlightService.getCargoShipHighlights(shipIndex)}}"></div>
     <div class="ship-capacity" >{{ cargoShip.capacity }}</div>
     <div class="ship-count" >{{ cargoShip.load }}</div>
@@ -44,4 +44,19 @@
     </div>
 
     <div class="ship-name">small wharf</div>
+</div>
+
+<div class="{{this.stylingService.getCargoShipClasses(shipIndex)}}" *ngIf="this.showShip() && shipIndex == 5">
+    <div class="{{this.highlightService.getCargoShipHighlights(shipIndex)}}"></div>
+    <!-- <div class="ship-count" style="transform: translateX(+85px) translateY(-40px);">{{ this.selectionService.selectedGoodsSmallWharf.length }}</div> -->
+
+    <div class="cargo-ship-button click-cursor"  (click)="selectShip()"></div>
+
+    <div class="good-buttons-collection shipped-goods-collection-wharf">
+        <div class="empty-good-slot" *ngFor="let good of this.selectionService.getRoyalSupplierGoodTypeArray();">
+        <div class="good-button  good-on-board-wharf" class="{{good.displayName+'-barrel'}}"></div>
+        </div>
+    </div>
+
+    <div class="ship-name">royal supplier</div>
 </div>

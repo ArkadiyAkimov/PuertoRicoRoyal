@@ -7,7 +7,7 @@
     [cdkDropListData]="this.exposedPlantations"
     cdkDropListConnectedTo="myPlantations"
     class="example-list"
-    *ngIf="this.exposedPlantations.length != 0"
+    *ngIf="this.showPlantationsList()"
     >
 
     <div
@@ -17,7 +17,7 @@
       [cdkDragDisabled]="this.disablePlantationInteractionCheck()"
       cdkDrag >
       
-      <div class="forrest-overlay forest" *ngIf="this.selectionService.takingForest"></div>
+      <div class="forrest-overlay forest" *ngIf="this.showForestOverlay()"></div>
     
       <div class="top-plantation-card"> 
         <div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div>
@@ -57,6 +57,8 @@
   [cdkDragData]="6"
   [cdkDragDisabled]="this.disableUpSideDownInteractionCheck()"
   cdkDrag >
+
+  <div class="forrest-overlay forest" *ngIf="this.showForestOverlay(true)"></div>
 
   <div class="top-plantation-card"> 
     <div class="plantation-name"></div>

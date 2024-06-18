@@ -190,6 +190,9 @@ $building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
     display:none;
   }
 
+  .display-none{
+    display:none;
+  }
 
 
   @media only screen and (max-width: 600px) {
@@ -201,6 +204,10 @@ $building-vp-shadow: 1px 0.5px rgb(12, 6, 51);;
 
     .only-desktop{
       display: none;
+    }
+
+    .display-none{
+      display:none;
     }
 }
 

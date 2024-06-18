@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GoodName, GoodType, PlayerUtility, RoleName, isAffordable } from '../classes/general';
+import { BuildingName, BuildingType, DataBuilding, DataPlantation, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, DataSlot, GoodName, GoodType, PlayerUtility, RoleName, SlotEnum, isAffordable } from '../classes/general';
 import { HighlightService } from './highlight.service';
 import { SelectionService } from './selection.service';
 
@@ -92,15 +92,19 @@ export class StylingService {
   getBuildingPriceHighlight(building:DataBuilding){
     let priceClasses = "";
 
-    let buildingAffordable = this.gameService.checkPlayerBuildingAffordabilityState(building);
-    if(buildingAffordable[0] == isAffordable.Yes) priceClasses += " affordable ";
-    else if(buildingAffordable[0] == isAffordable.WithBlackMarket){
-      if(buildingAffordable[1] <= this.selectionService.getSelectedBlackMarketDiscountValue()) priceClasses += " affordable "; 
-      else priceClasses += " black-market-affordable ";
-    } 
-    else if(buildingAffordable[0] == isAffordable.Not) priceClasses += " unaffordable ";
-    
+    let buildingAffordable = this.selectionService.checkPlayerBuildingAffordabilityState(building);
 
+    switch(buildingAffordable){
+      case isAffordable.Yes:
+        return " affordable ";
+      case isAffordable.WithBlackMarket:
+        return " black-market-affordable ";
+      case isAffordable.Not:
+        return " unaffordable ";
+      case isAffordable.BlackMarketBlocked:
+        return " ";
+    }
+  
     return priceClasses;
   }
 
@@ -119,6 +123,17 @@ export class StylingService {
     if(buildingType.size == 2) buildingSlotClasses += " large-building-ring";
 
     return buildingSlotClasses;
+  }
+
+  getColonistClass(slot:DataSlot){
+    switch(slot.state){
+    case SlotEnum.Colonist:
+    return " colonist ";
+    case SlotEnum.Noble:
+    return " noble ";   
+    default:
+    return " display-none ";
+    }
   }
 
   getGoodTypeRingClass(good:number){
@@ -147,13 +162,19 @@ export class StylingService {
     switch(shipIndex){
       case 3: 
       shipClasses += " cargo-ship-card wharf ";
-      if(this.playerUtility.hasActiveBuilding(BuildingName.Wharf,player) && !this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable){
+      if(this.playerUtility.hasActiveBuilding(BuildingName.Wharf, player) && !this.playerUtility.getBuilding(BuildingName.Wharf,player)?.effectAvailable){
       shipClasses += " sailed"
       }
         break;
       case 4: 
       shipClasses += " cargo-ship-card wharf ";
-      if(this.playerUtility.hasActiveBuilding(BuildingName.SmallWharf,player) && !this.playerUtility.getBuilding(BuildingName.SmallWharf,player)?.effectAvailable){
+      if(this.playerUtility.hasActiveBuilding(BuildingName.SmallWharf, player) && !this.playerUtility.getBuilding(BuildingName.SmallWharf,player)?.effectAvailable){
+        shipClasses += " sailed"
+      }
+        break;
+        case 5: 
+      shipClasses += " cargo-ship-card wharf ";
+      if(this.playerUtility.hasActiveBuilding(BuildingName.RoyalSupplier, player) && !this.playerUtility.getBuilding(BuildingName.RoyalSupplier,player)?.effectAvailable){
         shipClasses += " sailed"
       }
         break;

@@ -7,7 +7,7 @@ namespace PuertoRicoAPI.Model.deployables
     {
         public Plantation(DataPlantation dataPlant)
         {
-            this.IsOccupied = dataPlant.Slot.IsOccupied;
+            this.SlotState = dataPlant.Slot.State;
 
             this.IsExposed = dataPlant.IsExposed;
 
@@ -19,7 +19,7 @@ namespace PuertoRicoAPI.Model.deployables
 
         public Plantation()
         {
-            this.IsOccupied = false;
+            this.SlotState = SlotEnum.Vacant;
 
             this.IsExposed = true;
 
@@ -32,7 +32,7 @@ namespace PuertoRicoAPI.Model.deployables
 
         public Plantation(DataPlayerPlantation dataPlant)
         {
-            this.IsOccupied = dataPlant.Slot.IsOccupied;
+            this.SlotState = dataPlant.Slot.State;
 
             this.IsExposed = true;
 
@@ -42,7 +42,7 @@ namespace PuertoRicoAPI.Model.deployables
 
             this.BuildOrder = dataPlant.BuildOrder;
         }
-        public bool IsOccupied { get; set; }
+        public SlotEnum SlotState { get; set; }
         public bool IsExposed { get; set; }
         public bool IsDiscarded { get; set; }
         public GoodType Good { get; set; }

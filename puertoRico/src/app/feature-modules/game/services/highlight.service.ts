@@ -1,4 +1,4 @@
-import { BuildingName, BuildingType, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GoodName, RoleName } from '../classes/general';
+import { BuildingName, BuildingType, DataPlayerBuilding, DataPlayerGood, DataPlayerPlantation, GoodName, PlayerUtility, RoleName, SlotEnum } from '../classes/general';
 import { GameService } from './game.service';
 import { Injectable } from '@angular/core';
 import { SelectionService } from './selection.service';
@@ -15,13 +15,18 @@ export class HighlightService {
   getBuildingEffectHighlight(buildingType:BuildingType):string{
     let gs = this.gameService.gs.value;
     let player = gs.players[this.gameService.playerIndex];
+    let playerUtility = new PlayerUtility();
     if(player == undefined) return "";
 
     if(gs.currentPlayerIndex != player.index) return "";
+    if(playerUtility.getBuilding(buildingType.name, player)?.slots[0].state == SlotEnum.Vacant) return "";
     
     switch(buildingType?.name){
       case BuildingName.ForestHouse:
-         if(gs.currentRole != RoleName.Settler) return "";
+         if((gs.currentRole != RoleName.Settler) 
+          && !(gs.currentRole == RoleName.Trader 
+          && this.selectionService.isLandOfficeActive
+          && playerUtility.getBuilding(BuildingName.LandOffice,player)?.slots[0].state == SlotEnum.Colonist)) return "";
          if(this.selectionService.takingForest) return "highlight-green";
          else return "highlight-yellow";
       case BuildingName.BlackMarket:
@@ -32,8 +37,19 @@ export class HighlightService {
         if(gs.currentRole != RoleName.Trader) return "";
         if(this.selectionService.sellingToTradingPost) return "highlight-green";
         else return "highlight-yellow";
-    }
-    return "";
+      case BuildingName.LandOffice:
+        if(gs.currentRole != RoleName.Trader) return "";
+        if(this.selectionService.isLandOfficeActive) return "highlight-green";
+        else if(playerUtility.getBuilding(BuildingName.LandOffice,player)?.effectAvailable) return "highlight-yellow";
+        break;
+      case BuildingName.HuntingLodge:
+        if(gs.currentRole != RoleName.Settler) return "";
+        if(this.selectionService.isHuntingLodgeActive) return "highlight-green";
+        else if(playerUtility.getBuilding(BuildingName.HuntingLodge,player)?.effectAvailable && (playerUtility.getBuilding(BuildingName.HuntingLodge,player)?.slots[0].state == SlotEnum.Colonist)) return "highlight-yellow";
+         break;
+        }
+
+        return "";
   }
 
   getVictoryPointsHighlight():string{
@@ -58,6 +74,25 @@ export class HighlightService {
 
     if(gs.currentRole == RoleName.Builder){
       if(this.selectionService.sellColonist && this.selectionService.selectedSlotId == 0) return "highlight-green";
+    }
+    if(gs.currentRole == RoleName.Mayor){
+      if(this.selectionService.noblesSelected == false && player.colonists > 0) return "highlight-blue";
+    }
+    return "";
+  }
+
+  getPlayerNoblesHighlight():string{
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return "";
+
+    if(gs.currentPlayerIndex != player.index) return "";
+
+    if(gs.currentRole == RoleName.Builder){
+      if(this.selectionService.sellColonist && this.selectionService.selectedSlotId == 0) return "highlight-green";
+    }
+    if(gs.currentRole == RoleName.Mayor){
+      if(this.selectionService.noblesSelected == true && player.nobles > 0) return "highlight-blue";
     }
     return "";
   }

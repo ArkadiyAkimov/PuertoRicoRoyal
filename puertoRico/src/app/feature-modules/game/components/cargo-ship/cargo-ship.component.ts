@@ -33,6 +33,7 @@ export class CargoShipComponent{
       if(this.shipIndex < 3) return true;
       if(this.shipIndex == 3) return this.gameService.wharfDisplayCheck();
       if(this.shipIndex == 4) return this.gameService.smallWharfDisplayCheck();
+      if(this.shipIndex == 5) return this.gameService.royalSupplierDisplayCheck();
       return false;
     }
 
@@ -43,6 +44,8 @@ export class CargoShipComponent{
       if(gs.currentRole != RoleName.Captain) return;
       if(this.shipIndex == 4) this.selectionService.toggleSmallWharf();
       if(this.shipIndex == 4)  return;
+      if(this.shipIndex == 5) this.selectionService.toggleRoyalSupplier();
+      if(this.shipIndex == 5)  return;
       if(this.cargoShip.capacity == this.cargoShip.load) return;
       
       if(this.selectionService.selectedShip == this.shipIndex) this.selectionService.selectedShip = 5;

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
  import { BehaviorSubject } from 'rxjs';
  import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment.development';
-import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer, isAffordable, GoodName } from '../classes/general';
+import { StartGameOutput, GameStateJson, BuildingType, GoodType, DataBuilding, DataPlayerBuilding, DataPlantation, DataPlayerPlantation, DataPlayerGood, ColorName, BuildingName, PlayerUtility, RoleName, GameStartInput, DataPlayer, isAffordable, GoodName, SlotEnum } from '../classes/general';
 import { GameStartHttpService } from './game-start-http.service';
 import { ScrollService } from './scroll.service';
 
@@ -44,18 +44,12 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 107
-    
-    
-    
-    
-    
-    ;
+    this.startGameInput.gameId = 132;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
     this.startGameInput.isBuildingsExpansion = true;
-    this.startGameInput.isNoblesExpansion = false;
+    this.startGameInput.isNoblesExpansion = true;
     
 
     this.gameStartHttp.postNewGame(this.startGameInput)
@@ -103,6 +97,25 @@ export class GameService{
       this.hubConnection.invoke('SelectIndex', this.playerIndex);
   };
 
+  countPlayerNobles(){
+    let player = this.gs.value.players[this.playerIndex];
+    let gs = this.gs.value;
+
+    let noblesCount = player.nobles;
+
+    player.plantations.forEach(plantation => {
+      if(plantation.slot.state == SlotEnum.Noble) noblesCount++;
+    });
+
+    player.buildings.forEach(building => {
+      building.slots.forEach(slot => {
+        if(slot.state == SlotEnum.Noble) noblesCount++;
+      });
+    });
+
+    return noblesCount;
+  }
+
 
   getBuildingType(dataBuilding:DataBuilding|DataPlayerBuilding):BuildingType|null{
     let buildingType = this.buildingTypes.find(bt => bt.name == dataBuilding.name);
@@ -125,52 +138,7 @@ export class GameService{
     else return null;
   }
 
-  checkPlayerBuildingAffordabilityState(building:DataBuilding):[isAffordable,number]{
-    let player = this.gs.value.players[this.playerIndex];
-    let gs = this.gs.value;
-    let type = this.getBuildingType(building);
-    if(type == null || type == undefined) return [isAffordable.Not,0];
-
-    let playerDoubloons = player.doubloons;
-    if((player.index == gs.privilegeIndex) 
-      && (gs.currentPlayerIndex == player.index)
-      && (gs.currentRole == RoleName.Builder)){
-        playerDoubloons++; //privilege during builder
-        if(this.playerUtility.hasActiveBuilding(BuildingName.Library,player)) playerDoubloons++;
-      }
-    let quarryMaxDiscount = 0;
-    let forestFinalDiscount = 0;
-
-    player.plantations.forEach(plantation => {
-      if(plantation.good == GoodName.Quarry && plantation.slot.isOccupied) quarryMaxDiscount++;
-    });
-
-    player.plantations.forEach(plantation => {
-      if(plantation.good == GoodName.Forest) forestFinalDiscount++;
-    });
-
-    forestFinalDiscount = Math.floor(forestFinalDiscount/2);
-    let quarryFinalDiscount = Math.min(type.victoryScore, quarryMaxDiscount);
-    
-    let blackMarketMaxDiscount = 0;
-
-    if(this.playerUtility.hasActiveBuilding(BuildingName.BlackMarket, player)){
-      let sumOfPlayerGoods = 0;
-      player.goods.forEach(good => {
-        sumOfPlayerGoods += good.quantity;
-      });
-
-      if(sumOfPlayerGoods > 0) blackMarketMaxDiscount++;
-      if(player.victoryPoints > 0) blackMarketMaxDiscount++;
-      blackMarketMaxDiscount++ //has a colonist on black market dont need to calculate shit.
-    }
-
-    let totalBudget = playerDoubloons + quarryFinalDiscount + forestFinalDiscount;
-
-    if(type.price <= totalBudget) return [isAffordable.Yes,0];
-    else if (type.price <= totalBudget + blackMarketMaxDiscount) return [isAffordable.WithBlackMarket, type.price - totalBudget];
-    else return [isAffordable.Not,0];
-  }
+  
 
   initializeGoodTypes(){      // move to back end same as building types
     let corn = new GoodType();
@@ -235,7 +203,7 @@ export class GameService{
     let buildsArray = [0,0,0,0,0];
 
     player.plantations.forEach(plant => {
-      if(plant.slot.isOccupied) plantsArray[plant.good]++;
+      if(plant.slot.state != SlotEnum.Vacant) plantsArray[plant.good]++;
     });
 
     player.buildings.forEach(building =>{
@@ -243,7 +211,7 @@ export class GameService{
 
       if(buildingType?.isProduction){
         building.slots.forEach(slot => {
-        if(slot.isOccupied && buildingType != null){
+        if((slot.state != SlotEnum.Vacant) && buildingType != null){
           buildsArray[buildingType.good]++;
         } 
       });
@@ -379,6 +347,19 @@ export class GameService{
 
     let temp = (BuildingName.SmallWharf) 
     && this.playerUtility.hasActiveBuilding(BuildingName.SmallWharf,player)
+    && gs.currentRole == RoleName.Captain
+    if(temp != undefined) return temp;
+    else return false
+  }
+
+  royalSupplierDisplayCheck():boolean{
+    let gs = this.gs.value;
+    let player = gs.players[this.playerIndex];
+
+    if(this.countPlayerNobles() <= 0) return false;
+
+    let temp = (BuildingName.RoyalSupplier) 
+    && this.playerUtility.hasActiveBuilding(BuildingName.RoyalSupplier, player)
     && gs.currentRole == RoleName.Captain
     if(temp != undefined) return temp;
     else return false

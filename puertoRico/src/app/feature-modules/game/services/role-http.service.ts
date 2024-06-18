@@ -37,12 +37,20 @@ export class RoleHttpService {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/forest`,{plantationId , dataGameId ,playerIndex});
   } 
 
+  public postRemoveSell(buildOrder:number, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/removeSell`,{buildOrder , dataGameId ,playerIndex});
+  } 
+
+  public postBuyRandomPlantation(isForest:boolean, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/buyRandomPlantation`,{isForest , dataGameId ,playerIndex});
+  } 
+
   public postUpsideDown( dataGameId:number, playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/Plantation/upSideDown`,{ dataGameId ,playerIndex});
   } 
 
-  public postSlot(slotId:number, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
-    return this.http.post<GameStateJson>(`${environment.apiUrl}/Slot`,{slotId ,dataGameId ,playerIndex});
+  public postSlot(slotId:number, isNoble:boolean, dataGameId:number, playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/Slot`,{slotId , isNoble ,dataGameId ,playerIndex});
   } 
 
   public postEndTurn( dataGameId:number, playerIndex:number): Observable<GameStateJson> {
@@ -51,6 +59,10 @@ export class RoleHttpService {
 
   public postEndTurnSmallWharf( dataGameId:number,goodsToShip:GoodName[], playerIndex:number): Observable<GameStateJson> {
     return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn/smallWharf`,{ dataGameId ,goodsToShip ,playerIndex});
+  } 
+
+  public postEndTurnRoyalSupplier( dataGameId:number,goodsToShip:GoodName[], playerIndex:number): Observable<GameStateJson> {
+    return this.http.post<GameStateJson>(`${environment.apiUrl}/EndTurn/royalSupplier`,{ dataGameId ,goodsToShip ,playerIndex});
   } 
 
   public postEndTurnPostCaptain( dataGameId:number, windroseStoredGood:GoodName, storehouseStoredGoods:GoodName[], smallWarehouseStoredType:GoodName, smallWarehouseStoredQuantity:number, largeWarehouseStoredTypes:GoodName[], largeWarehouseStoredQuantities:number[], playerIndex:number): Observable<GameStateJson> {

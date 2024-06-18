@@ -88,14 +88,10 @@ export class BuildingsComponent implements OnInit {
         case RoleName.Builder:
           if(building.quantity == 0 ) disableDragging = true;
           else{
-          let buildingAffordability = this.gameService.checkPlayerBuildingAffordabilityState(building);
+          let buildingAffordability = this.selectionService.checkPlayerBuildingAffordabilityState(building);
 
-          if(buildingAffordability[0] == isAffordable.Yes) disableDragging = false;
-          else if(buildingAffordability[0] == isAffordable.WithBlackMarket){
-            if(buildingAffordability[1] <= this.selectionService.getSelectedBlackMarketDiscountValue()) disableDragging = false;
-            else disableDragging = true;
-          } 
-          if(buildingAffordability[0] == isAffordable.Not) disableDragging = true;
+          if(buildingAffordability == isAffordable.Yes) disableDragging = false;
+          else disableDragging = true;
           }
           break;
         case RoleName.Draft:

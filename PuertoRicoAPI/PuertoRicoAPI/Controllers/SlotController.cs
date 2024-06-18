@@ -16,6 +16,7 @@ namespace PuertoRicoAPI.Controllers
     public class SlotInput
     {
         public int SlotId { get; set; }
+        public bool IsNoble { get; set; }
         public int DataGameId { get; set; }
         public int PlayerIndex { get; set; }
     }
@@ -52,7 +53,7 @@ namespace PuertoRicoAPI.Controllers
             if ((gs.CurrentRole != RoleName.Mayor) 
              && (gs.CurrentPlayerIndex == slotInput.PlayerIndex))
             {
-                if (dataSlot.IsOccupied)
+                if (dataSlot.State != SlotEnum.Vacant)
                 {
                     return BadRequest("Can't use guesthouse on Occupied slot.");
                 }
@@ -71,11 +72,12 @@ namespace PuertoRicoAPI.Controllers
 
                         for (int i = 0; i < 2; i++)
                     {
-                        if (guestHouseBuilding.Slots[i] == true)
+                        if (guestHouseBuilding.Slots[i] != SlotEnum.Vacant)
                         {
-                            guestHouseBuilding.Slots[i] = false;
-                            guestHouseRole.occupyTargetAndactivateBuildingEffect(targetBuildingOrPlantation, buildOrderAndIndex[1]);
-                              if ((i == 1) && gs.CurrentRole == RoleName.GuestHouse)
+                            
+                            guestHouseRole.occupyTargetAndactivateBuildingEffect(targetBuildingOrPlantation, buildOrderAndIndex[1], guestHouseBuilding.Slots[i]);
+                            guestHouseBuilding.Slots[i] = SlotEnum.Vacant;
+                                if ((i == 1) && gs.CurrentRole == RoleName.GuestHouse)
                             {
                                     guestHouseRole.mainLoop();
                             }
@@ -90,16 +92,26 @@ namespace PuertoRicoAPI.Controllers
 
             if (dataGameState.CurrentRole == Types.RoleName.Mayor) {
             
-            if(dataSlot.IsOccupied)
+            if(dataSlot.State != SlotEnum.Vacant)
             {
-                dataSlot.IsOccupied = false;
-                dataGameState.Players[slotInput.PlayerIndex].Colonists++;
+                if(dataSlot.State == SlotEnum.Colonist) dataGameState.Players[slotInput.PlayerIndex].Colonists++;
+                else dataGameState.Players[slotInput.PlayerIndex].Nobles++;
+
+                dataSlot.State = SlotEnum.Vacant;
             } 
-            else if(dataGameState.Players[slotInput.PlayerIndex].Colonists > 0 )
+            else
             {
-                dataSlot.IsOccupied = true;
-                dataGameState.Players[slotInput.PlayerIndex].Colonists--;
-            }
+                if (!slotInput.IsNoble && dataGameState.Players[slotInput.PlayerIndex].Colonists > 0)
+                    {
+                        dataSlot.State = SlotEnum.Colonist;
+                        dataGameState.Players[slotInput.PlayerIndex].Colonists--;
+                    }
+                else if (slotInput.IsNoble && dataGameState.Players[slotInput.PlayerIndex].Nobles > 0)
+                    {
+                        dataSlot.State = SlotEnum.Noble;
+                        dataGameState.Players[slotInput.PlayerIndex].Nobles--;
+                    }
+                }
             }
 
             await _context.SaveChangesAsync();

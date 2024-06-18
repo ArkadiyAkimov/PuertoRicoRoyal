@@ -17,7 +17,30 @@ namespace PuertoRicoAPI.Model.Roles
         {
             if(IsFirstIteration)
             {
-                gs.Players.ForEach(x => x.Colonists += (int)Math.Ceiling(((double)gs.ColonistsOnShip / gs.Players.Count) - ((double)Utility.Mod((x.Index - gs.getCurrPlayer().Index), gs.Players.Count) / gs.Players.Count)));
+                gs.Players.ForEach(x => x.Colonists += (int)Math.Ceiling(((double)(gs.ColonistsOnShip + gs.NoblesOnShip) / gs.Players.Count) - ((double)Utility.Mod((x.Index - gs.getCurrPlayer().Index), gs.Players.Count) / gs.Players.Count)));
+                if (gs.IsNoblesExpansion && (gs.NoblesOnShip > 0))
+                {
+                    gs.getCurrPlayer().Nobles++;
+                    gs.NoblesOnShip--;
+                    gs.getCurrPlayer().Colonists--;
+
+                    foreach (var player in gs.Players) 
+                    {
+                        if (player.hasActiveBuilding(BuildingName.Villa))
+                        {
+                            if(gs.NoblesSupply > 0)
+                            {
+                                player.Nobles++;
+                                gs.NoblesSupply--;
+
+                            }else if(gs.ColonistsSupply > 0)
+                            {
+                                player.Colonists++;
+                                gs.ColonistsSupply--;
+                            }
+                        }
+                    }
+                }
                 gs.ColonistsOnShip = 0;
                 initializeBuildingEffects(BuildingName.Library, true);
             }
@@ -38,7 +61,14 @@ namespace PuertoRicoAPI.Model.Roles
             gs.ColonistsOnShip = Math.Max(freeSlots, gs.Players.Count);
             gs.ColonistsSupply -= gs.ColonistsOnShip;
 
-            if(gs.ColonistsSupply < 0) 
+            if (gs.IsNoblesExpansion && gs.NoblesSupply > 0) {
+                gs.NoblesOnShip++;
+                gs.NoblesSupply--;
+                gs.ColonistsOnShip--;
+                gs.ColonistsSupply++;
+            }
+
+            if(gs.ColonistsSupply < 0 && !gs.IsNoblesExpansion) 
             {
                 gs.LastGovernor = true;
                 gs.ColonistsOnShip = 0;
@@ -67,6 +97,21 @@ namespace PuertoRicoAPI.Model.Roles
 
         bool isPlayerInputNecessary(Player player)
         {
+            if (player.Nobles > 0) return true;
+
+            foreach(Plantation plant in player.Plantations)
+            {
+                if(plant.SlotState == SlotEnum.Noble) return true;
+            }
+            foreach(Building building in player.Buildings)
+            {
+                foreach(SlotEnum slot in building.Slots)
+                {
+                    if(slot == SlotEnum.Noble) return true;
+                }
+            }
+            // make complex auto completion for players with nobles in the future.
+
             int freeSlots = 0;
 
             player.Buildings.ForEach(building =>
@@ -76,7 +121,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             player.Plantations.ForEach(plantation =>
             {
-                if (!plantation.IsOccupied) freeSlots++;
+                if (plantation.SlotState == SlotEnum.Vacant) freeSlots++;
             });
 
             if(player.Colonists >= freeSlots) return false;
@@ -90,20 +135,20 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 for(int i = 0; i<building.Slots.Length; i++)
                 {
-                    if (!building.Slots[i])
+                    if (building.Slots[i] == SlotEnum.Vacant)
                     {
                         player.Colonists--;
-                        building.Slots[i] = true;
+                        building.Slots[i] = SlotEnum.Colonist;
                     }
                 }
             });
 
             player.Plantations.ForEach(plantation =>
             {
-                if (!plantation.IsOccupied)
+                if (plantation.SlotState == SlotEnum.Vacant)
                 {
                     player.Colonists--;
-                    plantation.IsOccupied = true;
+                    plantation.SlotState = SlotEnum.Colonist;
                 }
             });
 
@@ -127,7 +172,9 @@ namespace PuertoRicoAPI.Model.Roles
         {
             var currentPlayer = this.gs.getCurrPlayer();
 
-            if(currentPlayer.Colonists == 0) return true;
+            int residents = currentPlayer.Colonists + currentPlayer.Nobles;
+
+            if(residents == 0) return true;
 
             bool cantEndTurn = false;
 
@@ -138,7 +185,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             currentPlayer.Plantations.ForEach(plantation =>  //fixed
             {
-                if (!plantation.IsOccupied) cantEndTurn = true;
+                if (plantation.SlotState == SlotEnum.Vacant) cantEndTurn = true;
             });
 
             return !cantEndTurn;

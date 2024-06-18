@@ -32,7 +32,14 @@ namespace PuertoRicoAPI.Controllers
         public int PlayerIndex { get; set; }
     }
 
-    public class EndTurnSmallWharf
+    public class EndTurnSmallWharfInput
+    {
+        public int DataGameId { get; set; }
+        public GoodType[] goodsToShip { get; set; }
+        public int PlayerIndex { get; set; }
+    }
+
+    public class EndTurnRoyalSupplierInput
     {
         public int DataGameId { get; set; }
         public GoodType[] goodsToShip { get; set; }
@@ -139,7 +146,7 @@ namespace PuertoRicoAPI.Controllers
         }
 
         [HttpPost("smallWharf")]
-        public async Task<ActionResult<DataGameState>> PostEndTurnSmallWharf(EndTurnSmallWharf endTurnSmallWharf)
+        public async Task<ActionResult<DataGameState>> PostEndTurnSmallWharf(EndTurnSmallWharfInput endTurnSmallWharf)
         {
 
             DataGameState dataGameState = await DataFetcher
@@ -159,6 +166,38 @@ namespace PuertoRicoAPI.Controllers
                 {
                     (currentRole as Captain).shipGoodsSmallWharf(endTurnSmallWharf.goodsToShip);
                     (currentRole as Captain).mainLoop();
+                }
+            }
+
+            await DataFetcher.Update(dataGameState, gs);
+
+            await _context.SaveChangesAsync();
+
+            await UpdateHub.SendUpdate(dataGameState, _hubContext);
+
+            return Ok("Succes");
+        }
+
+        [HttpPost("royalSupplier")]
+        public async Task<ActionResult<DataGameState>> PostEndTurnRoyalSupplier(EndTurnRoyalSupplierInput endTurnRoyalSupplierInput)
+        {
+
+            DataGameState dataGameState = await DataFetcher
+            .getDataGameState(_context, endTurnRoyalSupplierInput.DataGameId);
+
+            GameState gs = await ModelFetcher
+             .getGameState(_context, endTurnRoyalSupplierInput.DataGameId);
+
+            if (endTurnRoyalSupplierInput.PlayerIndex != gs.CurrentPlayerIndex) return Ok("wait your turn, bitch");
+
+            var currentRole = gs.getCurrentRole();
+            //if(gs.CurrentRole == RoleName.NoRole) { return Ok("No turn to end here"); }
+
+            if (gs.CurrentRole == RoleName.Captain)
+            {
+                if ((currentRole as Captain).canUseRoyalSupplier())
+                {
+                    (currentRole as Captain).sendGoodsRoyalSupplier(endTurnRoyalSupplierInput.goodsToShip);
                 }
             }
 

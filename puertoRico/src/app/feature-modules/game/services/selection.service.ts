@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameService } from './game.service';
-import { BuildingName, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName } from '../classes/general';
+import { BuildingName, DataBuilding, DataPlayerBuilding, DataPlayerGood, GameStateJson, GoodName, GoodType, PlayerUtility, RoleName, SlotEnum, isAffordable } from '../classes/general';
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +29,18 @@ export class SelectionService {
   selectedGoodType:GoodName = GoodName.NoType;
   sellVictoryPoint:boolean = false;
 
-  selectedShip: number = 5;
+  selectedShip: number = 6;
+  goodsOnWharf: GoodName[] = [];
   selectedGoodsSmallWharf: GoodName[] = [];
- 
+  selectedGoodsRoyalSupplier: GoodName[] = [];
+
   takingForest: boolean = false;
   sellingToTradingPost:boolean = false;
 
-  goodsOnWharf: GoodName[] = [];
+  noblesSelected: boolean = false;
+
+  isLandOfficeActive: boolean = false;
+  isHuntingLodgeActive: boolean = false;
 
   constructor(private gameService:GameService){ 
     this.gameService.gs.subscribe({
@@ -87,15 +92,32 @@ export class SelectionService {
     this.selectedGoodType = GoodName.NoType;
     this.sellVictoryPoint = false;
 
-
-    this.selectedShip = 5;
+    this.selectedShip = 6;
+    this.goodsOnWharf = [];
     this.selectedGoodsSmallWharf = [];
+    this.selectedGoodsRoyalSupplier = [];
 
     this.takingForest = false;
 
     this.sellingToTradingPost = false;
     
-    this.goodsOnWharf = [];
+    this.noblesSelected = false;
+    
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player.colonists == 0 && player.nobles > 0) this.noblesSelected = true;  
+
+    this.isLandOfficeActive = false;
+    this.isHuntingLodgeActive = false;
+  }
+
+
+  selectNobles(){
+    if(this.gameService.gs.value.isNoblesExpansion) this.noblesSelected = true;
+  }
+
+  selectColonists(){
+    this.noblesSelected = false;
   }
 
   toggleSmallWharf(){
@@ -104,13 +126,28 @@ export class SelectionService {
     if(player == undefined) return;
 
     if(this.selectedShip == 4){
-      this.selectedShip = 5;
+      this.selectedShip = 6;
       this.selectedGoodsSmallWharf.forEach(goodType => {
         player.goods[goodType].quantity++;
       });
       this.selectedGoodsSmallWharf = [];
     }
     else this.selectedShip = 4;
+  }
+
+  toggleRoyalSupplier(){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
+
+    if(this.selectedShip == 5){
+      this.selectedShip = 6;
+      this.selectedGoodsRoyalSupplier.forEach(goodType => {
+        player.goods[goodType].quantity++;
+      });
+      this.selectedGoodsRoyalSupplier = [];
+    }
+    else this.selectedShip = 5;
   }
 
   fillWharf(good:DataPlayerGood){
@@ -122,6 +159,56 @@ export class SelectionService {
     }
     
     good.quantity = 0;
+  }
+
+  toggleLandOffice(){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
+
+    if(this.isLandOfficeActive){
+      this.isLandOfficeActive = false;
+      this.takingForest = false;
+    } 
+    else if(
+        gs.currentRole == RoleName.Trader 
+        && this.playerUtility.hasActiveBuilding(BuildingName.LandOffice,player)
+        && this.playerUtility.getBuilding(BuildingName.LandOffice, player)?.effectAvailable
+      ){
+        this.isLandOfficeActive = true;
+      }
+  }
+
+  toggleHuntingLodge(){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
+
+    if(this.isHuntingLodgeActive){
+      this.isHuntingLodgeActive = false;
+    } 
+    else if(
+        gs.currentRole == RoleName.Settler 
+        && this.playerUtility.hasActiveBuilding(BuildingName.HuntingLodge,player)
+        && this.playerUtility.getBuilding(BuildingName.HuntingLodge, player)?.effectAvailable
+        && this.playerUtility.getBuilding(BuildingName.HuntingLodge,player)?.slots[0].state == SlotEnum.Colonist
+      ){
+        this.isHuntingLodgeActive = true;
+        this.takingForest = false;
+      }
+  }
+
+  toggleForestHouse(){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
+
+    if(this.takingForest){
+      this.takingForest = false;
+    } else{
+      this.takingForest = true;
+      this.isHuntingLodgeActive = false;
+    }
   }
 
   getSelectedBlackMarketDiscountValue():number{
@@ -146,6 +233,20 @@ export class SelectionService {
       this.selectedGoodsSmallWharf.push(goodType);
     }
   }
+  
+  selectRoyalSupplierGoods(goodType:GoodName){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    if(player == undefined) return;
+
+    if(player.goods[goodType].quantity > 0
+      && !this.selectedGoodsRoyalSupplier.includes(goodType)
+      && this.selectedGoodsRoyalSupplier.length+1 <= this.gameService.countPlayerNobles()){
+      player.goods[goodType].quantity--;
+      this.selectedGoodsRoyalSupplier.push(goodType);
+    }
+  }
+
 
   toggleSupplyColonistForBlackMarket(){
     let gs = this.gameService.gs.value;
@@ -182,14 +283,14 @@ export class SelectionService {
     else{                //check slot is not empty
       let slotIsEmpty = true;
       player.plantations.forEach(plantation => {
-        if(plantation.slot.id == slotId && plantation.slot.isOccupied){
+        if(plantation.slot.id == slotId && (plantation.slot.state != SlotEnum.Vacant)){
           slotIsEmpty = false;
         }
         if(slotIsEmpty) return;
       });
       player.buildings.forEach(building => {
         building.slots.forEach(slot => {
-          if(slot.id == slotId && slot.isOccupied){
+          if(slot.id == slotId && (slot.state != SlotEnum.Vacant)){
             slotIsEmpty = false;
           }
           if(slotIsEmpty) return;
@@ -385,20 +486,27 @@ toggleBuildingEffect(building:DataPlayerBuilding){
   if(player == undefined) return;
 
   if(gs.currentPlayerIndex != player.index) return;
-  if(!building.slots[0].isOccupied) return;
+  if(building.slots[0].state == SlotEnum.Vacant) return;
 
   let buildingType = this.gameService.getBuildingType(building);
 
 
   switch(buildingType?.name){
     case BuildingName.ForestHouse:
-      if(gs.currentRole == RoleName.Settler) this.takingForest = !this.takingForest;
+      if(gs.currentRole == RoleName.Settler) this.toggleForestHouse();
+      else if(gs.currentRole == RoleName.Trader && this.isLandOfficeActive) this.takingForest = !this.takingForest;
       break;
     case BuildingName.BlackMarket:
         if(gs.currentRole == RoleName.Builder)this.toggleBlackMarket();
       break;    
     case BuildingName.TradingPost:
       if(gs.currentRole == RoleName.Trader) this.sellingToTradingPost = !this.sellingToTradingPost;
+      break;
+    case BuildingName.LandOffice:
+      if(gs.currentRole == RoleName.Trader) this.toggleLandOffice();
+      break;
+    case BuildingName.HuntingLodge:
+      if(gs.currentRole == RoleName.Settler) this.toggleHuntingLodge();
       break;
   }
 }
@@ -460,6 +568,77 @@ getWharfGoodTypeArray():any{
   return array;
 }
 
+getRoyalSupplierGoodTypeArray():any{
+  let array: any[] = [];
 
+  this.selectedGoodsRoyalSupplier.forEach(GoodType => {
+    array.push(this.gameService.goodTypes[GoodType]);
+  });
+
+  return array;
+}
+
+checkPlayerBuildingAffordabilityState(building:DataBuilding):isAffordable{
+  let player = this.gameService.gs.value.players[this.gameService.playerIndex];
+  let gs = this.gameService.gs.value;
+  let type = this.gameService.getBuildingType(building);
+  if(type == null || type == undefined) return isAffordable.Not;
+
+  let playerDoubloons = player.doubloons;
+  if((player.index == gs.privilegeIndex) 
+    && (gs.currentPlayerIndex == player.index)
+    && (gs.currentRole == RoleName.Builder)){
+      playerDoubloons++; //privilege during builder
+      if(this.playerUtility.hasActiveBuilding(BuildingName.Library,player)) playerDoubloons++;
+    }
+  let quarryMaxDiscount = 0;
+  let forestFinalDiscount = 0;
+
+  player.plantations.forEach(plantation => {
+    if(plantation.good == GoodName.Quarry && (plantation.slot.state != SlotEnum.Vacant)) quarryMaxDiscount++;
+  });
+
+  player.plantations.forEach(plantation => {
+    if(plantation.good == GoodName.Forest) forestFinalDiscount++;
+  });
+
+  forestFinalDiscount = Math.floor(forestFinalDiscount/2);
+  let quarryFinalDiscount = Math.min(type.victoryScore, quarryMaxDiscount);
+  
+  let blackMarketMaxDiscount = 0;
+
+  if(this.playerUtility.hasActiveBuilding(BuildingName.BlackMarket, player)){
+    let sumOfPlayerGoods = 0;
+    player.goods.forEach(good => {
+      sumOfPlayerGoods += good.quantity;
+    });
+
+    if(sumOfPlayerGoods > 0) blackMarketMaxDiscount++;
+    if(player.victoryPoints > 0) blackMarketMaxDiscount++;
+    blackMarketMaxDiscount++ //has a colonist on black market dont need to calculate shit.
+  }
+
+  let zoningOfficeDiscount = 0;
+
+  if(this.playerUtility.hasActiveBuilding(BuildingName.ZoningOffice, player)){
+    if((this.playerUtility.getBuilding(BuildingName.ZoningOffice,player)?.slots[0].state == SlotEnum.Colonist) && (type.victoryScore < 4)) zoningOfficeDiscount = 1;
+    if((this.playerUtility.getBuilding(BuildingName.ZoningOffice,player)?.slots[0].state == SlotEnum.Noble) && (type.victoryScore <= 4)) zoningOfficeDiscount = 2;
+  }
+
+  let blackMarketCurrentDiscount = this.getSelectedBlackMarketDiscountValue();
+
+  let totalBudget = playerDoubloons + quarryFinalDiscount + forestFinalDiscount + zoningOfficeDiscount;
+
+  if(this.isBlackMarketActive){
+    if(type.price <= totalBudget) return isAffordable.BlackMarketBlocked;
+    else if (type.price == totalBudget + blackMarketCurrentDiscount) return isAffordable.Yes;
+    else if (type.price <= totalBudget + blackMarketMaxDiscount) return isAffordable.WithBlackMarket;
+    else return isAffordable.Not;
+  }else{
+  if(type.price <= totalBudget) return isAffordable.Yes;
+  else if (type.price <= totalBudget + blackMarketMaxDiscount) return isAffordable.WithBlackMarket;
+  else return isAffordable.Not;
+  }
+}
 
 }

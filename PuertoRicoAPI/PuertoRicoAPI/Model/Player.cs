@@ -16,6 +16,7 @@ namespace PuertoRicoAPI.Models
             this.Index = dataPlayer.Index;
             this.Doubloons = dataPlayer.Doubloons;
             this.Colonists = dataPlayer.Colonists;
+            this.Nobles = dataPlayer.Nobles;
             this.VictoryPoints = dataPlayer.VictoryPoints;
             this.TookTurn = dataPlayer.TookTurn;
             this.BuildOrder = dataPlayer.BuildOrder;
@@ -43,6 +44,7 @@ namespace PuertoRicoAPI.Models
         public int Index { get; set; }
         public int Doubloons { get; set; }
         public int Colonists { get; set; }
+        public int Nobles { get; set; }
         public int VictoryPoints { get; set; }
         public bool TookTurn { get; set; }
         public List<Building> Buildings { get; set; }
@@ -82,7 +84,7 @@ namespace PuertoRicoAPI.Models
             int count = 0;
             foreach(Plantation plantation in this.Plantations)
             {
-               if(plantation.Good == Types.GoodType.Quarry && plantation.IsOccupied)
+               if(plantation.Good == Types.GoodType.Quarry && (plantation.SlotState != SlotEnum.Vacant))
                 {
                     count++;
                 }
@@ -101,18 +103,18 @@ namespace PuertoRicoAPI.Models
             return Buildings.FirstOrDefault(building => building.Type.Name == name);
         }
 
-        public bool hasActiveBuilding(BuildingName name) //changed to check if building has colonist(true) vs has free slot(false)
+        public bool hasActiveBuilding(BuildingName name) 
         { 
             Building building = getBuilding(name);
             if (building == null) return false;
-            return building.Slots.Contains(true);
+            return building.Slots.Contains(SlotEnum.Colonist) || building.Slots.Contains(SlotEnum.Noble);
         }
 
-        public bool hasVacancyAtBuilding(BuildingName name) //changed to check if building has colonist(true) vs has free slot(false)
+        public bool hasVacancyAtBuilding(BuildingName name)
         {
             Building building = getBuilding(name);
             if (building == null) return false;
-            return building.Slots.Contains(false);
+            return building.Slots.Contains(SlotEnum.Vacant);
         }
 
 
@@ -153,7 +155,7 @@ namespace PuertoRicoAPI.Models
                 
                 if(building.Type.size == 2)
                 {
-                    if (building.Slots.Contains(true))
+                    if (building.Slots.Contains(SlotEnum.Colonist) || building.Slots.Contains(SlotEnum.Noble))
                     {
                         Score += CalculateLargeBuildingBonus(building.Type);
                     }
@@ -170,14 +172,31 @@ namespace PuertoRicoAPI.Models
             int count = 0;
             foreach(Building building in Buildings)
             {
-                count += building.Slots.Sum(x=> x?1:0);
+                count += building.Slots.Sum(x=> (x == SlotEnum.Colonist) ? 1 : 0 );
             }
             foreach(Plantation plantation in Plantations)
             {
-                if(plantation.Good != GoodType.Forest) count += plantation.IsOccupied ? 1 : 0;
+                if(plantation.Good != GoodType.Forest) count += plantation.SlotState == SlotEnum.Colonist ? 1 : 0;
             }
             return count+Colonists;
-        } 
+        }
+
+
+        public int CountNobles()
+        {
+            int count = 0;
+            foreach (Building building in Buildings)
+            {
+                count += building.Slots.Sum(x => (x == SlotEnum.Noble) ? 1 : 0);
+            }
+            foreach (Plantation plantation in Plantations)
+            {
+                if (plantation.Good != GoodType.Forest) count += plantation.SlotState == SlotEnum.Noble ? 1 : 0;
+            }
+            return count + Nobles;
+        }
+
+
 
         public int CalculateLargeBuildingBonus(BuildingType type)
         {
@@ -194,6 +213,9 @@ namespace PuertoRicoAPI.Models
 
                 case BuildingName.GuildHall:
                     return Buildings.Sum(x => x.Type.Color != Utility.ColorName.violet ? (x.Type.Slots > 1 ? 2 : 1) :0);
+
+                case BuildingName.RoyalGarden:
+                    return CountNobles();
 
                 case BuildingName.Residence:
                     return Math.Max(Plantations.Count - 5, 4);

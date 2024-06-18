@@ -119,9 +119,10 @@ namespace PuertoRicoAPI.Controllers
 
             int[] buildOrderAndIndex = await DataFetcher.getBuildOrderAndIndexOfDataSlot(_context, buildingBlackMarketInput.SlotId, playerID);
 
-            if ((currentRole as Builder).canBuyBuilding(building)) return Ok("can't use discount");
-
             int discount = (currentRole as Builder).calculateTotalBlackMarketDiscount(buildingBlackMarketInput, buildOrderAndIndex);
+
+            if (!(currentRole as Builder).canBuyBuilding(building, discount)) return Ok("can't use discount");
+
             if (!(currentRole as Builder).tryBuyBuilding(building,discount)) return Ok("can't buy building");
             (currentRole as Builder).ChargeForBlackMarketUse(buildingBlackMarketInput,buildOrderAndIndex);
             (currentRole as Builder).mainLoop();

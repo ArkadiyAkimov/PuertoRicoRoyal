@@ -20,6 +20,7 @@ namespace PuertoRicoAPI.Model.Roles
             {
                 initializeBuildingEffects(BuildingName.Wharf, true);
                 initializeBuildingEffects(BuildingName.SmallWharf, true);
+                initializeBuildingEffects(BuildingName.RoyalSupplier, true);
 
                 if (gs.getCurrPlayer().hasActiveBuilding(BuildingName.Lighthouse) // lighthouse 1 coint for privilege
                         && gs.getCurrPlayer().CheckForPriviledge())
@@ -47,11 +48,10 @@ namespace PuertoRicoAPI.Model.Roles
                 return;
             }
 
-
             if (!gs.CaptainPlayableIndexes[gs.CurrentPlayerIndex] 
                 || (gs.getCurrPlayer().Goods.Sum(x => x.Quantity) == 0)
                 || (!this.checkIfCanShipAnyGoods() && !this.canUseSmallWharf()
-                && !this.canUseWharf() && !this.canUseGuestHouse()))
+                && !this.canUseRoyalSupplier() && !this.canUseWharf() && !this.canUseGuestHouse()))
             {
                 gs.CaptainPlayableIndexes[gs.CurrentPlayerIndex] = false;
                 this.mainLoop();
@@ -108,6 +108,14 @@ namespace PuertoRicoAPI.Model.Roles
             return player.hasActiveBuilding(BuildingName.SmallWharf)
                 && player.getBuilding(BuildingName.SmallWharf).EffectAvailable;
         }
+
+        public bool canUseRoyalSupplier()
+        {
+            var player = gs.getCurrPlayer();
+
+            return player.hasActiveBuilding(BuildingName.RoyalSupplier)
+                && player.getBuilding(BuildingName.RoyalSupplier).EffectAvailable;
+        }
         public bool checkIfCanShipAnyGoods()
         {
             var player = gs.getCurrPlayer();
@@ -115,7 +123,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             var playerTypes = player.GetUniqueGoodTypes();
 
-            for(int i=0; i < gs.Ships.Count - 2; i++)
+            for(int i=0; i < gs.Ships.Count - 3; i++)
             {
                 var ship = gs.Ships[i];
 
@@ -129,7 +137,7 @@ namespace PuertoRicoAPI.Model.Roles
                 }
             }
             bool anyShipEmpty = false;
-            for(int i=0; i<gs.Ships.Count -2; i++)
+            for(int i=0; i<gs.Ships.Count -3; i++)
             {
                 if (gs.Ships[i].IsEmpty()) anyShipEmpty = true;
             }
@@ -172,6 +180,29 @@ namespace PuertoRicoAPI.Model.Roles
 
             GivePlayerVictoryPoints(player, totalVP);
         }
+
+        public void sendGoodsRoyalSupplier(GoodType[] goodsToShip)
+        {
+            Player player = gs.getCurrPlayer();
+
+
+
+            int totalGoodsShipped = 0;
+
+            foreach (GoodType goodType in goodsToShip)
+            {
+                if (player.Goods[(int)goodType].Quantity > 0)
+                {
+                    player.Goods[(int)goodType].Quantity--;
+                    gs.GetGoodCount(goodType, -1);
+                    totalGoodsShipped++;
+                }
+            }
+
+            int totalVP = totalGoodsShipped;
+
+            GivePlayerVictoryPoints(player, totalVP, true);
+        }
         public bool TryAddGoodsToShip(int shipIndex, GoodType type)
         {
             Player player = gs.getCurrPlayer();
@@ -206,9 +237,18 @@ namespace PuertoRicoAPI.Model.Roles
             return false;
         }
 
-        public void GivePlayerVictoryPoints(Player player, int goodsShipped)
+        public void GivePlayerVictoryPoints(Player player, int goodsShipped, bool isRoyalSupplierPhase = false)
         {
             int totalVp = goodsShipped;
+
+            if (player.hasActiveBuilding(BuildingName.RoyalSupplier))
+            {
+                Console.WriteLine("royal supplier disabled");
+                player.getBuilding(BuildingName.RoyalSupplier).EffectAvailable = false;
+            }
+
+            if (isRoyalSupplierPhase == false)
+            {
 
             if (player.hasActiveBuilding(BuildingName.Harbor))
             {
@@ -226,6 +266,8 @@ namespace PuertoRicoAPI.Model.Roles
                 gs.CaptainFirstShipment = false;
                 totalVp++;
                 if (player.hasActiveBuilding(BuildingName.Library)) totalVp++;
+            }
+
             }
 
             player.VictoryPoints += totalVp;

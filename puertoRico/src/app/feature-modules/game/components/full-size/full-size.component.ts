@@ -3,7 +3,7 @@ import { GameService } from '../../services/game.service';
 import { Subscription } from 'rxjs';
 import { RoleHttpService } from '../../services/role-http.service';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName, RoleName, DataBuilding, PlayerUtility } from '../../classes/general';
+import { GameStateJson, DataPlayer, DataPlayerBuilding, DataPlayerPlantation, DataSlot, BuildingType, BuildingName, RoleName, DataBuilding, PlayerUtility, SlotEnum } from '../../classes/general';
 import { StylingService } from '../../services/styling.service';
 import { SelectionService } from '../../services/selection.service';
 import { HighlightService } from '../../services/highlight.service';
@@ -65,9 +65,10 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     if(this.selectionService.isBlackMarketActive) this.selectionService.selectColonistForBlackMarket(slot.id);
     else if(gs.currentRole == RoleName.Mayor 
          && (((building != null) && (building.name != BuildingName.GuestHouse)) || building == null) 
-         && !slot.isOccupied 
+         && (slot.state == SlotEnum.Vacant)
          && player.index == gs.privilegeIndex 
          && player.colonists == 0 
+         && player.nobles == 0
          && (!gs.mayorTookPrivilige || (playerUtility.hasActiveBuilding(BuildingName.Library,player) 
                                      && playerUtility.getBuilding(BuildingName.Library,player)?.effectAvailable))){
       this.roleHttp.postColonist(this.gameService.gs.value.id, this.gameService.playerIndex)
@@ -79,17 +80,42 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
         },
         error: (error:any)=> {
           console.log("error: postColonist");
+          this.postSlot(slot)
         }
       });
-      // setTimeout(() => this.postSlot(slot), 200);
+      //setTimeout(() => this.postSlot(slot), 200);
     } 
     else{  
     this.postSlot(slot);
     }
   }
 
+  onPlantationClick(plantation:DataPlayerPlantation){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    let playerUtility = new PlayerUtility();
+
+    if((this.selectionService.isLandOfficeActive 
+      && (playerUtility.getBuilding(BuildingName.LandOffice, player)?.slots[0].state == SlotEnum.Noble) 
+      && (player.plantations.length > 0))
+      || (this.selectionService.isHuntingLodgeActive
+      && (playerUtility.getBuilding(BuildingName.HuntingLodge, player)?.slots[0].state == SlotEnum.Colonist)
+      && (player.plantations.length > 0))){
+        
+    this.roleHttp.postRemoveSell(plantation.buildOrder, this.gameService.gs.value.id, this.gameService.playerIndex) .subscribe({
+      next: (result:GameStateJson) => {
+        console.log('success: postRemoveSell');
+        this.gameService.gs.next(result);
+      },
+      error: (error:any)=> {
+        console.log("error: postRemoveSell");
+      }
+    });
+    }
+  }
+
   postSlot(slot:DataSlot){
-    let subscription = this.roleHttp.postSlot(slot.id, this.gameService.gs.value.id, this.gameService.playerIndex)
+    let subscription = this.roleHttp.postSlot(slot.id, this.selectionService.noblesSelected, this.gameService.gs.value.id, this.gameService.playerIndex)
     .subscribe({
       next: (result:GameStateJson) => {
         console.log('success: postSlot');
@@ -113,12 +139,22 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       return;
     } 
     if(event.item.data == 6){
+      if(this.selectionService.isLandOfficeActive){
+        this.roleHttp.postBuyRandomPlantation(this.selectionService.takingForest, this.gameService.gs.value.id, this.gameService.playerIndex).subscribe({
+          next: (gs:GameStateJson) => {
+            this.gameService.gs.next(gs);
+          }
+        });
+        return;
+      }
+      else{
       this.roleHttp.postUpsideDown(this.gs.id, this.gameService.playerIndex).subscribe({
         next: (gs:GameStateJson) => {
           this.gameService.gs.next(gs);
         }
       });
       return;
+    }
     } 
     if (event.previousContainer === event.container) return;
     else if(this.selectionService.takingForest){
@@ -149,5 +185,6 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       event.container.data.length,
     );
   }
+
 
 }

@@ -20,9 +20,9 @@ namespace PuertoRicoAPI.Data.DataHandlers
             newGameState.IsNoblesExpansion = gsInput.IsNoblesExpansion;
             newGameState.IsRoleInProgress = false; 
             newGameState.VictoryPointSupply = new int[]{ 75, 100, 122}[numOfPlayers - 3];
-            newGameState.ColonistsOnShip = numOfPlayers;
-            newGameState.NoblesSupply = 20;
-            newGameState.NoblesOnShip = 1;
+            newGameState.ColonistsOnShip = gsInput.IsNoblesExpansion ? numOfPlayers - 1 : numOfPlayers;
+            newGameState.NoblesSupply = gsInput.IsNoblesExpansion ? 19 : 0;
+            newGameState.NoblesOnShip = gsInput.IsNoblesExpansion ? 1 : 0;
             newGameState.QuarryCount = 9;
             newGameState.CornSupply = 10;
             newGameState.IndigoSupply = 11;
@@ -138,7 +138,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             DataPlayerPlantation newPlantation = new DataPlayerPlantation();
             newPlantation.Good = good;
             newPlantation.Slot = new DataSlot();
-            newPlantation.Slot.IsOccupied = false;
+            newPlantation.Slot.State = SlotEnum.Vacant;
 
             return newPlantation;
         }
@@ -147,8 +147,9 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             DataPlayer newPlayer = new DataPlayer();
             newPlayer.Index = index;
-            newPlayer.Doubloons = 30; //doubloons
+            newPlayer.Doubloons = doubloons; //doubloons
             newPlayer.Colonists = 0;
+            newPlayer.Nobles = 0;
             newPlayer.VictoryPoints = 0;
             newPlayer.TookTurn = false;
             newPlayer.Buildings = new List<DataPlayerBuilding>();
@@ -241,7 +242,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
             DataPlantation newPlantation = new DataPlantation();
             newPlantation.Good = good;
             newPlantation.Slot = new DataSlot();
-            newPlantation.Slot.IsOccupied = false;
+            newPlantation.Slot.State = SlotEnum.Vacant;
 
             return newPlantation;
         }
@@ -267,7 +268,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
             }
 
             newShips.Add(initShip(11));
-            newShips.Add(initShip(30)); //need to change to sum of all possible goods
+            newShips.Add(initShip(50));
+            newShips.Add(initShip(5));
 
             return newShips;
         }

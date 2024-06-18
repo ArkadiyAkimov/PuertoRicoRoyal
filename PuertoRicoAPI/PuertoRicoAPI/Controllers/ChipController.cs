@@ -89,7 +89,7 @@ namespace PuertoRicoAPI.Controllers
                             else gs.ColonistsOnShip--;
 
                             Plantation targetplantation = player.Plantations.FirstOrDefault(plantation => plantation.BuildOrder == player.BuildOrder - 1);
-                            if (targetplantation != null) targetplantation.IsOccupied = true;
+                            if (targetplantation != null) targetplantation.SlotState = SlotEnum.Colonist;
 
                             if (player.TookTurn)
                             {
@@ -110,7 +110,7 @@ namespace PuertoRicoAPI.Controllers
 
                         Console.WriteLine("target building: {0}", targetBuilding);
 
-                        if (targetBuilding != null) targetBuilding.Slots[0] = true;
+                        if (targetBuilding != null) targetBuilding.Slots[0] = SlotEnum.Colonist;
 
                         (currentRole as Builder).mainLoop();
                     }
