@@ -92,15 +92,19 @@ export class StylingService {
   getBuildingPriceHighlight(building:DataBuilding){
     let priceClasses = "";
 
-    let buildingAffordable = this.gameService.checkPlayerBuildingAffordabilityState(building);
-    if(buildingAffordable[0] == isAffordable.Yes) priceClasses += " affordable ";
-    else if(buildingAffordable[0] == isAffordable.WithBlackMarket){
-      if(buildingAffordable[1] <= this.selectionService.getSelectedBlackMarketDiscountValue()) priceClasses += " affordable "; 
-      else priceClasses += " black-market-affordable ";
-    } 
-    else if(buildingAffordable[0] == isAffordable.Not) priceClasses += " unaffordable ";
-    
+    let buildingAffordable = this.selectionService.checkPlayerBuildingAffordabilityState(building);
 
+    switch(buildingAffordable){
+      case isAffordable.Yes:
+        return " affordable ";
+      case isAffordable.WithBlackMarket:
+        return " black-market-affordable ";
+      case isAffordable.Not:
+        return " unaffordable ";
+      case isAffordable.BlackMarketBlocked:
+        return " ";
+    }
+  
     return priceClasses;
   }
 

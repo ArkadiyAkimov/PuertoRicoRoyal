@@ -58,6 +58,7 @@ export class MyControlsComponent implements OnInit {
           break;
         case RoleName.Captain:
           if(this.selectionService.selectedShip == 4) this.selectionService.selectSmallWharfGoods(good.type);
+          else if(this.selectionService.selectedShip == 5) this.selectionService.selectRoyalSupplierGoods(good.type);
           else if(this.selectionService.selectedShip == 3){
             this.selectionService.fillWharf(good);
             setTimeout(()=>this.postGood(good),100);
@@ -150,7 +151,8 @@ export class MyControlsComponent implements OnInit {
 
       if(gs.currentPlayerIndex != player.index) return false;
       if(this.selectionService.selectedShip == 4 && this.selectionService.selectedGoodsSmallWharf.length > 0) return true;
-    
+      if(this.selectionService.selectedShip == 5 && this.selectionService.selectedGoodsRoyalSupplier.length > 0) return true;
+
       return true;
     }
 
@@ -196,6 +198,19 @@ export class MyControlsComponent implements OnInit {
               console.log("error:",response.error.text);
             }
           });
+        }
+         else if(this.selectionService.selectedShip == 5){
+            this.roleHttp.postEndTurnRoyalSupplier(
+              this.gameService.gs.value.id, this.selectionService.selectedGoodsRoyalSupplier, this.gameService.playerIndex) //temp
+            .subscribe({
+              next: (result:GameStateJson) => {
+                console.log('success:',result);
+                this.gameService.gs.next(result);
+              },
+              error: (response:any)=> {
+                console.log("error:",response.error.text);
+              }
+            });
         }else{
           this.roleHttp.postEndTurn(
             this.gameService.gs.value.id,this.gameService.playerIndex) //temp

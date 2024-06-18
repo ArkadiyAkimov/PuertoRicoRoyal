@@ -44,7 +44,7 @@ export class GameService{
   }
 
   joinOrInitGame(){
-    this.startGameInput.gameId = 112;
+    this.startGameInput.gameId = 132;
     this.startGameInput.numOfPlayers = 4;
     this.startGameInput.playerIndex = 0;
     this.startGameInput.isDraft = false;
@@ -97,6 +97,25 @@ export class GameService{
       this.hubConnection.invoke('SelectIndex', this.playerIndex);
   };
 
+  countPlayerNobles(){
+    let player = this.gs.value.players[this.playerIndex];
+    let gs = this.gs.value;
+
+    let noblesCount = player.nobles;
+
+    player.plantations.forEach(plantation => {
+      if(plantation.slot.state == SlotEnum.Noble) noblesCount++;
+    });
+
+    player.buildings.forEach(building => {
+      building.slots.forEach(slot => {
+        if(slot.state == SlotEnum.Noble) noblesCount++;
+      });
+    });
+
+    return noblesCount;
+  }
+
 
   getBuildingType(dataBuilding:DataBuilding|DataPlayerBuilding):BuildingType|null{
     let buildingType = this.buildingTypes.find(bt => bt.name == dataBuilding.name);
@@ -119,52 +138,7 @@ export class GameService{
     else return null;
   }
 
-  checkPlayerBuildingAffordabilityState(building:DataBuilding):[isAffordable,number]{
-    let player = this.gs.value.players[this.playerIndex];
-    let gs = this.gs.value;
-    let type = this.getBuildingType(building);
-    if(type == null || type == undefined) return [isAffordable.Not,0];
-
-    let playerDoubloons = player.doubloons;
-    if((player.index == gs.privilegeIndex) 
-      && (gs.currentPlayerIndex == player.index)
-      && (gs.currentRole == RoleName.Builder)){
-        playerDoubloons++; //privilege during builder
-        if(this.playerUtility.hasActiveBuilding(BuildingName.Library,player)) playerDoubloons++;
-      }
-    let quarryMaxDiscount = 0;
-    let forestFinalDiscount = 0;
-
-    player.plantations.forEach(plantation => {
-      if(plantation.good == GoodName.Quarry && (plantation.slot.state != SlotEnum.Vacant)) quarryMaxDiscount++;
-    });
-
-    player.plantations.forEach(plantation => {
-      if(plantation.good == GoodName.Forest) forestFinalDiscount++;
-    });
-
-    forestFinalDiscount = Math.floor(forestFinalDiscount/2);
-    let quarryFinalDiscount = Math.min(type.victoryScore, quarryMaxDiscount);
-    
-    let blackMarketMaxDiscount = 0;
-
-    if(this.playerUtility.hasActiveBuilding(BuildingName.BlackMarket, player)){
-      let sumOfPlayerGoods = 0;
-      player.goods.forEach(good => {
-        sumOfPlayerGoods += good.quantity;
-      });
-
-      if(sumOfPlayerGoods > 0) blackMarketMaxDiscount++;
-      if(player.victoryPoints > 0) blackMarketMaxDiscount++;
-      blackMarketMaxDiscount++ //has a colonist on black market dont need to calculate shit.
-    }
-
-    let totalBudget = playerDoubloons + quarryFinalDiscount + forestFinalDiscount;
-
-    if(type.price <= totalBudget) return [isAffordable.Yes,0];
-    else if (type.price <= totalBudget + blackMarketMaxDiscount) return [isAffordable.WithBlackMarket, type.price - totalBudget];
-    else return [isAffordable.Not,0];
-  }
+  
 
   initializeGoodTypes(){      // move to back end same as building types
     let corn = new GoodType();
@@ -381,6 +355,8 @@ export class GameService{
   royalSupplierDisplayCheck():boolean{
     let gs = this.gs.value;
     let player = gs.players[this.playerIndex];
+
+    if(this.countPlayerNobles() <= 0) return false;
 
     let temp = (BuildingName.RoyalSupplier) 
     && this.playerUtility.hasActiveBuilding(BuildingName.RoyalSupplier, player)

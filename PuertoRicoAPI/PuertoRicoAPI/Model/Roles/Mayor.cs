@@ -97,7 +97,21 @@ namespace PuertoRicoAPI.Model.Roles
 
         bool isPlayerInputNecessary(Player player)
         {
-            if (player.Nobles > 0) return true; //maybe temporary
+            if (player.Nobles > 0) return true;
+
+            foreach(Plantation plant in player.Plantations)
+            {
+                if(plant.SlotState == SlotEnum.Noble) return true;
+            }
+            foreach(Building building in player.Buildings)
+            {
+                foreach(SlotEnum slot in building.Slots)
+                {
+                    if(slot == SlotEnum.Noble) return true;
+                }
+            }
+            // make complex auto completion for players with nobles in the future.
+
             int freeSlots = 0;
 
             player.Buildings.ForEach(building =>
@@ -158,7 +172,9 @@ namespace PuertoRicoAPI.Model.Roles
         {
             var currentPlayer = this.gs.getCurrPlayer();
 
-            if(currentPlayer.Colonists == 0) return true;
+            int residents = currentPlayer.Colonists + currentPlayer.Nobles;
+
+            if(residents == 0) return true;
 
             bool cantEndTurn = false;
 

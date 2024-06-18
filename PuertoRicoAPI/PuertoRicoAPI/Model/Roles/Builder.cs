@@ -131,8 +131,13 @@ namespace PuertoRicoAPI.Model.Roles
 
             buildingPrice -= blackMarketDiscount;
 
-            if (buildingPrice > player.Doubloons) return false;
-
+            if (blackMarketDiscount == 0)
+            {
+                if (buildingPrice > player.Doubloons) return false; //without black market you need more money than the discount
+            }
+            else {
+            if (buildingPrice != player.Doubloons) return false; //with black market using the black market discount you must have the exact amount of money or else can't use that much discount
+            }
 
             return true;
         }

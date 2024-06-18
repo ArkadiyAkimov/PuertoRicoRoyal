@@ -108,6 +108,11 @@ namespace PuertoRicoAPI.Model.deployables
             return this.Slots[0] != SlotEnum.Vacant;
         }
 
+        public bool isColonistOccupied()
+        {
+            return this.Slots[0] == SlotEnum.Colonist;
+        }
+
         public bool isNobleOccupied()
         {
             return this.Slots[0] == SlotEnum.Noble;

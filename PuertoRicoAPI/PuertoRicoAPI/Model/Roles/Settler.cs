@@ -20,6 +20,7 @@ namespace PuertoRicoAPI.Model.Roles
                 this.initializeBuildingEffects(BuildingName.Hacienda,true);
                 this.initializeBuildingEffects(BuildingName.Hospice, false);
                 this.initializeBuildingEffects(BuildingName.Library, true);
+                this.initializeBuildingEffects(BuildingName.HuntingLodge, true);
             }
 
 
@@ -41,6 +42,11 @@ namespace PuertoRicoAPI.Model.Roles
                 return;
             }
 
+            foreach(Player x in gs.Players)
+            {
+                RewardForHuntingLodge(x);
+            }
+
             gs.Plantations.Where(x => x.IsExposed).ToList().ForEach(plantation =>
             {
                 plantation.IsExposed = false;
@@ -49,7 +55,7 @@ namespace PuertoRicoAPI.Model.Roles
 
             DrawPlantations();
             base.endRole();
-
+            
         }
 
         public void DrawPlantations()
@@ -129,6 +135,31 @@ namespace PuertoRicoAPI.Model.Roles
                    && !player.getBuilding(BuildingName.Hospice).EffectAvailable;
         }
 
+        public void RewardForHuntingLodge(Player player)
+        {
+
+            if (player.hasActiveBuilding(BuildingName.HuntingLodge)
+                && player.getBuilding(BuildingName.HuntingLodge).Slots[0] == SlotEnum.Noble)
+            {
+                bool leastOccupiedSpaces = true;
+
+                foreach (Player opponent in gs.Players)
+                {
+                    if ((opponent.Index != player.Index)
+                        && (opponent.Plantations.Count() <= player.Plantations.Count()))
+                    {
+                        leastOccupiedSpaces = false;
+                    }
+                }
+
+                if (leastOccupiedSpaces)
+                {
+                    player.VictoryPoints += 2;
+                    gs.VictoryPointSupply -= 2;
+                }
+            }
+        }
+
         public void TakePlantation(DataPlantation dataPlantation,bool tookForest)
         {
             Plantation newPlantation;
@@ -151,7 +182,6 @@ namespace PuertoRicoAPI.Model.Roles
                 if (player.hasActiveBuilding(BuildingName.Library)
                   && !player.getBuilding(BuildingName.Library).EffectAvailable)
                 {
-                    Console.WriteLine("nigger sex 2");
                     this.endRole();
                     return;
                 }
@@ -177,7 +207,9 @@ namespace PuertoRicoAPI.Model.Roles
                     .FirstOrDefault(plantation => plantation.IsExposed
                     && plantation.Good == dataPlantation.Good);
 
-                this.gs.Plantations.Remove(removedPlantation);
+                //this.gs.Plantations.Remove(removedPlantation); 
+                removedPlantation.IsDiscarded = true;
+                removedPlantation.IsExposed = false;
                 player.Plantations.Add(newPlantation);
 
                 player.TookTurn = true;
@@ -189,15 +221,25 @@ namespace PuertoRicoAPI.Model.Roles
                     return;
                 }
 
-                if (player.hasActiveBuilding(BuildingName.Hospice))
-                {
-                    if (player.hasActiveBuilding(BuildingName.Hacienda)
-                        && !player.getBuilding(BuildingName.Hacienda).EffectAvailable) this.mainLoop();
-                    Console.WriteLine("player {0} hospice enabled.", player.Index);
-                    player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
-                    return;
-                }
-                else this.mainLoop();
+                this.mainLoop();
+            }
+            else if (dataPlantation != null && !dataPlantation.IsExposed && tookForest)//buying forest
+            {
+
+                newPlantation = new Plantation();
+                newPlantation.Good = GoodType.Forest;
+                newPlantation.SlotState = SlotEnum.Colonist;
+
+                Plantation removedPlantation = this.gs.Plantations
+                    .FirstOrDefault(plantation => !plantation.IsExposed
+                    && (plantation.Good == dataPlantation.Good));
+
+                //this.gs.Plantations.Remove(removedPlantation); 
+                removedPlantation.IsDiscarded = true;
+                player.Plantations.Add(newPlantation);
+
+                player.TookTurn = true;
+                return;
             }
             else if (dataPlantation != null) //upside down
             {
@@ -211,14 +253,17 @@ namespace PuertoRicoAPI.Model.Roles
                 player.Plantations.Add(newPlantation);
 
 
-                player.getBuilding(BuildingName.Hacienda).EffectAvailable = false;
-
-                if (player.hasActiveBuilding(BuildingName.Hospice))
+                if (gs.CurrentRole == RoleName.Settler)
                 {
-                    Console.WriteLine("player {0} hospice enabled.", player.Index);
-                    player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                    player.getBuilding(BuildingName.Hacienda).EffectAvailable = false;
+
+                    if (player.hasActiveBuilding(BuildingName.Hospice))
+                    {
+                        Console.WriteLine("player {0} hospice enabled.", player.Index);
+                        player.getBuilding(BuildingName.Hospice).EffectAvailable = true;
+                    }
+                    return;
                 }
-                return;
             }
             else  //quarry
             {

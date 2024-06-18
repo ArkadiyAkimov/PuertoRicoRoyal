@@ -68,6 +68,7 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
          && (slot.state == SlotEnum.Vacant)
          && player.index == gs.privilegeIndex 
          && player.colonists == 0 
+         && player.nobles == 0
          && (!gs.mayorTookPrivilige || (playerUtility.hasActiveBuilding(BuildingName.Library,player) 
                                      && playerUtility.getBuilding(BuildingName.Library,player)?.effectAvailable))){
       this.roleHttp.postColonist(this.gameService.gs.value.id, this.gameService.playerIndex)
@@ -86,6 +87,30 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
     } 
     else{  
     this.postSlot(slot);
+    }
+  }
+
+  onPlantationClick(plantation:DataPlayerPlantation){
+    let gs = this.gameService.gs.value;
+    let player = gs.players[this.gameService.playerIndex];
+    let playerUtility = new PlayerUtility();
+
+    if((this.selectionService.isLandOfficeActive 
+      && (playerUtility.getBuilding(BuildingName.LandOffice, player)?.slots[0].state == SlotEnum.Noble) 
+      && (player.plantations.length > 0))
+      || (this.selectionService.isHuntingLodgeActive
+      && (playerUtility.getBuilding(BuildingName.HuntingLodge, player)?.slots[0].state == SlotEnum.Colonist)
+      && (player.plantations.length > 0))){
+        
+    this.roleHttp.postRemoveSell(plantation.buildOrder, this.gameService.gs.value.id, this.gameService.playerIndex) .subscribe({
+      next: (result:GameStateJson) => {
+        console.log('success: postRemoveSell');
+        this.gameService.gs.next(result);
+      },
+      error: (error:any)=> {
+        console.log("error: postRemoveSell");
+      }
+    });
     }
   }
 
@@ -114,12 +139,22 @@ buildingsMatrix:DataPlayerBuilding[][] = [];
       return;
     } 
     if(event.item.data == 6){
+      if(this.selectionService.isLandOfficeActive){
+        this.roleHttp.postBuyRandomPlantation(this.selectionService.takingForest, this.gameService.gs.value.id, this.gameService.playerIndex).subscribe({
+          next: (gs:GameStateJson) => {
+            this.gameService.gs.next(gs);
+          }
+        });
+        return;
+      }
+      else{
       this.roleHttp.postUpsideDown(this.gs.id, this.gameService.playerIndex).subscribe({
         next: (gs:GameStateJson) => {
           this.gameService.gs.next(gs);
         }
       });
       return;
+    }
     } 
     if (event.previousContainer === event.container) return;
     else if(this.selectionService.takingForest){

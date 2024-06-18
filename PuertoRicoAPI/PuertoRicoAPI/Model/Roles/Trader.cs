@@ -15,6 +15,11 @@ namespace PuertoRicoAPI.Model.Roles
 
         public override void mainLoop()
         {
+            if (IsFirstIteration)
+            {
+                initializeBuildingEffects(BuildingName.LandOffice,true);
+            }
+
             base.mainLoop();
             if (gs.CurrentRole != Name) return;
             if (!this.CanSellAnything()) this.mainLoop();
@@ -45,11 +50,15 @@ namespace PuertoRicoAPI.Model.Roles
 
             foreach(Good good in player.Goods)
             {
-                if (gs.TradeHouse.CanSellGood(good.Type, player) || (player.hasActiveBuilding(BuildingName.TradingPost) && (totalGoods > 0)))
+                if ((gs.TradeHouse.CanSellGood(good.Type, player) || (player.hasActiveBuilding(BuildingName.TradingPost)) && (totalGoods > 0)))
                 {
                     canSellAnything = true;
                 }
             }
+
+            if(player.hasActiveBuilding(BuildingName.LandOffice) && player.getBuilding(BuildingName.LandOffice).EffectAvailable && player.getBuilding(BuildingName.LandOffice).isNobleOccupied() && (player.Plantations.Count() > 0)) canSellAnything = true;
+            if (player.hasActiveBuilding(BuildingName.LandOffice) && player.getBuilding(BuildingName.LandOffice).EffectAvailable && player.getBuilding(BuildingName.LandOffice).isColonistOccupied() && (player.Doubloons > 0)) canSellAnything = true;
+
             return canSellAnything;
         }
 

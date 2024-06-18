@@ -17,7 +17,7 @@
        (cdkDropListDropped)="this.dropPlantation($event)"> 
 
        <div *ngFor="let plantation of this.myPlantations">
-    <div class="{{this.stylingService.getPlantationClasses(plantation)}}" *ngIf="plantation.good != 7"> 
+    <div class="{{this.stylingService.getPlantationClasses(plantation)}}" *ngIf="plantation.good != 7" (click)="this.onPlantationClick(plantation)"> 
         <div class="top-plantation-card"><div class="plantation-name">{{this.gameService.getPlantationType(plantation)?.displayName}}</div></div>  
       <div class="bottom-plantation-card">
         <div class="plantation-art" class="{{this.gameService.getPlantationType(plantation)?.displayName}}"></div>
@@ -29,7 +29,7 @@
     </div>
 
     <div *ngIf="plantation.good == 7"
-    class="plantation color{{this.gameService.goodTypes[7].color}} forest">
+    class="plantation color{{this.gameService.goodTypes[7].color}} forest" (click)="this.onPlantationClick(plantation)">
     <div class="top-plantation-card"> 
       <div class="plantation-name">{{this.gameService.goodTypes[7].displayName}}</div>
     </div>  

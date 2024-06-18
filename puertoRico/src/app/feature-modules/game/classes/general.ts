@@ -242,6 +242,7 @@ export class GameStateJson{
       Not,
       WithBlackMarket,
       Yes,
+      BlackMarketBlocked,
   }
   
   export enum RoleName

@@ -147,7 +147,7 @@ namespace PuertoRicoAPI.Data.DataHandlers
         {
             DataPlayer newPlayer = new DataPlayer();
             newPlayer.Index = index;
-            newPlayer.Doubloons = 30; //doubloons
+            newPlayer.Doubloons = doubloons; //doubloons
             newPlayer.Colonists = 0;
             newPlayer.Nobles = 0;
             newPlayer.VictoryPoints = 0;
@@ -268,7 +268,8 @@ namespace PuertoRicoAPI.Data.DataHandlers
             }
 
             newShips.Add(initShip(11));
-            newShips.Add(initShip(30)); //need to change to sum of all possible goods
+            newShips.Add(initShip(50));
+            newShips.Add(initShip(5));
 
             return newShips;
         }

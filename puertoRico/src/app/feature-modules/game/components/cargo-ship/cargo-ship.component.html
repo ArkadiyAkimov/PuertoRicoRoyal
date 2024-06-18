@@ -53,7 +53,7 @@
     <div class="cargo-ship-button click-cursor"  (click)="selectShip()"></div>
 
     <div class="good-buttons-collection shipped-goods-collection-wharf">
-        <div class="empty-good-slot" *ngFor="let good of this.selectionService.getSmallWharfGoodTypeArray();">
+        <div class="empty-good-slot" *ngFor="let good of this.selectionService.getRoyalSupplierGoodTypeArray();">
         <div class="good-button  good-on-board-wharf" class="{{good.displayName+'-barrel'}}"></div>
         </div>
     </div>
